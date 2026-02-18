@@ -5,10 +5,30 @@
 
 package Entidades;
 
+import Enums.AccionesPosibles;
+
 /**
  *
  * @author Abraham Coronel
  */
 public class Ruleta {
 
+    private AccionesPosibles accionesPosibles;
+
+    public Ruleta() {
+    }
+
+    public Ruleta(AccionesPosibles accionesPosibles) {
+        this.accionesPosibles = accionesPosibles;
+    }
+
+    public AccionesPosibles getAccionesPosibles() {
+        return accionesPosibles;
+    }
+
+    public void setAccionesPosibles(AccionesPosibles accionesPosibles) {
+        this.accionesPosibles = accionesPosibles;
+    }
+    
+    
 }

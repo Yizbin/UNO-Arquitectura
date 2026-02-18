@@ -5,10 +5,62 @@
 
 package Entidades;
 
+import Enums.Comodines;
+import Enums.TipoColor;
+
 /**
  *
  * @author Abraham Coronel
  */
 public class CartaComodin extends Carta {
+    
+    private Comodines tipoComodin;
+    private TipoColor colorElegido;
+
+    public CartaComodin() {
+    }
+
+    public CartaComodin(Comodines tipoComodin, TipoColor colorElegido) {
+        this.tipoComodin = tipoComodin;
+        this.colorElegido = colorElegido;
+    }
+
+    public Comodines getTipoComodin() {
+        return tipoComodin;
+    }
+
+    public void setTipoComodin(Comodines tipoComodin) {
+        this.tipoComodin = tipoComodin;
+    }
+
+    public TipoColor getColorElegido() {
+        return colorElegido;
+    }
+
+    public void setColorElegido(TipoColor colorElegido) {
+        this.colorElegido = colorElegido;
+    }
+
+    @Override
+    public int getPuntuacion() {
+        return puntuacion;
+    }
+
+    @Override
+    public void setPuntuacion(int puntuacion) {
+        this.puntuacion = puntuacion;
+    }
+
+    @Override
+    public boolean isEsSpin() {
+        return esSpin;
+    }
+
+    @Override
+    public void setEsSpin(boolean esSpin) {
+        this.esSpin = esSpin;
+    }
+    
+    
 
 }
