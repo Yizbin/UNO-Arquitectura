@@ -4,6 +4,8 @@
  */
 package Entidades;
 
+import Enums.TipoColor;
+
 /**
  *
  * @author Abraham Coronel
@@ -36,5 +38,7 @@ public abstract class Carta {
     public void setEsSpin(boolean esSpin) {
         this.esSpin = esSpin;
     }
+
+    public abstract boolean esJugableSobre(Carta cartaEnTope, TipoColor colorEnJuego);
 
 }

@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
  */
-
 package Enums;
 
 /**
@@ -10,5 +9,7 @@ package Enums;
  * @author Abraham Coronel
  */
 public enum Acciones {
-
+    TOMA_DOS,
+    REVERSA,
+    SALTA
 }

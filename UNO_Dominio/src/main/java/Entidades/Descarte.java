@@ -16,11 +16,22 @@ public class Descarte {
     private Stack<Carta> historial;
 
     public Descarte() {
+        this.historial = new Stack<>();
     }
 
-    public Descarte(Carta tope, Stack<Carta> historial) {
-        this.tope = tope;
-        this.historial = historial;
+    //Recibe la carta jugada y pasa la carta anterior al historial y agrega la nueva encima
+    public void apilarCarta(Carta carta) {
+        if (this.tope != null) {
+            this.historial.push(this.tope);
+        }
+        this.tope = carta;
+    }
+
+    //Devuelve todas las cartas menos el tope para rellenar el mazo principal
+    public Stack<Carta> vaciarParaRellenarMazo() {
+        Stack<Carta> cartasDevueltas = this.historial;
+        this.historial = new Stack<>();
+        return cartasDevueltas;
     }
 
     public Carta getTope() {
@@ -32,13 +43,11 @@ public class Descarte {
     }
 
     public Stack<Carta> getHistorial() {
-        return historial;
+        return new Stack<>();
     }
 
     public void setHistorial(Stack<Carta> historial) {
         this.historial = historial;
     }
-    
-    
 
 }
