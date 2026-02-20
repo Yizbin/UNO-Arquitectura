@@ -4,6 +4,8 @@
  */
 package Entidades;
 
+import Excepciones.MazoVacioException;
+import java.util.Collections;
 import java.util.Stack;
 
 /**
@@ -19,6 +21,31 @@ public class Mazo {
 
     public Mazo(Stack<Carta> cartas) {
         this.cartas = cartas;
+        mezclar();
+    }
+
+    //Mezcla la pila de manera aleatoria
+    public final void mezclar() {
+        Collections.shuffle(this.cartas);
+    }
+
+    //Saca y devuelve la carta en el tope para ser robada
+    public Carta sacarCarta() throws MazoVacioException {
+        if (cartas.isEmpty()) {
+            throw new IllegalStateException("El mazo está vacío, necesita ser rellenado");
+        }
+        return cartas.pop();
+    }
+
+    //Recibe todas las cartas del descarte menos la del tope
+    public void rellenar(Stack<Carta> cartasDescarte) {
+        this.cartas.addAll(cartasDescarte);
+        mezclar();
+    }
+
+    //Verifica si no quedan cartas xd
+    public boolean estaVacio() {
+        return cartas.isEmpty();
     }
 
     public Stack<Carta> getCartas() {

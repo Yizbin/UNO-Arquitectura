@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package Entidades;
 
 import Enums.AccionesPosibles;
+import java.util.Random;
 
 /**
  *
@@ -13,22 +13,34 @@ import Enums.AccionesPosibles;
  */
 public class Ruleta {
 
-    private AccionesPosibles accionesPosibles;
+    private AccionesPosibles[] acciones;
+    private Random random;
 
     public Ruleta() {
+        this.acciones = AccionesPosibles.values();
+        this.random = new Random();
     }
 
-    public Ruleta(AccionesPosibles accionesPosibles) {
-        this.accionesPosibles = accionesPosibles;
+    //De manera random selecciona una casilla
+    public AccionesPosibles girar() {
+        int index = random.nextInt(acciones.length);
+        return acciones[index];
     }
 
-    public AccionesPosibles getAccionesPosibles() {
-        return accionesPosibles;
+    public AccionesPosibles[] getAcciones() {
+        return acciones;
     }
 
-    public void setAccionesPosibles(AccionesPosibles accionesPosibles) {
-        this.accionesPosibles = accionesPosibles;
+    public void setAcciones(AccionesPosibles[] acciones) {
+        this.acciones = acciones;
     }
-    
-    
+
+    public Random getRandom() {
+        return random;
+    }
+
+    public void setRandom(Random random) {
+        this.random = random;
+    }
+
 }

@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package Entidades;
 
 import Enums.TipoColor;
@@ -12,14 +11,15 @@ import Enums.TipoColor;
  * @author Abraham Coronel
  */
 public class CartaNumero extends Carta {
-    
+
     private int numero;
     private TipoColor color;
 
     public CartaNumero() {
     }
 
-    public CartaNumero(int numero, TipoColor color) {
+    public CartaNumero(int numero, TipoColor color, boolean esSpin) {
+        super(numero, esSpin);
         this.numero = numero;
         this.color = color;
     }
@@ -59,7 +59,17 @@ public class CartaNumero extends Carta {
     public void setEsSpin(boolean esSpin) {
         this.esSpin = esSpin;
     }
-    
-    
+
+    @Override
+    public boolean esJugableSobre(Carta cartaEnTope, TipoColor colorEnJuego) {
+        if (this.color == colorEnJuego) {
+            return true;
+        }
+
+        if (cartaEnTope instanceof CartaNumero topeNumerico) {
+            return this.numero == topeNumerico.getNumero();
+        }
+        return false;
+    }
 
 }

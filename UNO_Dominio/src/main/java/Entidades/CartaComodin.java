@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package Entidades;
 
 import Enums.Comodines;
@@ -13,16 +12,16 @@ import Enums.TipoColor;
  * @author Abraham Coronel
  */
 public class CartaComodin extends Carta {
-    
+
     private Comodines tipoComodin;
     private TipoColor colorElegido;
 
     public CartaComodin() {
     }
 
-    public CartaComodin(Comodines tipoComodin, TipoColor colorElegido) {
+    public CartaComodin(Comodines tipoComodin) {
+        super(50, false);
         this.tipoComodin = tipoComodin;
-        this.colorElegido = colorElegido;
     }
 
     public Comodines getTipoComodin() {
@@ -60,7 +59,10 @@ public class CartaComodin extends Carta {
     public void setEsSpin(boolean esSpin) {
         this.esSpin = esSpin;
     }
-    
-    
+
+    @Override
+    public boolean esJugableSobre(Carta cartaEnTope, TipoColor colorEnJuego) {
+        return true;
+    }
 
 }

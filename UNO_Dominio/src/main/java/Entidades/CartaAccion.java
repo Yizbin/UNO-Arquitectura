@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package Entidades;
 
 import Enums.AccionesPosibles;
@@ -13,7 +12,7 @@ import Enums.TipoColor;
  * @author Abraham Coronel
  */
 public class CartaAccion extends Carta {
-    
+
     private AccionesPosibles tipoAccion;
     private TipoColor color;
 
@@ -21,6 +20,7 @@ public class CartaAccion extends Carta {
     }
 
     public CartaAccion(AccionesPosibles tipoAccion, TipoColor color) {
+        super(20, false);
         this.tipoAccion = tipoAccion;
         this.color = color;
     }
@@ -60,7 +60,16 @@ public class CartaAccion extends Carta {
     public void setEsSpin(boolean esSpin) {
         this.esSpin = esSpin;
     }
-    
-    
+
+    @Override
+    public boolean esJugableSobre(Carta cartaEnTope, TipoColor colorEnJuego) {
+        if (this.color == colorEnJuego) {
+            return true;
+        }
+        if (cartaEnTope instanceof CartaAccion topeAccion) {
+            return this.tipoAccion == topeAccion.getTipoAccion();
+        }
+        return false;
+    }
 
 }
