@@ -9,5 +9,6 @@ package MVC_JugarTurno;
  * @author Abraham Coronel
  */
 public class ModeloJuego implements IControlModelo, IModeloVista {
-
+    
+    
 }

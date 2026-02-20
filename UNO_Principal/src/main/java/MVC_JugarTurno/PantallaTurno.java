@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package MVC_JugarTurno;
 
 /**
@@ -10,11 +6,25 @@ package MVC_JugarTurno;
  */
 public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
+    private static final int CARD_W = 95;
+    private static final int CARD_H = 130;
+    private static final int OVERLAP = 20;   // porque tu gap es -35
+    private static final int PAD_L = OVERLAP; // para que la primera se vea completa
+    private static final int PAD_R = 10;
+
     /**
      * Creates new form PantallaTurno
      */
     public PantallaTurno() {
         initComponents();
+
+        configurarScroll();
+        configurarPanelMano();
+        configurarEventosScroll();
+
+        configurarCarruselMano(7);
+        ajustarAnchoMano();
+
     }
 
     /**
@@ -26,23 +36,235 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPanel9 = new javax.swing.JPanel();
+        panelFondo = new javax.swing.JPanel();
+        panelSur = new javax.swing.JPanel();
+        panelInfoJugadorPrincipal = new MVC_JugarTurno.PanelInformacionJugador();
+        scrollMano = new javax.swing.JScrollPane();
+        panelMano = new javax.swing.JPanel();
+        panelCarta1 = new MVC_JugarTurno.PanelCarta();
+        panelCarta2 = new MVC_JugarTurno.PanelCarta();
+        panelCarta3 = new MVC_JugarTurno.PanelCarta();
+        panelCarta4 = new MVC_JugarTurno.PanelCarta();
+        panelCarta5 = new MVC_JugarTurno.PanelCarta();
+        panelCarta6 = new MVC_JugarTurno.PanelCarta();
+        panelCarta7 = new MVC_JugarTurno.PanelCarta();
+        panelCarta8 = new MVC_JugarTurno.PanelCarta();
+        panelCarta9 = new MVC_JugarTurno.PanelCarta();
+        panelCarta10 = new MVC_JugarTurno.PanelCarta();
+        panelCarta11 = new MVC_JugarTurno.PanelCarta();
+        panelOeste = new javax.swing.JPanel();
+        panelInfoJugador3 = new MVC_JugarTurno.PanelInformacionJugador();
+        panelNorte = new javax.swing.JPanel();
+        panelInfoJugador2 = new MVC_JugarTurno.PanelInformacionJugador();
+        panelEste = new javax.swing.JPanel();
+        panelInfoJugador1 = new MVC_JugarTurno.PanelInformacionJugador();
+        panelCentral = new javax.swing.JPanel();
+        tablero = new javax.swing.JLayeredPane();
+        lblRuleta = new javax.swing.JLabel();
+        panelPosaCartas = new javax.swing.JPanel();
+        panelDescarte = new MVC_JugarTurno.PanelCarta();
+        panelMazo = new MVC_JugarTurno.PanelCarta();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
         );
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(31, 84, 182));
+
+        panelFondo.setLayout(new java.awt.BorderLayout());
+
+        panelSur.setBackground(new java.awt.Color(31, 84, 182));
+        panelSur.add(panelInfoJugadorPrincipal);
+
+        scrollMano.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scrollMano.setMaximumSize(new java.awt.Dimension(100, 100));
+
+        panelMano.add(panelCarta1);
+        panelMano.add(panelCarta2);
+        panelMano.add(panelCarta3);
+        panelMano.add(panelCarta4);
+        panelMano.add(panelCarta5);
+        panelMano.add(panelCarta6);
+        panelMano.add(panelCarta7);
+        panelMano.add(panelCarta8);
+        panelMano.add(panelCarta9);
+        panelMano.add(panelCarta10);
+        panelMano.add(panelCarta11);
+
+        scrollMano.setViewportView(panelMano);
+
+        panelSur.add(scrollMano);
+
+        panelFondo.add(panelSur, java.awt.BorderLayout.PAGE_END);
+
+        panelOeste.setBackground(new java.awt.Color(31, 84, 182));
+        panelOeste.add(panelInfoJugador3);
+
+        panelFondo.add(panelOeste, java.awt.BorderLayout.LINE_START);
+
+        panelNorte.setBackground(new java.awt.Color(31, 84, 182));
+        panelNorte.add(panelInfoJugador2);
+
+        panelFondo.add(panelNorte, java.awt.BorderLayout.PAGE_START);
+
+        panelEste.setBackground(new java.awt.Color(31, 84, 182));
+        panelEste.add(panelInfoJugador1);
+
+        panelFondo.add(panelEste, java.awt.BorderLayout.LINE_END);
+
+        panelCentral.setBackground(new java.awt.Color(31, 84, 182));
+
+        tablero.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblRuleta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblRuleta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ruleta.png"))); // NOI18N
+        lblRuleta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tablero.add(lblRuleta, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 400, 425));
+
+        javax.swing.GroupLayout panelPosaCartasLayout = new javax.swing.GroupLayout(panelPosaCartas);
+        panelPosaCartas.setLayout(panelPosaCartasLayout);
+        panelPosaCartasLayout.setHorizontalGroup(
+            panelPosaCartasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPosaCartasLayout.createSequentialGroup()
+                .addComponent(panelMazo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(panelDescarte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelPosaCartasLayout.setVerticalGroup(
+            panelPosaCartasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPosaCartasLayout.createSequentialGroup()
+                .addGroup(panelPosaCartasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelDescarte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelMazo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        tablero.setLayer(panelPosaCartas, javax.swing.JLayeredPane.PALETTE_LAYER);
+        tablero.add(panelPosaCartas, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, 170, 130));
+
+        javax.swing.GroupLayout panelCentralLayout = new javax.swing.GroupLayout(panelCentral);
+        panelCentral.setLayout(panelCentralLayout);
+        panelCentralLayout.setHorizontalGroup(
+            panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(tablero)
+        );
+        panelCentralLayout.setVerticalGroup(
+            panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(tablero)
+        );
+
+        panelFondo.add(panelCentral, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(panelFondo, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void configurarCarruselMano(int cartasVisibles) {
+        int step = CARD_W - OVERLAP; // cuánto “avanza” cada carta
+        int visibleW = PAD_L + CARD_W + (cartasVisibles - 1) * step + PAD_R;
+        int visibleH = CARD_H + 20; // un poquito extra por margen
+
+        scrollMano.setPreferredSize(new java.awt.Dimension(visibleW, visibleH));
+        scrollMano.setMinimumSize(new java.awt.Dimension(visibleW, visibleH));
+
+        // para que se aplique
+        scrollMano.revalidate();
+    }
+
+    private void configurarScroll() {
+        scrollMano.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scrollMano.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        // ocultar visualmente la barra
+        scrollMano.getHorizontalScrollBar().setPreferredSize(new java.awt.Dimension(0, 0));
+
+        scrollMano.setOpaque(false);
+        scrollMano.getViewport().setOpaque(false);
+        scrollMano.setBorder(null);
+    }
+
+    private void configurarPanelMano() {
+        // Solapado real (gap negativo)
+        panelMano.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, -OVERLAP, 0));
+
+        // margen para que la primera carta se vea completa
+        panelMano.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, PAD_L, 0, PAD_R));
+        panelMano.setOpaque(false);
+    }
+
+    private void configurarEventosScroll() {
+        scrollMano.addMouseWheelListener(e -> {
+            javax.swing.JScrollBar bar = scrollMano.getHorizontalScrollBar();
+            bar.setValue(bar.getValue() + e.getWheelRotation() * 45);
+            e.consume();
+        });
+    }
+
+    private void mostrarMano(java.util.List<PanelCarta> cartas) {
+        panelMano.removeAll();
+
+        for (PanelCarta c : cartas) {
+            panelMano.add(c);
+        }
+
+        ajustarAnchoMano();
+    }
+
+    private void ajustarAnchoMano() {
+        int n = panelMano.getComponentCount();
+
+        int step = CARD_W - OVERLAP; // avance real por carta
+        int width = PAD_L + (n == 0 ? 0 : (CARD_W + (n - 1) * step)) + PAD_R;
+        int height = CARD_H + 10;
+
+        panelMano.setPreferredSize(new java.awt.Dimension(width, height));
+        panelMano.revalidate();
+        panelMano.repaint();
+    }
+
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel lblRuleta;
+    private MVC_JugarTurno.PanelCarta panelCarta1;
+    private MVC_JugarTurno.PanelCarta panelCarta10;
+    private MVC_JugarTurno.PanelCarta panelCarta11;
+    private MVC_JugarTurno.PanelCarta panelCarta2;
+    private MVC_JugarTurno.PanelCarta panelCarta3;
+    private MVC_JugarTurno.PanelCarta panelCarta4;
+    private MVC_JugarTurno.PanelCarta panelCarta5;
+    private MVC_JugarTurno.PanelCarta panelCarta6;
+    private MVC_JugarTurno.PanelCarta panelCarta7;
+    private MVC_JugarTurno.PanelCarta panelCarta8;
+    private MVC_JugarTurno.PanelCarta panelCarta9;
+    private javax.swing.JPanel panelCentral;
+    private MVC_JugarTurno.PanelCarta panelDescarte;
+    private javax.swing.JPanel panelEste;
+    private javax.swing.JPanel panelFondo;
+    private MVC_JugarTurno.PanelInformacionJugador panelInfoJugador1;
+    private MVC_JugarTurno.PanelInformacionJugador panelInfoJugador2;
+    private MVC_JugarTurno.PanelInformacionJugador panelInfoJugador3;
+    private MVC_JugarTurno.PanelInformacionJugador panelInfoJugadorPrincipal;
+    private javax.swing.JPanel panelMano;
+    private MVC_JugarTurno.PanelCarta panelMazo;
+    private javax.swing.JPanel panelNorte;
+    private javax.swing.JPanel panelOeste;
+    private javax.swing.JPanel panelPosaCartas;
+    private javax.swing.JPanel panelSur;
+    private javax.swing.JScrollPane scrollMano;
+    private javax.swing.JLayeredPane tablero;
     // End of variables declaration//GEN-END:variables
 }
