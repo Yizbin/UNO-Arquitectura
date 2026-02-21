@@ -5,6 +5,8 @@
 package Entidades;
 
 import Enums.TipoColor;
+import dtos.CartaDTO;
+import dtos.TipoCartaDTO;
 
 /**
  *
@@ -22,7 +24,7 @@ public abstract class Carta {
         this.puntuacion = puntuacion;
         this.esSpin = esSpin;
     }
-
+    
     public int getPuntuacion() {
         return puntuacion;
     }
@@ -39,6 +41,7 @@ public abstract class Carta {
         this.esSpin = esSpin;
     }
 
-    public abstract boolean esJugableSobre(Carta cartaEnTope, TipoColor colorEnJuego);
 
+    public abstract boolean esJugableSobre(Carta cartaEnTope, TipoColor colorEnJuego);
+    
 }

@@ -11,4 +11,6 @@ package MVC_JugarTurno;
  */
 public interface IModeloVista {
 
+    
+    
 }

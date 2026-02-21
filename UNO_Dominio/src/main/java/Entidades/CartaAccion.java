@@ -4,7 +4,7 @@
  */
 package Entidades;
 
-import Enums.AccionesPosibles;
+import Enums.Acciones;
 import Enums.TipoColor;
 
 /**
@@ -13,23 +13,23 @@ import Enums.TipoColor;
  */
 public class CartaAccion extends Carta {
 
-    private AccionesPosibles tipoAccion;
+    private Acciones tipoAccion;
     private TipoColor color;
 
     public CartaAccion() {
     }
 
-    public CartaAccion(AccionesPosibles tipoAccion, TipoColor color) {
+    public CartaAccion(Acciones tipoAccion, TipoColor color) {
         super(20, false);
         this.tipoAccion = tipoAccion;
         this.color = color;
     }
 
-    public AccionesPosibles getTipoAccion() {
+    public Acciones getTipoAccion() {
         return tipoAccion;
     }
 
-    public void setTipoAccion(AccionesPosibles tipoAccion) {
+    public void setTipoAccion(Acciones tipoAccion) {
         this.tipoAccion = tipoAccion;
     }
 

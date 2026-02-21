@@ -6,9 +6,8 @@ package Enums;
 
 /**
  *
- * @author Abraham Coronel
+ * @author saula
  */
-public enum Comodines {
-    CAMBIO_COLOR, //cambio de color
-    TOMA_CUATRO  // +4
+public enum EstadoRetoSpin {
+    PENDIENTE, RESOLVIENDO, RESUELTO
 }
