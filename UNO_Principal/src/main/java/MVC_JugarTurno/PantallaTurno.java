@@ -8,14 +8,16 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
     private static final int CARD_W = 95;
     private static final int CARD_H = 130;
-    private static final int OVERLAP = 20;   // porque tu gap es -35
+    private static final int OVERLAP = 20;   // es lo que se desplaza la carta para empalmarse
     private static final int PAD_L = OVERLAP; // para que la primera se vea completa
     private static final int PAD_R = 10;
+    private final UnoSpinControlador control;
 
     /**
      * Creates new form PantallaTurno
      */
     public PantallaTurno() {
+        this.control = new UnoSpinControlador();
         initComponents();
 
         configurarScroll();
@@ -42,17 +44,6 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         panelInfoJugadorPrincipal = new MVC_JugarTurno.PanelInformacionJugador();
         scrollMano = new javax.swing.JScrollPane();
         panelMano = new javax.swing.JPanel();
-        panelCarta1 = new MVC_JugarTurno.PanelCarta();
-        panelCarta2 = new MVC_JugarTurno.PanelCarta();
-        panelCarta3 = new MVC_JugarTurno.PanelCarta();
-        panelCarta4 = new MVC_JugarTurno.PanelCarta();
-        panelCarta5 = new MVC_JugarTurno.PanelCarta();
-        panelCarta6 = new MVC_JugarTurno.PanelCarta();
-        panelCarta7 = new MVC_JugarTurno.PanelCarta();
-        panelCarta8 = new MVC_JugarTurno.PanelCarta();
-        panelCarta9 = new MVC_JugarTurno.PanelCarta();
-        panelCarta10 = new MVC_JugarTurno.PanelCarta();
-        panelCarta11 = new MVC_JugarTurno.PanelCarta();
         panelOeste = new javax.swing.JPanel();
         panelInfoJugador3 = new MVC_JugarTurno.PanelInformacionJugador();
         panelNorte = new javax.swing.JPanel();
@@ -87,19 +78,6 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
         scrollMano.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         scrollMano.setMaximumSize(new java.awt.Dimension(100, 100));
-
-        panelMano.add(panelCarta1);
-        panelMano.add(panelCarta2);
-        panelMano.add(panelCarta3);
-        panelMano.add(panelCarta4);
-        panelMano.add(panelCarta5);
-        panelMano.add(panelCarta6);
-        panelMano.add(panelCarta7);
-        panelMano.add(panelCarta8);
-        panelMano.add(panelCarta9);
-        panelMano.add(panelCarta10);
-        panelMano.add(panelCarta11);
-
         scrollMano.setViewportView(panelMano);
 
         panelSur.add(scrollMano);
@@ -128,29 +106,36 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         lblRuleta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblRuleta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ruleta.png"))); // NOI18N
         lblRuleta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        tablero.add(lblRuleta, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 400, 425));
+        tablero.add(lblRuleta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 520, 425));
+
+        panelMazo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelMazoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelPosaCartasLayout = new javax.swing.GroupLayout(panelPosaCartas);
         panelPosaCartas.setLayout(panelPosaCartasLayout);
         panelPosaCartasLayout.setHorizontalGroup(
             panelPosaCartasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPosaCartasLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
                 .addComponent(panelMazo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(panelDescarte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelDescarte, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelPosaCartasLayout.setVerticalGroup(
             panelPosaCartasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPosaCartasLayout.createSequentialGroup()
                 .addGroup(panelPosaCartasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelDescarte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelMazo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelMazo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelDescarte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         tablero.setLayer(panelPosaCartas, javax.swing.JLayeredPane.PALETTE_LAYER);
-        tablero.add(panelPosaCartas, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, 170, 130));
+        tablero.add(panelPosaCartas, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 170, 130));
 
         javax.swing.GroupLayout panelCentralLayout = new javax.swing.GroupLayout(panelCentral);
         panelCentral.setLayout(panelCentralLayout);
@@ -169,6 +154,10 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void panelMazoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMazoMouseClicked
+      
+    }//GEN-LAST:event_panelMazoMouseClicked
 
     private void configurarCarruselMano(int cartasVisibles) {
         int step = CARD_W - OVERLAP; // cuánto “avanza” cada carta
@@ -239,17 +228,6 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblRuleta;
-    private MVC_JugarTurno.PanelCarta panelCarta1;
-    private MVC_JugarTurno.PanelCarta panelCarta10;
-    private MVC_JugarTurno.PanelCarta panelCarta11;
-    private MVC_JugarTurno.PanelCarta panelCarta2;
-    private MVC_JugarTurno.PanelCarta panelCarta3;
-    private MVC_JugarTurno.PanelCarta panelCarta4;
-    private MVC_JugarTurno.PanelCarta panelCarta5;
-    private MVC_JugarTurno.PanelCarta panelCarta6;
-    private MVC_JugarTurno.PanelCarta panelCarta7;
-    private MVC_JugarTurno.PanelCarta panelCarta8;
-    private MVC_JugarTurno.PanelCarta panelCarta9;
     private javax.swing.JPanel panelCentral;
     private MVC_JugarTurno.PanelCarta panelDescarte;
     private javax.swing.JPanel panelEste;
