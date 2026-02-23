@@ -4,6 +4,8 @@
  */
 package MVC_JugarTurno;
 
+import dtos.CartaDTO;
+
 /**
  *
  * @author Abraham Coronel
@@ -20,4 +22,7 @@ public class UnoSpinControlador {
         modelo.robarCarta();
     }
 
+    public void jugarCarta(CartaDTO carta) throws Exception {
+        modelo.jugarCarta(carta);
+    }
 }

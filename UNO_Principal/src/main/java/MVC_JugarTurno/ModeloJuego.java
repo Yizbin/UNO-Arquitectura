@@ -4,7 +4,9 @@
  */
 package MVC_JugarTurno;
 
+import Enums.TipoColor;
 import Excepciones.MazoVacioException;
+import Excepciones.ValidarManoException;
 import Fachade.IJuegoAdapter;
 import dtos.CartaDTO;
 import dtos.EstadoPartidaDTO;
@@ -69,6 +71,26 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
     @Override
     public void agregarSuscriptor(ISuscriptor suscriptor) {
         suscriptores.add(suscriptor);
+    }
+
+    @Override
+    public void jugarCarta(CartaDTO carta) throws Exception {
+        try {
+            adapterJuego.jugarCarta(carta);
+            this.notificar();
+        } catch (ValidarManoException e) {
+            JOptionPane.showMessageDialog(null, "Error: Error all jugar una carta");
+        }
+    }
+
+    @Override
+    public CartaDTO getCartaEnTope() {
+        return adapterJuego.getCartaEnTope();
+    }
+
+    @Override
+    public TipoColor getColorActual() {
+        return adapterJuego.getColorActual();
     }
 
     //Metodo Privados

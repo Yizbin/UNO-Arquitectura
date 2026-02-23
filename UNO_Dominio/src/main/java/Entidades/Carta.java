@@ -5,8 +5,6 @@
 package Entidades;
 
 import Enums.TipoColor;
-import dtos.CartaDTO;
-import dtos.TipoCartaDTO;
 
 /**
  *

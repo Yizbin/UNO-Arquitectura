@@ -84,7 +84,7 @@ public class Jugador {
     }
 
     public List<Carta> getMano() {
-        return new ArrayList<>();
+        return mano;
     }
 
     public void setMano(List<Carta> mano) {

@@ -4,7 +4,11 @@
  */
 package Fachade;
 
+import Enums.TipoColor;
+import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
+import Excepciones.ValidarManoException;
+import Excepciones.ValidarTurnoException;
 import dtos.CartaDTO;
 import dtos.JugadorResumenDTO;
 import java.util.List;
@@ -20,4 +24,10 @@ public interface IJuegoAdapter {
     public void robarCarta() throws Exception;
 
     public List<CartaDTO> getManoJugadorActual();
+
+    public void jugarCarta(CartaDTO cartaDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException;
+
+    public CartaDTO getCartaEnTope();
+
+    public TipoColor getColorActual();
 }

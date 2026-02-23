@@ -4,8 +4,13 @@
  */
 package Fachade;
 
+import Entidades.Carta;
 import Entidades.Jugador;
+import Enums.TipoColor;
+import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
+import Excepciones.ValidarManoException;
+import Excepciones.ValidarTurnoException;
 import Interfaces.ICartaMapper;
 import Interfaces.IJugadorMapper;
 import Interfaces.ISubDominio;
@@ -14,6 +19,7 @@ import dtos.CartaDTO;
 import dtos.JugadorResumenDTO;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -53,6 +59,41 @@ public class JuegoAdapter implements IJuegoAdapter {
             return cartaMapper.toDTOList(jugador.getMano());
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public void jugarCarta(CartaDTO cartaDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException {
+        Jugador jugadorActual = subDominio.obtenerJugadorActual();
+        Carta cartaReal = null;
+
+        for (Carta c : jugadorActual.getMano()) {
+            CartaDTO dtoMapeado = cartaMapper.toDTO(c);
+
+            if (dtoMapeado.getTipoCarta() == cartaDTO.getTipoCarta()
+                    && dtoMapeado.getColor() == cartaDTO.getColor()
+                    && Objects.equals(dtoMapeado.getNumero(), cartaDTO.getNumero())
+                    && dtoMapeado.getAcciones() == cartaDTO.getAcciones()
+                    && dtoMapeado.getComodines() == cartaDTO.getComodines()) {
+                cartaReal = c;
+                break;
+            }
+        }
+
+        if (cartaReal == null) {
+            throw new ValidarManoException("La carta seleccionada no está en tu mano.");
+        }
+        subDominio.jugarCarta(jugadorActual, cartaReal);
+    }
+
+    @Override
+    public CartaDTO getCartaEnTope() {
+        Carta tope = subDominio.obtenerCartaEnTope();
+        return cartaMapper.toDTO(tope);
+    }
+
+    @Override
+    public TipoColor getColorActual() {
+        return subDominio.obtenerColorActual();
     }
 
 }

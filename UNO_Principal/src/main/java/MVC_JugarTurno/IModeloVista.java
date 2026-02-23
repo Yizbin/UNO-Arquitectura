@@ -4,6 +4,7 @@
  */
 package MVC_JugarTurno;
 
+import Enums.TipoColor;
 import dtos.CartaDTO;
 import dtos.EstadoPartidaDTO;
 import java.util.List;
@@ -21,4 +22,8 @@ public interface IModeloVista {
     public EstadoPartidaDTO getEstado();
 
     public int getIdJugadorLocal();
+
+    public CartaDTO getCartaEnTope();
+
+    public TipoColor getColorActual();
 }
