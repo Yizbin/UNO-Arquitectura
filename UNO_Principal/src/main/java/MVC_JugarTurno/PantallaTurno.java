@@ -1,8 +1,11 @@
 package MVC_JugarTurno;
 
+import dtos.CartaDTO;
+import java.util.List;
+
 /**
  *
- * @author PC Gamer
+ * @author Abraham Coronel
  */
 public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
@@ -12,14 +15,12 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     private static final int PAD_L = OVERLAP; // para que la primera se vea completa
     private static final int PAD_R = 10;
     private final UnoSpinControlador control;
+    private final IModeloVista modelo;
 
-    /**
-     * Creates new form PantallaTurno
-     */
-    public PantallaTurno() {
-        this.control = new UnoSpinControlador();
+    public PantallaTurno(IModeloVista modelo, UnoSpinControlador control) {
+        this.control = control;
+        this.modelo = modelo;
         initComponents();
-
         configurarScroll();
         configurarPanelMano();
         configurarEventosScroll();
@@ -156,7 +157,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     }// </editor-fold>//GEN-END:initComponents
 
     private void panelMazoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMazoMouseClicked
-      
+
     }//GEN-LAST:event_panelMazoMouseClicked
 
     private void configurarCarruselMano(int cartasVisibles) {
@@ -223,8 +224,6 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     }
 
 
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblRuleta;
@@ -245,4 +244,10 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     private javax.swing.JScrollPane scrollMano;
     private javax.swing.JLayeredPane tablero;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update() {
+        List<CartaDTO> manoActualizada = modelo.getManoJugadorActual();
+    }
+
 }

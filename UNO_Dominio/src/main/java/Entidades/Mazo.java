@@ -32,7 +32,7 @@ public class Mazo {
     //Saca y devuelve la carta en el tope para ser robada
     public Carta sacarCarta() throws MazoVacioException {
         if (cartas.isEmpty()) {
-            throw new IllegalStateException("El mazo está vacío, necesita ser rellenado");
+            throw new IllegalStateException("El mazo esta vacio, necesita ser rellenado");
         }
         return cartas.pop();
     }

@@ -5,9 +5,6 @@
 package Interfaces;
 
 import Entidades.Carta;
-import Entidades.CartaAccion;
-import Entidades.CartaComodin;
-import Entidades.CartaNumero;
 import Entidades.Jugador;
 import Entidades.Mazo;
 import Entidades.Partida;
@@ -17,8 +14,6 @@ import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
 import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
-import dtos.CartaDTO;
-import dtos.TipoCartaDTO;
 import java.util.List;
 import java.util.Stack;
 
