@@ -2,6 +2,7 @@ package MVC_JugarTurno;
 
 import dtos.CartaDTO;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -157,7 +158,11 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     }// </editor-fold>//GEN-END:initComponents
 
     private void panelMazoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMazoMouseClicked
-
+        try {
+            control.robarCarta();
+        } catch (Exception ex) {
+            mostrarError(ex.getMessage());
+        }
     }//GEN-LAST:event_panelMazoMouseClicked
 
     private void configurarCarruselMano(int cartasVisibles) {
@@ -223,6 +228,52 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         panelMano.repaint();
     }
 
+    public void mostrarMensaje(String mensaje, String titulo, int tipoMensaje) {
+        JOptionPane.showMessageDialog(
+                this,
+                mensaje,
+                titulo,
+                tipoMensaje
+        );
+    }
+
+    public void mostrarError(String mensaje) {
+        mostrarMensaje(mensaje, "Movimiento no permitido", javax.swing.JOptionPane.WARNING_MESSAGE);
+    }
+
+    private List<PanelCarta> generarPanelesDeMano(List<CartaDTO> cartasDTO) {
+        List<PanelCarta> paneles = new java.util.ArrayList<>();
+
+        for (CartaDTO cartaDTO : cartasDTO) {
+            PanelCarta panel = new PanelCarta();
+
+            panel.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    intentarJugarCarta(cartaDTO);
+                }
+            });
+
+            paneles.add(panel);
+        }
+        return paneles;
+    }
+
+    private void intentarJugarCarta(CartaDTO cartaSeleccionada) {
+        try {
+            control.jugarCarta(cartaSeleccionada);
+
+        } catch (Exception ex) {
+            mostrarError(ex.getMessage());
+        }
+    }
+
+    private void actualizarCartaDescarte() {
+        CartaDTO tope = modelo.getCartaEnTope();
+        if (tope != null) {
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel9;
@@ -248,6 +299,12 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     @Override
     public void update() {
         List<CartaDTO> manoActualizada = modelo.getManoJugadorActual();
+
+        List<PanelCarta> cartasVisuales = generarPanelesDeMano(manoActualizada);
+
+        mostrarMano(cartasVisuales);
+
+        actualizarCartaDescarte();
     }
 
 }

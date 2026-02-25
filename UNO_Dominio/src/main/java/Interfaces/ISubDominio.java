@@ -4,14 +4,14 @@
  */
 package Interfaces;
 
-import Entidades.Carta;
-import Entidades.Jugador;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
 import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
+import dtos.CartaDTO;
+import dtos.JugadorResumenDTO;
 import java.util.List;
 
 /**
@@ -20,13 +20,13 @@ import java.util.List;
  */
 public interface ISubDominio {
 
-    public void prepararJuego(List<Jugador> jugadores) throws MazoVacioException;
+    public void prepararJuego(List<JugadorResumenDTO> jugadoresDTO) throws MazoVacioException;
 
     //Intenta jugar una carta de la mano del jugador actual hacia el descarte
-    public void jugarCarta(Jugador jugador, Carta cartaAJugar) throws ValidarManoException, ValidarTurnoException, JugadaValidaException;
+    public void jugarCarta(JugadorResumenDTO jugadorDTO, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException;
 
     //Hace que el jugador actual robe una carta del mazo
-    public void robarCarta(Jugador jugador) throws MazoVacioException;
+    public void robarCarta(JugadorResumenDTO jugadorDTO) throws MazoVacioException;
 
     //Define el nuevo color en juego cuando un jugador tira un comodín
     public void elegirColorComodin(TipoColor nuevoColor);
@@ -35,17 +35,19 @@ public interface ISubDominio {
     public AccionesPosibles tirarRuleta();
 
     //Permite a un jugador protegerse gritando "¡UNO!"
-    public void gritarUno(Jugador jugador);
+    public void gritarUno(JugadorResumenDTO jugadorDTO);
 
     //Pasa el turno al siguiente jugador según el sentido actual del juego
     public void terminarTurno();
 
     // Devuelve quién es el jugador que debe tirar en este momento
-    public Jugador obtenerJugadorActual();
+    public JugadorResumenDTO obtenerJugadorActual();
 
     // Devuelve la carta que está visible en el tope del descarte
-    public Carta obtenerCartaEnTope();
+    public CartaDTO obtenerCartaEnTope();
 
     // Devuelve el color que está activo en el juego (útil si hay un comodín en el tope)
     public TipoColor obtenerColorActual();
+    
+    public List<CartaDTO> obtenerManoJugadorActual();
 }

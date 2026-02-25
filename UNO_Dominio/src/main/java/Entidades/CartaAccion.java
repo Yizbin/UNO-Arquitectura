@@ -72,4 +72,21 @@ public class CartaAccion extends Carta {
         return false;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        CartaAccion that = (CartaAccion) obj;
+        return tipoAccion == that.tipoAccion && color == that.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(tipoAccion, color);
+    }
+
 }

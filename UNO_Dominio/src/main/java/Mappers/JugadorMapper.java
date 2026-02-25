@@ -5,7 +5,6 @@
 package Mappers;
 
 import Entidades.Jugador;
-import Interfaces.IJugadorMapper;
 import dtos.JugadorResumenDTO;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +14,8 @@ import java.util.stream.Collectors;
  *
  * @author Abraham Coronel
  */
-public class JugadorMapper implements IJugadorMapper {
+public class JugadorMapper {
 
-    @Override
     public JugadorResumenDTO toDTO(Jugador jugador) {
         if (jugador == null) {
             return null;
@@ -37,7 +35,6 @@ public class JugadorMapper implements IJugadorMapper {
         return dto;
     }
 
-    @Override
     public List<JugadorResumenDTO> toDTOList(List<Jugador> jugadores) {
         if (jugadores == null || jugadores.isEmpty()) {
             return new ArrayList<>();
@@ -48,7 +45,6 @@ public class JugadorMapper implements IJugadorMapper {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public Jugador toEntity(JugadorResumenDTO dto) {
         if (dto == null) {
             return null;
@@ -58,7 +54,6 @@ public class JugadorMapper implements IJugadorMapper {
         return jugador;
     }
 
-    @Override
     public List<Jugador> toEntityList(List<JugadorResumenDTO> dtos) {
         if (dtos == null || dtos.isEmpty()) {
             return new ArrayList<>();

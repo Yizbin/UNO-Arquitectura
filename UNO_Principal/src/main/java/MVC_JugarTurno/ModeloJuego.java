@@ -5,15 +5,12 @@
 package MVC_JugarTurno;
 
 import Enums.TipoColor;
-import Excepciones.MazoVacioException;
-import Excepciones.ValidarManoException;
-import Fachade.IJuegoAdapter;
+import Interfaces.ISubDominio;
 import dtos.CartaDTO;
 import dtos.EstadoPartidaDTO;
 import dtos.JugadorResumenDTO;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,14 +20,14 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
 
     private final List<ISuscriptor> suscriptores = new ArrayList<>();
 
-    private final IJuegoAdapter adapterJuego;
+    private final ISubDominio subDominio;
 
     private EstadoPartidaDTO estado;
 
     private int idJugadorLocal;
 
-    public ModeloJuego(IJuegoAdapter adapterJuego) {
-        this.adapterJuego = adapterJuego;
+    public ModeloJuego(ISubDominio subDominio) {
+        this.subDominio = subDominio;
     }
 
     @Override
@@ -44,28 +41,16 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
     }
 
     @Override
-    public void iniciarPartida(List<JugadorResumenDTO> jugadores) {
-        try {
-            adapterJuego.iniciarPartida(jugadores);
-            this.notificar();
-        } catch (MazoVacioException e) {
-            JOptionPane.showMessageDialog(null, "Error: No es su turno");
-        }
+    public void iniciarPartida(List<JugadorResumenDTO> jugadores) throws Exception {
+        subDominio.prepararJuego(jugadores);
+        this.notificar();
     }
 
     @Override
-    public void robarCarta() {
-        try {
-            adapterJuego.robarCarta();
-            this.notificar();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: Hubo un error al robar carta");
-        }
-    }
-
-    @Override
-    public List<CartaDTO> getManoJugadorActual() {
-        return adapterJuego.getManoJugadorActual();
+    public void robarCarta() throws Exception {
+        JugadorResumenDTO jugadorActual = subDominio.obtenerJugadorActual();
+        subDominio.robarCarta(jugadorActual);
+        this.notificar();
     }
 
     @Override
@@ -75,22 +60,19 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
 
     @Override
     public void jugarCarta(CartaDTO carta) throws Exception {
-        try {
-            adapterJuego.jugarCarta(carta);
-            this.notificar();
-        } catch (ValidarManoException e) {
-            JOptionPane.showMessageDialog(null, "Error: Error all jugar una carta");
-        }
+        JugadorResumenDTO jugadorActual = subDominio.obtenerJugadorActual();
+        subDominio.jugarCarta(jugadorActual, carta);
+        this.notificar();
     }
 
     @Override
     public CartaDTO getCartaEnTope() {
-        return adapterJuego.getCartaEnTope();
+        return subDominio.obtenerCartaEnTope();
     }
 
     @Override
     public TipoColor getColorActual() {
-        return adapterJuego.getColorActual();
+        return subDominio.obtenerColorActual();
     }
 
     //Metodo Privados
@@ -98,6 +80,11 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         for (ISuscriptor s : suscriptores) {
             s.update();
         }
+    }
+
+    @Override
+    public List<CartaDTO> getManoJugadorActual() {
+        return subDominio.obtenerManoJugadorActual();
     }
 
 }

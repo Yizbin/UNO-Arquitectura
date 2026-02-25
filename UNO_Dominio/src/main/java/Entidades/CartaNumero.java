@@ -72,4 +72,21 @@ public class CartaNumero extends Carta {
         return false;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        CartaNumero that = (CartaNumero) obj;
+        return numero == that.numero && color == that.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(numero, color);
+    }
+
 }

@@ -64,5 +64,18 @@ public class CartaComodin extends Carta {
     public boolean esJugableSobre(Carta cartaEnTope, TipoColor colorEnJuego) {
         return true;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        CartaComodin that = (CartaComodin) obj;
+        return tipoComodin == that.tipoComodin;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(tipoComodin);
+    }
 
 }

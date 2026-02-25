@@ -1,10 +1,14 @@
- /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Entidades;
 
+import Enums.TipoColor;
+import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
+import Excepciones.ValidarManoException;
+import Excepciones.ValidarTurnoException;
 import java.util.List;
 
 /**
@@ -18,7 +22,8 @@ public class Partida {
     private Descarte descarte;
     private Ruleta ruleta;
     private int indiceTurnoActual;
-    private boolean sentidoHorario; //Con esto se determina que jugador sigue en el turno
+    private boolean sentidoHorario;
+    private TipoColor colorActual;
 
     public Partida(List<Jugador> jugadores, Mazo mazo) {
         this.jugadores = jugadores;
@@ -27,6 +32,7 @@ public class Partida {
         this.ruleta = new Ruleta();
         this.indiceTurnoActual = 0;
         this.sentidoHorario = true;
+        this.colorActual = TipoColor.NINGUNO;
     }
 
     //Crea la partida
@@ -37,6 +43,45 @@ public class Partida {
             }
         }
         descarte.apilarCarta(mazo.sacarCarta());
+        this.colorActual = TipoColor.NINGUNO;
+    }
+
+    public void jugarCarta(Jugador jugador, Carta cartaAJugar) throws ValidarManoException, ValidarTurnoException, JugadaValidaException {
+        if (!jugador.equals(this.getJugadorActual())) {
+            throw new ValidarTurnoException("No es el turno de este jugador.");
+        }
+
+        Carta cartaEnTope = this.descarte.getTope();
+        if (!cartaAJugar.esJugableSobre(cartaEnTope, this.colorActual)) {
+            throw new JugadaValidaException("Jugada invalida. La carta no coincide en color o simbolo.");
+        }
+
+        Jugador jugadorReal = this.getJugadorActual();
+        Carta cartaJugada = jugadorReal.jugarCarta(cartaAJugar);
+        this.descarte.apilarCarta(cartaJugada);
+
+        if (cartaJugada instanceof CartaNumero cartaNumero) {
+            this.colorActual = cartaNumero.getColor();
+        } else if (cartaJugada instanceof CartaAccion cartaAccion) {
+            this.colorActual = cartaAccion.getColor();
+        }
+    }
+
+    public void robarCarta(Jugador jugador) throws MazoVacioException {
+        if (!jugador.equals(this.getJugadorActual())) {
+            throw new IllegalStateException("No es el turno de este jugador.");
+        }
+        Carta robada = mazo.sacarCarta();
+        this.getJugadorActual().robarCarta(robada);
+    }
+
+    public void gritarUno(Jugador jugador) {
+        for (Jugador j : jugadores) {
+            if (j.equals(jugador)) {
+                j.gritarUno();
+                break;
+            }
+        }
     }
 
     //Retorna el jugador con el turno actual
@@ -120,6 +165,14 @@ public class Partida {
 
     public void setSentidoHorario(boolean sentidoHorario) {
         this.sentidoHorario = sentidoHorario;
+    }
+
+    public TipoColor getColorActual() {
+        return colorActual;
+    }
+
+    public void setColorActual(TipoColor colorActual) {
+        this.colorActual = colorActual;
     }
 
 }
