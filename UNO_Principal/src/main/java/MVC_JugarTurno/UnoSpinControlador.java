@@ -18,11 +18,19 @@ public class UnoSpinControlador {
         this.modelo = modelo;
     }
 
-    public void robarCarta() throws Exception {
-        modelo.robarCarta();
+    public void robarCarta() {
+        try {
+            modelo.robarCarta();
+        } catch (Exception ex) {
+            modelo.notificarError(ex.getMessage());
+        }
     }
 
-    public void jugarCarta(CartaDTO carta) throws Exception {
-        modelo.jugarCarta(carta);
+    public void jugarCarta(CartaDTO carta) {
+        try {
+            modelo.jugarCarta(carta);
+        } catch (Exception ex) {
+            modelo.notificarError(ex.getMessage());
+        }
     }
 }

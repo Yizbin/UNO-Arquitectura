@@ -18,8 +18,8 @@ public interface IControlModelo {
 
     public void robarCarta() throws Exception;
 
-    public List<CartaDTO> getManoJugadorActual();
-    
     public void jugarCarta(CartaDTO carta) throws Exception;
+    
+    public void notificarError(String mensaje);
 
 }

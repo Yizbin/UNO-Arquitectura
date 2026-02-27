@@ -158,11 +158,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     }// </editor-fold>//GEN-END:initComponents
 
     private void panelMazoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMazoMouseClicked
-        try {
-            control.robarCarta();
-        } catch (Exception ex) {
-            mostrarError(ex.getMessage());
-        }
+        control.robarCarta();
     }//GEN-LAST:event_panelMazoMouseClicked
 
     private void configurarCarruselMano(int cartasVisibles) {
@@ -260,12 +256,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     }
 
     private void intentarJugarCarta(CartaDTO cartaSeleccionada) {
-        try {
-            control.jugarCarta(cartaSeleccionada);
-
-        } catch (Exception ex) {
-            mostrarError(ex.getMessage());
-        }
+        control.jugarCarta(cartaSeleccionada);
     }
 
     private void actualizarCartaDescarte() {
@@ -305,6 +296,11 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         mostrarMano(cartasVisuales);
 
         actualizarCartaDescarte();
+    }
+
+    @Override
+    public void notificarError(String mensaje) {
+        mostrarError(mensaje);
     }
 
 }
