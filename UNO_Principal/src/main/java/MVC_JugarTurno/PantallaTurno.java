@@ -1,6 +1,6 @@
 package MVC_JugarTurno;
 
-import dtos.CartaDTO;
+import DTOs.CartaDTO;
 import java.util.List;
 import javax.swing.JOptionPane;
 

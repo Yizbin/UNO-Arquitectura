@@ -4,8 +4,8 @@
  */
 package MVC_JugarTurno;
 
-import dtos.CartaDTO;
-import dtos.JugadorResumenDTO;
+import DTOs.CartaDTO;
+import DTOs.JugadorResumenDTO;
 import java.util.List;
 
 /**

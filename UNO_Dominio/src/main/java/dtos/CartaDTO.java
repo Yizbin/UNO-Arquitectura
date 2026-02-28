@@ -1,11 +1,17 @@
-package dtos;
-
-//@author SAUL ISAAC APODACA BALDENEGRO 00000252020
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package DTOs;
 
 import Enums.Acciones;
 import Enums.Comodines;
 import Enums.TipoColor;
 
+/**
+ *
+ * @author Abraham Coronel
+ */
 public class CartaDTO {
 
     /**
@@ -79,5 +85,4 @@ public class CartaDTO {
     public void setRutaImagen(String rutaImagen) {
         this.rutaImagen = rutaImagen;
     }
-
 }

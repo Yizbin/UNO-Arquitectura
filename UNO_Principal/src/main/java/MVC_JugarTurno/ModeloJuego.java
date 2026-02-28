@@ -4,11 +4,11 @@
  */
 package MVC_JugarTurno;
 
+import DTOs.CartaDTO;
+import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
 import Interfaces.ISubDominio;
-import dtos.CartaDTO;
-import dtos.EstadoPartidaDTO;
-import dtos.JugadorResumenDTO;
 import java.util.ArrayList;
 import java.util.List;
 

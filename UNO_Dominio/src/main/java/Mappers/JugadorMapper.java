@@ -4,8 +4,8 @@
  */
 package Mappers;
 
+import DTOs.JugadorResumenDTO;
 import Entidades.Jugador;
-import dtos.JugadorResumenDTO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

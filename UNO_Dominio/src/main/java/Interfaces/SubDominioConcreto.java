@@ -4,6 +4,8 @@
  */
 package Interfaces;
 
+import DTOs.CartaDTO;
+import DTOs.JugadorResumenDTO;
 import Entidades.Carta;
 import Entidades.Jugador;
 import Entidades.Mazo;
@@ -16,8 +18,6 @@ import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
 import Mappers.CartaMapper;
 import Mappers.JugadorMapper;
-import dtos.CartaDTO;
-import dtos.JugadorResumenDTO;
 import java.util.List;
 import java.util.Stack;
 

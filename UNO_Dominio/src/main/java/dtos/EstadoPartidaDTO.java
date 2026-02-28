@@ -1,11 +1,16 @@
-package dtos;
-
-//@author SAUL ISAAC APODACA BALDENEGRO 00000252020
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package DTOs;
 
 import Enums.EstadoRetoSpin;
 import java.util.List;
 
-
+/**
+ *
+ * @author Abraham Coronel
+ */
 public class EstadoPartidaDTO {
 
     private int idJugadorEnTurno;
@@ -14,7 +19,7 @@ public class EstadoPartidaDTO {
     private CartaDTO cartaEnDescarte;
     private EstadoRetoSpin estadoReto;
     private boolean ruletaActiva;
-    
+
     private boolean puedeTirarCarta;
     private boolean puedeRobar;
     private boolean puedeDecirUno;
@@ -36,7 +41,7 @@ public class EstadoPartidaDTO {
         this.puedeDecirUno = puedeDecirUno;
         this.mensajeEstado = mensajeEstado;
     }
-    
+
     public int getIdJugadorEnTurno() {
         return idJugadorEnTurno;
     }
@@ -116,7 +121,4 @@ public class EstadoPartidaDTO {
     public void setMensajeEstado(String mensajeEstado) {
         this.mensajeEstado = mensajeEstado;
     }
-    
-    
-    
 }

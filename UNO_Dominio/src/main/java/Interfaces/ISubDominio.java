@@ -4,14 +4,14 @@
  */
 package Interfaces;
 
+import DTOs.CartaDTO;
+import DTOs.JugadorResumenDTO;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
 import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
-import dtos.CartaDTO;
-import dtos.JugadorResumenDTO;
 import java.util.List;
 
 /**
