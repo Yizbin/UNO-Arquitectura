@@ -7,6 +7,7 @@ package Entidades;
 import Excepciones.ValidarManoException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -31,18 +32,40 @@ public class Jugador {
         this.dijoUno = false;
     }
 
-    //Como dice el nombre roba una carta al jugador
     public void robarCarta(Carta carta) {
         this.mano.add(carta);
         this.dijoUno = false;
     }
 
-    //Busca la carta en la mano, la elimina y la devuelve para ponerla en el descarte
-    public Carta jugarCarta(Carta cartaAJugar) throws ValidarManoException {
-        if (mano.remove(cartaAJugar)) {
-            return cartaAJugar;
+    public Carta jugarCarta(Carta cartaCopia) throws ValidarManoException {
+        Carta cartaReal = null;
+
+        for (Carta c : this.mano) {
+
+            if (c instanceof CartaNumero cn && cartaCopia instanceof CartaNumero cnCopia) {
+                if (cn.getColor() == cnCopia.getColor() && cn.getNumero() == cnCopia.getNumero()) {
+                    cartaReal = c;
+                    break;
+                }
+            } else if (c instanceof CartaAccion ca && cartaCopia instanceof CartaAccion caCopia) {
+                if (ca.getColor() == caCopia.getColor() && ca.getTipoAccion() == caCopia.getTipoAccion()) {
+                    cartaReal = c;
+                    break;
+                }
+            } else if (c instanceof CartaComodin cc && cartaCopia instanceof CartaComodin ccCopia) {
+                if (cc.getTipoComodin() == ccCopia.getTipoComodin()) {
+                    cartaReal = c;
+                    break;
+                }
+            }
         }
-        throw new ValidarManoException("El jugador no tiene esa carta en la mano");
+
+        if (cartaReal == null) {
+            throw new ValidarManoException("El jugador no tiene esa carta en la mano.");
+        }
+
+        this.mano.remove(cartaReal);
+        return cartaReal;
     }
 
     //Para cuando queda una carta nomas
@@ -105,6 +128,27 @@ public class Jugador {
 
     public void setDijoUno(boolean dijoUno) {
         this.dijoUno = dijoUno;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Jugador other = (Jugador) obj;
+        return Objects.equals(this.usuario, other.usuario);
     }
 
 }

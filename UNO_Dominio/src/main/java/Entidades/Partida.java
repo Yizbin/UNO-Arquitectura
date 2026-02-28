@@ -10,6 +10,7 @@ import Excepciones.MazoVacioException;
 import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -187,5 +188,28 @@ public class Partida {
     public void setEsperandoColor(boolean esperandoColor) {
         this.esperandoColor = esperandoColor;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Partida other = (Partida) obj;
+        return Objects.equals(this.jugadores, other.jugadores);
+    }
+    
+    
 
 }

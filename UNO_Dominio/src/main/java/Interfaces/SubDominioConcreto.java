@@ -58,12 +58,17 @@ public class SubDominioConcreto implements ISubDominio {
         Carta cartaAJugar = cartaMapper.toEntity(cartaAJugarDTO);
 
         partida.jugarCarta(jugador, cartaAJugar);
+
+        if (!partida.isEsperandoColor()) {
+            partida.avanzarTurno();
+        }
     }
 
     @Override
     public void robarCarta(JugadorResumenDTO jugadorDTO) throws MazoVacioException {
         Jugador jugador = jugadorMapper.toEntity(jugadorDTO);
         partida.robarCarta(jugador);
+        partida.avanzarTurno();
     }
 
     @Override
@@ -108,13 +113,13 @@ public class SubDominioConcreto implements ISubDominio {
 
     private Stack<Carta> generarMazoCompleto() {
         Stack<Carta> mazoNuevo = new Stack<>();
-        
+
         for (int i = 0; i < 40; i++) {
             mazoNuevo.push(new CartaNumero(4, TipoColor.ROJO, false));
         }
-        mazoNuevo.push(new CartaComodin(Comodines.CAMBIO_COLOR)); 
+        mazoNuevo.push(new CartaComodin(Comodines.CAMBIO_COLOR));
         mazoNuevo.push(new CartaComodin(Comodines.TOMA_CUATRO));
-        
+
         return mazoNuevo;
     }
 
