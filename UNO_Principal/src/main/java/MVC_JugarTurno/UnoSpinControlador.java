@@ -5,7 +5,7 @@
 package MVC_JugarTurno;
 
 import DTOs.CartaDTO;
-
+import Enums.TipoColor;
 
 /**
  *
@@ -30,6 +30,14 @@ public class UnoSpinControlador {
     public void jugarCarta(CartaDTO carta) {
         try {
             modelo.jugarCarta(carta);
+        } catch (Exception ex) {
+            modelo.notificarError(ex.getMessage());
+        }
+    }
+
+    public void seleccionarColor(TipoColor color) {
+        try {
+            modelo.seleccionarColor(color);
         } catch (Exception ex) {
             modelo.notificarError(ex.getMessage());
         }

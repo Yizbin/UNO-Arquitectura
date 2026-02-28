@@ -24,6 +24,7 @@ public class Partida {
     private int indiceTurnoActual;
     private boolean sentidoHorario;
     private TipoColor colorActual;
+    private boolean esperandoColor;
 
     public Partida(List<Jugador> jugadores, Mazo mazo) {
         this.jugadores = jugadores;
@@ -33,6 +34,7 @@ public class Partida {
         this.indiceTurnoActual = 0;
         this.sentidoHorario = true;
         this.colorActual = TipoColor.NINGUNO;
+        this.esperandoColor = false;
     }
 
     //Crea la partida
@@ -64,6 +66,8 @@ public class Partida {
             this.colorActual = cartaNumero.getColor();
         } else if (cartaJugada instanceof CartaAccion cartaAccion) {
             this.colorActual = cartaAccion.getColor();
+        } else if (cartaJugada instanceof CartaComodin) {
+            this.esperandoColor = true;
         }
     }
 
@@ -173,6 +177,15 @@ public class Partida {
 
     public void setColorActual(TipoColor colorActual) {
         this.colorActual = colorActual;
+        this.esperandoColor = false;
+    }
+
+    public boolean isEsperandoColor() {
+        return esperandoColor;
+    }
+
+    public void setEsperandoColor(boolean esperandoColor) {
+        this.esperandoColor = esperandoColor;
     }
 
 }

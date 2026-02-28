@@ -5,12 +5,16 @@
 package Interfaces;
 
 import DTOs.CartaDTO;
+import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import Entidades.Carta;
+import Entidades.CartaComodin;
+import Entidades.CartaNumero;
 import Entidades.Jugador;
 import Entidades.Mazo;
 import Entidades.Partida;
 import Enums.AccionesPosibles;
+import Enums.Comodines;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
@@ -64,7 +68,7 @@ public class SubDominioConcreto implements ISubDominio {
 
     @Override
     public void elegirColorComodin(TipoColor nuevoColor) {
-        this.partida.setColorActual(colorActual);
+        this.partida.setColorActual(nuevoColor);
     }
 
     @Override
@@ -104,6 +108,13 @@ public class SubDominioConcreto implements ISubDominio {
 
     private Stack<Carta> generarMazoCompleto() {
         Stack<Carta> mazoNuevo = new Stack<>();
+        
+        for (int i = 0; i < 40; i++) {
+            mazoNuevo.push(new CartaNumero(4, TipoColor.ROJO, false));
+        }
+        mazoNuevo.push(new CartaComodin(Comodines.CAMBIO_COLOR)); 
+        mazoNuevo.push(new CartaComodin(Comodines.TOMA_CUATRO));
+        
         return mazoNuevo;
     }
 
@@ -114,6 +125,15 @@ public class SubDominioConcreto implements ISubDominio {
         List<Carta> manoEntidad = jugadorActual.getMano();
 
         return cartaMapper.toDTOList(manoEntidad);
+    }
+
+    @Override
+    public EstadoPartidaDTO obtenerEstadoPartida() {
+        EstadoPartidaDTO estadoDTO = new EstadoPartidaDTO();
+        if (this.partida != null) {
+            estadoDTO.setEsperandoColor(this.partida.isEsperandoColor());
+        }
+        return estadoDTO;
     }
 
 }

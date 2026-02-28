@@ -1,6 +1,8 @@
 package MVC_JugarTurno;
 
 import DTOs.CartaDTO;
+import DTOs.EstadoPartidaDTO;
+import Enums.TipoColor;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -237,6 +239,23 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         mostrarMensaje(mensaje, "Movimiento no permitido", javax.swing.JOptionPane.WARNING_MESSAGE);
     }
 
+    public int mostrarOpciones(String mensaje, String titulo, Object[] opciones) {
+        return JOptionPane.showOptionDialog(this, mensaje, titulo,
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, opciones, opciones[0]);
+    }
+
+    private void pedirColorUsuario() {
+        TipoColor[] colores = {
+            TipoColor.ROJO, TipoColor.AZUL,
+            TipoColor.VERDE, TipoColor.AMARILLO
+        };
+        int seleccion = mostrarOpciones("Has jugado un comodin. Selecciona el nuevo color:", "Cambio de Color", colores);
+        if (seleccion >= 0) {
+            control.seleccionarColor(colores[seleccion]);
+        }
+    }
+
     private List<PanelCarta> generarPanelesDeMano(List<CartaDTO> cartasDTO) {
         List<PanelCarta> paneles = new java.util.ArrayList<>();
 
@@ -296,6 +315,11 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         mostrarMano(cartasVisuales);
 
         actualizarCartaDescarte();
+
+        EstadoPartidaDTO estado = modelo.getEstado();
+        if (estado != null && estado.isEsperandoColor()) {
+            pedirColorUsuario();
+        }
     }
 
     @Override

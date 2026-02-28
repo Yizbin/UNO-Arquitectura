@@ -5,6 +5,7 @@
 package Interfaces;
 
 import DTOs.CartaDTO;
+import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
@@ -50,4 +51,6 @@ public interface ISubDominio {
     public TipoColor obtenerColorActual();
     
     public List<CartaDTO> obtenerManoJugadorActual();
+    
+    public EstadoPartidaDTO obtenerEstadoPartida();
 }

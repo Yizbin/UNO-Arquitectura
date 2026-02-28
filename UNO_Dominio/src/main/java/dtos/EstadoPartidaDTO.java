@@ -23,6 +23,7 @@ public class EstadoPartidaDTO {
     private boolean puedeTirarCarta;
     private boolean puedeRobar;
     private boolean puedeDecirUno;
+    private boolean esperandoColor;
 
     private String mensajeEstado;
 
@@ -121,4 +122,13 @@ public class EstadoPartidaDTO {
     public void setMensajeEstado(String mensajeEstado) {
         this.mensajeEstado = mensajeEstado;
     }
+
+    public boolean isEsperandoColor() {
+        return esperandoColor;
+    }
+
+    public void setEsperandoColor(boolean esperandoColor) {
+        this.esperandoColor = esperandoColor;
+    }
+
 }
