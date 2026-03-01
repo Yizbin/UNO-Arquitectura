@@ -118,15 +118,15 @@ public class SubDominioConcreto implements ISubDominio {
             mazoNuevo.push(new CartaNumero(i + 1, TipoColor.ROJO, false));
         }
         mazoNuevo.push(new CartaNumero(9, TipoColor.ROJO, true));
-        for (int i = 8; i < 16; i++) {
+        for (int i = 0; i < 8; i++) {
             mazoNuevo.push(new CartaNumero(i + 1, TipoColor.AMARILLO, false));
         }
         mazoNuevo.push(new CartaNumero(9, TipoColor.AMARILLO, true));
-        for (int i = 16; i < 24; i++) {
+        for (int i = 0; i < 8; i++) {
             mazoNuevo.push(new CartaNumero(i + 1, TipoColor.AZUL, false));
         }
         mazoNuevo.push(new CartaNumero(9, TipoColor.AZUL, true));
-        for (int i = 24; i < 32; i++) {
+        for (int i = 0; i < 8; i++) {
             mazoNuevo.push(new CartaNumero(i + 1, TipoColor.VERDE, false));
         }
         mazoNuevo.push(new CartaNumero(9, TipoColor.VERDE, true));

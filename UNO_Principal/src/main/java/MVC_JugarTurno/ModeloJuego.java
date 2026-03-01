@@ -67,6 +67,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
 
     @Override
     public CartaDTO getCartaEnTope() {
+        System.out.println(subDominio.obtenerCartaEnTope());
         return subDominio.obtenerCartaEnTope();
     }
 
@@ -77,7 +78,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
 
     @Override
     public List<CartaDTO> getManoJugadorActual() {
-        System.out.println( subDominio.obtenerManoJugadorActual());
+        System.out.println( subDominio.obtenerManoJugadorActual().toString());
         return subDominio.obtenerManoJugadorActual();
     }
 
