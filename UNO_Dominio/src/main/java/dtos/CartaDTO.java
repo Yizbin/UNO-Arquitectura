@@ -88,17 +88,26 @@ public class CartaDTO {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("CartaDTO{");
-        sb.append("tipoCarta=").append(tipoCarta);
-        sb.append(", color=").append(color);
-        sb.append(", numero=").append(numero);
-        sb.append(", acciones=").append(acciones);
-        sb.append(", comodines=").append(comodines);
-        sb.append('}');
-        return sb.toString();
+        if (tipoCarta == null) {
+            return "sin definir";
+        }
+
+        switch (tipoCarta) {
+            case NUMERO -> {
+                return color + " " + numero;
+            }
+            case ACCION -> {
+                return color + " " + acciones;
+            }
+            case COMODIN -> {
+                if (color != null) {
+                    return comodines + " (" + color + ")";
+                }
+                return String.valueOf(comodines);
+            }
+            default -> {
+                return "desconocido";
+            }
+        }
     }
-    
-    
-    
 }

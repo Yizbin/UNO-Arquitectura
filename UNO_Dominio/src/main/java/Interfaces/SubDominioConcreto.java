@@ -114,10 +114,26 @@ public class SubDominioConcreto implements ISubDominio {
     private Stack<Carta> generarMazoCompleto() {
         Stack<Carta> mazoNuevo = new Stack<>();
 
-        for (int i = 0; i < 40; i++) {
-            mazoNuevo.push(new CartaNumero(4, TipoColor.ROJO, false));
+        for (int i = 0; i < 8; i++) {
+            mazoNuevo.push(new CartaNumero(i + 1, TipoColor.ROJO, false));
         }
+        mazoNuevo.push(new CartaNumero(9, TipoColor.ROJO, true));
+        for (int i = 8; i < 16; i++) {
+            mazoNuevo.push(new CartaNumero(i + 1, TipoColor.AMARILLO, false));
+        }
+        mazoNuevo.push(new CartaNumero(9, TipoColor.AMARILLO, true));
+        for (int i = 16; i < 24; i++) {
+            mazoNuevo.push(new CartaNumero(i + 1, TipoColor.AZUL, false));
+        }
+        mazoNuevo.push(new CartaNumero(9, TipoColor.AZUL, true));
+        for (int i = 24; i < 32; i++) {
+            mazoNuevo.push(new CartaNumero(i + 1, TipoColor.VERDE, false));
+        }
+        mazoNuevo.push(new CartaNumero(9, TipoColor.VERDE, true));
+        
         mazoNuevo.push(new CartaComodin(Comodines.CAMBIO_COLOR));
+        mazoNuevo.push(new CartaComodin(Comodines.CAMBIO_COLOR));
+        mazoNuevo.push(new CartaComodin(Comodines.TOMA_CUATRO));
         mazoNuevo.push(new CartaComodin(Comodines.TOMA_CUATRO));
 
         return mazoNuevo;
