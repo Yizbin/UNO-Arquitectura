@@ -88,6 +88,10 @@ public class PanelInformacionJugador extends javax.swing.JPanel {
     public void actualizarNumeroCartas(int cant) {
         lblNumCartas.setText(String.valueOf(cant));
     }
+    
+    public void actualizarNombreJugador(String nombre){
+        lblNombreUsuario.setText(nombre);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelNombre;

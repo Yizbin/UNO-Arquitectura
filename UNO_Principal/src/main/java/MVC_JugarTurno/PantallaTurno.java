@@ -300,14 +300,21 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         actualizarNumeroCartas();
     }
 
+    private void actualizarNumeroCartas() {
+        panelInfoJugadorPrincipal.actualizarNumeroCartas(modelo.getManoJugadorActual().size());
+    }
+    
     private void actualizarCartaDescarte() {
         CartaDTO tope = modelo.getCartaEnTope();
         if (tope != null) {
+            panelDescarte.removeAll();
+            panelDescarte.setLayout(new java.awt.BorderLayout());
+            PanelCartaMano cartaVisual = new PanelCartaMano();
+            cartaVisual.setCarta(tope);
+            panelDescarte.add(cartaVisual, java.awt.BorderLayout.CENTER);
+            panelDescarte.revalidate();
+            panelDescarte.repaint();
         }
-    }
-
-    private void actualizarNumeroCartas() {
-        panelInfoJugadorPrincipal.actualizarNumeroCartas(modelo.getManoJugadorActual().size());
     }
 
 

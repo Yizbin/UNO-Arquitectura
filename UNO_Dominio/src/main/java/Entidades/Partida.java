@@ -45,8 +45,14 @@ public class Partida {
                 jugador.robarCarta(mazo.sacarCarta());
             }
         }
-        descarte.apilarCarta(mazo.sacarCarta());
-        this.colorActual = TipoColor.NINGUNO;
+        Carta primeraCarta = mazo.sacarCarta();
+        descarte.apilarCarta(primeraCarta);
+        
+        switch (primeraCarta) {
+            case CartaNumero cartaNumero -> this.colorActual = cartaNumero.getColor();
+            case CartaAccion cartaAccion -> this.colorActual = cartaAccion.getColor();
+            default -> this.colorActual = TipoColor.NINGUNO;
+        }
     }
 
     public void jugarCarta(Jugador jugador, Carta cartaAJugar) throws ValidarManoException, ValidarTurnoException, JugadaValidaException {
