@@ -77,6 +77,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
 
     @Override
     public List<CartaDTO> getManoJugadorActual() {
+        System.out.println( subDominio.obtenerManoJugadorActual());
         return subDominio.obtenerManoJugadorActual();
     }
 

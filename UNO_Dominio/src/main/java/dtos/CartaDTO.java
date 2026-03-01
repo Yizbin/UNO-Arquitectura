@@ -85,4 +85,20 @@ public class CartaDTO {
     public void setRutaImagen(String rutaImagen) {
         this.rutaImagen = rutaImagen;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("CartaDTO{");
+        sb.append("tipoCarta=").append(tipoCarta);
+        sb.append(", color=").append(color);
+        sb.append(", numero=").append(numero);
+        sb.append(", acciones=").append(acciones);
+        sb.append(", comodines=").append(comodines);
+        sb.append('}');
+        return sb.toString();
+    }
+    
+    
+    
 }
