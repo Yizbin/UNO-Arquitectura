@@ -85,6 +85,9 @@ public class PanelInformacionJugador extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public void actualizarNumeroCartas(int cant) {
+        lblNumCartas.setText(String.valueOf(cant));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelNombre;

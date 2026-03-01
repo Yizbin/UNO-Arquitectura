@@ -27,6 +27,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         configurarScroll();
         configurarPanelMano();
         configurarEventosScroll();
+        
 
         configurarCarruselMano(7);
         ajustarAnchoMano();
@@ -276,12 +277,17 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
     private void intentarJugarCarta(CartaDTO cartaSeleccionada) {
         control.jugarCarta(cartaSeleccionada);
+        actualizarNumeroCartas();
     }
 
     private void actualizarCartaDescarte() {
         CartaDTO tope = modelo.getCartaEnTope();
         if (tope != null) {
         }
+    }
+    
+    private void actualizarNumeroCartas(){
+        panelInfoJugadorPrincipal.actualizarNumeroCartas(modelo.getManoJugadorActual().size());
     }
 
 
