@@ -19,6 +19,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     private static final int PAD_R = 10;
     private final UnoSpinControlador control;
     private final IModeloVista modelo;
+    private boolean pidiendoColor = false;
 
     public PantallaTurno(IModeloVista modelo, UnoSpinControlador control) {
         this.control = control;
@@ -259,6 +260,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         if (seleccion >= 0) {
             control.seleccionarColor(colores[seleccion]);
         }
+        pidiendoColor = false;
     }
 
     private List<PanelCartaMano> generarPanelesDeMano(List<CartaDTO> cartasDTO) {
@@ -303,7 +305,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     private void actualizarNumeroCartas() {
         panelInfoJugadorPrincipal.actualizarNumeroCartas(modelo.getManoJugadorLocal().size());
     }
-    
+
     private void actualizarCartaDescarte() {
         CartaDTO tope = modelo.getCartaEnTope();
         if (tope != null) {
@@ -362,7 +364,8 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         actualizarCartaDescarte();
 
         EstadoPartidaDTO estado = modelo.getEstado();
-        if (estado != null && estado.isEsperandoColor()) {
+        if (estado != null && estado.isEsperandoColor() && !pidiendoColor) {
+            pidiendoColor = true;
             pedirColorUsuario();
         }
     }
