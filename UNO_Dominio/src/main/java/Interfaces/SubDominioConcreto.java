@@ -22,6 +22,7 @@ import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
 import Mappers.CartaMapper;
 import Mappers.JugadorMapper;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -53,25 +54,6 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public void jugarCarta(JugadorResumenDTO jugadorDTO, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException {
-        Jugador jugador = jugadorMapper.toEntity(jugadorDTO);
-        Carta cartaAJugar = cartaMapper.toEntity(cartaAJugarDTO);
-
-        partida.jugarCarta(jugador, cartaAJugar);
-
-        if (!partida.isEsperandoColor()) {
-            partida.avanzarTurno();
-        }
-    }
-
-    @Override
-    public void robarCarta(JugadorResumenDTO jugadorDTO) throws MazoVacioException {
-        Jugador jugador = jugadorMapper.toEntity(jugadorDTO);
-        partida.robarCarta(jugador);
-        partida.avanzarTurno();
-    }
-
-    @Override
     public void elegirColorComodin(TipoColor nuevoColor) {
         this.partida.setColorActual(nuevoColor);
     }
@@ -79,12 +61,6 @@ public class SubDominioConcreto implements ISubDominio {
     @Override
     public AccionesPosibles tirarRuleta() {
         return partida.getRuleta().girar();
-    }
-
-    @Override
-    public void gritarUno(JugadorResumenDTO jugadorDTO) {
-        Jugador jugador = jugadorMapper.toEntity(jugadorDTO);
-        partida.gritarUno(jugador);
     }
 
     @Override
@@ -130,7 +106,7 @@ public class SubDominioConcreto implements ISubDominio {
             mazoNuevo.push(new CartaNumero(i + 1, TipoColor.VERDE, false));
         }
         mazoNuevo.push(new CartaNumero(9, TipoColor.VERDE, true));
-        
+
         mazoNuevo.push(new CartaComodin(Comodines.CAMBIO_COLOR));
         mazoNuevo.push(new CartaComodin(Comodines.CAMBIO_COLOR));
         mazoNuevo.push(new CartaComodin(Comodines.TOMA_CUATRO));
@@ -140,12 +116,13 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public List<CartaDTO> obtenerManoJugadorActual() {
-        Jugador jugadorActual = partida.getJugadorActual();
-
-        List<Carta> manoEntidad = jugadorActual.getMano();
-
-        return cartaMapper.toDTOList(manoEntidad);
+    public List<CartaDTO> obtenerManoJugador(int idJugador) {
+        for (Jugador jugador : partida.getJugadores()) {
+            if (jugador.getId() == idJugador) {
+                return cartaMapper.toDTOList(jugador.getMano());
+            }
+        }
+        return new ArrayList<>();
     }
 
     @Override
@@ -155,6 +132,40 @@ public class SubDominioConcreto implements ISubDominio {
             estadoDTO.setEsperandoColor(this.partida.isEsperandoColor());
         }
         return estadoDTO;
+    }
+
+    private Jugador obtenerJugadorPorId(int idJugador) {
+        for (Jugador j : partida.getJugadores()) {
+            if (j.getId() == idJugador) {
+                return j;
+            }
+        }
+        throw new IllegalArgumentException("Jugador no encontrado con ID: " + idJugador);
+    }
+
+    @Override
+    public void jugarCarta(int idJugador, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException {
+        Jugador jugador = obtenerJugadorPorId(idJugador); 
+        Carta cartaAJugar = cartaMapper.toEntity(cartaAJugarDTO);
+
+        partida.jugarCarta(jugador, cartaAJugar);
+
+        if (!partida.isEsperandoColor()) {
+            partida.avanzarTurno();
+        }
+    }
+
+    @Override
+    public void robarCarta(int idJugador) throws MazoVacioException {
+        Jugador jugador = obtenerJugadorPorId(idJugador);
+        partida.robarCarta(jugador);
+        partida.avanzarTurno();
+    }
+
+    @Override
+    public void gritarUno(int idJugador) {
+        Jugador jugador = obtenerJugadorPorId(idJugador);
+        partida.gritarUno(jugador);
     }
 
 }

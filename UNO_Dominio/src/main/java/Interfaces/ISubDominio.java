@@ -24,10 +24,10 @@ public interface ISubDominio {
     public void prepararJuego(List<JugadorResumenDTO> jugadoresDTO) throws MazoVacioException;
 
     //Intenta jugar una carta de la mano del jugador actual hacia el descarte
-    public void jugarCarta(JugadorResumenDTO jugadorDTO, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException;
+    public void jugarCarta(int idJugador, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException;
 
     //Hace que el jugador actual robe una carta del mazo
-    public void robarCarta(JugadorResumenDTO jugadorDTO) throws MazoVacioException;
+    public void robarCarta(int idJugador) throws MazoVacioException;
 
     //Define el nuevo color en juego cuando un jugador tira un comodín
     public void elegirColorComodin(TipoColor nuevoColor);
@@ -36,7 +36,7 @@ public interface ISubDominio {
     public AccionesPosibles tirarRuleta();
 
     //Permite a un jugador protegerse gritando "¡UNO!"
-    public void gritarUno(JugadorResumenDTO jugadorDTO);
+    public void gritarUno(int idJugador);
 
     //Pasa el turno al siguiente jugador según el sentido actual del juego
     public void terminarTurno();
@@ -50,7 +50,7 @@ public interface ISubDominio {
     // Devuelve el color que está activo en el juego (útil si hay un comodín en el tope)
     public TipoColor obtenerColorActual();
     
-    public List<CartaDTO> obtenerManoJugadorActual();
+    public List<CartaDTO> obtenerManoJugador(int idJugador);
     
     public EstadoPartidaDTO obtenerEstadoPartida();
 }

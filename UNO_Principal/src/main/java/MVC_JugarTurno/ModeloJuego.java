@@ -30,6 +30,10 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         this.subDominio = subDominio;
     }
 
+    public void setIdJugadorLocal(int idJugadorLocal) {
+        this.idJugadorLocal = idJugadorLocal;
+    }
+
     @Override
     public EstadoPartidaDTO getEstado() {
         return estado;
@@ -48,8 +52,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
 
     @Override
     public void robarCarta() throws Exception {
-        JugadorResumenDTO jugadorActual = subDominio.obtenerJugadorActual();
-        subDominio.robarCarta(jugadorActual);
+        subDominio.robarCarta(this.idJugadorLocal);
         this.notificar();
     }
 
@@ -60,8 +63,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
 
     @Override
     public void jugarCarta(CartaDTO carta) throws Exception {
-        JugadorResumenDTO jugadorActual = subDominio.obtenerJugadorActual();
-        subDominio.jugarCarta(jugadorActual, carta);
+        subDominio.jugarCarta(this.idJugadorLocal, carta);
         this.notificar();
     }
 
@@ -77,9 +79,8 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
     }
 
     @Override
-    public List<CartaDTO> getManoJugadorActual() {
-        System.out.println( subDominio.obtenerManoJugadorActual().toString());
-        return subDominio.obtenerManoJugadorActual();
+    public List<CartaDTO> getManoJugadorLocal() {
+        return subDominio.obtenerManoJugador(this.idJugadorLocal);
     }
 
     @Override
@@ -87,6 +88,12 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         for (ISuscriptor s : suscriptores) {
             s.notificarError(mensaje);
         }
+    }
+
+    @Override
+    public void seleccionarColor(TipoColor color) throws Exception {
+        subDominio.elegirColorComodin(color);
+        this.notificar();
     }
 
     //Metodo Privados
@@ -97,12 +104,6 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         for (ISuscriptor s : suscriptores) {
             s.update();
         }
-    }
-
-    @Override
-    public void seleccionarColor(TipoColor color) throws Exception {
-        subDominio.elegirColorComodin(color);
-        this.notificar();
     }
 
 }

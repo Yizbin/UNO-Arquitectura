@@ -15,6 +15,7 @@ import java.util.Objects;
  */
 public class Jugador {
 
+    private int id;
     private String usuario;
     private String avatar; //Url imgaen
     private List<Carta> mano;
@@ -24,7 +25,8 @@ public class Jugador {
     public Jugador() {
     }
 
-    public Jugador(String usuario, String avatar) {
+    public Jugador(int id, String usuario, String avatar) {
+        this.id = id;
         this.usuario = usuario;
         this.avatar = avatar;
         this.mano = new ArrayList<>();
@@ -130,9 +132,17 @@ public class Jugador {
         this.dijoUno = dijoUno;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 3;
+        int hash = 7;
         return hash;
     }
 
@@ -148,7 +158,12 @@ public class Jugador {
             return false;
         }
         final Jugador other = (Jugador) obj;
+        if (this.id != other.id) {
+            return false;
+        }
         return Objects.equals(this.usuario, other.usuario);
     }
+
+   
 
 }

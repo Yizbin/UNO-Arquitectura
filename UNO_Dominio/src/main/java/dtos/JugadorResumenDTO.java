@@ -10,6 +10,7 @@ package DTOs;
  */
 public class JugadorResumenDTO {
 
+    private int id;
     private String nombreUsuario;
     private int cantidadDeCartas;
     private int puntos;
@@ -18,7 +19,8 @@ public class JugadorResumenDTO {
     public JugadorResumenDTO() {
     }
 
-    public JugadorResumenDTO(String nombreUsuario, int cantidadDeCartas, int puntos, boolean enTurno) {
+    public JugadorResumenDTO(int id, String nombreUsuario, int cantidadDeCartas, int puntos, boolean enTurno) {
+        this.id = id;
         this.nombreUsuario = nombreUsuario;
         this.cantidadDeCartas = cantidadDeCartas;
         this.puntos = puntos;
@@ -56,4 +58,13 @@ public class JugadorResumenDTO {
     public void setEnTurno(boolean enTurno) {
         this.enTurno = enTurno;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

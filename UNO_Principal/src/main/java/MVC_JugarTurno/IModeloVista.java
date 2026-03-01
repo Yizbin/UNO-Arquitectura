@@ -17,13 +17,13 @@ public interface IModeloVista {
 
     public void agregarSuscriptor(ISuscriptor suscriptor);
 
-    public List<CartaDTO> getManoJugadorActual();
+    public int getIdJugadorLocal();
 
     public EstadoPartidaDTO getEstado();
-
-    public int getIdJugadorLocal();
 
     public CartaDTO getCartaEnTope();
 
     public TipoColor getColorActual();
+    
+    public List<CartaDTO> getManoJugadorLocal();
 }
