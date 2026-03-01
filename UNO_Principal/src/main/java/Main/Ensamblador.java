@@ -10,6 +10,7 @@ import MVC_JugarTurno.UnoSpinControlador;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 public class Ensamblador {
 
@@ -34,13 +35,16 @@ public class Ensamblador {
 
         simularPartidaPrevia(modeloJ1);
 
-        ventanaJ2.update();
-
         ventanaJ1.setLocation(100, 200);
         ventanaJ2.setLocation(700, 200);
-
         ventanaJ1.setVisible(true);
         ventanaJ2.setVisible(true);
+
+        Timer sincronizador = new Timer(500, e -> {
+            ventanaJ1.update();
+            ventanaJ2.update();
+        });
+        sincronizador.start();
     }
 
     private static PantallaTurno ensamblarMVC(ModeloJuego modelo) {
@@ -56,10 +60,9 @@ public class Ensamblador {
     private static void simularPartidaPrevia(ModeloJuego modelo) {
         try {
             List<JugadorResumenDTO> jugadores = new ArrayList<>();
+
             jugadores.add(new JugadorResumenDTO(1, "Jugador 1", 0, 0, true));
             jugadores.add(new JugadorResumenDTO(2, "Jugador 2", 0, 0, false));
-            jugadores.add(new JugadorResumenDTO(3, "Jugador 3", 0, 0, false));
-            jugadores.add(new JugadorResumenDTO(4, "Jugador 4", 0, 0, false));
 
             modelo.iniciarPartida(jugadores);
 
