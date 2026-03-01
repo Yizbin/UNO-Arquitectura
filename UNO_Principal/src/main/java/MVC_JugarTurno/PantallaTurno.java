@@ -27,7 +27,6 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         configurarScroll();
         configurarPanelMano();
         configurarEventosScroll();
-        
 
         configurarCarruselMano(7);
         ajustarAnchoMano();
@@ -205,13 +204,18 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         });
     }
 
-    private void mostrarMano(java.util.List<PanelCarta> cartas) {
+    private void mostrarMano(java.util.List<PanelCartaMano> cartas) {
+//        panelMano.removeAll();
+//
+//        for (PanelCarta c : cartas) {
+//            panelMano.add(c);
+//        }
+//
+//        ajustarAnchoMano();
         panelMano.removeAll();
-
-        for (PanelCarta c : cartas) {
+        for (PanelCartaMano c : cartas) {
             panelMano.add(c);
         }
-
         ajustarAnchoMano();
     }
 
@@ -257,11 +261,27 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         }
     }
 
-    private List<PanelCarta> generarPanelesDeMano(List<CartaDTO> cartasDTO) {
-        List<PanelCarta> paneles = new java.util.ArrayList<>();
+    private List<PanelCartaMano> generarPanelesDeMano(List<CartaDTO> cartasDTO) {
+//        List<PanelCarta> paneles = new java.util.ArrayList<>();
+//
+//        for (CartaDTO cartaDTO : cartasDTO) {
+//            PanelCarta panel = new PanelCarta();
+//
+//            panel.addMouseListener(new java.awt.event.MouseAdapter() {
+//                @Override
+//                public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                    intentarJugarCarta(cartaDTO);
+//                }
+//            });
+//
+//            paneles.add(panel);
+//        }
+//        return paneles;
+        List<PanelCartaMano> paneles = new java.util.ArrayList<>();
 
         for (CartaDTO cartaDTO : cartasDTO) {
-            PanelCarta panel = new PanelCarta();
+            PanelCartaMano panel = new PanelCartaMano();
+            panel.setCarta(cartaDTO);   // ← dibuja la carta real
 
             panel.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
@@ -285,8 +305,8 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         if (tope != null) {
         }
     }
-    
-    private void actualizarNumeroCartas(){
+
+    private void actualizarNumeroCartas() {
         panelInfoJugadorPrincipal.actualizarNumeroCartas(modelo.getManoJugadorActual().size());
     }
 
@@ -314,9 +334,21 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
     @Override
     public void update() {
+//        List<CartaDTO> manoActualizada = modelo.getManoJugadorActual();
+//
+//        List<PanelCarta> cartasVisuales = generarPanelesDeMano(manoActualizada);
+//
+//        mostrarMano(cartasVisuales);
+//
+//        actualizarCartaDescarte();
+//
+//        EstadoPartidaDTO estado = modelo.getEstado();
+//        if (estado != null && estado.isEsperandoColor()) {
+//            pedirColorUsuario();
+//        }
         List<CartaDTO> manoActualizada = modelo.getManoJugadorActual();
 
-        List<PanelCarta> cartasVisuales = generarPanelesDeMano(manoActualizada);
+        List<PanelCartaMano> cartasVisuales = generarPanelesDeMano(manoActualizada);
 
         mostrarMano(cartasVisuales);
 
