@@ -204,7 +204,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         });
     }
 
-    private void mostrarMano(java.util.List<PanelCartaMano> cartas) {
+    private void mostrarMano(List<PanelCartaMano> cartas) {
         panelMano.removeAll();
         for (PanelCartaMano c : cartas) {
             panelMano.add(c);
