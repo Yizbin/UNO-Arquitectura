@@ -4,8 +4,10 @@
  */
 package MVC_JugarTurno;
 
-import dtos.CartaDTO;
-import dtos.JugadorResumenDTO;
+
+import DTOs.CartaDTO;
+import DTOs.JugadorResumenDTO;
+import Enums.TipoColor;
 import java.util.List;
 
 /**
@@ -20,15 +22,19 @@ public class UnoSpinControlador {
         this.modelo = modelo;
     }
 
-    public void iniciarPartida(List<JugadorResumenDTO> jugadores) throws Exception {
+    public void iniciarPartida(List<JugadorResumenDTO> jugadores) {
         modelo.iniciarJuego(jugadores);
     }
-    
-    public void robarCarta() throws Exception {
+
+    public void robarCarta(){
         modelo.robarCarta();
     }
 
-    public void jugarCarta(CartaDTO carta) throws Exception {
+    public void jugarCarta(CartaDTO carta) {
         modelo.jugarCarta(carta);
+    }
+
+    public void seleccionarColor(TipoColor color) {
+        modelo.seleccionarColor(color);
     }
 }

@@ -12,4 +12,6 @@ package MVC_JugarTurno;
 public interface ISuscriptor {
 
     public void update();
+    
+    public void notificarError(String mensaje);
 }

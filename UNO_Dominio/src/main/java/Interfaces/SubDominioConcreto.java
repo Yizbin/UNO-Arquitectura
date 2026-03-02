@@ -4,6 +4,9 @@
  */
 package Interfaces;
 
+import DTOs.CartaDTO;
+import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorResumenDTO;
 import Entidades.Carta;
 import Entidades.Jugador;
 import Entidades.Mazo;
@@ -16,11 +19,9 @@ import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
 import Mappers.CartaMapper;
 import Mappers.JugadorMapper;
-import dtos.CartaDTO;
-import dtos.JugadorResumenDTO;
 import factorys.MazoFactory;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 /**
  *
@@ -51,33 +52,14 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public void jugarCarta(JugadorResumenDTO jugadorDTO, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException {
-        Jugador jugador = jugadorMapper.toEntity(jugadorDTO);
-        Carta cartaAJugar = cartaMapper.toEntity(cartaAJugarDTO);
-
-        partida.jugarCarta(jugador, cartaAJugar);
-    }
-
-    @Override
-    public void robarCarta(JugadorResumenDTO jugadorDTO) throws MazoVacioException {
-        Jugador jugador = jugadorMapper.toEntity(jugadorDTO);
-        partida.robarCarta(jugador);
-    }
-
-    @Override
     public void elegirColorComodin(TipoColor nuevoColor) {
-        this.partida.setColorActual(colorActual);
+        this.partida.setColorActual(nuevoColor);
+        this.partida.avanzarTurno();
     }
 
     @Override
     public AccionesPosibles tirarRuleta() {
         return partida.getRuleta().girar();
-    }
-
-    @Override
-    public void gritarUno(JugadorResumenDTO jugadorDTO) {
-        Jugador jugador = jugadorMapper.toEntity(jugadorDTO);
-        partida.gritarUno(jugador);
     }
 
     @Override
@@ -109,12 +91,58 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public List<CartaDTO> obtenerManoJugadorActual() {
-        Jugador jugadorActual = partida.getJugadorActual();
+    public List<CartaDTO> obtenerManoJugador(int idJugador) {
+        for (Jugador jugador : partida.getJugadores()) {
+            if (jugador.getId() == idJugador) {
+                return cartaMapper.toDTOList(jugador.getMano());
+            }
+        }
+        return new ArrayList<>();
+    }
 
-        List<Carta> manoEntidad = jugadorActual.getMano();
+    @Override
+    public EstadoPartidaDTO obtenerEstadoPartida() {
+        EstadoPartidaDTO estadoDTO = new EstadoPartidaDTO();
+        if (this.partida != null) {
+            estadoDTO.setEsperandoColor(this.partida.isEsperandoColor());
+            if (this.partida.getJugadorActual() != null) {
+                estadoDTO.setIdJugadorEnTurno(this.partida.getJugadorActual().getId());
+            }
+        }
+        return estadoDTO;
+    }
 
-        return cartaMapper.toDTOList(manoEntidad);
+    private Jugador obtenerJugadorPorId(int idJugador) {
+        for (Jugador j : partida.getJugadores()) {
+            if (j.getId() == idJugador) {
+                return j;
+            }
+        }
+        throw new IllegalArgumentException("Jugador no encontrado con ID: " + idJugador);
+    }
+
+    @Override
+    public void jugarCarta(int idJugador, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException {
+        Jugador jugador = obtenerJugadorPorId(idJugador);
+        Carta cartaAJugar = cartaMapper.toEntity(cartaAJugarDTO);
+
+        partida.jugarCarta(jugador, cartaAJugar);
+
+        if (!partida.isEsperandoColor()) {
+            partida.avanzarTurno();
+        }
+    }
+
+    @Override
+    public void robarCarta(int idJugador) throws MazoVacioException {
+        Jugador jugador = obtenerJugadorPorId(idJugador);
+        partida.robarCarta(jugador);
+    }
+
+    @Override
+    public void gritarUno(int idJugador) {
+        Jugador jugador = obtenerJugadorPorId(idJugador);
+        partida.gritarUno(jugador);
     }
 
 }

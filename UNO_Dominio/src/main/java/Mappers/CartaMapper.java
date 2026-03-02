@@ -4,12 +4,12 @@
  */
 package Mappers;
 
+import DTOs.CartaDTO;
+import DTOs.TipoCartaDTO;
 import Entidades.Carta;
 import Entidades.CartaAccion;
 import Entidades.CartaComodin;
 import Entidades.CartaNumero;
-import dtos.CartaDTO;
-import dtos.TipoCartaDTO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

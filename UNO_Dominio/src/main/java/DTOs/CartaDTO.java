@@ -1,11 +1,17 @@
-package dtos;
-
-//@author SAUL ISAAC APODACA BALDENEGRO 00000252020
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package DTOs;
 
 import Enums.Acciones;
 import Enums.Comodines;
 import Enums.TipoColor;
 
+/**
+ *
+ * @author Abraham Coronel
+ */
 public class CartaDTO {
 
     /**
@@ -82,8 +88,26 @@ public class CartaDTO {
 
     @Override
     public String toString() {
-        return "CartaDTO{" + "tipoCarta=" + tipoCarta + ", color=" + color + ", numero=" + numero + ", acciones=" + acciones + ", comodines=" + comodines + ", rutaImagen=" + rutaImagen + '}';
-    }
+        if (tipoCarta == null) {
+            return "sin definir";
+        }
 
-    
+        switch (tipoCarta) {
+            case NUMERO -> {
+                return color + " " + numero;
+            }
+            case ACCION -> {
+                return color + " " + acciones;
+            }
+            case COMODIN -> {
+                if (color != null) {
+                    return comodines + " (" + color + ")";
+                }
+                return String.valueOf(comodines);
+            }
+            default -> {
+                return "desconocido";
+            }
+        }
+    }
 }

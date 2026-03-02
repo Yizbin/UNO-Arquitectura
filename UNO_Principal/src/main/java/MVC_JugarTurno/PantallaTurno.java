@@ -1,6 +1,8 @@
 package MVC_JugarTurno;
 
-import dtos.CartaDTO;
+import DTOs.CartaDTO;
+import DTOs.EstadoPartidaDTO;
+import Enums.TipoColor;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -17,6 +19,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     private static final int PAD_R = 10;
     private final UnoSpinControlador control;
     private final IModeloVista modelo;
+    private boolean pidiendoColor = false;
 
     public PantallaTurno(IModeloVista modelo, UnoSpinControlador control) {
         this.control = control;
@@ -160,11 +163,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     }// </editor-fold>//GEN-END:initComponents
 
     private void panelMazoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMazoMouseClicked
-        try {
-            control.robarCarta();
-        } catch (Exception ex) {
-            mostrarError(ex.getMessage());
-        }
+        control.robarCarta();
     }//GEN-LAST:event_panelMazoMouseClicked
 
     private void configurarCarruselMano(int cartasVisibles) {
@@ -208,13 +207,18 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         });
     }
 
-    private void mostrarMano(java.util.List<PanelCarta> cartas) {
+    private void mostrarMano(java.util.List<PanelCartaMano> cartas) {
+//        panelMano.removeAll();
+//
+//        for (PanelCarta c : cartas) {
+//            panelMano.add(c);
+//        }
+//
+//        ajustarAnchoMano();
         panelMano.removeAll();
-
-        for (PanelCarta c : cartas) {
+        for (PanelCartaMano c : cartas) {
             panelMano.add(c);
         }
-
         ajustarAnchoMano();
     }
 
@@ -243,11 +247,49 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         mostrarMensaje(mensaje, "Movimiento no permitido", javax.swing.JOptionPane.WARNING_MESSAGE);
     }
 
-    private List<PanelCarta> generarPanelesDeMano(List<CartaDTO> cartasDTO) {
-        List<PanelCarta> paneles = new java.util.ArrayList<>();
+    public int mostrarOpciones(String mensaje, String titulo, Object[] opciones) {
+        return JOptionPane.showOptionDialog(this, mensaje, titulo,
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, opciones, opciones[0]);
+    }
+
+    private void pedirColorUsuario() {
+        TipoColor[] colores = {
+            TipoColor.ROJO, TipoColor.AZUL,
+            TipoColor.VERDE, TipoColor.AMARILLO
+        };
+        int seleccion = mostrarOpciones("Has jugado un comodin. Selecciona el nuevo color:", "Cambio de Color", colores);
+        if (seleccion >= 0) {
+            control.seleccionarColor(colores[seleccion]);
+        }
+        pidiendoColor = false;
+    }
+
+    private List<PanelCartaMano> generarPanelesDeMano(List<CartaDTO> cartasDTO) {
+//        List<PanelCarta> paneles = new java.util.ArrayList<>();
+//
+//        for (CartaDTO cartaDTO : cartasDTO) {
+//            PanelCarta panel = new PanelCarta();
+//
+//            panel.addMouseListener(new java.awt.event.MouseAdapter() {
+//                @Override
+//                public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                    intentarJugarCarta(cartaDTO);
+//                }
+//            });
+//
+//            paneles.add(panel);
+//        }
+//        return paneles;
+        List<PanelCartaMano> paneles = new java.util.ArrayList<>();
 
         for (CartaDTO cartaDTO : cartasDTO) {
-            PanelCarta panel = new PanelCarta(cartaDTO);
+//<<<<<<< HEAD
+//            PanelCarta panel = new PanelCarta(cartaDTO);
+//=======
+            PanelCartaMano panel = new PanelCartaMano();
+            panel.setCarta(cartaDTO);   // ← dibuja la carta real
+//>>>>>>> 40ba29bac2db17be4149e8f8e495fd08f0d4ee26
 
             panel.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
@@ -262,17 +304,24 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     }
 
     private void intentarJugarCarta(CartaDTO cartaSeleccionada) {
-        try {
-            control.jugarCarta(cartaSeleccionada);
+        control.jugarCarta(cartaSeleccionada);
+        actualizarNumeroCartas();
+    }
 
-        } catch (Exception ex) {
-            mostrarError(ex.getMessage());
-        }
+    private void actualizarNumeroCartas() {
+        panelInfoJugadorPrincipal.actualizarNumeroCartas(modelo.getManoJugadorLocal().size());
     }
 
     private void actualizarCartaDescarte() {
         CartaDTO tope = modelo.getCartaEnTope();
         if (tope != null) {
+            panelDescarte.removeAll();
+            panelDescarte.setLayout(new java.awt.BorderLayout());
+            PanelCartaMano cartaVisual = new PanelCartaMano();
+            cartaVisual.setCarta(tope);
+            panelDescarte.add(cartaVisual, java.awt.BorderLayout.CENTER);
+            panelDescarte.revalidate();
+            panelDescarte.repaint();
         }
     }
 
@@ -300,13 +349,46 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
     @Override
     public void update() {
-        javax.swing.SwingUtilities.invokeLater(() -> {
-            List<CartaDTO> manoActualizada = modelo.getManoJugadorActual();
-            List<PanelCarta> cartasVisuales = generarPanelesDeMano(manoActualizada);
-            mostrarMano(cartasVisuales);
+//<<<<<<< HEAD
+//        javax.swing.SwingUtilities.invokeLater(() -> {
+//            List<CartaDTO> manoActualizada = modelo.getManoJugadorActual();
+//            List<PanelCarta> cartasVisuales = generarPanelesDeMano(manoActualizada);
+//            mostrarMano(cartasVisuales);
+//
+//            actualizarCartaDescarte();
+//        });
+//=======
+//        List<CartaDTO> manoActualizada = modelo.getManoJugadorActual();
+//
+//        List<PanelCarta> cartasVisuales = generarPanelesDeMano(manoActualizada);
+//
+//        mostrarMano(cartasVisuales);
+//
+//        actualizarCartaDescarte();
+//
+//        EstadoPartidaDTO estado = modelo.getEstado();
+//        if (estado != null && estado.isEsperandoColor()) {
+//            pedirColorUsuario();
+//        }
+        List<CartaDTO> manoActualizada = modelo.getManoJugadorLocal();
 
-            actualizarCartaDescarte();
-        });
+        List<PanelCartaMano> cartasVisuales = generarPanelesDeMano(manoActualizada);
+
+        mostrarMano(cartasVisuales);
+
+        actualizarCartaDescarte();
+
+        EstadoPartidaDTO estado = modelo.getEstado();
+        if (estado != null && estado.isEsperandoColor() && !pidiendoColor) {
+            pidiendoColor = true;
+            pedirColorUsuario();
+        }
+    }
+
+    @Override
+    public void notificarError(String mensaje) {
+        mostrarError(mensaje);
+//>>>>>>> 40ba29bac2db17be4149e8f8e495fd08f0d4ee26
     }
 
 }

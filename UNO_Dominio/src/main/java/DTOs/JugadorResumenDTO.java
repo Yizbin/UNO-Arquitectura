@@ -1,9 +1,16 @@
-package dtos;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package DTOs;
 
-//@author SAUL ISAAC APODACA BALDENEGRO 00000252020
-
+/**
+ *
+ * @author Abraham Coronel
+ */
 public class JugadorResumenDTO {
-    
+
+    private int id;
     private String nombreUsuario;
     private String rutaAvatar;
     private int cantidadDeCartas;
@@ -13,11 +20,8 @@ public class JugadorResumenDTO {
     public JugadorResumenDTO() {
     }
 
-    public JugadorResumenDTO(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    public JugadorResumenDTO(String nombreUsuario, int cantidadDeCartas, int puntos, boolean enTurno) {
+    public JugadorResumenDTO(int id, String nombreUsuario, int cantidadDeCartas, int puntos, boolean enTurno) {
+        this.id = id;
         this.nombreUsuario = nombreUsuario;
         this.cantidadDeCartas = cantidadDeCartas;
         this.puntos = puntos;
@@ -63,4 +67,13 @@ public class JugadorResumenDTO {
     public void setRutaAvatar(String rutaAvatar) {
         this.rutaAvatar = rutaAvatar;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

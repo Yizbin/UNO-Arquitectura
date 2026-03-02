@@ -4,11 +4,11 @@
  */
 package MVC_JugarTurno;
 
+import DTOs.CartaDTO;
+import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
 import Interfaces.ISubDominio;
-import dtos.CartaDTO;
-import dtos.EstadoPartidaDTO;
-import dtos.JugadorResumenDTO;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +30,10 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         this.subDominio = subDominio;
     }
 
+    public void setIdJugadorLocal(int idJugadorLocal) {
+        this.idJugadorLocal = idJugadorLocal;
+    }
+
     @Override
     public EstadoPartidaDTO getEstado() {
         return estado;
@@ -48,8 +52,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
 
     @Override
     public void robarCarta() throws Exception {
-        JugadorResumenDTO jugadorActual = subDominio.obtenerJugadorActual();
-        subDominio.robarCarta(jugadorActual);
+        subDominio.robarCarta(this.idJugadorLocal);
         this.notificar();
     }
 
@@ -60,13 +63,13 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
 
     @Override
     public void jugarCarta(CartaDTO carta) throws Exception {
-        JugadorResumenDTO jugadorActual = subDominio.obtenerJugadorActual();
-        subDominio.jugarCarta(jugadorActual, carta);
+        subDominio.jugarCarta(this.idJugadorLocal, carta);
         this.notificar();
     }
 
     @Override
     public CartaDTO getCartaEnTope() {
+        System.out.println(subDominio.obtenerCartaEnTope());
         return subDominio.obtenerCartaEnTope();
     }
 
@@ -75,16 +78,32 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         return subDominio.obtenerColorActual();
     }
 
-    //Metodo Privados
-    private void notificar() {
+    @Override
+    public List<CartaDTO> getManoJugadorLocal() {
+        return subDominio.obtenerManoJugador(this.idJugadorLocal);
+    }
+
+    @Override
+    public void notificarError(String mensaje) {
         for (ISuscriptor s : suscriptores) {
-            s.update();
+            s.notificarError(mensaje);
         }
     }
 
     @Override
-    public List<CartaDTO> getManoJugadorActual() {
-        return subDominio.obtenerManoJugadorActual();
+    public void seleccionarColor(TipoColor color) throws Exception {
+        subDominio.elegirColorComodin(color);
+        this.notificar();
+    }
+
+    //Metodo Privados
+    private void notificar() {
+        if (subDominio != null) {
+            this.estado = subDominio.obtenerEstadoPartida();
+        }
+        for (ISuscriptor s : suscriptores) {
+            s.update();
+        }
     }
 
 }

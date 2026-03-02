@@ -13,11 +13,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>Presentacion-Adapters</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>UNO_Dominio</artifactId>
             <version>${project.version}</version>
         </dependency>

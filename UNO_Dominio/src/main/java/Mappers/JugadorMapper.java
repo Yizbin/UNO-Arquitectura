@@ -4,8 +4,8 @@
  */
 package Mappers;
 
+import DTOs.JugadorResumenDTO;
 import Entidades.Jugador;
-import dtos.JugadorResumenDTO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +22,8 @@ public class JugadorMapper {
         }
 
         JugadorResumenDTO dto = new JugadorResumenDTO();
+
+        dto.setId(jugador.getId());
 
         dto.setNombreUsuario(jugador.getUsuario());
 
@@ -49,7 +51,8 @@ public class JugadorMapper {
         if (dto == null) {
             return null;
         }
-        Jugador jugador = new Jugador(dto.getNombreUsuario(), "avatar_por_defecto.png");
+
+        Jugador jugador = new Jugador(dto.getId(), dto.getNombreUsuario(), "avatar_por_defecto.png");
 
         return jugador;
     }
