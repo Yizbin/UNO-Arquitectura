@@ -5,6 +5,8 @@
 package MVC_JugarTurno;
 
 import dtos.CartaDTO;
+import dtos.JugadorResumenDTO;
+import java.util.List;
 
 /**
  *
@@ -18,6 +20,10 @@ public class UnoSpinControlador {
         this.modelo = modelo;
     }
 
+    public void iniciarPartida(List<JugadorResumenDTO> jugadores) throws Exception {
+        modelo.iniciarJuego(jugadores);
+    }
+    
     public void robarCarta() throws Exception {
         modelo.robarCarta();
     }

@@ -5,11 +5,16 @@ package dtos;
 public class JugadorResumenDTO {
     
     private String nombreUsuario;
+    private String rutaAvatar;
     private int cantidadDeCartas;
     private int puntos;
     private boolean enTurno;
 
     public JugadorResumenDTO() {
+    }
+
+    public JugadorResumenDTO(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
     public JugadorResumenDTO(String nombreUsuario, int cantidadDeCartas, int puntos, boolean enTurno) {
@@ -50,6 +55,12 @@ public class JugadorResumenDTO {
     public void setEnTurno(boolean enTurno) {
         this.enTurno = enTurno;
     }
-    
-    
+
+    public String getRutaAvatar() {
+        return rutaAvatar;
+    }
+
+    public void setRutaAvatar(String rutaAvatar) {
+        this.rutaAvatar = rutaAvatar;
+    }
 }

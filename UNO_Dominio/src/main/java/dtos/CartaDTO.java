@@ -80,4 +80,10 @@ public class CartaDTO {
         this.rutaImagen = rutaImagen;
     }
 
+    @Override
+    public String toString() {
+        return "CartaDTO{" + "tipoCarta=" + tipoCarta + ", color=" + color + ", numero=" + numero + ", acciones=" + acciones + ", comodines=" + comodines + ", rutaImagen=" + rutaImagen + '}';
+    }
+
+    
 }

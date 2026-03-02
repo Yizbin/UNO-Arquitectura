@@ -28,6 +28,8 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
         configurarCarruselMano(7);
         ajustarAnchoMano();
+        
+        
 
     }
 
@@ -245,7 +247,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         List<PanelCarta> paneles = new java.util.ArrayList<>();
 
         for (CartaDTO cartaDTO : cartasDTO) {
-            PanelCarta panel = new PanelCarta();
+            PanelCarta panel = new PanelCarta(cartaDTO);
 
             panel.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
@@ -298,13 +300,13 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
     @Override
     public void update() {
-        List<CartaDTO> manoActualizada = modelo.getManoJugadorActual();
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            List<CartaDTO> manoActualizada = modelo.getManoJugadorActual();
+            List<PanelCarta> cartasVisuales = generarPanelesDeMano(manoActualizada);
+            mostrarMano(cartasVisuales);
 
-        List<PanelCarta> cartasVisuales = generarPanelesDeMano(manoActualizada);
-
-        mostrarMano(cartasVisuales);
-
-        actualizarCartaDescarte();
+            actualizarCartaDescarte();
+        });
     }
 
 }

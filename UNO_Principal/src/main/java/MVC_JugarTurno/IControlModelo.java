@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface IControlModelo {
 
-    public void iniciarPartida(List<JugadorResumenDTO> jugadores) throws Exception;
+    public void iniciarJuego(List<JugadorResumenDTO> jugadores) throws Exception;
 
     public void robarCarta() throws Exception;
 

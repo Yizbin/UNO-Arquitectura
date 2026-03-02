@@ -41,9 +41,9 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
     }
 
     @Override
-    public void iniciarPartida(List<JugadorResumenDTO> jugadores) throws Exception {
+    public void iniciarJuego(List<JugadorResumenDTO> jugadores) throws Exception {
         subDominio.prepararJuego(jugadores);
-        this.notificar();
+        notificar();
     }
 
     @Override

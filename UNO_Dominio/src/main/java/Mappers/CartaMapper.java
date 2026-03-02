@@ -25,31 +25,23 @@ public class CartaMapper {
             return null;
         }
 
-        CartaDTO dto = new CartaDTO();
-
-        switch (carta) {
-            case CartaNumero cartaNum -> {
-                dto.setTipoCarta(TipoCartaDTO.NUMERO);
-                dto.setNumero(cartaNum.getNumero());
-                dto.setColor(cartaNum.getColor());
-                
-            }
-            case CartaAccion cartaAcc -> {
-                dto.setTipoCarta(TipoCartaDTO.ACCION);
-                dto.setAcciones(cartaAcc.getTipoAccion());
-                dto.setColor(cartaAcc.getColor());
-                
-            }
-            case CartaComodin cartaCom -> {
-                dto.setTipoCarta(TipoCartaDTO.COMODIN);
-                dto.setComodines(cartaCom.getTipoComodin());
-                dto.setColor(cartaCom.getColorElegido());
-            }
-            default -> {
-            }
+        if (carta instanceof CartaNumero numero) {
+            return new CartaDTO(TipoCartaDTO.NUMERO,
+                    numero.getColor(), numero.getNumero(),
+                    null, null, null); //CAMBIAR LA RUTA DESPUES
+        }
+        if (carta instanceof CartaAccion accion) {
+            return new CartaDTO(TipoCartaDTO.ACCION,
+                    accion.getColor(), null,
+                    accion.getTipoAccion(), null, null); //CAMBIAR LA RUTA DESPUES
+        }
+        if (carta instanceof CartaComodin comodin) {
+            return new CartaDTO(TipoCartaDTO.COMODIN, null,
+                    null, null, comodin.getTipoComodin(),
+                    null); //CAMBIAR LA RUTA DESPUES
         }
 
-        return dto;
+        throw new IllegalArgumentException("EL TIPO DE CARTA NO FUE IDENTIFICADO");
     }
 
     public List<CartaDTO> toDTOList(List<Carta> cartas) {
