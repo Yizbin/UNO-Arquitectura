@@ -3,10 +3,9 @@ package MVC_JugarTurno;
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import Enums.TipoColor;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 
 /**
  *
@@ -198,7 +197,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
     private void configurarEventosScroll() {
         scrollMano.addMouseWheelListener(e -> {
-            javax.swing.JScrollBar bar = scrollMano.getHorizontalScrollBar();
+            JScrollBar bar = scrollMano.getHorizontalScrollBar();
             bar.setValue(bar.getValue() + e.getWheelRotation() * 45);
             e.consume();
         });
