@@ -8,11 +8,13 @@ import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import Entidades.Carta;
+import Entidades.CartaAccion;
 import Entidades.CartaComodin;
 import Entidades.CartaNumero;
 import Entidades.Jugador;
 import Entidades.Mazo;
 import Entidades.Partida;
+import Enums.Acciones;
 import Enums.AccionesPosibles;
 import Enums.Comodines;
 import Enums.TipoColor;
@@ -54,7 +56,7 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public void elegirColorComodin(TipoColor nuevoColor) {
+    public void elegirColorComodin(TipoColor nuevoColor) throws MazoVacioException {
         this.partida.setColorActual(nuevoColor);
         this.partida.avanzarTurno();
     }
@@ -112,6 +114,14 @@ public class SubDominioConcreto implements ISubDominio {
         mazoNuevo.push(new CartaComodin(Comodines.CAMBIO_COLOR));
         mazoNuevo.push(new CartaComodin(Comodines.TOMA_CUATRO));
         mazoNuevo.push(new CartaComodin(Comodines.TOMA_CUATRO));
+        TipoColor[] colores = {TipoColor.ROJO, TipoColor.AMARILLO, TipoColor.AZUL, TipoColor.VERDE};
+        for (TipoColor color : colores) {
+            for (int i = 0; i < 2; i++) { 
+                mazoNuevo.push(new CartaAccion(Acciones.TOMA_DOS, color));
+                mazoNuevo.push(new CartaAccion(Acciones.REVERSA, color));
+                mazoNuevo.push(new CartaAccion(Acciones.SALTA, color));
+            }
+        }
 
         return mazoNuevo;
     }
@@ -148,7 +158,7 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public void jugarCarta(int idJugador, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException {
+    public void jugarCarta(int idJugador, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException {
         Jugador jugador = obtenerJugadorPorId(idJugador);
         Carta cartaAJugar = cartaMapper.toEntity(cartaAJugarDTO);
 

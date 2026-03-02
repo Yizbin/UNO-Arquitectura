@@ -4,6 +4,7 @@
  */
 package Entidades;
 
+import Enums.Comodines;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
@@ -47,15 +48,18 @@ public class Partida {
         }
         Carta primeraCarta = mazo.sacarCarta();
         descarte.apilarCarta(primeraCarta);
-        
+
         switch (primeraCarta) {
-            case CartaNumero cartaNumero -> this.colorActual = cartaNumero.getColor();
-            case CartaAccion cartaAccion -> this.colorActual = cartaAccion.getColor();
-            default -> this.colorActual = TipoColor.NINGUNO;
+            case CartaNumero cartaNumero ->
+                this.colorActual = cartaNumero.getColor();
+            case CartaAccion cartaAccion ->
+                this.colorActual = cartaAccion.getColor();
+            default ->
+                this.colorActual = TipoColor.NINGUNO;
         }
     }
 
-    public void jugarCarta(Jugador jugador, Carta cartaAJugar) throws ValidarManoException, ValidarTurnoException, JugadaValidaException {
+    public void jugarCarta(Jugador jugador, Carta cartaAJugar) throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException {
         if (!jugador.equals(this.getJugadorActual())) {
             throw new ValidarTurnoException("No es el turno de este jugador.");
         }
@@ -73,6 +77,7 @@ public class Partida {
             this.colorActual = cartaNumero.getColor();
         } else if (cartaJugada instanceof CartaAccion cartaAccion) {
             this.colorActual = cartaAccion.getColor();
+            aplicarEfectoAccion(cartaAccion);
         } else if (cartaJugada instanceof CartaComodin) {
             this.esperandoColor = true;
         }
@@ -122,12 +127,48 @@ public class Partida {
         }
     }
 
+    public void aplicarCastigo(Jugador jugador, int cantidad) throws MazoVacioException {
+        for (int i = 0; i < cantidad; i++) {
+            jugador.robarCarta(obtenerCartaDelMazo());
+        }
+    }
+
+    public void procesarColorComodin(TipoColor nuevoColor) throws MazoVacioException {
+        this.colorActual = nuevoColor;
+        this.esperandoColor = false;
+
+        Carta tope = this.descarte.getTope();
+
+        if (tope instanceof CartaComodin c) {
+            System.out.println("Comodin en tope es: " + c.getTipoComodin());
+        }
+
+        if (tope instanceof CartaComodin cartaComodin && cartaComodin.getTipoComodin() == Enums.Comodines.TOMA_CUATRO) {
+            System.out.println("¡Aplicando castigo de +4!");
+            avanzarTurno();
+            aplicarCastigo(getJugadorActual(), 4);
+        }
+    }
+
     //Metodos Privados
     private Carta obtenerCartaDelMazo() throws MazoVacioException {
         if (mazo.estaVacio()) {
             mazo.rellenar(descarte.vaciarParaRellenarMazo());
         }
         return mazo.sacarCarta();
+    }
+
+    private void aplicarEfectoAccion(CartaAccion carta) throws MazoVacioException {
+        switch (carta.getTipoAccion()) {
+            case REVERSA ->
+                invertirSentido();
+            case SALTA ->
+                avanzarTurno();
+            case TOMA_DOS -> {
+                avanzarTurno();
+                aplicarCastigo(getJugadorActual(), 2);
+            }
+        }
     }
 
     public List<Jugador> getJugadores() {
@@ -215,7 +256,5 @@ public class Partida {
         final Partida other = (Partida) obj;
         return Objects.equals(this.jugadores, other.jugadores);
     }
-    
-    
 
 }

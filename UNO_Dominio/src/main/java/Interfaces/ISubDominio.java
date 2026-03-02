@@ -24,13 +24,13 @@ public interface ISubDominio {
     public void prepararJuego(List<JugadorResumenDTO> jugadoresDTO) throws MazoVacioException;
 
     //Intenta jugar una carta de la mano del jugador actual hacia el descarte
-    public void jugarCarta(int idJugador, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException;
+    public void jugarCarta(int idJugador, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException;
 
     //Hace que el jugador actual robe una carta del mazo
     public void robarCarta(int idJugador) throws MazoVacioException;
 
     //Define el nuevo color en juego cuando un jugador tira un comodín
-    public void elegirColorComodin(TipoColor nuevoColor);
+    public void elegirColorComodin(TipoColor nuevoColor) throws MazoVacioException;
 
     //Gira la ruleta y devuelve la acción que debe realizarse (cuando se tira una carta Spin)
     public AccionesPosibles tirarRuleta();
