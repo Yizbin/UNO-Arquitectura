@@ -305,7 +305,6 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
     private void intentarJugarCarta(CartaDTO cartaSeleccionada) {
         control.jugarCarta(cartaSeleccionada);
-        actualizarNumeroCartas();
     }
 
     private void actualizarNumeroCartas() {
@@ -371,12 +370,15 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 //            pedirColorUsuario();
 //        }
         List<CartaDTO> manoActualizada = modelo.getManoJugadorLocal();
-
         List<PanelCartaMano> cartasVisuales = generarPanelesDeMano(manoActualizada);
-
         mostrarMano(cartasVisuales);
 
         actualizarCartaDescarte();
+
+        actualizarNumeroCartas();
+
+        this.revalidate();
+        this.repaint();
 
         EstadoPartidaDTO estado = modelo.getEstado();
         if (estado != null && estado.isEsperandoColor() && !pidiendoColor) {

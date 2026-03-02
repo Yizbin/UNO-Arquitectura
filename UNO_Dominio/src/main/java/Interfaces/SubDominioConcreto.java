@@ -52,7 +52,7 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public void elegirColorComodin(TipoColor nuevoColor) {
+    public void elegirColorComodin(TipoColor nuevoColor) throws MazoVacioException {
         this.partida.setColorActual(nuevoColor);
         this.partida.avanzarTurno();
     }
@@ -122,7 +122,7 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public void jugarCarta(int idJugador, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException {
+    public void jugarCarta(int idJugador, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException {
         Jugador jugador = obtenerJugadorPorId(idJugador);
         Carta cartaAJugar = cartaMapper.toEntity(cartaAJugarDTO);
 
