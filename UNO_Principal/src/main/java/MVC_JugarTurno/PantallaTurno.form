@@ -226,9 +226,6 @@
                     <Component class="MVC_JugarTurno.PanelCarta" name="panelDescarte">
                     </Component>
                     <Component class="MVC_JugarTurno.PanelCarta" name="panelMazo">
-                      <Events>
-                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panelMazoMouseClicked"/>
-                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
