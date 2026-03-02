@@ -83,7 +83,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         notificar();
     }
 
-    @Override
+
     public void agregarSuscriptor(ISuscriptor suscriptor) {
         suscriptores.add(suscriptor);
     }

@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface IModeloVista {
 
-    public void agregarSuscriptor(ISuscriptor suscriptor);
+  
 
     public int getIdJugadorLocal();
 
