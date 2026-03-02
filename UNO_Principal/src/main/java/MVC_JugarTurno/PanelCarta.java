@@ -4,7 +4,7 @@
  */
 package MVC_JugarTurno;
 
-import DTOs.CartaDTO;
+import java.awt.event.MouseListener;
 
 /**
  *
@@ -12,18 +12,8 @@ import DTOs.CartaDTO;
  */
 public class PanelCarta extends javax.swing.JPanel {
 
-    private CartaDTO carta;
-
     public PanelCarta() {
         initComponents();
-    }
-    
-    /**
-     * Creates new form PanelCarta
-     */
-    public PanelCarta(CartaDTO cartaDTO) {
-        initComponents();
-        this.carta= cartaDTO;
     }
 
     /**
@@ -43,20 +33,14 @@ public class PanelCarta extends javax.swing.JPanel {
         lblImgCarta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblImgCarta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/unoCard.png"))); // NOI18N
         lblImgCarta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        lblImgCarta.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblImgCartaMouseClicked(evt);
-            }
-        });
         add(lblImgCarta, java.awt.BorderLayout.CENTER);
 
         getAccessibleContext().setAccessibleName("panelCarta");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lblImgCartaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblImgCartaMouseClicked
-        System.out.println(carta.toString());
-    }//GEN-LAST:event_lblImgCartaMouseClicked
-
+    public void agregarClickListener(MouseListener listener) {
+        lblImgCarta.addMouseListener(listener);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblImgCarta;

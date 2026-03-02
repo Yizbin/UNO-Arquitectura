@@ -3,6 +3,8 @@ package MVC_JugarTurno;
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import Enums.TipoColor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -163,7 +165,12 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     }// </editor-fold>//GEN-END:initComponents
 
     private void panelMazoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMazoMouseClicked
-        control.robarCarta();
+        panelMazo.agregarClickListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                control.robarCarta();
+            }
+        });
     }//GEN-LAST:event_panelMazoMouseClicked
 
     private void configurarCarruselMano(int cartasVisibles) {
