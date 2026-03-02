@@ -4,7 +4,7 @@
  */
 package MVC_JugarTurno;
 
-import dtos.CartaDTO;
+import DTOs.CartaDTO;
 
 /**
  *

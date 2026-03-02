@@ -4,9 +4,9 @@
  */
 package MVC_JugarTurno;
 
-import DTOs.CartaDTO;
 import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
+import DTOs.CartaDTO;
 import java.util.List;
 
 /**
@@ -15,14 +15,12 @@ import java.util.List;
  */
 public interface IControlModelo {
 
-    public void iniciarJuego(List<JugadorResumenDTO> jugadores) throws Exception;
+    public void iniciarJuego(List<JugadorResumenDTO> jugadores);
 
-    public void robarCarta() throws Exception;
+    public void robarCarta();
 
-    public void jugarCarta(CartaDTO carta) throws Exception;
+    public void jugarCarta(CartaDTO carta);
     
-    public void notificarError(String mensaje);
-    
-    public void seleccionarColor(TipoColor color) throws Exception;
+    public void seleccionarColor(TipoColor color);
 
 }

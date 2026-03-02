@@ -6,9 +6,13 @@ package MVC_JugarTurno;
 
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
-import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
 import Interfaces.ISubDominio;
+import DTOs.JugadorResumenDTO;
+import Excepciones.JugadaValidaException;
+import Excepciones.MazoVacioException;
+import Excepciones.ValidarManoException;
+import Excepciones.ValidarTurnoException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +29,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
     private EstadoPartidaDTO estado;
 
     private int idJugadorLocal;
+    
 
     public ModeloJuego(ISubDominio subDominio) {
         this.subDominio = subDominio;
@@ -45,15 +50,37 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
     }
 
     @Override
-    public void iniciarJuego(List<JugadorResumenDTO> jugadores) throws Exception {
-        subDominio.prepararJuego(jugadores);
+    public void iniciarJuego(List<JugadorResumenDTO> jugadores) {
+        String mensaje = null;
+
+        try {
+            subDominio.prepararJuego(jugadores);
+        } catch (MazoVacioException e) {
+            mensaje = e.getMessage();
+        }
+
+        refrescarEstado();
+        if (mensaje != null) {
+            estado.setMensajeEstado(mensaje);
+        }
         notificar();
     }
 
     @Override
-    public void robarCarta() throws Exception {
-        subDominio.robarCarta(this.idJugadorLocal);
-        this.notificar();
+    public void robarCarta() {
+        String mensaje = null;
+
+        try {
+            subDominio.robarCarta(this.idJugadorLocal);
+        } catch (MazoVacioException e) {
+            mensaje = e.getMessage();
+        }
+
+        refrescarEstado();
+        if (mensaje != null) {
+            estado.setMensajeEstado(mensaje);
+        }
+        notificar();
     }
 
     @Override
@@ -62,9 +89,20 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
     }
 
     @Override
-    public void jugarCarta(CartaDTO carta) throws Exception {
-        subDominio.jugarCarta(this.idJugadorLocal, carta);
-        this.notificar();
+    public void jugarCarta(CartaDTO carta) {
+        String mensaje = null;
+
+        try {
+            subDominio.jugarCarta(this.idJugadorLocal, carta);
+        } catch (ValidarManoException | ValidarTurnoException | JugadaValidaException | MazoVacioException e) {
+            mensaje = e.getMessage();
+        }
+
+        refrescarEstado(); //refrescar siempre
+        if (mensaje != null) {
+            estado.setMensajeEstado(mensaje);
+        }
+        notificar();       
     }
 
     @Override
@@ -84,25 +122,35 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
     }
 
     @Override
-    public void notificarError(String mensaje) {
-        for (ISuscriptor s : suscriptores) {
-            s.notificarError(mensaje);
+    public void seleccionarColor(TipoColor color){
+        String mensaje = null;
+        
+        try{
+            subDominio.elegirColorComodin(color);
+        } catch (MazoVacioException e) {
+            mensaje = e.getMessage();
         }
-    }
-
-    @Override
-    public void seleccionarColor(TipoColor color) throws Exception {
-        subDominio.elegirColorComodin(color);
-        this.notificar();
+        
+        refrescarEstado();
+        if (mensaje != null){
+            estado.setMensajeEstado(mensaje);
+        }
+        notificar();
     }
 
     //Metodo Privados
     private void notificar() {
-        if (subDominio != null) {
-            this.estado = subDominio.obtenerEstadoPartida();
-        }
         for (ISuscriptor s : suscriptores) {
             s.update();
+        }
+    }
+
+    private void refrescarEstado() {
+        if (subDominio != null) {
+            this.estado = subDominio.obtenerEstadoPartida();
+            if (this.estado == null) {
+                this.estado = new EstadoPartidaDTO();
+            }
         }
     }
 
