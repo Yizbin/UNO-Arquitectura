@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Entidades;
 
 import Enums.Comodines;
@@ -29,7 +25,7 @@ public class Partida {
     private boolean esperandoColor;
 
     public Partida(List<Jugador> jugadores, Mazo mazo) {
-        this.jugadores = jugadores;
+        this.jugadores = List.copyOf(jugadores);
         this.mazo = mazo;
         this.descarte = new Descarte();
         this.ruleta = new Ruleta();
@@ -39,56 +35,55 @@ public class Partida {
         this.esperandoColor = false;
     }
 
-    //Crea la partida
     public void iniciarPartida() throws MazoVacioException {
         for (int i = 0; i < 7; i++) {
             for (Jugador jugador : jugadores) {
                 jugador.robarCarta(mazo.sacarCarta());
             }
         }
+
         Carta primeraCarta = mazo.sacarCarta();
         descarte.apilarCarta(primeraCarta);
 
         switch (primeraCarta) {
-            case CartaNumero cartaNumero ->
-                this.colorActual = cartaNumero.getColor();
-            case CartaAccion cartaAccion ->
-                this.colorActual = cartaAccion.getColor();
-            default ->
-                this.colorActual = TipoColor.NINGUNO;
+            case CartaNumero cartaNumero -> this.colorActual = cartaNumero.getColor();
+            case CartaAccion cartaAccion -> this.colorActual = cartaAccion.getColor();
+            default -> this.colorActual = TipoColor.NINGUNO;
         }
     }
 
-    public void jugarCarta(Jugador jugador, Carta cartaAJugar) throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException {
-        if (!jugador.equals(this.getJugadorActual())) {
-            throw new ValidarTurnoException("No es el turno de este jugador.");
-        }
+    public void jugarCarta(Jugador jugador, Carta cartaAJugar)
+            throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException {
+        validarTurno(jugador);
 
         Carta cartaEnTope = this.descarte.getTope();
         if (!cartaAJugar.esJugableSobre(cartaEnTope, this.colorActual)) {
             throw new JugadaValidaException("Jugada invalida. La carta no coincide en color o simbolo.");
         }
 
-        Jugador jugadorReal = this.getJugadorActual();
-        Carta cartaJugada = jugadorReal.jugarCarta(cartaAJugar);
+        Carta cartaJugada = this.getJugadorActual().jugarCarta(cartaAJugar);
         this.descarte.apilarCarta(cartaJugada);
 
         if (cartaJugada instanceof CartaNumero cartaNumero) {
             this.colorActual = cartaNumero.getColor();
-        } else if (cartaJugada instanceof CartaAccion cartaAccion) {
+            avanzarTurno();
+            return;
+        }
+
+        if (cartaJugada instanceof CartaAccion cartaAccion) {
             this.colorActual = cartaAccion.getColor();
             aplicarEfectoAccion(cartaAccion);
-        } else if (cartaJugada instanceof CartaComodin) {
+            return;
+        }
+
+        if (cartaJugada instanceof CartaComodin) {
             this.esperandoColor = true;
         }
     }
 
-    public void robarCarta(Jugador jugador) throws MazoVacioException {
-        if (!jugador.equals(this.getJugadorActual())) {
-            throw new IllegalStateException("No es el turno de este jugador.");
-        }
-        Carta robada = mazo.sacarCarta();
-        this.getJugadorActual().robarCarta(robada);
+    public void robarCarta(Jugador jugador) throws MazoVacioException, ValidarTurnoException {
+        validarTurno(jugador);
+        this.getJugadorActual().robarCarta(obtenerCartaDelMazo());
     }
 
     public void gritarUno(Jugador jugador) {
@@ -100,12 +95,10 @@ public class Partida {
         }
     }
 
-    //Retorna el jugador con el turno actual
     public Jugador getJugadorActual() {
         return jugadores.get(indiceTurnoActual);
     }
 
-    //Calcula el siguente turno, vi un ejemplo y creo que es asi xd
     public void avanzarTurno() {
         if (sentidoHorario) {
             indiceTurnoActual = (indiceTurnoActual + 1) % jugadores.size();
@@ -114,12 +107,10 @@ public class Partida {
         }
     }
 
-    //Esto esta por la carta que cambia el sentido de los turnos
     public void invertirSentido() {
         this.sentidoHorario = !this.sentidoHorario;
     }
 
-    //Este metodo esta por verse porque depende de como lo manejemos, pero basicamente lo castiga si no grita uno
     public void penalizarJugador(Jugador jugador) throws MazoVacioException {
         if (jugador.esVulnerableAlCastigo()) {
             jugador.robarCarta(obtenerCartaDelMazo());
@@ -138,19 +129,19 @@ public class Partida {
         this.esperandoColor = false;
 
         Carta tope = this.descarte.getTope();
-
-        if (tope instanceof CartaComodin c) {
-            System.out.println("Comodin en tope es: " + c.getTipoComodin());
-        }
-
-        if (tope instanceof CartaComodin cartaComodin && cartaComodin.getTipoComodin() == Enums.Comodines.TOMA_CUATRO) {
-            System.out.println("¡Aplicando castigo de +4!");
+        if (tope instanceof CartaComodin cartaComodin && cartaComodin.getTipoComodin() == Comodines.TOMA_CUATRO) {
             avanzarTurno();
             aplicarCastigo(getJugadorActual(), 4);
         }
+        avanzarTurno();
     }
 
-    //Metodos Privados
+    private void validarTurno(Jugador jugador) throws ValidarTurnoException {
+        if (!jugador.equals(this.getJugadorActual())) {
+            throw new ValidarTurnoException("No es el turno de este jugador.");
+        }
+    }
+
     private Carta obtenerCartaDelMazo() throws MazoVacioException {
         if (mazo.estaVacio()) {
             mazo.rellenar(descarte.vaciarParaRellenarMazo());
@@ -160,23 +151,28 @@ public class Partida {
 
     private void aplicarEfectoAccion(CartaAccion carta) throws MazoVacioException {
         switch (carta.getTipoAccion()) {
-            case REVERSA ->
+            case REVERSA -> {
                 invertirSentido();
-            case SALTA ->
                 avanzarTurno();
+            }
+            case SALTA -> {
+                avanzarTurno();
+                avanzarTurno();
+            }
             case TOMA_DOS -> {
                 avanzarTurno();
                 aplicarCastigo(getJugadorActual(), 2);
+                avanzarTurno();
             }
         }
     }
 
     public List<Jugador> getJugadores() {
-        return jugadores;
+        return List.copyOf(jugadores);
     }
 
     public void setJugadores(List<Jugador> jugadores) {
-        this.jugadores = jugadores;
+        this.jugadores = List.copyOf(jugadores);
     }
 
     public Mazo getMazo() {
@@ -238,8 +234,7 @@ public class Partida {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        return hash;
+        return Objects.hash(jugadores, indiceTurnoActual, sentidoHorario, colorActual, esperandoColor);
     }
 
     @Override
@@ -247,14 +242,14 @@ public class Partida {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final Partida other = (Partida) obj;
-        return Objects.equals(this.jugadores, other.jugadores);
+        return indiceTurnoActual == other.indiceTurnoActual
+                && sentidoHorario == other.sentidoHorario
+                && esperandoColor == other.esperandoColor
+                && Objects.equals(jugadores, other.jugadores)
+                && Objects.equals(colorActual, other.colorActual);
     }
-
 }

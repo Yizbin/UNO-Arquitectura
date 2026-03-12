@@ -317,29 +317,31 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
     @Override
     public void update() {
-        List<CartaDTO> manoActualizada = modelo.getManoJugadorLocal();
+        EstadoPartidaDTO estado = modelo.getEstado();
+        if (estado == null) {
+            return;
+        }
+
+        List<CartaDTO> manoActualizada = estado.getManoJugadorActual() != null
+                ? estado.getManoJugadorActual()
+                : List.of();
         List<PanelCartaMano> cartasVisuales = generarPanelesDeMano(manoActualizada);
         mostrarMano(cartasVisuales);
 
         actualizarCartaDescarte();
-
         actualizarNumeroCartas();
 
         this.revalidate();
         this.repaint();
 
-        EstadoPartidaDTO estado = modelo.getEstado();
-        if (estado != null) {
-            String msg = estado.getMensajeEstado();
-            if (msg != null && !msg.isBlank()) {
-                mostrarError(msg);
-                estado.setMensajeEstado(null); // para que no se repita cada update
-            }
+        String msg = modelo.consumirMensajePendiente();
+        if (msg != null && !msg.isBlank()) {
+            mostrarError(msg);
+        }
 
-            if (estado.isEsperandoColor() && !pidiendoColor) {
-                pidiendoColor = true;
-                pedirColorUsuario();
-            }
+        if (estado.isEsperandoColor() && !pidiendoColor && estado.getIdJugadorEnTurno() == modelo.getIdJugadorLocal()) {
+            pidiendoColor = true;
+            pedirColorUsuario();
         }
 
     }

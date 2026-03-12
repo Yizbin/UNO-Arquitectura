@@ -26,4 +26,6 @@ public interface IModeloVista {
     public TipoColor getColorActual();
     
     public List<CartaDTO> getManoJugadorLocal();
+
+    public String consumirMensajePendiente();
 }

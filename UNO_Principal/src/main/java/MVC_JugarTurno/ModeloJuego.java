@@ -29,6 +29,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
     private EstadoPartidaDTO estado;
 
     private int idJugadorLocal;
+    private String mensajePendiente;
     
 
     public ModeloJuego(ISubDominio subDominio) {
@@ -41,6 +42,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
 
     @Override
     public EstadoPartidaDTO getEstado() {
+        refrescarEstado();
         return estado;
     }
 
@@ -60,9 +62,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         }
 
         refrescarEstado();
-        if (mensaje != null) {
-            estado.setMensajeEstado(mensaje);
-        }
+        asignarMensajeLocal(mensaje);
         notificar();
     }
 
@@ -72,14 +72,12 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
 
         try {
             subDominio.robarCarta(this.idJugadorLocal);
-        } catch (MazoVacioException e) {
+        } catch (MazoVacioException | ValidarTurnoException e) {
             mensaje = e.getMessage();
         }
 
         refrescarEstado();
-        if (mensaje != null) {
-            estado.setMensajeEstado(mensaje);
-        }
+        asignarMensajeLocal(mensaje);
         notificar();
     }
 
@@ -99,16 +97,13 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         }
 
         refrescarEstado(); //refrescar siempre
-        if (mensaje != null) {
-            estado.setMensajeEstado(mensaje);
-        }
+        asignarMensajeLocal(mensaje);
         notificar();       
     }
 
     @Override
     public CartaDTO getCartaEnTope() {
-        System.out.println(subDominio.obtenerCartaEnTope());
-        return subDominio.obtenerCartaEnTope();
+        return estado != null ? estado.getCartaEnDescarte() : null;
     }
 
     @Override
@@ -118,7 +113,16 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
 
     @Override
     public List<CartaDTO> getManoJugadorLocal() {
-        return subDominio.obtenerManoJugador(this.idJugadorLocal);
+        return (estado != null && estado.getManoJugadorActual() != null)
+                ? estado.getManoJugadorActual()
+                : List.of();
+    }
+
+    @Override
+    public String consumirMensajePendiente() {
+        String mensaje = this.mensajePendiente;
+        this.mensajePendiente = null;
+        return mensaje;
     }
 
     @Override
@@ -132,9 +136,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         }
         
         refrescarEstado();
-        if (mensaje != null){
-            estado.setMensajeEstado(mensaje);
-        }
+        asignarMensajeLocal(mensaje);
         notificar();
     }
 
@@ -151,6 +153,17 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
             if (this.estado == null) {
                 this.estado = new EstadoPartidaDTO();
             }
+            this.estado.setManoJugadorActual(subDominio.obtenerManoJugador(this.idJugadorLocal));
+            this.estado.setCartaEnDescarte(subDominio.obtenerCartaEnTope());
+        }
+    }
+
+    private void asignarMensajeLocal(String mensaje) {
+        if (mensaje != null && !mensaje.isBlank()) {
+            this.mensajePendiente = mensaje;
+        }
+        if (mensaje != null && !mensaje.isBlank() && this.estado != null) {
+            this.estado.setMensajeEstado(mensaje);
         }
     }
 

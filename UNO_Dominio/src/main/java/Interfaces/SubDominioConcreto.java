@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Interfaces;
 
 import DTOs.CartaDTO;
@@ -30,7 +26,6 @@ import java.util.List;
 public class SubDominioConcreto implements ISubDominio {
 
     private Partida partida;
-    private TipoColor colorActual;
     private final CartaMapper cartaMapper;
     private final JugadorMapper jugadorMapper;
     private final MazoFactory mazoFactory;
@@ -44,7 +39,6 @@ public class SubDominioConcreto implements ISubDominio {
     @Override
     public void prepararJuego(List<JugadorResumenDTO> jugadoresDTO) throws MazoVacioException {
         List<Jugador> jugadores = jugadorMapper.toEntityList(jugadoresDTO);
-
         Mazo mazo = generarMazoCompleto();
 
         this.partida = new Partida(jugadores, mazo);
@@ -53,8 +47,7 @@ public class SubDominioConcreto implements ISubDominio {
 
     @Override
     public void elegirColorComodin(TipoColor nuevoColor) throws MazoVacioException {
-        this.partida.setColorActual(nuevoColor);
-        this.partida.avanzarTurno();
+        this.partida.procesarColorComodin(nuevoColor);
     }
 
     @Override
@@ -87,7 +80,7 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     private Mazo generarMazoCompleto() {
-         return mazoFactory.crear();
+        return mazoFactory.crear();
     }
 
     @Override
@@ -104,7 +97,10 @@ public class SubDominioConcreto implements ISubDominio {
     public EstadoPartidaDTO obtenerEstadoPartida() {
         EstadoPartidaDTO estadoDTO = new EstadoPartidaDTO();
         if (this.partida != null) {
+            estadoDTO.setJugadores(jugadorMapper.toDTOList(this.partida.getJugadores()));
             estadoDTO.setEsperandoColor(this.partida.isEsperandoColor());
+            estadoDTO.setCartaEnDescarte(cartaMapper.toDTO(this.partida.getDescarte().getTope()));
+            estadoDTO.setRuletaActiva(false);
             if (this.partida.getJugadorActual() != null) {
                 estadoDTO.setIdJugadorEnTurno(this.partida.getJugadorActual().getId());
             }
@@ -122,19 +118,15 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public void jugarCarta(int idJugador, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException {
+    public void jugarCarta(int idJugador, CartaDTO cartaAJugarDTO)
+            throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException {
         Jugador jugador = obtenerJugadorPorId(idJugador);
         Carta cartaAJugar = cartaMapper.toEntity(cartaAJugarDTO);
-
         partida.jugarCarta(jugador, cartaAJugar);
-
-        if (!partida.isEsperandoColor()) {
-            partida.avanzarTurno();
-        }
     }
 
     @Override
-    public void robarCarta(int idJugador) throws MazoVacioException {
+    public void robarCarta(int idJugador) throws MazoVacioException, ValidarTurnoException {
         Jugador jugador = obtenerJugadorPorId(idJugador);
         partida.robarCarta(jugador);
     }
@@ -144,5 +136,4 @@ public class SubDominioConcreto implements ISubDominio {
         Jugador jugador = obtenerJugadorPorId(idJugador);
         partida.gritarUno(jugador);
     }
-
 }
