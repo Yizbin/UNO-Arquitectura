@@ -4,6 +4,8 @@
  */
 package MVC_JugarTurno;
 
+import DTOs.JugadorResumenDTO;
+
 /**
  *
  * @author saula
@@ -91,6 +93,27 @@ public class PanelInformacionJugador extends javax.swing.JPanel {
     
     public void actualizarNombreJugador(String nombre){
         lblNombreUsuario.setText(nombre);
+    }
+
+    public void actualizarInformacion(JugadorResumenDTO jugador) {
+        if (jugador == null) {
+            ocultarJugador();
+            return;
+        }
+
+        actualizarNombreJugador(jugador.getNombreUsuario());
+        actualizarNumeroCartas(jugador.getCantidadDeCartas());
+        setVisible(true);
+    }
+
+    public void limpiar() {
+        lblNombreUsuario.setText("---");
+        lblNumCartas.setText("0");
+    }
+
+    public void ocultarJugador() {
+        limpiar();
+        setVisible(false);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

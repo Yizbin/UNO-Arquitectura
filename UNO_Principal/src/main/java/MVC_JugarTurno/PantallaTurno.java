@@ -2,7 +2,9 @@ package MVC_JugarTurno;
 
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
@@ -280,6 +282,36 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         panelInfoJugadorPrincipal.actualizarNumeroCartas(modelo.getManoJugadorLocal().size());
     }
 
+    private void actualizarJugadores(EstadoPartidaDTO estado) {
+        List<JugadorResumenDTO> jugadores = estado.getJugadores() != null
+                ? estado.getJugadores()
+                : List.of();
+
+        JugadorResumenDTO jugadorLocal = null;
+        List<JugadorResumenDTO> jugadoresRemotos = new ArrayList<>();
+
+        for (JugadorResumenDTO jugador : jugadores) {
+            if (jugador.getId() == modelo.getIdJugadorLocal()) {
+                jugadorLocal = jugador;
+            } else {
+                jugadoresRemotos.add(jugador);
+            }
+        }
+
+        panelInfoJugadorPrincipal.actualizarInformacion(jugadorLocal);
+        actualizarPanelRemoto(panelInfoJugador1, jugadoresRemotos, 0);
+        actualizarPanelRemoto(panelInfoJugador2, jugadoresRemotos, 1);
+        actualizarPanelRemoto(panelInfoJugador3, jugadoresRemotos, 2);
+    }
+
+    private void actualizarPanelRemoto(PanelInformacionJugador panel, List<JugadorResumenDTO> jugadoresRemotos, int indice) {
+        if (indice < jugadoresRemotos.size()) {
+            panel.actualizarInformacion(jugadoresRemotos.get(indice));
+            return;
+        }
+        panel.ocultarJugador();
+    }
+
     private void actualizarCartaDescarte() {
         CartaDTO tope = modelo.getCartaEnTope();
         if (tope != null) {
@@ -328,6 +360,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         List<PanelCartaMano> cartasVisuales = generarPanelesDeMano(manoActualizada);
         mostrarMano(cartasVisuales);
 
+        actualizarJugadores(estado);
         actualizarCartaDescarte();
         actualizarNumeroCartas();
 

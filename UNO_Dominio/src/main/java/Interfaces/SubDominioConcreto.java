@@ -97,12 +97,20 @@ public class SubDominioConcreto implements ISubDominio {
     public EstadoPartidaDTO obtenerEstadoPartida() {
         EstadoPartidaDTO estadoDTO = new EstadoPartidaDTO();
         if (this.partida != null) {
-            estadoDTO.setJugadores(jugadorMapper.toDTOList(this.partida.getJugadores()));
+            List<JugadorResumenDTO> jugadoresDTO = jugadorMapper.toDTOList(this.partida.getJugadores());
+            int idJugadorActual = this.partida.getJugadorActual() != null
+                    ? this.partida.getJugadorActual().getId()
+                    : -1;
+            for (JugadorResumenDTO jugadorDTO : jugadoresDTO) {
+                jugadorDTO.setEnTurno(jugadorDTO.getId() == idJugadorActual);
+            }
+
+            estadoDTO.setJugadores(jugadoresDTO);
             estadoDTO.setEsperandoColor(this.partida.isEsperandoColor());
             estadoDTO.setCartaEnDescarte(cartaMapper.toDTO(this.partida.getDescarte().getTope()));
             estadoDTO.setRuletaActiva(false);
-            if (this.partida.getJugadorActual() != null) {
-                estadoDTO.setIdJugadorEnTurno(this.partida.getJugadorActual().getId());
+            if (idJugadorActual != -1) {
+                estadoDTO.setIdJugadorEnTurno(idJugadorActual);
             }
         }
         return estadoDTO;
