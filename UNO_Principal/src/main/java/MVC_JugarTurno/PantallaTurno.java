@@ -1,10 +1,8 @@
 package MVC_JugarTurno;
 
 import DTOs.CartaDTO;
-import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
@@ -278,42 +276,8 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         control.jugarCarta(cartaSeleccionada);
     }
 
-    private void actualizarNumeroCartas() {
-        panelInfoJugadorPrincipal.actualizarNumeroCartas(modelo.getManoJugadorLocal().size());
-    }
-
-    private void actualizarJugadores(EstadoPartidaDTO estado) {
-        List<JugadorResumenDTO> jugadores = estado.getJugadores() != null
-                ? estado.getJugadores()
-                : List.of();
-
-        JugadorResumenDTO jugadorLocal = null;
-        List<JugadorResumenDTO> jugadoresRemotos = new ArrayList<>();
-
-        for (JugadorResumenDTO jugador : jugadores) {
-            if (jugador.getId() == modelo.getIdJugadorLocal()) {
-                jugadorLocal = jugador;
-            } else {
-                jugadoresRemotos.add(jugador);
-            }
-        }
-
-        panelInfoJugadorPrincipal.actualizarInformacion(jugadorLocal);
-        actualizarPanelRemoto(panelInfoJugador1, jugadoresRemotos, 0);
-        actualizarPanelRemoto(panelInfoJugador2, jugadoresRemotos, 1);
-        actualizarPanelRemoto(panelInfoJugador3, jugadoresRemotos, 2);
-    }
-
-    private void actualizarPanelRemoto(PanelInformacionJugador panel, List<JugadorResumenDTO> jugadoresRemotos, int indice) {
-        if (indice < jugadoresRemotos.size()) {
-            panel.actualizarInformacion(jugadoresRemotos.get(indice));
-            return;
-        }
-        panel.ocultarJugador();
-    }
-
-    private void actualizarCartaDescarte() {
-        CartaDTO tope = modelo.getCartaEnTope();
+    private void actualizarCartaDescarte(EstadoPantallaTurnoDTO estadoPantalla) {
+        CartaDTO tope = estadoPantalla.getCartaEnDescarte();
         if (tope != null) {
             panelDescarte.removeAll();
             panelDescarte.setLayout(new java.awt.BorderLayout());
@@ -323,6 +287,21 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
             panelDescarte.revalidate();
             panelDescarte.repaint();
         }
+    }
+
+    private void actualizarJugadores(EstadoPantallaTurnoDTO estadoPantalla) {
+        panelInfoJugadorPrincipal.actualizarInformacion(estadoPantalla.getJugadorLocal());
+        actualizarPanelRemoto(panelInfoJugador1, estadoPantalla.getJugadorEste());
+        actualizarPanelRemoto(panelInfoJugador2, estadoPantalla.getJugadorNorte());
+        actualizarPanelRemoto(panelInfoJugador3, estadoPantalla.getJugadorOeste());
+    }
+
+    private void actualizarPanelRemoto(PanelInformacionJugador panel, JugadorResumenDTO jugador) {
+        if (jugador != null) {
+            panel.actualizarInformacion(jugador);
+            return;
+        }
+        panel.ocultarJugador();
     }
 
 
@@ -349,20 +328,19 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
     @Override
     public void update() {
-        EstadoPartidaDTO estado = modelo.getEstado();
-        if (estado == null) {
+        EstadoPantallaTurnoDTO estadoPantalla = modelo.getEstadoPantalla();
+        if (estadoPantalla == null) {
             return;
         }
 
-        List<CartaDTO> manoActualizada = estado.getManoJugadorActual() != null
-                ? estado.getManoJugadorActual()
+        List<CartaDTO> manoActualizada = estadoPantalla.getManoLocal() != null
+                ? estadoPantalla.getManoLocal()
                 : List.of();
         List<PanelCartaMano> cartasVisuales = generarPanelesDeMano(manoActualizada);
         mostrarMano(cartasVisuales);
 
-        actualizarJugadores(estado);
-        actualizarCartaDescarte();
-        actualizarNumeroCartas();
+        actualizarJugadores(estadoPantalla);
+        actualizarCartaDescarte(estadoPantalla);
 
         this.revalidate();
         this.repaint();
@@ -372,7 +350,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
             mostrarError(msg);
         }
 
-        if (estado.isEsperandoColor() && !pidiendoColor && estado.getIdJugadorEnTurno() == modelo.getIdJugadorLocal()) {
+        if (estadoPantalla.isEsperandoColor() && !pidiendoColor && estadoPantalla.isTurnoLocal()) {
             pidiendoColor = true;
             pedirColorUsuario();
         }

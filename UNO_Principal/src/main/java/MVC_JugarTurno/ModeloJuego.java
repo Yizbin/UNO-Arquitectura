@@ -6,9 +6,9 @@ package MVC_JugarTurno;
 
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
 import Interfaces.ISubDominio;
-import DTOs.JugadorResumenDTO;
 import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
 import Excepciones.ValidarManoException;
@@ -27,6 +27,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
     private final ISubDominio subDominio;
 
     private EstadoPartidaDTO estado;
+    private EstadoPantallaTurnoDTO estadoPantalla;
 
     private int idJugadorLocal;
     private String mensajePendiente;
@@ -41,9 +42,9 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
     }
 
     @Override
-    public EstadoPartidaDTO getEstado() {
+    public EstadoPantallaTurnoDTO getEstadoPantalla() {
         refrescarEstado();
-        return estado;
+        return estadoPantalla;
     }
 
     @Override
@@ -102,23 +103,6 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
     }
 
     @Override
-    public CartaDTO getCartaEnTope() {
-        return estado != null ? estado.getCartaEnDescarte() : null;
-    }
-
-    @Override
-    public TipoColor getColorActual() {
-        return subDominio.obtenerColorActual();
-    }
-
-    @Override
-    public List<CartaDTO> getManoJugadorLocal() {
-        return (estado != null && estado.getManoJugadorActual() != null)
-                ? estado.getManoJugadorActual()
-                : List.of();
-    }
-
-    @Override
     public String consumirMensajePendiente() {
         String mensaje = this.mensajePendiente;
         this.mensajePendiente = null;
@@ -155,6 +139,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
             }
             this.estado.setManoJugadorActual(subDominio.obtenerManoJugador(this.idJugadorLocal));
             this.estado.setCartaEnDescarte(subDominio.obtenerCartaEnTope());
+            this.estadoPantalla = construirEstadoPantalla(this.estado);
         }
     }
 
@@ -165,6 +150,39 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         if (mensaje != null && !mensaje.isBlank() && this.estado != null) {
             this.estado.setMensajeEstado(mensaje);
         }
+    }
+
+    private EstadoPantallaTurnoDTO construirEstadoPantalla(EstadoPartidaDTO estadoJuego) {
+        EstadoPantallaTurnoDTO vista = new EstadoPantallaTurnoDTO();
+        vista.setCartaEnDescarte(estadoJuego.getCartaEnDescarte());
+        vista.setEsperandoColor(estadoJuego.isEsperandoColor());
+        vista.setManoLocal(estadoJuego.getManoJugadorActual() != null ? estadoJuego.getManoJugadorActual() : List.of());
+        vista.setTurnoLocal(estadoJuego.getIdJugadorEnTurno() == this.idJugadorLocal);
+
+        List<JugadorResumenDTO> jugadores = estadoJuego.getJugadores() != null
+                ? estadoJuego.getJugadores()
+                : List.of();
+
+        List<JugadorResumenDTO> remotos = new ArrayList<>();
+        for (JugadorResumenDTO jugador : jugadores) {
+            if (jugador.getId() == this.idJugadorLocal) {
+                vista.setJugadorLocal(jugador);
+            } else {
+                remotos.add(jugador);
+            }
+        }
+
+        if (!remotos.isEmpty()) {
+            vista.setJugadorEste(remotos.get(0));
+        }
+        if (remotos.size() > 1) {
+            vista.setJugadorNorte(remotos.get(1));
+        }
+        if (remotos.size() > 2) {
+            vista.setJugadorOeste(remotos.get(2));
+        }
+
+        return vista;
     }
 
 }
