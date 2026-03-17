@@ -43,11 +43,11 @@ public class Descarte {
     }
 
     public Stack<Carta> getHistorial() {
-        return new Stack<>();
+        return (Stack<Carta>) historial.clone();
     }
 
     public void setHistorial(Stack<Carta> historial) {
-        this.historial = historial;
+        this.historial = (historial == null) ? new Stack<>() : (Stack<Carta>) historial.clone();
     }
 
 }

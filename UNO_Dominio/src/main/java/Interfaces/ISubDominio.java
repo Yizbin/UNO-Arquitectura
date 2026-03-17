@@ -27,7 +27,7 @@ public interface ISubDominio {
     public void jugarCarta(int idJugador, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException;
 
     //Hace que el jugador actual robe una carta del mazo
-    public void robarCarta(int idJugador) throws MazoVacioException;
+    public void robarCarta(int idJugador) throws MazoVacioException, ValidarTurnoException;
 
     //Define el nuevo color en juego cuando un jugador tira un comodín
     public void elegirColorComodin(TipoColor nuevoColor) throws MazoVacioException;

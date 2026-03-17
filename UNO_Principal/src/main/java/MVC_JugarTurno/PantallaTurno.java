@@ -1,7 +1,7 @@
 package MVC_JugarTurno;
 
 import DTOs.CartaDTO;
-import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -276,12 +276,8 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         control.jugarCarta(cartaSeleccionada);
     }
 
-    private void actualizarNumeroCartas() {
-        panelInfoJugadorPrincipal.actualizarNumeroCartas(modelo.getManoJugadorLocal().size());
-    }
-
-    private void actualizarCartaDescarte() {
-        CartaDTO tope = modelo.getCartaEnTope();
+    private void actualizarCartaDescarte(EstadoPantallaTurnoDTO estadoPantalla) {
+        CartaDTO tope = estadoPantalla.getCartaEnDescarte();
         if (tope != null) {
             panelDescarte.removeAll();
             panelDescarte.setLayout(new java.awt.BorderLayout());
@@ -291,6 +287,21 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
             panelDescarte.revalidate();
             panelDescarte.repaint();
         }
+    }
+
+    private void actualizarJugadores(EstadoPantallaTurnoDTO estadoPantalla) {
+        panelInfoJugadorPrincipal.actualizarInformacion(estadoPantalla.getJugadorLocal());
+        actualizarPanelRemoto(panelInfoJugador1, estadoPantalla.getJugadorEste());
+        actualizarPanelRemoto(panelInfoJugador2, estadoPantalla.getJugadorNorte());
+        actualizarPanelRemoto(panelInfoJugador3, estadoPantalla.getJugadorOeste());
+    }
+
+    private void actualizarPanelRemoto(PanelInformacionJugador panel, JugadorResumenDTO jugador) {
+        if (jugador != null) {
+            panel.actualizarInformacion(jugador);
+            return;
+        }
+        panel.ocultarJugador();
     }
 
 
@@ -317,29 +328,31 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
     @Override
     public void update() {
-        List<CartaDTO> manoActualizada = modelo.getManoJugadorLocal();
+        EstadoPantallaTurnoDTO estadoPantalla = modelo.getEstadoPantalla();
+        if (estadoPantalla == null) {
+            return;
+        }
+
+        List<CartaDTO> manoActualizada = estadoPantalla.getManoLocal() != null
+                ? estadoPantalla.getManoLocal()
+                : List.of();
         List<PanelCartaMano> cartasVisuales = generarPanelesDeMano(manoActualizada);
         mostrarMano(cartasVisuales);
 
-        actualizarCartaDescarte();
-
-        actualizarNumeroCartas();
+        actualizarJugadores(estadoPantalla);
+        actualizarCartaDescarte(estadoPantalla);
 
         this.revalidate();
         this.repaint();
 
-        EstadoPartidaDTO estado = modelo.getEstado();
-        if (estado != null) {
-            String msg = estado.getMensajeEstado();
-            if (msg != null && !msg.isBlank()) {
-                mostrarError(msg);
-                estado.setMensajeEstado(null); // para que no se repita cada update
-            }
+        String msg = modelo.consumirMensajePendiente();
+        if (msg != null && !msg.isBlank()) {
+            mostrarError(msg);
+        }
 
-            if (estado.isEsperandoColor() && !pidiendoColor) {
-                pidiendoColor = true;
-                pedirColorUsuario();
-            }
+        if (estadoPantalla.isEsperandoColor() && !pidiendoColor && estadoPantalla.isTurnoLocal()) {
+            pidiendoColor = true;
+            pedirColorUsuario();
         }
 
     }

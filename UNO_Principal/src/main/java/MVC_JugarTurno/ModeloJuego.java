@@ -6,9 +6,9 @@ package MVC_JugarTurno;
 
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
 import Interfaces.ISubDominio;
-import DTOs.JugadorResumenDTO;
 import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
 import Excepciones.ValidarManoException;
@@ -27,8 +27,10 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
     private final ISubDominio subDominio;
 
     private EstadoPartidaDTO estado;
+    private EstadoPantallaTurnoDTO estadoPantalla;
 
     private int idJugadorLocal;
+    private String mensajePendiente;
     
 
     public ModeloJuego(ISubDominio subDominio) {
@@ -40,8 +42,9 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
     }
 
     @Override
-    public EstadoPartidaDTO getEstado() {
-        return estado;
+    public EstadoPantallaTurnoDTO getEstadoPantalla() {
+        refrescarEstado();
+        return estadoPantalla;
     }
 
     @Override
@@ -60,9 +63,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         }
 
         refrescarEstado();
-        if (mensaje != null) {
-            estado.setMensajeEstado(mensaje);
-        }
+        asignarMensajeLocal(mensaje);
         notificar();
     }
 
@@ -72,14 +73,12 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
 
         try {
             subDominio.robarCarta(this.idJugadorLocal);
-        } catch (MazoVacioException e) {
+        } catch (MazoVacioException | ValidarTurnoException e) {
             mensaje = e.getMessage();
         }
 
         refrescarEstado();
-        if (mensaje != null) {
-            estado.setMensajeEstado(mensaje);
-        }
+        asignarMensajeLocal(mensaje);
         notificar();
     }
 
@@ -99,26 +98,15 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         }
 
         refrescarEstado(); //refrescar siempre
-        if (mensaje != null) {
-            estado.setMensajeEstado(mensaje);
-        }
+        asignarMensajeLocal(mensaje);
         notificar();       
     }
 
     @Override
-    public CartaDTO getCartaEnTope() {
-        System.out.println(subDominio.obtenerCartaEnTope());
-        return subDominio.obtenerCartaEnTope();
-    }
-
-    @Override
-    public TipoColor getColorActual() {
-        return subDominio.obtenerColorActual();
-    }
-
-    @Override
-    public List<CartaDTO> getManoJugadorLocal() {
-        return subDominio.obtenerManoJugador(this.idJugadorLocal);
+    public String consumirMensajePendiente() {
+        String mensaje = this.mensajePendiente;
+        this.mensajePendiente = null;
+        return mensaje;
     }
 
     @Override
@@ -132,9 +120,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         }
         
         refrescarEstado();
-        if (mensaje != null){
-            estado.setMensajeEstado(mensaje);
-        }
+        asignarMensajeLocal(mensaje);
         notificar();
     }
 
@@ -151,7 +137,52 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
             if (this.estado == null) {
                 this.estado = new EstadoPartidaDTO();
             }
+            this.estado.setManoJugadorActual(subDominio.obtenerManoJugador(this.idJugadorLocal));
+            this.estado.setCartaEnDescarte(subDominio.obtenerCartaEnTope());
+            this.estadoPantalla = construirEstadoPantalla(this.estado);
         }
+    }
+
+    private void asignarMensajeLocal(String mensaje) {
+        if (mensaje != null && !mensaje.isBlank()) {
+            this.mensajePendiente = mensaje;
+        }
+        if (mensaje != null && !mensaje.isBlank() && this.estado != null) {
+            this.estado.setMensajeEstado(mensaje);
+        }
+    }
+
+    private EstadoPantallaTurnoDTO construirEstadoPantalla(EstadoPartidaDTO estadoJuego) {
+        EstadoPantallaTurnoDTO vista = new EstadoPantallaTurnoDTO();
+        vista.setCartaEnDescarte(estadoJuego.getCartaEnDescarte());
+        vista.setEsperandoColor(estadoJuego.isEsperandoColor());
+        vista.setManoLocal(estadoJuego.getManoJugadorActual() != null ? estadoJuego.getManoJugadorActual() : List.of());
+        vista.setTurnoLocal(estadoJuego.getIdJugadorEnTurno() == this.idJugadorLocal);
+
+        List<JugadorResumenDTO> jugadores = estadoJuego.getJugadores() != null
+                ? estadoJuego.getJugadores()
+                : List.of();
+
+        List<JugadorResumenDTO> remotos = new ArrayList<>();
+        for (JugadorResumenDTO jugador : jugadores) {
+            if (jugador.getId() == this.idJugadorLocal) {
+                vista.setJugadorLocal(jugador);
+            } else {
+                remotos.add(jugador);
+            }
+        }
+
+        if (!remotos.isEmpty()) {
+            vista.setJugadorEste(remotos.get(0));
+        }
+        if (remotos.size() > 1) {
+            vista.setJugadorNorte(remotos.get(1));
+        }
+        if (remotos.size() > 2) {
+            vista.setJugadorOeste(remotos.get(2));
+        }
+
+        return vista;
     }
 
 }

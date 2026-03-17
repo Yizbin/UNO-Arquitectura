@@ -23,6 +23,7 @@ public class Jugador {
     private boolean dijoUno;
 
     public Jugador() {
+        this.mano = new ArrayList<>();
     }
 
     public Jugador(int id, String usuario, String avatar) {
@@ -109,11 +110,11 @@ public class Jugador {
     }
 
     public List<Carta> getMano() {
-        return mano;
+        return List.copyOf(mano);
     }
 
     public void setMano(List<Carta> mano) {
-        this.mano = mano;
+        this.mano = (mano == null) ? new ArrayList<>() : new ArrayList<>(mano);
     }
 
     public int getPuntos() {
@@ -142,8 +143,7 @@ public class Jugador {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        return hash;
+        return Objects.hash(id, usuario);
     }
 
     @Override

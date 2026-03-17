@@ -17,6 +17,7 @@ public class Mazo {
     private Stack<Carta> cartas;
 
     public Mazo() {
+        this.cartas = new Stack<>();
     }
 
     public Mazo(Stack<Carta> cartas) {
@@ -32,7 +33,7 @@ public class Mazo {
     //Saca y devuelve la carta en el tope para ser robada
     public Carta sacarCarta() throws MazoVacioException {
         if (cartas.isEmpty()) {
-            throw new IllegalStateException("El mazo esta vacio, necesita ser rellenado");
+            throw new MazoVacioException("El mazo esta vacio, necesita ser rellenado");
         }
         return cartas.pop();
     }
@@ -49,11 +50,11 @@ public class Mazo {
     }
 
     public Stack<Carta> getCartas() {
-        return cartas;
+        return (Stack<Carta>) cartas.clone();
     }
 
     public void setCartas(Stack<Carta> cartas) {
-        this.cartas = cartas;
+        this.cartas = (cartas == null) ? new Stack<>() : (Stack<Carta>) cartas.clone();
     }
 
 }
