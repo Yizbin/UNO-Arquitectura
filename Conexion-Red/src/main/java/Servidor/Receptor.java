@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Receptor {
 
     private Queue<byte[]> cola;
-    private IReceptor notificador;
+    private final IReceptor notificador;
 
     public Receptor(IReceptor notificador) {
         this.cola = new ConcurrentLinkedQueue<>();
