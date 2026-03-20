@@ -6,8 +6,8 @@ package Cliente;
 
 import Interfaces.IDispatcher;
 import Interfaces.ISerializador;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  *
@@ -15,13 +15,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class Dispatcher implements IDispatcher {
 
-    private final Queue<PaqueteSalida> cola;
+    private final BlockingQueue<PaqueteSalida> cola;
     private final Cliente clienteRed;
     private final ISerializador serializador;
 
-    public Dispatcher(ISerializador serializador) {
-        this.cola = new ConcurrentLinkedQueue<>();
-        this.clienteRed = new Cliente();
+    public Dispatcher(ISerializador serializador, Cliente clienteRed) {
+        this.cola = new LinkedBlockingQueue<>();
+        this.clienteRed = clienteRed;
         this.serializador = serializador;
         iniciarProcesamiento();
     }
@@ -34,14 +34,16 @@ public class Dispatcher implements IDispatcher {
     private void iniciarProcesamiento() {
         new Thread(() -> {
             while (true) {
-                PaqueteSalida paquete = cola.poll();
-                if (paquete != null) {
-                    try {
-                        byte[] datosBinarios = serializador.serializar(paquete.getMensaje());
-                        clienteRed.enviarPorSocket(datosBinarios, paquete.getIp(), paquete.getPuerto());
-                    } catch (Exception e) {
-                        System.err.println("Error procesando envío: " + e.getMessage());
-                    }
+                try {
+                    PaqueteSalida paquete = cola.take();
+                    byte[] datosBinarios = serializador.serializar(paquete.getMensaje());
+                    clienteRed.enviarPorSocket(datosBinarios, paquete.getIp(), paquete.getPuerto());
+
+                } catch (InterruptedException e) {
+                    System.err.println("El hilo del Dispatcher fue interrumpido.");
+                    Thread.currentThread().interrupt();
+                } catch (Exception e) {
+                    System.err.println("Error procesando envio: " + e.getMessage());
                 }
             }
         }).start();

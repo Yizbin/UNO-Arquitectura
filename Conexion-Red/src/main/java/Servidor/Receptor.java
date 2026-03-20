@@ -5,8 +5,8 @@
 package Servidor;
 
 import Interfaces.IReceptor;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  *
@@ -14,11 +14,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class Receptor {
 
-    private Queue<byte[]> cola;
+    private BlockingQueue<byte[]> cola;
     private final IReceptor notificador;
 
     public Receptor(IReceptor notificador) {
-        this.cola = new ConcurrentLinkedQueue<>();
+        this.cola = new LinkedBlockingQueue<>();
         this.notificador = notificador;
         iniciarProcesamiento();
     }
@@ -30,10 +30,13 @@ public class Receptor {
     private void iniciarProcesamiento() {
         new Thread(() -> {
             while (true) {
-                byte[] mensaje = cola.poll();
-
-                if (mensaje != null && notificador != null) {
-                    notificador.update(mensaje);
+                try {
+                    byte[] mensaje = cola.take();
+                    if (notificador != null) {
+                        notificador.update(mensaje);
+                    }
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
             }
         }).start();
