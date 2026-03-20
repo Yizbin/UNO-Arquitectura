@@ -14,11 +14,9 @@ import Serializador.Serializador;
 public class DispatcherFactory {
 
     public static IDispatcher crearDispatcher() {
-        // 1. Instanciamos las dependencias
         Serializador serializadorBinario = new Serializador();
         Cliente clienteDeRed = new Cliente();
 
-        // 2. Construimos el Dispatcher inyectándole sus herramientas
         return new Dispatcher(serializadorBinario, clienteDeRed);
     }
 }

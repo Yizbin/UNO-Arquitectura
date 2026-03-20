@@ -36,10 +36,13 @@ public class Servidor {
                     Socket socketCliente = serverSocket.accept();
                     DataInputStream in = new DataInputStream(socketCliente.getInputStream());
 
+                    //Sacamos el numero entero que nos dice el tamanio del paquete
                     int tamaño = in.readInt();
 
                     if (tamaño > 0) {
+                        //Se creaun arreglo del tamanio del mensaje
                         byte[] datos = new byte[tamaño];
+                        //Bloquea la lectura hasta que el 100% de los bytes hallan llegado, para evitar paquetes corruptos o medias
                         in.readFully(datos);
                         receptor.encolar(datos);
                     }

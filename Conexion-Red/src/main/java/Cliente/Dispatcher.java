@@ -35,13 +35,14 @@ public class Dispatcher implements IDispatcher {
         new Thread(() -> {
             while (true) {
                 try {
+                    //El metodo take() pausa el hilo para el hilo si la cola esta vacia y solo se activa cuando se usa cola.add()
                     PaqueteSalida paquete = cola.take();
                     byte[] datosBinarios = serializador.serializar(paquete.getMensaje());
                     clienteRed.enviarPorSocket(datosBinarios, paquete.getIp(), paquete.getPuerto());
 
                 } catch (InterruptedException e) {
                     System.err.println("El hilo del Dispatcher fue interrumpido.");
-                    Thread.currentThread().interrupt();
+                    Thread.currentThread().interrupt(); //Restaura la interrupcion
                 } catch (Exception e) {
                     System.err.println("Error procesando envio: " + e.getMessage());
                 }

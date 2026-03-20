@@ -16,10 +16,11 @@ public class Deserializador {
     private final ObjectMapper mapper;
 
     public Deserializador() {
-        // Le damos el motor de MessagePack para que entienda los bytes
+        //Le damos el motor de MessagePack para que entienda los bytes
         this.mapper = new ObjectMapper(new MessagePackFactory());
     }
 
+    //Crea un objeto en java apartir de bytes
     public <T> T deserializar(byte[] datos, Class<T> claseDestino) throws Exception {
         return mapper.readValue(datos, claseDestino);
     }
