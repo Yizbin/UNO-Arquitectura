@@ -5,7 +5,6 @@
 package Serializador;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.msgpack.jackson.dataformat.MessagePackFactory;
 
 /**
  *
@@ -16,11 +15,9 @@ public class Deserializador {
     private final ObjectMapper mapper;
 
     public Deserializador() {
-        //Le damos el motor de MessagePack para que entienda los bytes
-        this.mapper = new ObjectMapper(new MessagePackFactory());
+        this.mapper = new ObjectMapper();
     }
 
-    //Crea un objeto en java apartir de bytes
     public <T> T deserializar(byte[] datos, Class<T> claseDestino) throws Exception {
         return mapper.readValue(datos, claseDestino);
     }

@@ -6,19 +6,17 @@ package Serializador;
 
 import Interfaces.ISerializador;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.msgpack.jackson.dataformat.MessagePackFactory;
 
 /**
  *
  * @author Abraham Coronel
  */
 public class Serializador implements ISerializador {
-    
+
     private final ObjectMapper mapper;
 
     public Serializador() {
-        //Configura para que use MessagePack que es lo que utilizamos para pasar la informacion serializada
-        this.mapper = new ObjectMapper(new MessagePackFactory());
+        this.mapper = new ObjectMapper();
     }
 
     @Override
