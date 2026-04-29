@@ -1,4 +1,4 @@
-package org.itson.coordinadorfiltros.interfaces;
+package interfaces;
 
 //@author SAUL ISAAC APODACA BALDENEGRO 00000252020
 

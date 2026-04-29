@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package org.itson.coordinadorfiltros.interfaces;
+package interfaces;
 
 /**
  *
  * @author saula
  */
-public interface ISink<T> {
+public interface IFiltro<I, O> {
     
-    void enviar(ContextoPipeline<T> contexto) throws Exception;
+    ContextoPipeline<O> procesar(ContextoPipeline<I> contexto) throws Exception;
 }

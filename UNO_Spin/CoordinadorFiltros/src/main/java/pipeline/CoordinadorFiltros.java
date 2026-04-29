@@ -1,12 +1,12 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-package org.itson.coordinadorfiltros;
+package pipeline;
 
 import java.util.List;
-import org.itson.coordinadorfiltros.interfaces.ContextoPipeline;
-import org.itson.coordinadorfiltros.interfaces.IFiltro;
-import org.itson.coordinadorfiltros.interfaces.ISink;
+import interfaces.ContextoPipeline;
+import interfaces.IFiltro;
+import interfaces.ISink;
 
 /**
  * Coordina la ejecución secuencial de un conjunto de filtros dentro de un
