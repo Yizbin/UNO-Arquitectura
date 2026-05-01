@@ -69906,7 +69906,7 @@
 											"left": 8,
 											"top": 8,
 											"width": 1272,
-											"height": 592,
+											"height": 480,
 											"nameLabel": {
 												"$ref": "AAAAAAGd5WhsE3DxuNY="
 											},
@@ -70017,14 +70017,14 @@
 													"left": 66,
 													"top": 81,
 													"width": 1,
-													"height": 519
+													"height": 407
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 16,
 											"top": 40,
 											"width": 99.5654296875,
-											"height": 560,
+											"height": 448,
 											"nameCompartment": {
 												"$ref": "AAAAAAGd5Wt1pHF5Zi8="
 											},
@@ -70135,14 +70135,14 @@
 													"left": 273,
 													"top": 81,
 													"width": 1,
-													"height": 519
+													"height": 407
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 200,
 											"top": 40,
 											"width": 145.658203125,
-											"height": 560,
+											"height": 448,
 											"nameCompartment": {
 												"$ref": "AAAAAAGd5WvUO3GbfSE="
 											},
@@ -70371,14 +70371,14 @@
 													"left": 611,
 													"top": 81,
 													"width": 1,
-													"height": 519
+													"height": 255
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 560,
 											"top": 40,
 											"width": 101.63720703125,
-											"height": 560,
+											"height": 296,
 											"nameCompartment": {
 												"$ref": "AAAAAAGd5XpGSnLoG6s="
 											},
@@ -70489,14 +70489,14 @@
 													"left": 740,
 													"top": 81,
 													"width": 1,
-													"height": 519
+													"height": 311
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 680,
 											"top": 40,
 											"width": 119.79541015625,
-											"height": 560,
+											"height": 352,
 											"nameCompartment": {
 												"$ref": "AAAAAAGd5XreknMMX9g="
 											},
@@ -70607,14 +70607,14 @@
 													"left": 999,
 													"top": 81,
 													"width": 1,
-													"height": 519
+													"height": 311
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 936,
 											"top": 40,
 											"width": 125.4599609375,
-											"height": 560,
+											"height": 352,
 											"nameCompartment": {
 												"$ref": "AAAAAAGd5XtM03Mv4Xc="
 											},
@@ -70723,14 +70723,14 @@
 													"left": 1238,
 													"top": 106,
 													"width": 1,
-													"height": 494
+													"height": 286
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 1176,
 											"top": 40,
 											"width": 123.419921875,
-											"height": 560,
+											"height": 352,
 											"stereotypeDisplay": "icon",
 											"nameCompartment": {
 												"$ref": "AAAAAAGd5Xxzk3NTEsI="
@@ -70756,7 +70756,7 @@
 														"$ref": "AAAAAAGd5Y0n9HQ1740="
 													},
 													"font": "Arial;13;0",
-													"left": 191.9599609375,
+													"left": 184.72998046875,
 													"top": 93,
 													"width": 59.0205078125,
 													"height": 13,
@@ -70771,9 +70771,9 @@
 													"font": "Arial;13;1",
 													"left": 165,
 													"top": 93,
-													"width": 20.9599609375,
+													"width": 13.72998046875,
 													"height": 13,
-													"text": "seq"
+													"text": "alt"
 												},
 												{
 													"_type": "UMLInteractionOperandCompartmentView",
@@ -70902,7 +70902,7 @@
 														"$ref": "AAAAAAGd5a8t2HYObU0="
 													},
 													"edgePosition": 1,
-													"text": "1 : accionJugador(genericoDTO)"
+													"text": "1 : Message4"
 												},
 												{
 													"_type": "EdgeLabelView",
@@ -72126,7 +72126,7 @@
 										"$ref": "AAAAAAGd5WhsE3DuOVM="
 									},
 									"name": "Validación",
-									"interactionOperator": "seq",
+									"interactionOperator": "alt",
 									"operands": [
 										{
 											"_type": "UMLInteractionOperand",
@@ -72205,7 +72205,7 @@
 											"left": 8,
 											"top": 8,
 											"width": 848,
-											"height": 592,
+											"height": 424,
 											"nameLabel": {
 												"$ref": "AAAAAAGd5ZlNKXV60AM="
 											},
@@ -72316,14 +72316,14 @@
 													"left": 74,
 													"top": 81,
 													"width": 1,
-													"height": 519
+													"height": 351
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 24,
 											"top": 40,
 											"width": 99.5654296875,
-											"height": 560,
+											"height": 392,
 											"nameCompartment": {
 												"$ref": "AAAAAAGd5bpQzXZFMKQ="
 											},
@@ -72550,14 +72550,14 @@
 													"left": 702,
 													"top": 81,
 													"width": 1,
-													"height": 361
+													"height": 207
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 672,
 											"top": 40,
 											"width": 59.00634765625,
-											"height": 402,
+											"height": 248,
 											"nameCompartment": {
 												"$ref": "AAAAAAGd5bzCzXbnhfI="
 											},
@@ -72668,14 +72668,14 @@
 													"left": 361,
 													"top": 81,
 													"width": 1,
-													"height": 519
+													"height": 351
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 288,
 											"top": 40,
 											"width": 145.658203125,
-											"height": 560,
+											"height": 392,
 											"nameCompartment": {
 												"$ref": "AAAAAAGd5chfK3ca4Ps="
 											},
@@ -72812,7 +72812,7 @@
 														"$ref": "AAAAAAGd5evv1HkL/R4="
 													},
 													"font": "Arial;13;0",
-													"left": 343.9599609375,
+													"left": 336.72998046875,
 													"top": 93,
 													"width": 74.8896484375,
 													"height": 13,
@@ -72827,9 +72827,9 @@
 													"font": "Arial;13;1",
 													"left": 317,
 													"top": 93,
-													"width": 20.9599609375,
+													"width": 13.72998046875,
 													"height": 13,
-													"text": "seq"
+													"text": "alt"
 												},
 												{
 													"_type": "UMLInteractionOperandCompartmentView",
@@ -73649,7 +73649,7 @@
 										"$ref": "AAAAAAGd5ZkdInV1dc8="
 									},
 									"name": "ValidarFiltros",
-									"interactionOperator": "seq",
+									"interactionOperator": "alt",
 									"operands": [
 										{
 											"_type": "UMLInteractionOperand",
