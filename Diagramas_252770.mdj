@@ -2202,7 +2202,7 @@
 									"font": "Arial;13;0",
 									"left": 840.5,
 									"top": 351.5,
-									"width": 118.3544921875,
+									"width": 118,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGcAYa0nJtkXnI="
@@ -2777,7 +2777,7 @@
 									"font": "Arial;13;0",
 									"left": 842.5,
 									"top": 557,
-									"width": 89.46630859375,
+									"width": 89,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGcAYdG9aiLVuA="
@@ -2971,7 +2971,7 @@
 									"font": "Arial;13;0",
 									"left": 849,
 									"top": 629,
-									"width": 82.2490234375,
+									"width": 82,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGcAYeDIqtOGcE="
@@ -10964,7 +10964,8 @@
 											"_parent": {
 												"$ref": "AAAAAAGd9rkgBfN+LEY="
 											},
-											"name": "jugadorDTO"
+											"name": "jugadorDTO",
+											"type": ""
 										},
 										{
 											"_type": "UMLParameter",
@@ -11535,7 +11536,8 @@
 										"$ref": "AAAAAAGcSbTFkRRdHXU="
 									},
 									"name": "tope",
-									"visibility": "private"
+									"visibility": "private",
+									"type": ""
 								},
 								{
 									"_type": "UMLAttribute",
@@ -12614,9 +12616,9 @@
 																"$ref": "AAAAAAGcTmFsq7+RREs="
 															},
 															"font": "Arial;13;0",
-															"left": 40.72998046875,
+															"left": 38.55908203125,
 															"top": 13,
-															"width": 192.96240234375,
+															"width": 172.53564453125,
 															"height": 13,
 															"text": "diagrama_secuencia_jugar_turno"
 														},
@@ -12629,7 +12631,7 @@
 															"font": "Arial;13;1",
 															"left": 21,
 															"top": 13,
-															"width": 13.72998046875,
+															"width": 11.55908203125,
 															"height": 13,
 															"text": "sd"
 														}
@@ -13915,9 +13917,9 @@
 																"$ref": "AAAAAAGcr1rTnTA31Pc="
 															},
 															"font": "Arial;13;0",
-															"left": 407,
+															"left": 353,
 															"top": 268,
-															"width": 93.9453125,
+															"width": 200.3193359375,
 															"height": 13,
 															"alpha": 1.5707963267948966,
 															"distance": 10,
@@ -13925,7 +13927,7 @@
 																"$ref": "AAAAAAGcr1rTnTA4Bjc="
 															},
 															"edgePosition": 1,
-															"text": "6 : update():void"
+															"text": "6 : update(IModeloVista modelo):void"
 														},
 														{
 															"_type": "EdgeLabelView",
@@ -14249,9 +14251,9 @@
 																"$ref": "AAAAAAGcr1uJ0DB7Bfw="
 															},
 															"font": "Arial;13;0",
-															"left": 407,
+															"left": 353,
 															"top": 428,
-															"width": 93.9453125,
+															"width": 200.3193359375,
 															"height": 13,
 															"alpha": 1.5707963267948966,
 															"distance": 10,
@@ -14259,7 +14261,7 @@
 																"$ref": "AAAAAAGcr1uJ0TB8uKA="
 															},
 															"edgePosition": 1,
-															"text": "9 : update():void"
+															"text": "9 : update(IModeloVista modelo):void"
 														},
 														{
 															"_type": "EdgeLabelView",
@@ -14357,9 +14359,9 @@
 																"$ref": "AAAAAAGcr1ooZTAIh/w="
 															},
 															"font": "Arial;13;0",
-															"left": 104.72998046875,
+															"left": 103.99365234375,
 															"top": 157,
-															"width": 135.1416015625,
+															"width": 122.7509765625,
 															"height": 13,
 															"text": "No es turno del jugador"
 														},
@@ -14372,7 +14374,7 @@
 															"font": "Arial;13;1",
 															"left": 85,
 															"top": 157,
-															"width": 13.72998046875,
+															"width": 12.99365234375,
 															"height": 13,
 															"text": "alt"
 														},
@@ -14458,9 +14460,9 @@
 																"$ref": "AAAAAAGcr1vnJDCTlNc="
 															},
 															"font": "Arial;13;0",
-															"left": 104.72998046875,
+															"left": 103.99365234375,
 															"top": 317,
-															"width": 98.2998046875,
+															"width": 87.36279296875,
 															"height": 13,
 															"text": "Jugada no valida"
 														},
@@ -14473,7 +14475,7 @@
 															"font": "Arial;13;1",
 															"left": 85,
 															"top": 317,
-															"width": 13.72998046875,
+															"width": 12.99365234375,
 															"height": 13,
 															"text": "alt"
 														},
@@ -15118,9 +15120,9 @@
 																"$ref": "AAAAAAGcr2Ig6DGn5tI="
 															},
 															"font": "Arial;13;0",
-															"left": 403,
+															"left": 350,
 															"top": 636,
-															"width": 101.17529296875,
+															"width": 206.8193359375,
 															"height": 13,
 															"alpha": 1.5707963267948966,
 															"distance": 10,
@@ -15128,7 +15130,7 @@
 																"$ref": "AAAAAAGcr2Ig6DGoSvU="
 															},
 															"edgePosition": 1,
-															"text": "15 : update():void"
+															"text": "15 : update(IModeloVista modelo):void"
 														},
 														{
 															"_type": "EdgeLabelView",
@@ -15452,9 +15454,9 @@
 																"$ref": "AAAAAAGcr2PmazJUx4M="
 															},
 															"font": "Arial;13;0",
-															"left": 407,
+															"left": 354,
 															"top": 772,
-															"width": 101.17529296875,
+															"width": 206.8193359375,
 															"height": 13,
 															"alpha": 1.5707963267948966,
 															"distance": 10,
@@ -15462,7 +15464,7 @@
 																"$ref": "AAAAAAGcr2PmazJVk+o="
 															},
 															"edgePosition": 1,
-															"text": "18 : update():void"
+															"text": "18 : update(IModeloVista modelo):void"
 														},
 														{
 															"_type": "EdgeLabelView",
@@ -15671,9 +15673,9 @@
 																"$ref": "AAAAAAGcr1864DEWc3c="
 															},
 															"font": "Arial;13;0",
-															"left": 109.07177734375,
+															"left": 107.61181640625,
 															"top": 485,
-															"width": 213.18603515625,
+															"width": 186.98291015625,
 															"height": 13,
 															"text": "Caso que no tienes cartas para jugar"
 														},
@@ -15686,7 +15688,7 @@
 															"font": "Arial;13;1",
 															"left": 85,
 															"top": 485,
-															"width": 18.07177734375,
+															"width": 16.61181640625,
 															"height": 13,
 															"text": "opt"
 														},
@@ -21051,7 +21053,7 @@
 										"$ref": "AAAAAAGdHh+lhiOvD0I="
 									},
 									"lineStyle": 1,
-									"points": "359:362;247.7099609375:337.8397117820946",
+									"points": "359:362;0:0",
 									"showVisibility": true,
 									"nameLabel": {
 										"$ref": "AAAAAAGdHlB75Dpro4A="
@@ -22166,7 +22168,7 @@
 										"$ref": "AAAAAAGdHiBxjyPeyWU="
 									},
 									"lineStyle": 1,
-									"points": "243:543;291.7368421052632:480",
+									"points": "243:543;0:0",
 									"showVisibility": true,
 									"nameLabel": {
 										"$ref": "AAAAAAGdHmNxlj78uTY="
@@ -22539,7 +22541,7 @@
 										"$ref": "AAAAAAGdHiEQtyQ1Yjk="
 									},
 									"lineStyle": 1,
-									"points": "406:575;403.3157894736842:496",
+									"points": "406:575;0:0",
 									"showVisibility": true,
 									"nameLabel": {
 										"$ref": "AAAAAAGdHmO/Xz9LM6U="
@@ -22912,7 +22914,7 @@
 										"$ref": "AAAAAAGdHiCkTyQK0A4="
 									},
 									"lineStyle": 1,
-									"points": "561:575;519.7368421052631:496",
+									"points": "561:575;0:0",
 									"showVisibility": true,
 									"nameLabel": {
 										"$ref": "AAAAAAGdHmR1mT+aLdY="
@@ -24735,7 +24737,7 @@
 																	"top": 821,
 																	"width": 331.35107421875,
 																	"height": 13,
-																	"text": "+registrarRespuesta(jugadorDTO, acepta): boolean",
+																	"text": "+registrarRespuesta(respuestaDTO: RespuestaFinalizacionDTO): boolean",
 																	"horizontalAlignment": 0
 																},
 																{
@@ -24844,7 +24846,7 @@
 															"font": "Arial;13;0",
 															"left": 1200,
 															"top": 636,
-															"width": 341.35107421875,
+															"width": 395.1884765625,
 															"height": 293
 														},
 														{
@@ -26344,9 +26346,9 @@
 																"$ref": "AAAAAAGcTmBKrrvIyOM="
 															},
 															"font": "Arial;13;0",
-															"left": 336.6181640625,
+															"left": 332.27001953125,
 															"top": 213,
-															"width": 183.77734375,
+															"width": 164.1630859375,
 															"height": 13,
 															"text": "Diagrama_Clases_Jugar_Turno"
 														},
@@ -26359,7 +26361,7 @@
 															"font": "Arial;13;1",
 															"left": 301,
 															"top": 213,
-															"width": 29.6181640625,
+															"width": 25.27001953125,
 															"height": 13,
 															"text": "class"
 														}
@@ -47769,7 +47771,7 @@
 																	},
 																	"font": "Arial;13;0",
 																	"left": 1282,
-																	"top": 697,
+																	"top": 682,
 																	"width": 232.71484375,
 																	"height": 13,
 																	"text": "-posiciones: List<PosicionJugadorDTO>",
@@ -47786,7 +47788,7 @@
 																	},
 																	"font": "Arial;13;0",
 																	"left": 1282,
-																	"top": 712,
+																	"top": 697,
 																	"width": 232.71484375,
 																	"height": 13,
 																	"text": "-fechaGeneracion: Date",
@@ -47797,7 +47799,7 @@
 															"left": 1277,
 															"top": 677,
 															"width": 242.71484375,
-															"height": 53
+															"height": 38
 														},
 														{
 															"_type": "UMLOperationCompartmentView",
@@ -47810,7 +47812,7 @@
 															},
 															"font": "Arial;13;0",
 															"left": 1277,
-															"top": 730,
+															"top": 715,
 															"width": 242.71484375,
 															"height": 10
 														},
@@ -47978,7 +47980,7 @@
 																	},
 																	"font": "Arial;13;0",
 																	"left": 1125,
-																	"top": 866,
+																	"top": 851,
 																	"width": 185.7421875,
 																	"height": 13,
 																	"text": "-jugador: JugadorResumenDTO",
@@ -47995,7 +47997,7 @@
 																	},
 																	"font": "Arial;13;0",
 																	"left": 1125,
-																	"top": 881,
+																	"top": 866,
 																	"width": 185.7421875,
 																	"height": 13,
 																	"text": "-acepta: boolean",
@@ -48012,7 +48014,7 @@
 																	},
 																	"font": "Arial;13;0",
 																	"left": 1125,
-																	"top": 896,
+																	"top": 881,
 																	"width": 185.7421875,
 																	"height": 13,
 																	"text": "-fechaRespuesta: Date",
@@ -48023,7 +48025,7 @@
 															"left": 1120,
 															"top": 846,
 															"width": 195.7421875,
-															"height": 68
+															"height": 53
 														},
 														{
 															"_type": "UMLOperationCompartmentView",
@@ -48036,7 +48038,7 @@
 															},
 															"font": "Arial;13;0",
 															"left": 1120,
-															"top": 914,
+															"top": 899,
 															"width": 195.7421875,
 															"height": 10
 														},
@@ -54811,8 +54813,8 @@
 													},
 													"visible": false,
 													"font": "Arial;13;0",
-													"left": 797,
-													"top": 570,
+													"left": 798,
+													"top": 575,
 													"height": 13,
 													"alpha": 1.5707963267948966,
 													"distance": 15,
@@ -54832,8 +54834,8 @@
 													},
 													"visible": null,
 													"font": "Arial;13;0",
-													"left": 796,
-													"top": 585,
+													"left": 798,
+													"top": 590,
 													"height": 13,
 													"alpha": 1.5707963267948966,
 													"distance": 30,
@@ -54853,8 +54855,8 @@
 													},
 													"visible": false,
 													"font": "Arial;13;0",
-													"left": 800,
-													"top": 541,
+													"left": 799,
+													"top": 545,
 													"height": 13,
 													"alpha": -1.5707963267948966,
 													"distance": 15,
@@ -54871,8 +54873,7 @@
 											"tail": {
 												"$ref": "AAAAAAGd9k8hCrPyBV0="
 											},
-											"lineStyle": 1,
-											"points": "855:566;744:558",
+											"points": "856:566;743:566",
 											"showVisibility": true,
 											"nameLabel": {
 												"$ref": "AAAAAAGd9lOweoKImwA="
@@ -54905,8 +54906,8 @@
 													},
 													"visible": false,
 													"font": "Arial;13;0",
-													"left": 866,
-													"top": 733,
+													"left": 1015,
+													"top": 881,
 													"height": 13,
 													"alpha": 1.5707963267948966,
 													"distance": 15,
@@ -54926,8 +54927,8 @@
 													},
 													"visible": null,
 													"font": "Arial;13;0",
-													"left": 881,
-													"top": 733,
+													"left": 1015,
+													"top": 896,
 													"height": 13,
 													"alpha": 1.5707963267948966,
 													"distance": 30,
@@ -54947,8 +54948,8 @@
 													},
 													"visible": false,
 													"font": "Arial;13;0",
-													"left": 837,
-													"top": 734,
+													"left": 1016,
+													"top": 851,
 													"height": 13,
 													"alpha": -1.5707963267948966,
 													"distance": 15,
@@ -54965,7 +54966,7 @@
 											"tail": {
 												"$ref": "AAAAAAGd9k8hCrPyBV0="
 											},
-											"points": "856:740;852:740;852:816",
+											"points": "1016:792;1016:872;958:872",
 											"showVisibility": true,
 											"nameLabel": {
 												"$ref": "AAAAAAGd9lPd8olbwsM="
@@ -55869,7 +55870,8 @@
 												"$ref": "AAAAAAGd8/V3XKAGw2s="
 											},
 											"name": "controlador",
-											"visibility": "private"
+											"visibility": "private",
+											"type": ""
 										}
 									],
 									"operations": [
@@ -55966,7 +55968,8 @@
 												"$ref": "AAAAAAGd8/V5rKAvlfU="
 											},
 											"name": "controlador",
-											"visibility": "private"
+											"visibility": "private",
+											"type": ""
 										}
 									],
 									"operations": [
@@ -56074,7 +56077,8 @@
 												"$ref": "AAAAAAGd8/V7zKBY/Xs="
 											},
 											"name": "controlador",
-											"visibility": "private"
+											"visibility": "private",
+											"type": ""
 										}
 									],
 									"operations": [
@@ -56278,7 +56282,8 @@
 												"$ref": "AAAAAAGd9AYgwTI3UhM="
 											},
 											"name": "controlador",
-											"visibility": "private"
+											"visibility": "private",
+											"type": ""
 										}
 									],
 									"operations": [
@@ -58014,7 +58019,7 @@
 																			},
 																			"font": "Arial;13;1",
 																			"left": 533,
-																			"top": 47,
+																			"top": 87,
 																			"width": 112.9599609375,
 																			"height": 13,
 																			"text": ": Jugador"
@@ -58047,9 +58052,9 @@
 																	],
 																	"font": "Arial;13;0",
 																	"left": 528,
-																	"top": 40,
+																	"top": 80,
 																	"width": 122.9599609375,
-																	"height": 40,
+																	"height": 25,
 																	"stereotypeLabel": {
 																		"$ref": "AAAAAAGd9qLqNNT1NwU="
 																	},
@@ -58074,9 +58079,9 @@
 																	},
 																	"font": "Arial;13;0",
 																	"left": 589,
-																	"top": 81,
+																	"top": 106,
 																	"width": 1,
-																	"height": 447
+																	"height": 422
 																}
 															],
 															"font": "Arial;13;0",
@@ -58084,6 +58089,7 @@
 															"top": 40,
 															"width": 121.9599609375,
 															"height": 488,
+															"stereotypeDisplay": "icon",
 															"nameCompartment": {
 																"$ref": "AAAAAAGd9qLqNNT0rrc="
 															},
@@ -61830,6 +61836,84 @@
 															"activation": {
 																"$ref": "AAAAAAGd9u01NRNgFNk="
 															}
+														},
+														{
+															"_type": "UMLTextView",
+															"_id": "AAAAAAGd+iaNly0KSPM=",
+															"_parent": {
+																"$ref": "AAAAAAGd9pWArc6UVbc="
+															},
+															"font": "Arial;13;0",
+															"left": 344,
+															"top": 16,
+															"width": 67.0908203125,
+															"height": 64,
+															"text": "REgistrar respuesta ira hasta dominio"
+														},
+														{
+															"_type": "UMLTextView",
+															"_id": "AAAAAAGd+iiXyS0PHYE=",
+															"_parent": {
+																"$ref": "AAAAAAGd9pWArc6UVbc="
+															},
+															"font": "Arial;13;0",
+															"left": 816,
+															"top": 192,
+															"width": 280,
+															"height": 64,
+															"text": "LA parte para calcular las posiciones o ranking de los jugadores esta en dominio, entonces se tiene que corregir, de modo que ira hasta dominio"
+														},
+														{
+															"_type": "UMLTextView",
+															"_id": "AAAAAAGd+iqRsy0X7Tg=",
+															"_parent": {
+																"$ref": "AAAAAAGd9pWArc6UVbc="
+															},
+															"font": "Arial;13;0",
+															"left": 552,
+															"top": 152,
+															"width": 256,
+															"height": 112,
+															"text": "necesito una forma de recuperar la informacion de los jugadores para calcular la tabla de posiciones, no puedo regresarme debido a la arquitectura, encontrar una forma de obtener los datos del jugador para calcular los puntos y mostrar la tabla de posiciones"
+														},
+														{
+															"_type": "UMLTextView",
+															"_id": "AAAAAAGd+iu58i0hAtU=",
+															"_parent": {
+																"$ref": "AAAAAAGd9pWArc6UVbc="
+															},
+															"font": "Arial;13;0",
+															"left": 600,
+															"top": 120,
+															"width": 144,
+															"height": 51,
+															"text": "eso tiene que viajar hasta dominio"
+														},
+														{
+															"_type": "UMLTextView",
+															"_id": "AAAAAAGd+o0ITi0pLrI=",
+															"_parent": {
+																"$ref": "AAAAAAGd9pWArc6UVbc="
+															},
+															"font": "Arial;13;0",
+															"left": 463,
+															"top": 851,
+															"width": 100,
+															"height": 25,
+															"text": "Text"
+														},
+														{
+															"_type": "UMLTextView",
+															"_id": "AAAAAAGd+pAs+jMpvwc=",
+															"_parent": {
+																"$ref": "AAAAAAGd9pWArc6UVbc="
+															},
+															"font": "Arial;13;0",
+															"left": 1444,
+															"top": 395,
+															"width": 100,
+															"height": 64,
+															"text": "agregar un lostMessage para cuando envie "
 														}
 													]
 												}
@@ -62226,7 +62310,8 @@
 											"_parent": {
 												"$ref": "AAAAAAGd9HJw2YO/FMA="
 											},
-											"name": "Role2"
+											"name": "Role2",
+											"type": ""
 										},
 										{
 											"_type": "UMLAttribute",
@@ -62234,7 +62319,8 @@
 											"_parent": {
 												"$ref": "AAAAAAGd9HJw2YO/FMA="
 											},
-											"name": "Role3"
+											"name": "Role3",
+											"type": ""
 										},
 										{
 											"_type": "UMLAttribute",
@@ -70445,9 +70531,9 @@
 														"$ref": "AAAAAAGd58N29Dod170="
 													},
 													"font": "Arial;13;0",
-													"left": 24.72998046875,
+													"left": 22.55908203125,
 													"top": 13,
-													"width": 185.70703125,
+													"width": 166.74658203125,
 													"height": 13,
 													"text": "DiagramaSecuenciaSerializador"
 												},
@@ -70460,7 +70546,7 @@
 													"font": "Arial;13;1",
 													"left": 5,
 													"top": 13,
-													"width": 13.72998046875,
+													"width": 11.55908203125,
 													"height": 13,
 													"text": "sd"
 												}
@@ -71742,9 +71828,9 @@
 														"$ref": "AAAAAAGd5gdoaF6iT9o="
 													},
 													"font": "Arial;13;0",
-													"left": 32.72998046875,
+													"left": 30.55908203125,
 													"top": 13,
-													"width": 114.9052734375,
+													"width": 101.791015625,
 													"height": 13,
 													"text": "SequenceDiagram1"
 												},
@@ -71757,7 +71843,7 @@
 													"font": "Arial;13;1",
 													"left": 13,
 													"top": 13,
-													"width": 13.72998046875,
+													"width": 11.55908203125,
 													"height": 13,
 													"text": "sd"
 												}
@@ -81624,9 +81710,9 @@
 														"$ref": "AAAAAAGd5f8huFf/D+Y="
 													},
 													"font": "Arial;13;0",
-													"left": 112.72998046875,
+													"left": 110.55908203125,
 													"top": 13,
-													"width": 125.7470703125,
+													"width": 114.0927734375,
 													"height": 13,
 													"text": "DS_ConexionEntrada"
 												},
@@ -81639,7 +81725,7 @@
 													"font": "Arial;13;1",
 													"left": 93,
 													"top": 13,
-													"width": 13.72998046875,
+													"width": 11.55908203125,
 													"height": 13,
 													"text": "sd"
 												}
@@ -82710,9 +82796,9 @@
 														"$ref": "AAAAAAGd5hpSjmGjcWU="
 													},
 													"font": "Arial;13;0",
-													"left": 32.72998046875,
+													"left": 30.55908203125,
 													"top": 13,
-													"width": 174.154296875,
+													"width": 154.11474609375,
 													"height": 13,
 													"text": "Diagrama de secuencia salida"
 												},
@@ -82725,7 +82811,7 @@
 													"font": "Arial;13;1",
 													"left": 13,
 													"top": 13,
-													"width": 13.72998046875,
+													"width": 11.55908203125,
 													"height": 13,
 													"text": "sd"
 												}
@@ -83653,9 +83739,9 @@
 														"$ref": "AAAAAAGd58zxdDuaQ1c="
 													},
 													"font": "Arial;13;0",
-													"left": 32.72998046875,
+													"left": 30.55908203125,
 													"top": 13,
-													"width": 200.154296875,
+													"width": 179.73388671875,
 													"height": 13,
 													"text": "DiagramaSecuenciaDeserializador"
 												},
@@ -83668,7 +83754,7 @@
 													"font": "Arial;13;1",
 													"left": 13,
 													"top": 13,
-													"width": 13.72998046875,
+													"width": 11.55908203125,
 													"height": 13,
 													"text": "sd"
 												}
@@ -84846,9 +84932,9 @@
 														"$ref": "AAAAAAGd7RdwRUqLciE="
 													},
 													"font": "Arial;13;0",
-													"left": 32.72998046875,
+													"left": 30.55908203125,
 													"top": 13,
-													"width": 198.72607421875,
+													"width": 176.1474609375,
 													"height": 13,
 													"text": "DiagramaSecuenciaEstadoPartida"
 												},
@@ -84861,7 +84947,7 @@
 													"font": "Arial;13;1",
 													"left": 13,
 													"top": 13,
-													"width": 13.72998046875,
+													"width": 11.55908203125,
 													"height": 13,
 													"text": "sd"
 												}
@@ -86115,9 +86201,9 @@
 														"$ref": "AAAAAAGd7U16oFMSSZ0="
 													},
 													"font": "Arial;13;0",
-													"left": 32.72998046875,
+													"left": 30.55908203125,
 													"top": 5,
-													"width": 158.970703125,
+													"width": 143.66650390625,
 													"height": 13,
 													"text": "DiagramaSecuenciaControl"
 												},
@@ -86130,7 +86216,7 @@
 													"font": "Arial;13;1",
 													"left": 13,
 													"top": 5,
-													"width": 13.72998046875,
+													"width": 11.55908203125,
 													"height": 13,
 													"text": "sd"
 												}
@@ -87422,9 +87508,9 @@
 														"$ref": "AAAAAAGd5gqnJ19jcRo="
 													},
 													"font": "Arial;13;0",
-													"left": 24.72998046875,
+													"left": 22.55908203125,
 													"top": 13,
-													"width": 185.7197265625,
+													"width": 165.6611328125,
 													"height": 13,
 													"text": "Diagrama de secuencia Adapter"
 												},
@@ -87437,7 +87523,7 @@
 													"font": "Arial;13;1",
 													"left": 5,
 													"top": 13,
-													"width": 13.72998046875,
+													"width": 11.55908203125,
 													"height": 13,
 													"text": "sd"
 												}
@@ -88672,9 +88758,9 @@
 														"$ref": "AAAAAAGd5WhsE3Dws40="
 													},
 													"font": "Arial;13;0",
-													"left": 32.72998046875,
+													"left": 30.55908203125,
 													"top": 13,
-													"width": 145.259765625,
+													"width": 127.435546875,
 													"height": 13,
 													"text": "Secuencia Componentes"
 												},
@@ -88687,7 +88773,7 @@
 													"font": "Arial;13;1",
 													"left": 13,
 													"top": 13,
-													"width": 13.72998046875,
+													"width": 11.55908203125,
 													"height": 13,
 													"text": "sd"
 												}
@@ -89546,9 +89632,9 @@
 														"$ref": "AAAAAAGd5Y0n9HQ1740="
 													},
 													"font": "Arial;13;0",
-													"left": 184.72998046875,
+													"left": 183.99365234375,
 													"top": 93,
-													"width": 59.0205078125,
+													"width": 55.5927734375,
 													"height": 13,
 													"text": "Validación"
 												},
@@ -89561,7 +89647,7 @@
 													"font": "Arial;13;1",
 													"left": 165,
 													"top": 93,
-													"width": 13.72998046875,
+													"width": 12.99365234375,
 													"height": 13,
 													"text": "alt"
 												},
@@ -90971,9 +91057,9 @@
 														"$ref": "AAAAAAGd5ZlNKXV5xg4="
 													},
 													"font": "Arial;13;0",
-													"left": 32.72998046875,
+													"left": 30.55908203125,
 													"top": 13,
-													"width": 215.34423828125,
+													"width": 195.66650390625,
 													"height": 13,
 													"text": "CoordinadorFiltros_SecuenciaInterna"
 												},
@@ -90986,7 +91072,7 @@
 													"font": "Arial;13;1",
 													"left": 13,
 													"top": 13,
-													"width": 13.72998046875,
+													"width": 11.55908203125,
 													"height": 13,
 													"text": "sd"
 												}
@@ -91602,9 +91688,9 @@
 														"$ref": "AAAAAAGd5evv1HkL/R4="
 													},
 													"font": "Arial;13;0",
-													"left": 336.72998046875,
+													"left": 335.99365234375,
 													"top": 93,
-													"width": 74.8896484375,
+													"width": 71.49365234375,
 													"height": 13,
 													"text": "ValidarFiltros"
 												},
@@ -91617,7 +91703,7 @@
 													"font": "Arial;13;1",
 													"left": 317,
 													"top": 93,
-													"width": 13.72998046875,
+													"width": 12.99365234375,
 													"height": 13,
 													"text": "alt"
 												},
