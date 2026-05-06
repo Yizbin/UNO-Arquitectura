@@ -39818,7 +39818,7 @@
 																	"font": "Arial;13;1",
 																	"left": 325,
 																	"top": 455,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "SubDominioConcreto"
 																},
@@ -39853,7 +39853,7 @@
 															"font": "Arial;13;0",
 															"left": 320,
 															"top": 448,
-															"width": 616.85205078125,
+															"width": 620.4638671875,
 															"height": 25,
 															"stereotypeLabel": {
 																"$ref": "AAAAAAGd1pffgWv/uaU="
@@ -39890,7 +39890,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 478,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "-partida: Partida",
 																	"horizontalAlignment": 0
@@ -39907,7 +39907,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 493,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "-cartaMapper: CartaMapper",
 																	"horizontalAlignment": 0
@@ -39924,7 +39924,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 508,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "-jugadorMapper: JugadorMapper",
 																	"horizontalAlignment": 0
@@ -39941,7 +39941,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 523,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "-mazoFactory: MazoFactory",
 																	"horizontalAlignment": 0
@@ -39950,7 +39950,7 @@
 															"font": "Arial;13;0",
 															"left": 320,
 															"top": 473,
-															"width": 616.85205078125,
+															"width": 620.4638671875,
 															"height": 68
 														},
 														{
@@ -39975,7 +39975,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 546,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+prepararJuego(jugadoresDTO: List<JugadorResumenDTO>): void",
 																	"horizontalAlignment": 0
@@ -39992,7 +39992,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 561,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+elegirColorComodin(nuevoColor: TipoColor): void",
 																	"horizontalAlignment": 0
@@ -40009,7 +40009,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 576,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+tirarRuleta(): AccionesPosibles",
 																	"horizontalAlignment": 0
@@ -40026,7 +40026,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 591,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+terminarTurno(): void",
 																	"horizontalAlignment": 0
@@ -40043,7 +40043,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 606,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+obtenerJugadorActual(): JugadorResumenDTO",
 																	"horizontalAlignment": 0
@@ -40060,7 +40060,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 621,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+obtenerCartaEnTope(): CartaDTO",
 																	"horizontalAlignment": 0
@@ -40077,7 +40077,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 636,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+obtenerColorActual(): TipoColor",
 																	"horizontalAlignment": 0
@@ -40094,7 +40094,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 651,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "-generarMazoCompleto(): Mazo",
 																	"horizontalAlignment": 0
@@ -40111,7 +40111,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 666,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+obtenerManoJugador(idJugador: int): List<CartaDTO>",
 																	"horizontalAlignment": 0
@@ -40128,7 +40128,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 681,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "-obtenerJugadorPorId(idJugador: int): Jugador",
 																	"horizontalAlignment": 0
@@ -40145,7 +40145,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 696,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+jugarCarta(idJugador: int, cartaAJugarDTO: CartaDTO): void",
 																	"horizontalAlignment": 0
@@ -40162,7 +40162,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 711,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+robarCarta(idJugador: int): void",
 																	"horizontalAlignment": 0
@@ -40179,7 +40179,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 726,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+gritarUno(idJugador: int): void",
 																	"horizontalAlignment": 0
@@ -40196,9 +40196,9 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 741,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
-																	"text": "+registrarRespuestaFinalizacion(respuestaDTO: RespuestaFinalizacionDTO): ResultadoFinalizacionDTO",
+																	"text": "+registrarRespuestaFinalizacion(respuestaDTO: RespuestaFinalizacionDTO): RespuestaFinalizacionDTO",
 																	"horizontalAlignment": 0
 																},
 																{
@@ -40213,7 +40213,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 756,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+calcularTablaPosiciones(): TablaPosicionesDTO",
 																	"horizontalAlignment": 0
@@ -40230,7 +40230,7 @@
 																	"font": "Arial;13;0",
 																	"left": 325,
 																	"top": 771,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+evaluarFinalizacion(): ResultadoFinalizacionDTO",
 																	"horizontalAlignment": 0
@@ -40239,7 +40239,7 @@
 															"font": "Arial;13;0",
 															"left": 320,
 															"top": 541,
-															"width": 616.85205078125,
+															"width": 620.4638671875,
 															"height": 248
 														},
 														{
@@ -40279,7 +40279,7 @@
 													"containerChangeable": true,
 													"left": 320,
 													"top": 448,
-													"width": 615.85205078125,
+													"width": 619.4638671875,
 													"height": 341,
 													"nameCompartment": {
 														"$ref": "AAAAAAGd1pffgWv+68s="
@@ -40550,7 +40550,7 @@
 															},
 															"visible": false,
 															"font": "Arial;13;0",
-															"left": 430,
+															"left": 431,
 															"top": 421,
 															"height": 13,
 															"alpha": 1.5707963267948966,
@@ -40571,7 +40571,7 @@
 															},
 															"visible": null,
 															"font": "Arial;13;0",
-															"left": 419,
+															"left": 420,
 															"top": 431,
 															"height": 13,
 															"alpha": 1.5707963267948966,
@@ -40592,7 +40592,7 @@
 															},
 															"visible": false,
 															"font": "Arial;13;0",
-															"left": 451,
+															"left": 452,
 															"top": 400,
 															"height": 13,
 															"alpha": -1.5707963267948966,
@@ -40611,7 +40611,7 @@
 														"$ref": "AAAAAAGd1pffgWv9/PA="
 													},
 													"lineStyle": 1,
-													"points": "469:447;414:388",
+													"points": "470:447;415:388",
 													"showVisibility": true,
 													"nameLabel": {
 														"$ref": "AAAAAAGd1pgXgGxWC8c="
@@ -43020,7 +43020,7 @@
 														"$ref": "AAAAAAGd1pffgWv9/PA="
 													},
 													"lineStyle": 1,
-													"points": "874:790;876:791",
+													"points": "875:790;876:791",
 													"showVisibility": true,
 													"nameLabel": {
 														"$ref": "AAAAAAGd1qVLOW+0R6E="
@@ -43147,7 +43147,7 @@
 															},
 															"visible": false,
 															"font": "Arial;13;0",
-															"left": 752,
+															"left": 753,
 															"top": 841,
 															"height": 13,
 															"alpha": 1.5707963267948966,
@@ -43168,7 +43168,7 @@
 															},
 															"visible": null,
 															"font": "Arial;13;0",
-															"left": 766,
+															"left": 767,
 															"top": 835,
 															"height": 13,
 															"alpha": 1.5707963267948966,
@@ -43189,7 +43189,7 @@
 															},
 															"visible": false,
 															"font": "Arial;13;0",
-															"left": 725,
+															"left": 726,
 															"top": 854,
 															"height": 13,
 															"alpha": -1.5707963267948966,
@@ -43208,7 +43208,7 @@
 														"$ref": "AAAAAAGd1pffgWv9/PA="
 													},
 													"lineStyle": 1,
-													"points": "709:790;770:919",
+													"points": "710:790;770:919",
 													"showVisibility": true,
 													"nameLabel": {
 														"$ref": "AAAAAAGd1qZ2CG/b3eE="
@@ -43302,7 +43302,7 @@
 														"$ref": "AAAAAAGd1pffgWv9/PA="
 													},
 													"lineStyle": 1,
-													"points": "544:790;532:815",
+													"points": "545:790;532:815",
 													"showVisibility": true,
 													"nameLabel": {
 														"$ref": "AAAAAAGd1qattm/s0Uo="
@@ -43429,7 +43429,7 @@
 															},
 															"visible": false,
 															"font": "Arial;13;0",
-															"left": 829,
+															"left": 830,
 															"top": 394,
 															"height": 13,
 															"alpha": 1.5707963267948966,
@@ -43450,7 +43450,7 @@
 															},
 															"visible": null,
 															"font": "Arial;13;0",
-															"left": 819,
+															"left": 820,
 															"top": 383,
 															"height": 13,
 															"alpha": 1.5707963267948966,
@@ -43471,7 +43471,7 @@
 															},
 															"visible": false,
 															"font": "Arial;13;0",
-															"left": 850,
+															"left": 851,
 															"top": 415,
 															"height": 13,
 															"alpha": -1.5707963267948966,
@@ -43490,7 +43490,7 @@
 														"$ref": "AAAAAAGd1pffgWv9/PA="
 													},
 													"lineStyle": 1,
-													"points": "803:447;878:375",
+													"points": "804:447;878:375",
 													"showVisibility": true,
 													"nameLabel": {
 														"$ref": "AAAAAAGd1qe4mnATRdg="
@@ -43523,8 +43523,8 @@
 															},
 															"visible": false,
 															"font": "Arial;13;0",
-															"left": 947,
-															"top": 492,
+															"left": 948,
+															"top": 491,
 															"height": 13,
 															"alpha": 1.5707963267948966,
 															"distance": 15,
@@ -43544,8 +43544,8 @@
 															},
 															"visible": null,
 															"font": "Arial;13;0",
-															"left": 942,
-															"top": 478,
+															"left": 944,
+															"top": 477,
 															"height": 13,
 															"alpha": 1.5707963267948966,
 															"distance": 30,
@@ -43565,8 +43565,8 @@
 															},
 															"visible": false,
 															"font": "Arial;13;0",
-															"left": 956,
-															"top": 521,
+															"left": 957,
+															"top": 520,
 															"height": 13,
 															"alpha": -1.5707963267948966,
 															"distance": 15,
@@ -43584,7 +43584,7 @@
 														"$ref": "AAAAAAGd1pffgWv9/PA="
 													},
 													"lineStyle": 1,
-													"points": "937:518;967:508",
+													"points": "940:517;967:508",
 													"showVisibility": true,
 													"nameLabel": {
 														"$ref": "AAAAAAGd1qfCzXAkJsU="
@@ -43617,7 +43617,7 @@
 															},
 															"visible": false,
 															"font": "Arial;13;0",
-															"left": 955,
+															"left": 956,
 															"top": 575,
 															"height": 13,
 															"alpha": 1.5707963267948966,
@@ -43638,7 +43638,7 @@
 															},
 															"visible": null,
 															"font": "Arial;13;0",
-															"left": 954,
+															"left": 955,
 															"top": 560,
 															"height": 13,
 															"alpha": 1.5707963267948966,
@@ -43659,7 +43659,7 @@
 															},
 															"visible": false,
 															"font": "Arial;13;0",
-															"left": 956,
+															"left": 957,
 															"top": 604,
 															"height": 13,
 															"alpha": -1.5707963267948966,
@@ -43678,7 +43678,7 @@
 														"$ref": "AAAAAAGd1pffgWv9/PA="
 													},
 													"lineStyle": 1,
-													"points": "937:597;975:595",
+													"points": "940:597;975:595",
 													"showVisibility": true,
 													"nameLabel": {
 														"$ref": "AAAAAAGd1qfLbnA10HA="
@@ -43711,8 +43711,8 @@
 															},
 															"visible": false,
 															"font": "Arial;13;0",
-															"left": 1022,
-															"top": 660,
+															"left": 1023,
+															"top": 661,
 															"height": 13,
 															"alpha": 1.5707963267948966,
 															"distance": 15,
@@ -43732,8 +43732,8 @@
 															},
 															"visible": null,
 															"font": "Arial;13;0",
-															"left": 1024,
-															"top": 645,
+															"left": 1025,
+															"top": 646,
 															"height": 13,
 															"alpha": 1.5707963267948966,
 															"distance": 30,
@@ -43753,8 +43753,8 @@
 															},
 															"visible": false,
 															"font": "Arial;13;0",
-															"left": 1017,
-															"top": 689,
+															"left": 1018,
+															"top": 690,
 															"height": 13,
 															"alpha": -1.5707963267948966,
 															"distance": 15,
@@ -43772,7 +43772,7 @@
 														"$ref": "AAAAAAGd1pffgWv9/PA="
 													},
 													"lineStyle": 1,
-													"points": "937:668;1103:695",
+													"points": "940:669;1103:695",
 													"showVisibility": true,
 													"nameLabel": {
 														"$ref": "AAAAAAGd1qfUKnBG4P0="
@@ -43805,8 +43805,8 @@
 															},
 															"visible": false,
 															"font": "Arial;13;0",
-															"left": 298,
-															"top": 525,
+															"left": 299,
+															"top": 524,
 															"height": 13,
 															"alpha": 1.5707963267948966,
 															"distance": 15,
@@ -43826,7 +43826,7 @@
 															},
 															"visible": null,
 															"font": "Arial;13;0",
-															"left": 294,
+															"left": 295,
 															"top": 539,
 															"height": 13,
 															"alpha": 1.5707963267948966,
@@ -43847,8 +43847,8 @@
 															},
 															"visible": false,
 															"font": "Arial;13;0",
-															"left": 307,
-															"top": 496,
+															"left": 306,
+															"top": 495,
 															"height": 13,
 															"alpha": -1.5707963267948966,
 															"distance": 15,
@@ -43866,7 +43866,7 @@
 														"$ref": "AAAAAAGd1pffgWv9/PA="
 													},
 													"lineStyle": 1,
-													"points": "319:522;287:512",
+													"points": "319:521;287:512",
 													"showVisibility": true,
 													"nameLabel": {
 														"$ref": "AAAAAAGd1qf+dnBX9bw="
@@ -44434,7 +44434,7 @@
 																"$ref": "AAAAAAGd/HCu3/518eg="
 															},
 															"type": {
-																"$ref": "AAAAAAGd/GDredMCta4="
+																"$ref": "AAAAAAGd9Et3WSYa9LE="
 															},
 															"direction": "return"
 														}
@@ -51933,7 +51933,7 @@
 																	"font": "Arial;13;1",
 																	"left": 1085,
 																	"top": 31,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "SubDominioConcreto"
 																},
@@ -51946,7 +51946,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 46,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "(from Dominio)"
 																},
@@ -51967,7 +51967,7 @@
 															"font": "Arial;13;0",
 															"left": 1080,
 															"top": 24,
-															"width": 616.85205078125,
+															"width": 620.4638671875,
 															"height": 40,
 															"stereotypeLabel": {
 																"$ref": "AAAAAAGd/Lq9Yt2Spxg="
@@ -52004,7 +52004,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 69,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "-partida: Partida",
 																	"horizontalAlignment": 0
@@ -52021,7 +52021,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 84,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "-cartaMapper: CartaMapper",
 																	"horizontalAlignment": 0
@@ -52038,7 +52038,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 99,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "-jugadorMapper: JugadorMapper",
 																	"horizontalAlignment": 0
@@ -52055,7 +52055,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 114,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "-mazoFactory: MazoFactory",
 																	"horizontalAlignment": 0
@@ -52064,7 +52064,7 @@
 															"font": "Arial;13;0",
 															"left": 1080,
 															"top": 64,
-															"width": 616.85205078125,
+															"width": 620.4638671875,
 															"height": 68
 														},
 														{
@@ -52089,7 +52089,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 137,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+prepararJuego(jugadoresDTO: List<JugadorResumenDTO>): void",
 																	"horizontalAlignment": 0
@@ -52106,7 +52106,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 152,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+elegirColorComodin(nuevoColor: TipoColor): void",
 																	"horizontalAlignment": 0
@@ -52123,7 +52123,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 167,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+tirarRuleta(): AccionesPosibles",
 																	"horizontalAlignment": 0
@@ -52140,7 +52140,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 182,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+terminarTurno(): void",
 																	"horizontalAlignment": 0
@@ -52157,7 +52157,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 197,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+obtenerJugadorActual(): JugadorResumenDTO",
 																	"horizontalAlignment": 0
@@ -52174,7 +52174,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 212,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+obtenerCartaEnTope(): CartaDTO",
 																	"horizontalAlignment": 0
@@ -52191,7 +52191,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 227,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+obtenerColorActual(): TipoColor",
 																	"horizontalAlignment": 0
@@ -52208,7 +52208,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 242,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "-generarMazoCompleto(): Mazo",
 																	"horizontalAlignment": 0
@@ -52225,7 +52225,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 257,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+obtenerManoJugador(idJugador: int): List<CartaDTO>",
 																	"horizontalAlignment": 0
@@ -52242,7 +52242,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 272,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "-obtenerJugadorPorId(idJugador: int): Jugador",
 																	"horizontalAlignment": 0
@@ -52259,7 +52259,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 287,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+jugarCarta(idJugador: int, cartaAJugarDTO: CartaDTO): void",
 																	"horizontalAlignment": 0
@@ -52276,7 +52276,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 302,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+robarCarta(idJugador: int): void",
 																	"horizontalAlignment": 0
@@ -52293,7 +52293,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 317,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+gritarUno(idJugador: int): void",
 																	"horizontalAlignment": 0
@@ -52310,9 +52310,9 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 332,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
-																	"text": "+registrarRespuestaFinalizacion(respuestaDTO: RespuestaFinalizacionDTO): ResultadoFinalizacionDTO",
+																	"text": "+registrarRespuestaFinalizacion(respuestaDTO: RespuestaFinalizacionDTO): RespuestaFinalizacionDTO",
 																	"horizontalAlignment": 0
 																},
 																{
@@ -52327,7 +52327,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 347,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+calcularTablaPosiciones(): TablaPosicionesDTO",
 																	"horizontalAlignment": 0
@@ -52344,7 +52344,7 @@
 																	"font": "Arial;13;0",
 																	"left": 1085,
 																	"top": 362,
-																	"width": 606.85205078125,
+																	"width": 610.4638671875,
 																	"height": 13,
 																	"text": "+evaluarFinalizacion(): ResultadoFinalizacionDTO",
 																	"horizontalAlignment": 0
@@ -52353,7 +52353,7 @@
 															"font": "Arial;13;0",
 															"left": 1080,
 															"top": 132,
-															"width": 616.85205078125,
+															"width": 620.4638671875,
 															"height": 248
 														},
 														{
@@ -52393,7 +52393,7 @@
 													"containerChangeable": true,
 													"left": 1080,
 													"top": 24,
-													"width": 615.85205078125,
+													"width": 619.4638671875,
 													"height": 356,
 													"showNamespace": true,
 													"nameCompartment": {
@@ -63078,9 +63078,9 @@
 																		"$ref": "AAAAAAGd/OcsxPZafWk="
 																	},
 																	"font": "Arial;13;0",
-																	"left": 1379,
+																	"left": 1377,
 																	"top": 480,
-																	"width": 612.7138671875,
+																	"width": 616.32568359375,
 																	"height": 13,
 																	"alpha": 1.5707963267948966,
 																	"distance": 10,
@@ -63088,7 +63088,7 @@
 																		"$ref": "AAAAAAGd/OcsxPZb7D8="
 																	},
 																	"edgePosition": 1,
-																	"text": "8 : registrarRespuestaFinalizacion(respuestaDTO: RespuestaFinalizacionDTO):ResultadoFinalizacionDTO"
+																	"text": "8 : registrarRespuestaFinalizacion(respuestaDTO: RespuestaFinalizacionDTO):RespuestaFinalizacionDTO"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -64242,7 +64242,7 @@
 														"$ref": "AAAAAAGd/ObkxPY6uPs="
 													},
 													"signature": {
-														"$ref": "AAAAAAGd/HbsVl2NoAc="
+														"$ref": "AAAAAAGd/HCu3/518eg="
 													}
 												},
 												{
