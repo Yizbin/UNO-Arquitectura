@@ -4,7 +4,6 @@
  */
 package DTOs;
 
-import DTOs.TipoCartaDTO;
 import Enums.Acciones;
 import Enums.Comodines;
 import Enums.TipoColor;
