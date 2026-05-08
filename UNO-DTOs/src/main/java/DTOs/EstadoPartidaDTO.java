@@ -4,6 +4,7 @@
  */
 package DTOs;
 
+import DTOs.JugadorResumenDTO;
 import Enums.EstadoRetoSpin;
 import java.util.List;
 
