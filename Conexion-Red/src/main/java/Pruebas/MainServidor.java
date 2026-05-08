@@ -6,7 +6,7 @@
 package Pruebas;
 
 import Interfaces.IReceptor;
-import Serializador.Deserializador;
+import Deserializador.Deserializador;
 import Servidor.Receptor;
 import Servidor.Servidor;
 
