@@ -4,6 +4,8 @@
  */
 package Interfaces;
 
+import Plantilla.ContextoPipeline;
+
 
 
 /**

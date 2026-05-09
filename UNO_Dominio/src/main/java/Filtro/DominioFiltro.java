@@ -8,7 +8,7 @@ import DTOs.PeticionJugadaDTO;
 import Enums.TipoAccionPartida;
 import Interfaces.ISubDominio;
 import Interfaces.SubDominioConcreto;
-import Interfaces.ContextoPipeline;
+import Plantilla.ContextoPipeline;
 import Interfaces.IFiltro;
 
 /**

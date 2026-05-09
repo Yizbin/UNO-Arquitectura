@@ -4,7 +4,7 @@
 package pipeline;
 
 import java.util.List;
-import Interfaces.ContextoPipeline;
+import Plantilla.ContextoPipeline;
 import Interfaces.IFiltro;
 import Interfaces.ISink;
 

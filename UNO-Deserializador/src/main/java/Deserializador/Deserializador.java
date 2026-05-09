@@ -5,7 +5,7 @@
 package Deserializador;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import Interfaces.ContextoPipeline;
+import Plantilla.ContextoPipeline;
 import Interfaces.IFiltro;
 
 /**

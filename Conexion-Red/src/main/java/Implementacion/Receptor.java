@@ -4,7 +4,7 @@
  */
 package Implementacion;
 
-import Interfaces.ContextoPipeline;
+import Plantilla.ContextoPipeline;
 import Interfaces.IObserverCola;
 import Interfaces.IPump;
 import Interfaces.ISink;
