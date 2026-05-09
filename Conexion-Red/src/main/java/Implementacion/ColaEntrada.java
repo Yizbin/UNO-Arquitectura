@@ -4,7 +4,7 @@
  */
 package Implementacion;
 
-import InterfacesConexion.IObserverCola;
+import Interfaces.IObserverCola;
 import java.util.LinkedList;
 import java.util.Queue;
 

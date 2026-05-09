@@ -4,13 +4,15 @@
  */
 package Implementacion;
 
-import InterfacesConexion.IDispatcher;
+import Interfaces.ContextoPipeline;
+import Interfaces.ISink;
+
 
 /**
  *
  * @author Abraham Coronel
  */
-public class Dispatcher implements IDispatcher {
+public class Dispatcher implements ISink<byte[]> {
 
     private ColaSalida cola;
     private ClienteTCP cliente;
@@ -21,8 +23,14 @@ public class Dispatcher implements IDispatcher {
     }
 
     @Override
-    public void despachar(byte[] datos) {
-        cola.encolar(datos);
+    public void enviar(ContextoPipeline<byte[]> contexto) throws Exception {
+        if (contexto != null && !contexto.estaDetenido()) {
+            byte[] datos = contexto.getMensaje();
+            
+            if (datos != null && datos.length > 0) {
+                cola.encolar(datos); 
+            }
+        }
     }
 
 }

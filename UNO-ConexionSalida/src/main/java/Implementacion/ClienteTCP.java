@@ -4,7 +4,7 @@
  */
 package Implementacion;
 
-import InterfacesConexion.IObserverCola;
+import Interfaces.IObserverCola;
 import java.io.DataOutputStream;
 import java.net.Socket;
 

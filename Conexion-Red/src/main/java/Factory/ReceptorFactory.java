@@ -7,7 +7,6 @@ package Factory;
 import Implementacion.ColaEntrada;
 import Implementacion.Receptor;
 import Implementacion.ServidorTCP;
-import InterfacesConexion.IReceptor;
 import java.net.Socket;
 
 /**
@@ -16,10 +15,10 @@ import java.net.Socket;
  */
 public class ReceptorFactory {
 
-    public static void iniciarConexion(Socket socketCliente, IReceptor aplicacionPrincipal) {
+    public static void iniciarConexion(Socket socketCliente) {
         ColaEntrada colaIn = new ColaEntrada();
 
-        new Receptor(colaIn, aplicacionPrincipal);
+        new Receptor(colaIn);
 
         ServidorTCP servidor = new ServidorTCP(socketCliente, colaIn);
         new Thread(servidor).start();

@@ -4,29 +4,42 @@
  */
 package Implementacion;
 
-import InterfacesConexion.IObserverCola;
-import InterfacesConexion.IReceptor;
+import Interfaces.ContextoPipeline;
+import Interfaces.IObserverCola;
+import Interfaces.IPump;
+import Interfaces.ISink;
 
 /**
  *
  * @author Abraham Coronel
  */
-public class Receptor implements IObserverCola {
+public class Receptor implements IObserverCola, IPump<byte[]>{
 
     private ColaEntrada cola;
-    private IReceptor aplicacionPrincipal;
+    private ISink<byte[]> destinoTuberias; 
 
-    public Receptor(ColaEntrada cola, IReceptor aplicacion) {
+    public Receptor(ColaEntrada cola) {
         this.cola = cola;
-        this.aplicacionPrincipal = aplicacion;
-        this.cola.setObservador(this);
+        this.cola.setObservador(this); 
+    }
+
+    @Override
+    public void conectarDestino(ISink<byte[]> destino) {
+        this.destinoTuberias = destino;
     }
 
     @Override
     public void nuevoMensaje() {
         byte[] datos = cola.desencolar();
-        if (datos != null && aplicacionPrincipal != null) {
-            aplicacionPrincipal.recibir(datos); 
+        
+        if (datos != null && destinoTuberias != null) {
+            try {
+                ContextoPipeline<byte[]> contexto = new ContextoPipeline<>(datos);
+                
+                destinoTuberias.enviar(contexto); 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
