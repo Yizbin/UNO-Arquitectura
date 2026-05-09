@@ -4,9 +4,9 @@
 package pipeline;
 
 import java.util.List;
-import interfaces.ContextoPipeline;
-import interfaces.IFiltro;
-import interfaces.ISink;
+import Interfaces.ContextoPipeline;
+import Interfaces.IFiltro;
+import Interfaces.ISink;
 
 /**
  * Coordina la ejecución secuencial de un conjunto de filtros dentro de un

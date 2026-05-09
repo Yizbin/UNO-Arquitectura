@@ -6,8 +6,8 @@
 package Conexiones;
 
 import DTOs.ConexionJugadorDTO;
-import interfaces.ContextoPipeline;
-import interfaces.IFiltro;
+import Interfaces.ContextoPipeline;
+import Interfaces.IFiltro;
 import java.util.ArrayList;
 import java.util.List;
 

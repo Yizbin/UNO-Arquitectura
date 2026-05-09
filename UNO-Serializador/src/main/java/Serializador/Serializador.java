@@ -5,8 +5,8 @@
 package Serializador;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import interfaces.ContextoPipeline;
-import interfaces.IFiltro;
+import Interfaces.ContextoPipeline;
+import Interfaces.IFiltro;
 
 /**
  *

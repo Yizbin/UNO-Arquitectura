@@ -8,6 +8,13 @@
     </parent>
     <artifactId>CoordinadorFiltros</artifactId>
     <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>UNO-Interfaces</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
     <properties>
         <maven.compiler.release>23</maven.compiler.release>
         <exec.mainClass>org.itson.coordinadorfiltros.CoordinadorFiltros</exec.mainClass>

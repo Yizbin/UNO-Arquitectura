@@ -6,8 +6,8 @@
 package Estado;
 
 import DTOs.EstadoPartidaDTO;
-import interfaces.ContextoPipeline;
-import interfaces.IFiltro;
+import Interfaces.ContextoPipeline;
+import Interfaces.IFiltro;
 
 /**
  *

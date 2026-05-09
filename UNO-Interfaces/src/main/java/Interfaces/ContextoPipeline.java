@@ -1,4 +1,4 @@
-package interfaces;
+package Interfaces;
 
 //@author SAUL ISAAC APODACA BALDENEGRO 00000252020
 
