@@ -3,12 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 
-package Interfaces;
+package InterfacesConexion;
 
 /**
  *
  * @author Abraham Coronel
  */
-public interface IDispatcher {
-    void enviar(Object mensaje, String ip, int puerto);
+public interface IObserverCola {
+    void nuevoMensaje();
 }

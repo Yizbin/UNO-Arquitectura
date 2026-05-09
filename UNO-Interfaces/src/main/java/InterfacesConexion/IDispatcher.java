@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package Interfaces;
+package InterfacesConexion;
 
 /**
  *
  * @author Abraham Coronel
  */
-public interface IReceptor {
+public interface IDispatcher {
 
-   void update(byte[] datos);
+    void despachar(byte[] datos);
 }

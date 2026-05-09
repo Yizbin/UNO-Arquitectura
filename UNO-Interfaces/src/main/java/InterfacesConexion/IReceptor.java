@@ -2,15 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package Interfaces;
 
-
+package InterfacesConexion;
 
 /**
  *
- * @author saula
+ * @author Abraham Coronel
  */
-public interface IFiltro<I, O> {
-    
-    ContextoPipeline<O> procesar(ContextoPipeline<I> contexto) throws Exception;
+public interface IReceptor {
+    void recibir(byte[] datos);
 }
