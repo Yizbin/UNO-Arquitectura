@@ -24,6 +24,7 @@ public class ClienteTCP implements IObserverCola {
         this.puerto = puerto;
         this.cola = cola;
         this.cola.setObservador(this);
+        conectar();
     }
 
     private boolean conectar() {

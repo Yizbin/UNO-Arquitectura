@@ -34,6 +34,7 @@ public class Ensamblador {
 
     private static void configurarConexionRed(String ipServidor, int puertoServidor) {
         IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
+        dispatcher.preConectar(ipServidor, puertoServidor);
         ISink<List<PaqueteRedDTO>> adapterSink = new Adapter(dispatcher);
 
         CoordinadorFiltros<PeticionJugadaDTO, List<PaqueteRedDTO>> pipelineSalida = new CoordinadorFiltros<>();
@@ -62,14 +63,5 @@ public class Ensamblador {
         ventana.setLocation(100, 100);
         ventana.setVisible(true);
 
-        new Thread(() -> {
-            try {
-                Socket socketPing = new Socket(ipServidor, puertoServidor);
-                socketPing.close();
-                System.out.println("Ping de conexion enviado al servidor.");
-            } catch (Exception e) {
-                System.err.println("No se pudo alcanzar al servidor: " + e.getMessage());
-            }
-        }).start();
     }
 }

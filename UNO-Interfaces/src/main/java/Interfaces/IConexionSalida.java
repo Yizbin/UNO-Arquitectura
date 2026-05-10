@@ -13,4 +13,6 @@ package Interfaces;
 public interface IConexionSalida<T> {
     
     void enviarMensaje(String ip, int puerto, byte[] payload);
+    
+    void preConectar(String ip, int puerto);
 }

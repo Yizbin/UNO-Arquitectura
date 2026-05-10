@@ -72,19 +72,12 @@ public class EnsambladorServidor {
         pipelineEntrada.agregarFiltro(new EstadoPartida());
         pipelineEntrada.conectarDestino(pipelineSalida);
 
-        // Variables para manejar las asignaciones de los clientes
-        int[] idJugadorActual = {2};
+        int[] idJugadorActual = {1}; 
         int puertoRespuestaCliente = puertoEscucha + 1;
-
-// Registramos al Host Local inmediatamente
-        filtroControlServidor.registrarJugador(new ConexionJugadorDTO(1, "127.0.0.1", puertoRespuestaCliente));
-
-// NUEVO: Lista para recordar a quién ya registramos
         List<String> ipsConectadas = new ArrayList<>();
 
-// Iniciamos la conexión pasando nuestro Observer
         ReceptorFactory.iniciarConexion(puertoEscucha, pipelineEntrada, (String ipCliente) -> {
-            if (!ipCliente.equals("127.0.0.1") && !ipCliente.equals("localhost") && !ipsConectadas.contains(ipCliente)) {
+            if (!ipsConectadas.contains(ipCliente)) {
                 
                 ipsConectadas.add(ipCliente); 
                 
