@@ -13,7 +13,7 @@ import Interfaces.ISink;
  */
 public class DispatcherFactory {
 
-    public static ISink crearDispatcher(String ip, int puerto) {
+    public static ISink<byte[]> crearDispatcher(String ip, int puerto) {
         return new Dispatcher(ip, puerto);
     }
 }

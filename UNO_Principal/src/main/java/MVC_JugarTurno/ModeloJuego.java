@@ -7,12 +7,12 @@ package MVC_JugarTurno;
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
+import DTOs.PeticionJugadaDTO;
+import Enums.TipoAccionPartida;
 import Enums.TipoColor;
-import Interfaces.ISubDominio;
-import Excepciones.JugadaValidaException;
-import Excepciones.MazoVacioException;
-import Excepciones.ValidarManoException;
-import Excepciones.ValidarTurnoException;
+import Interfaces.IPump;
+import Interfaces.ISink;
+import Plantilla.ContextoPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,147 +20,94 @@ import java.util.List;
  *
  * @author Abraham Coronel
  */
-public class ModeloJuego implements IControlModelo, IModeloVista {
+public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPartidaDTO>, IPump<PeticionJugadaDTO> {
 
     private final List<ISuscriptor> suscriptores = new ArrayList<>();
-
-    private final ISubDominio subDominio;
-
-    private EstadoPartidaDTO estado;
-    private EstadoPantallaTurnoDTO estadoPantalla;
-
+    private EstadoPartidaDTO estadoActual;
+    private ISink<PeticionJugadaDTO> destinoTuberias;
     private int idJugadorLocal;
     private String mensajePendiente;
-    
-
-    public ModeloJuego(ISubDominio subDominio) {
-        this.subDominio = subDominio;
-    }
 
     public void setIdJugadorLocal(int idJugadorLocal) {
         this.idJugadorLocal = idJugadorLocal;
     }
 
     @Override
-    public EstadoPantallaTurnoDTO getEstadoPantalla() {
-        refrescarEstado();
-        return estadoPantalla;
+    public void conectarDestino(ISink<PeticionJugadaDTO> destino) {
+        this.destinoTuberias = destino;
     }
 
-    @Override
-    public int getIdJugadorLocal() {
-        return idJugadorLocal;
+    public void realizarAccionJugador(PeticionJugadaDTO jugada) {
+        if (destinoTuberias != null) {
+            ContextoPipeline<PeticionJugadaDTO> contexto = new ContextoPipeline<>(jugada);
+            try {
+                destinoTuberias.enviar(contexto);
+            } catch (Exception e) {
+                System.err.println("Error al bombear la jugada a la tubería: " + e.getMessage());
+            }
+        }
     }
 
     @Override
     public void iniciarJuego(List<JugadorResumenDTO> jugadores) {
-        String mensaje = null;
-
-        try {
-            subDominio.prepararJuego(jugadores);
-        } catch (MazoVacioException e) {
-            mensaje = e.getMessage();
-        }
-
-        refrescarEstado();
-        asignarMensajeLocal(mensaje);
-        notificar();
+        PeticionJugadaDTO peticion = new PeticionJugadaDTO();
+        peticion.setIdJugador(idJugadorLocal);
+        peticion.setAccion(TipoAccionPartida.INICIAR_PARTIDA);
+        realizarAccionJugador(peticion);
     }
 
     @Override
     public void robarCarta() {
-        String mensaje = null;
-
-        try {
-            subDominio.robarCarta(this.idJugadorLocal);
-        } catch (MazoVacioException | ValidarTurnoException e) {
-            mensaje = e.getMessage();
-        }
-
-        refrescarEstado();
-        asignarMensajeLocal(mensaje);
-        notificar();
-    }
-
-
-    public void agregarSuscriptor(ISuscriptor suscriptor) {
-        suscriptores.add(suscriptor);
+        PeticionJugadaDTO peticion = new PeticionJugadaDTO();
+        peticion.setIdJugador(idJugadorLocal);
+        peticion.setAccion(TipoAccionPartida.ROBAR_CARTA);
+        realizarAccionJugador(peticion);
     }
 
     @Override
     public void jugarCarta(CartaDTO carta) {
-        String mensaje = null;
-
-        try {
-            subDominio.jugarCarta(this.idJugadorLocal, carta);
-        } catch (ValidarManoException | ValidarTurnoException | JugadaValidaException | MazoVacioException e) {
-            mensaje = e.getMessage();
-        }
-
-        refrescarEstado(); //refrescar siempre
-        asignarMensajeLocal(mensaje);
-        notificar();       
+        PeticionJugadaDTO peticion = new PeticionJugadaDTO();
+        peticion.setIdJugador(idJugadorLocal);
+        peticion.setAccion(TipoAccionPartida.JUGAR_CARTA);
+        peticion.setCartaAJugar(carta);
+        realizarAccionJugador(peticion);
     }
 
     @Override
-    public String consumirMensajePendiente() {
-        String mensaje = this.mensajePendiente;
-        this.mensajePendiente = null;
-        return mensaje;
+    public void seleccionarColor(TipoColor color) {
+        PeticionJugadaDTO peticion = new PeticionJugadaDTO();
+        peticion.setIdJugador(idJugadorLocal);
+        peticion.setAccion(TipoAccionPartida.ELEGIR_COLOR);
+        peticion.setNuevoColor(color);
+        realizarAccionJugador(peticion);
     }
 
     @Override
-    public void seleccionarColor(TipoColor color){
-        String mensaje = null;
-        
-        try{
-            subDominio.elegirColorComodin(color);
-        } catch (MazoVacioException e) {
-            mensaje = e.getMessage();
-        }
-        
-        refrescarEstado();
-        asignarMensajeLocal(mensaje);
-        notificar();
-    }
-
-    //Metodo Privados
-    private void notificar() {
-        for (ISuscriptor s : suscriptores) {
-            s.update();
+    public void enviar(ContextoPipeline<EstadoPartidaDTO> contexto) {
+        if (contexto != null && !contexto.estaDetenido()) {
+            this.estadoActual = contexto.getMensaje();
+            notificar();
         }
     }
 
-    private void refrescarEstado() {
-        if (subDominio != null) {
-            this.estado = subDominio.obtenerEstadoPartida();
-            if (this.estado == null) {
-                this.estado = new EstadoPartidaDTO();
-            }
-            this.estado.setManoJugadorActual(subDominio.obtenerManoJugador(this.idJugadorLocal));
-            this.estado.setCartaEnDescarte(subDominio.obtenerCartaEnTope());
-            this.estadoPantalla = construirEstadoPantalla(this.estado);
-        }
+    @Override
+    public int getIdJugadorLocal() {
+        return this.idJugadorLocal;
     }
 
-    private void asignarMensajeLocal(String mensaje) {
-        if (mensaje != null && !mensaje.isBlank()) {
-            this.mensajePendiente = mensaje;
+    @Override
+    public EstadoPantallaTurnoDTO getEstadoPantalla() {
+        if (estadoActual == null) {
+            return null;
         }
-        if (mensaje != null && !mensaje.isBlank() && this.estado != null) {
-            this.estado.setMensajeEstado(mensaje);
-        }
-    }
 
-    private EstadoPantallaTurnoDTO construirEstadoPantalla(EstadoPartidaDTO estadoJuego) {
         EstadoPantallaTurnoDTO vista = new EstadoPantallaTurnoDTO();
-        vista.setCartaEnDescarte(estadoJuego.getCartaEnDescarte());
-        vista.setEsperandoColor(estadoJuego.isEsperandoColor());
-        vista.setManoLocal(estadoJuego.getManoJugadorActual() != null ? estadoJuego.getManoJugadorActual() : List.of());
-        vista.setTurnoLocal(estadoJuego.getIdJugadorEnTurno() == this.idJugadorLocal);
+        vista.setCartaEnDescarte(estadoActual.getCartaEnDescarte());
+        vista.setManoLocal(estadoActual.getManoJugadorActual() != null ? estadoActual.getManoJugadorActual() : List.of());
+        vista.setTurnoLocal(estadoActual.getIdJugadorEnTurno() == this.idJugadorLocal);
 
-        List<JugadorResumenDTO> jugadores = estadoJuego.getJugadores() != null
-                ? estadoJuego.getJugadores()
+        List<JugadorResumenDTO> jugadores = estadoActual.getJugadores() != null
+                ? estadoActual.getJugadores()
                 : List.of();
 
         List<JugadorResumenDTO> remotos = new ArrayList<>();
@@ -185,4 +132,26 @@ public class ModeloJuego implements IControlModelo, IModeloVista {
         return vista;
     }
 
+    @Override
+    public String consumirMensajePendiente() {
+        String msg = this.mensajePendiente;
+        this.mensajePendiente = null;
+        return msg;
+    }
+
+    public void suscribir(ISuscriptor suscriptor) {
+        if (!suscriptores.contains(suscriptor)) {
+            suscriptores.add(suscriptor);
+        }
+    }
+
+    public void desuscribir(ISuscriptor suscriptor) {
+        suscriptores.remove(suscriptor);
+    }
+
+    public void notificar() {
+        for (ISuscriptor s : suscriptores) {
+            s.update();
+        }
+    }
 }

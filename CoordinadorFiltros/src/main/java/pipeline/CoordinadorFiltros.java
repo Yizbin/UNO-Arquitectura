@@ -6,7 +6,9 @@ package pipeline;
 import java.util.List;
 import Plantilla.ContextoPipeline;
 import Interfaces.IFiltro;
+import Interfaces.IPump;
 import Interfaces.ISink;
+import java.util.ArrayList;
 
 /**
  * Coordina la ejecución secuencial de un conjunto de filtros dentro de un
@@ -26,45 +28,45 @@ import Interfaces.ISink;
  *
  * @author saula
  */
-public class CoordinadorFiltros<I, O> {
+public class CoordinadorFiltros<I, O> implements IPump<O>, ISink<I> {
 
-    /**
-     * Lista de filtros que se ejecutarán en orden secuencial.
-     */
     private final List<IFiltro<?, ?>> filtros;
-    /**
-     * Destino final al que se enviará el contexto procesado una vez que todos
-     * los filtros se hayan ejecutado correctamente.
-     */
-    private final ISink<O> sink;
+    private ISink<O> sink;
 
-    /**
-     * Construye una instancia del coordinador de filtros.
-     *
-     * @param filtros lista de filtros que conforman el pipeline de
-     * procesamiento
-     * @param sink destino final que recibirá el contexto resultante
-     */
-    public CoordinadorFiltros(List<IFiltro<?, ?>> filtros, ISink<O> sink) {
-        this.filtros = filtros;
-        this.sink = sink;
+    public CoordinadorFiltros() {
+        this.filtros = new ArrayList<>();
     }
 
     /**
-     * Ejecuta el pipeline completo sobre el contexto recibido.
+     * Permite ir armando la cadena de filtros dinámicamente en el Ensamblador.
      *
-     * El contexto pasa por cada filtro en el orden definido en la lista
-     * {@code filtros}. Si en algún momento el contexto indica que el proceso
-     * debe detenerse, la ejecución termina inmediatamente.
-     *
-     * Si todos los filtros se ejecutan correctamente y el contexto final no
-     * está detenido, el resultado se envía al sink configurado.
-     *
-     * @param contexto contexto inicial que contiene la información de entrada
-     * para el pipeline
-     * @throws Exception si alguno de los filtros o el sink produce un error
-     * durante el procesamiento
+     * @param filtro
      */
+    public void agregarFiltro(IFiltro<?, ?> filtro) {
+        this.filtros.add(filtro);
+    }
+
+    /**
+     * Implementación de IPump: Conecta el final de esta tubería a un destino.
+     *
+     * @param destino
+     */
+    @Override
+    public void conectarDestino(ISink<O> destino) {
+        this.sink = destino;
+    }
+
+    /**
+     * Implementación de ISink: Recibe el contexto e inicia el procesamiento.
+     *
+     * @param contexto
+     * @throws java.lang.Exception
+     */
+    @Override
+    public void enviar(ContextoPipeline<I> contexto) throws Exception {
+        procesar(contexto);
+    }
+
     public void procesar(ContextoPipeline<I> contexto) throws Exception {
 
         ContextoPipeline<?> contextoActual = contexto;
@@ -81,7 +83,9 @@ public class CoordinadorFiltros<I, O> {
             return;
         }
 
-        sink.enviar(castearContextoSalida(contextoActual));
+        if (sink != null) {
+            sink.enviar(castearContextoSalida(contextoActual));
+        }
     }
 
     /**

@@ -7,7 +7,8 @@ package Factory;
 import Implementacion.ColaEntrada;
 import Implementacion.Receptor;
 import Implementacion.ServidorTCP;
-import java.net.Socket;
+import Interfaces.ISink;
+import java.io.IOException;
 
 /**
  *
@@ -15,12 +16,20 @@ import java.net.Socket;
  */
 public class ReceptorFactory {
 
-    public static void iniciarConexion(Socket socketCliente) {
+    public static void iniciarConexion(int puerto, ISink<byte[]> pipeline) {
         ColaEntrada colaIn = new ColaEntrada();
-
-        new Receptor(colaIn);
-
-        ServidorTCP servidor = new ServidorTCP(socketCliente, colaIn);
-        new Thread(servidor).start();
+        
+        Receptor receptor = new Receptor(colaIn);
+        receptor.conectarDestino(pipeline);
+        
+        try {
+            ServidorTCP servidor = new ServidorTCP(puerto, colaIn);
+            
+            new Thread(servidor).start();
+            
+        } catch (IOException e) {
+            System.err.println("Error al iniciar el ServidorTCP en el puerto: " + puerto);
+            e.printStackTrace();
+        }
     }
 }

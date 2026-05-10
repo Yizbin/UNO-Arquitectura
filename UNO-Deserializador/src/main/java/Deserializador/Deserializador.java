@@ -13,7 +13,7 @@ import Interfaces.IFiltro;
  * @author Abraham Coronel
  * @param <T>
  */
-public class Deserializador<T> implements IFiltro<String, T> {
+public class Deserializador<T> implements IFiltro<byte[], T> {
 
     private final ObjectMapper mapper;
     private final Class<T> claseDestino;
@@ -24,23 +24,23 @@ public class Deserializador<T> implements IFiltro<String, T> {
     }
 
     @Override
-    public ContextoPipeline<T> procesar(ContextoPipeline<String> contexto) throws Exception {
-        String jsonEntrada = contexto.getMensaje();
+    public ContextoPipeline<T> procesar(ContextoPipeline<byte[]> contexto) throws Exception {
+        byte[] datosEntrada = contexto.getMensaje();
 
-        if (jsonEntrada == null || jsonEntrada.trim().isEmpty()) {
+        if (datosEntrada == null || datosEntrada.length == 0) {
             ContextoPipeline<T> ctxError = new ContextoPipeline<>(null);
-            ctxError.detenerConError("El JSON recibido está vacío o nulo.");
+            ctxError.detenerConError("El arreglo de bytes recibido está vacío o es nulo.");
             return ctxError;
         }
 
         try {
-            T objetoDeserializado = mapper.readValue(jsonEntrada, claseDestino);
+            T objetoDeserializado = mapper.readValue(datosEntrada, claseDestino);
 
             return new ContextoPipeline<>(objetoDeserializado);
 
         } catch (Exception e) {
             ContextoPipeline<T> ctxError = new ContextoPipeline<>(null);
-            ctxError.detenerConError("Error critico al leer el JSON: " + e.getMessage());
+            ctxError.detenerConError("Error critico al deserializar los bytes a JSON: " + e.getMessage());
             return ctxError;
         }
     }

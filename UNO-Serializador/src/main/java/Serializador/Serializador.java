@@ -13,7 +13,7 @@ import Interfaces.IFiltro;
  * @author Abraham Coronel
  * @param <T>
  */
-public class Serializador<T> implements IFiltro<T, String> {
+public class Serializador<T> implements IFiltro<T, byte[]> {
 
     private final ObjectMapper mapper;
 
@@ -22,27 +22,25 @@ public class Serializador<T> implements IFiltro<T, String> {
     }
 
     @Override
-    public ContextoPipeline<String> procesar(ContextoPipeline<T> contexto) throws Exception {
+    public ContextoPipeline<byte[]> procesar(ContextoPipeline<T> contexto) throws Exception {
         T mensajeEntrada = contexto.getMensaje();
 
         if (mensajeEntrada == null) {
-            ContextoPipeline<String> ctxError = new ContextoPipeline<>(null);
+            ContextoPipeline<byte[]> ctxError = new ContextoPipeline<>(null);
             ctxError.detenerConError("El mensaje a serializar es nulo.");
             return ctxError;
         }
 
         try {
-            String json = mapper.writeValueAsString(mensajeEntrada);
-            
-            return new ContextoPipeline<>(json);
-            
+            byte[] jsonBytes = mapper.writeValueAsBytes(mensajeEntrada);
+
+            return new ContextoPipeline<>(jsonBytes);
+
         } catch (Exception e) {
-            ContextoPipeline<String> ctxError = new ContextoPipeline<>(null);
-            ctxError.detenerConError("Error al convertir a JSON: " + e.getMessage());
+            ContextoPipeline<byte[]> ctxError = new ContextoPipeline<>(null);
+            ctxError.detenerConError("Error al convertir a JSON bytes: " + e.getMessage());
             return ctxError;
         }
     }
-
-    
 
 }

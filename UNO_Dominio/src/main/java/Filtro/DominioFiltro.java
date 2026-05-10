@@ -20,8 +20,7 @@ public class DominioFiltro implements IFiltro {
     private final ISubDominio subDominio = new SubDominioConcreto();
     private TipoAccionPartida tipoAccion;
 
-    public DominioFiltro(TipoAccionPartida tipoAccion) {
-        this.tipoAccion = tipoAccion;
+    public DominioFiltro() {
     }
 
     @Override
@@ -67,10 +66,6 @@ public class DominioFiltro implements IFiltro {
         }
 
         return contexto;
-    }
-
-    public void setTipoAccion(TipoAccionPartida tipoAccion) {
-        this.tipoAccion = tipoAccion;
     }
 
 }

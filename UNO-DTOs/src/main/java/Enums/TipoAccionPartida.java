@@ -15,5 +15,6 @@ public enum TipoAccionPartida {
     ELEGIR_COLOR,
     TIRAR_RULETA,
     GRITAR_UNO,
-    TERMINAR_TURNO
+    TERMINAR_TURNO,
+    INICIAR_PARTIDA
 }

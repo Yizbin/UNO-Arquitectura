@@ -33,9 +33,15 @@ public class ClienteTCP implements IObserverCola {
         try {
             byte[] datos = cola.desencolar();
             if (datos != null) {
-                out.writeInt(datos.length);
-                out.write(datos);
-                out.flush();
+
+                if (out != null) {
+                    out.writeInt(datos.length);
+                    out.write(datos);
+                    out.flush();
+                } else {
+                    System.err.println("Mensaje ignorado: No hay conexión con el servidor.");
+                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
