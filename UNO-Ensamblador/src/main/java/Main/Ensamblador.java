@@ -16,6 +16,7 @@ import MVC_JugarTurno.ModeloJuego;
 import MVC_JugarTurno.PantallaTurno;
 import MVC_JugarTurno.UnoSpinControlador;
 import Serializador.Serializador;
+import java.net.Socket;
 import java.util.List;
 import javax.swing.SwingUtilities;
 import pipeline.CoordinadorFiltros;
@@ -60,5 +61,15 @@ public class Ensamblador {
         ventana.setTitle("UNO Spin - Cliente Red");
         ventana.setLocation(100, 100);
         ventana.setVisible(true);
+
+        new Thread(() -> {
+            try {
+                Socket socketPing = new Socket(ipServidor, puertoServidor);
+                socketPing.close();
+                System.out.println("Ping de conexion enviado al servidor.");
+            } catch (Exception e) {
+                System.err.println("No se pudo alcanzar al servidor: " + e.getMessage());
+            }
+        }).start();
     }
 }
