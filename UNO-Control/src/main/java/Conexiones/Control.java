@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package Conexiones;
 
 import DTOs.ConexionJugadorDTO;
+import DTOs.PaqueteRedDTO;
 import Plantilla.ContextoPipeline;
 import Interfaces.IFiltro;
 import java.util.ArrayList;
@@ -14,9 +14,8 @@ import java.util.List;
 /**
  *
  * @author Abraham Coronel
- * @param <T>
  */
-public class Control<T> implements IFiltro<T,T> {
+public class Control implements IFiltro<byte[], List<PaqueteRedDTO>> {
 
     private final List<ConexionJugadorDTO> listaJugadores;
 
@@ -28,33 +27,25 @@ public class Control<T> implements IFiltro<T,T> {
         this.listaJugadores.add(conexion);
     }
 
-    public String getDireccion(int idJugador) {
-        for (ConexionJugadorDTO conexion : listaJugadores) {
-            if (conexion.getIdJugador() == idJugador) {
-                return conexion.getIp() + ":" + conexion.getPuerto();
-            }
-        }
-        return "Desconocido";
-    }
-
-
-    public List<ConexionJugadorDTO> getListaJugadores() {
-        return listaJugadores;
-    }
-
     @Override
-    public ContextoPipeline<T> procesar(ContextoPipeline<T> contexto) throws Exception {
+    public ContextoPipeline<List<PaqueteRedDTO>> procesar(ContextoPipeline<byte[]> contexto) throws Exception {
+        byte[] payloadBytes = contexto.getMensaje();
         
-        T mensaje = contexto.getMensaje();
-        
-        if (mensaje == null) {
-            contexto.detenerConError("El mensaje llegó nulo al filtro de Control.");
-            return contexto;
+        if (payloadBytes == null) {
+            ContextoPipeline<List<PaqueteRedDTO>> ctxError = new ContextoPipeline<>(null);
+            ctxError.detenerConError("El mensaje llegó nulo al filtro de Control.");
+            return ctxError;
         }
 
-        //Logica del filtro
-        
-        return contexto;
-    }
+        List<PaqueteRedDTO> paquetesDeSalida = new ArrayList<>();
 
+        for (ConexionJugadorDTO jugador : listaJugadores) {
+            PaqueteRedDTO paquete = new PaqueteRedDTO(jugador.getIp(), jugador.getPuerto());
+            paquete.setPayload(payloadBytes);
+            
+            paquetesDeSalida.add(paquete);
+        }
+
+        return new ContextoPipeline<>(paquetesDeSalida);
+    }
 }

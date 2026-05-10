@@ -8,13 +8,13 @@ import Interfaces.IConexionSalida;
 import DTOs.PaqueteRedDTO;
 import Interfaces.ISink;
 import Plantilla.ContextoPipeline;
+import java.util.List;
 
 /**
  *
  * @author Abraham Coronel
- * @param <T>
  */
-public class Adapter<T> implements ISink<T> {
+public class Adapter implements ISink<List<PaqueteRedDTO>> {
 
     private final IConexionSalida conexionSalida;
 
@@ -23,24 +23,16 @@ public class Adapter<T> implements ISink<T> {
     }
 
     @Override
-    public void enviar(ContextoPipeline<T> contexto) throws Exception {
+    public void enviar(ContextoPipeline<List<PaqueteRedDTO>> contexto) throws Exception {
+        List<PaqueteRedDTO> listaPaquetes = contexto.getMensaje();
 
-        T mensaje = contexto.getMensaje();
-
-        if (mensaje != null) {
-            try {
-                PaqueteRedDTO paquete = (PaqueteRedDTO) mensaje;
-
+        if (listaPaquetes != null && !listaPaquetes.isEmpty()) {
+            for (PaqueteRedDTO paquete : listaPaquetes) {
                 conexionSalida.enviarMensaje(
                         paquete.getIp(),
                         paquete.getPuerto(),
                         paquete.getPayload()
                 );
-
-            } catch (ClassCastException e) {
-                System.err.println("Error en el Adapter: El mensaje no es un PaqueteRedDTO. " + e.getMessage());
-            } catch (Exception e) {
-                System.err.println("Error inesperado en el Adapter al enviar el mensaje: " + e.getMessage());
             }
         }
     }

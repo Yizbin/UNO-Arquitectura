@@ -2,47 +2,38 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package Estado;
 
 import DTOs.EstadoPartidaDTO;
+import DTOs.PeticionJugadaDTO;
 import Plantilla.ContextoPipeline;
 import Interfaces.IFiltro;
 
 /**
  *
  * @author Abraham Coronel
- * @param <T>
  */
-public class EstadoPartida<T> implements IFiltro<T, T> {
-
-    private EstadoPartidaDTO estadoActual;
-
-    public EstadoPartida() {
-        this.estadoActual = new EstadoPartidaDTO();
-    }
-
-    public EstadoPartidaDTO getEstadoActual() {
-        return estadoActual;
-    }
-
-    public void setEstadoActual(EstadoPartidaDTO estadoActual) {
-        this.estadoActual = estadoActual;
-    }
+public class EstadoPartida implements IFiltro<PeticionJugadaDTO, EstadoPartidaDTO> {
 
     @Override
-    public ContextoPipeline<T> procesar(ContextoPipeline<T> contexto) throws Exception {
-        T mensaje = contexto.getMensaje();
+    public ContextoPipeline<EstadoPartidaDTO> procesar(ContextoPipeline<PeticionJugadaDTO> contexto) throws Exception {
 
-        if (mensaje == null) {
-            return contexto;
+        PeticionJugadaDTO peticion = contexto.getMensaje();
+
+        if (peticion == null) {
+            return new ContextoPipeline<>(null);
         }
 
-        if (mensaje instanceof EstadoPartidaDTO estadoPartidaDTO) {
-            this.estadoActual = estadoPartidaDTO;
-        }
-
-        return contexto;
+        EstadoPartidaDTO nuevoEstado = actualizarLogicaJuego(peticion);
+        return new ContextoPipeline<>(nuevoEstado);
     }
 
+    private EstadoPartidaDTO actualizarLogicaJuego(PeticionJugadaDTO peticion) {
+
+        EstadoPartidaDTO estado = new EstadoPartidaDTO();
+
+        estado.setIdJugadorEnTurno(peticion.getIdJugador());
+
+        return estado;
+    }
 }
