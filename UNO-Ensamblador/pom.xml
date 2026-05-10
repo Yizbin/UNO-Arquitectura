@@ -23,22 +23,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>Conexion-Red</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>UNO-Serializador</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>CoordinadorFiltros</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>UNO-Deserializador</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -49,7 +34,8 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>UNO-EstadoPartida</artifactId>
-            <version>${project.version}</version>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -58,12 +44,28 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>UNO-Adapter</artifactId>
+            <artifactId>UNO-ConexionSalida</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>UNO-ConexionSalida</artifactId>
+            <artifactId>UNO-CoordinadorFiltros</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>UNO-ConexionEntrada</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>UNO-Deserializador</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>UNO-Adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
