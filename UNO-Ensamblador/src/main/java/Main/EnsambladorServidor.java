@@ -18,6 +18,7 @@ import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
 import Filtro.DominioFiltro;
 import Interfaces.IConexionSalida;
+import Interfaces.IObserverConexion;
 import Interfaces.ISink;
 import Interfaces.SubDominioConcreto;
 import Serializador.Serializador;
@@ -32,18 +33,20 @@ import pipeline.CoordinadorFiltros;
 public class EnsambladorServidor {
 
     public static void main(String[] args) {
-        System.out.println("Iniciando Servidor de UNO...");
+        System.out.println("=====================================");
+        System.out.println("  Iniciando Servidor de UNO Spin...  ");
+        System.out.println("=====================================");
         configurarServidor(5000);
     }
 
     private static void configurarServidor(int puertoEscucha) {
         SubDominioConcreto subDominio = new SubDominioConcreto();
 
-        int cantidadJugadores = 1;
+        int cantidadJugadores = 2;
 
         List<JugadorResumenDTO> jugadoresIniciales = new ArrayList<>();
         for (int i = 1; i <= cantidadJugadores; i++) {
-            jugadoresIniciales.add(new JugadorResumenDTO(i, "Jugador" + i));
+            jugadoresIniciales.add(new JugadorResumenDTO(i, "Jugador " + i));
         }
 
         try {
@@ -60,13 +63,6 @@ public class EnsambladorServidor {
         pipelineSalida.agregarFiltro(new Serializador<EstadoPartidaDTO>());
 
         Control filtroControlServidor = new Control();
-
-        for (int i = 1; i <= cantidadJugadores; i++) {
-            filtroControlServidor.registrarJugador(
-                    new ConexionJugadorDTO(i, "127.0.0.1", puertoEscucha + i)
-            );
-        }
-
         pipelineSalida.agregarFiltro(filtroControlServidor);
         pipelineSalida.conectarDestino(adapterSink);
 
@@ -74,10 +70,28 @@ public class EnsambladorServidor {
         pipelineEntrada.agregarFiltro(new Deserializador<>(PeticionJugadaDTO.class));
         pipelineEntrada.agregarFiltro(new DominioFiltro(subDominio));
         pipelineEntrada.agregarFiltro(new EstadoPartida());
-        pipelineEntrada.conectarDestino(pipelineSalida); // respuesta va a los clientes
+        pipelineEntrada.conectarDestino(pipelineSalida);
 
-        ReceptorFactory.iniciarConexion(puertoEscucha, pipelineEntrada);
-        System.out.println("Servidor escuchando en el puerto: " + puertoEscucha);
+        int[] idJugadorActual = {2};
+        int puertoRespuestaCliente = puertoEscucha + 1;
+
+        filtroControlServidor.registrarJugador(new ConexionJugadorDTO(1, "127.0.0.1", puertoRespuestaCliente));
+
+        ReceptorFactory.iniciarConexion(puertoEscucha, pipelineEntrada, (String ipCliente) -> {
+            if (!ipCliente.equals("127.0.0.1") && !ipCliente.equals("localhost")) {
+                int id = idJugadorActual[0]++;
+                filtroControlServidor.registrarJugador(new ConexionJugadorDTO(id, ipCliente, puertoRespuestaCliente));
+
+                System.out.println("==================================================");
+                System.out.println(">>> NUEVO JUGADOR CONECTADO Y REGISTRADO <<<");
+                System.out.println("    Jugador ID: " + id);
+                System.out.println("    IP Origen: " + ipCliente);
+                System.out.println("    Puerto Asignado: " + puertoRespuestaCliente);
+                System.out.println("==================================================");
+            }
+        });
+
+        System.out.println("\n[ESTADO] Servidor escuchando peticiones en el puerto: " + puertoEscucha);
+        System.out.println("[ESTADO] Listo para jugar.");
     }
-
 }

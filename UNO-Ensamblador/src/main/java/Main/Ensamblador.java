@@ -22,9 +22,12 @@ import pipeline.CoordinadorFiltros;
 
 public class Ensamblador {
 
+    private static final String IP_SERVIDOR = "192.168.1.67";
+    private static final int PUERTO_SERVIDOR = 5000;
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            configurarConexionRed("127.0.0.1", 5000);
+            configurarConexionRed(IP_SERVIDOR, PUERTO_SERVIDOR);
         });
     }
 
@@ -42,17 +45,17 @@ public class Ensamblador {
 
         ModeloJuego modelo = new ModeloJuego();
         modelo.setIdJugadorLocal(1);
-        modelo.conectarDestino(pipelineSalida);  
+        modelo.conectarDestino(pipelineSalida);
 
         CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada = new CoordinadorFiltros<>();
         pipelineEntrada.agregarFiltro(new Deserializador<>(EstadoPartidaDTO.class));
-        pipelineEntrada.conectarDestino(modelo); 
+        pipelineEntrada.conectarDestino(modelo);
 
         ReceptorFactory.iniciarConexion(puertoServidor + 1, pipelineEntrada);
 
         UnoSpinControlador controlador = new UnoSpinControlador(modelo);
         PantallaTurno ventana = new PantallaTurno(modelo, controlador);
-        modelo.suscribir(ventana);  
+        modelo.suscribir(ventana);
 
         ventana.setTitle("UNO Spin - Cliente Red");
         ventana.setLocation(100, 100);

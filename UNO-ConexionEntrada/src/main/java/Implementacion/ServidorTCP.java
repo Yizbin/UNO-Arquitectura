@@ -4,6 +4,7 @@
  */
 package Implementacion;
 
+import Interfaces.IObserverConexion;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -17,9 +18,11 @@ public class ServidorTCP implements Runnable {
 
     private ServerSocket serverSocket;
     private ColaEntrada cola;
+    private IObserverConexion observador; 
 
-    public ServidorTCP(int puerto, ColaEntrada cola) throws IOException {
+    public ServidorTCP(int puerto, ColaEntrada cola, IObserverConexion observador) throws IOException {
         this.cola = cola;
+        this.observador = observador;
         this.serverSocket = new ServerSocket(puerto);
     }
 
@@ -28,6 +31,13 @@ public class ServidorTCP implements Runnable {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
+
+                String ipCliente = socket.getInetAddress().getHostAddress();
+
+                if (observador != null) {
+                    observador.notificarNuevaConexion(ipCliente);
+                }
+
                 new Thread(() -> {
                     try {
                         DataInputStream in = new DataInputStream(socket.getInputStream());
@@ -38,7 +48,7 @@ public class ServidorTCP implements Runnable {
                             cola.encolar(datos);
                         }
                     } catch (Exception e) {
-                        System.err.println("Cliente desconectado: " + e.getMessage());
+                        System.err.println("Cliente desconectado: " + ipCliente);
                     }
                 }).start();
             } catch (Exception e) {

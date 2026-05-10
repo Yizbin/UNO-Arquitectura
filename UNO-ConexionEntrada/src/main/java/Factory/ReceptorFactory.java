@@ -7,8 +7,8 @@ package Factory;
 import Implementacion.ColaEntrada;
 import Implementacion.Receptor;
 import Implementacion.ServidorTCP;
+import Interfaces.IObserverConexion;
 import Interfaces.ISink;
-import java.io.IOException;
 
 /**
  *
@@ -16,20 +16,21 @@ import java.io.IOException;
  */
 public class ReceptorFactory {
 
-    public static void iniciarConexion(int puerto, ISink<byte[]> pipeline) {
-        ColaEntrada colaIn = new ColaEntrada();
-        
-        Receptor receptor = new Receptor(colaIn);
-        receptor.conectarDestino(pipeline);
-        
+    public static void iniciarConexion(int puerto, ISink<byte[]> pipeline, IObserverConexion observador) {
         try {
-            ServidorTCP servidor = new ServidorTCP(puerto, colaIn);
-            
+            ColaEntrada cola = new ColaEntrada();
+            Receptor receptor = new Receptor(cola);
+            receptor.conectarDestino(pipeline);
+
+            ServidorTCP servidor = new ServidorTCP(puerto, cola, observador);
             new Thread(servidor).start();
-            
-        } catch (IOException e) {
-            System.err.println("Error al iniciar el ServidorTCP en el puerto: " + puerto);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // Método original intacto para que el Ensamblador del Cliente no marque error
+    public static void iniciarConexion(int puerto, ISink<byte[]> pipeline) {
+        iniciarConexion(puerto, pipeline, null);
     }
 }
