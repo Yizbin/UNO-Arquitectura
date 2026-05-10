@@ -20,6 +20,11 @@ public class JugadorResumenDTO {
     public JugadorResumenDTO() {
     }
 
+    public JugadorResumenDTO(int id, String nombreUsuario) {
+        this.id = id;
+        this.nombreUsuario = nombreUsuario;
+    }
+
     public JugadorResumenDTO(int id, String nombreUsuario, int cantidadDeCartas, int puntos, boolean enTurno) {
         this.id = id;
         this.nombreUsuario = nombreUsuario;

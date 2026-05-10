@@ -7,7 +7,6 @@ package Filtro;
 import DTOs.PeticionJugadaDTO;
 import Enums.TipoAccionPartida;
 import Interfaces.ISubDominio;
-import Interfaces.SubDominioConcreto;
 import Plantilla.ContextoPipeline;
 import Interfaces.IFiltro;
 
@@ -17,52 +16,52 @@ import Interfaces.IFiltro;
  */
 public class DominioFiltro implements IFiltro {
 
-    private final ISubDominio subDominio = new SubDominioConcreto();
-    private TipoAccionPartida tipoAccion;
+    private final ISubDominio subDominio;
 
-    public DominioFiltro() {
+     public DominioFiltro(ISubDominio subDominio) {
+        this.subDominio = subDominio;
     }
 
     @Override
     public ContextoPipeline procesar(ContextoPipeline contexto) throws Exception {
 
-        if (this.tipoAccion == null) {
-            throw new IllegalStateException("El tipo de accion no ha sido definido en el filtro.");
-        }
-
         PeticionJugadaDTO peticion = (PeticionJugadaDTO) contexto.getMensaje();
 
-        switch (this.tipoAccion) {
+        if (peticion == null) {
+            throw new IllegalStateException("La petición en el contexto es nula.");
+        }
+
+        TipoAccionPartida tipoAccion = peticion.getAccion();
+
+        if (tipoAccion == null) {
+            throw new IllegalStateException("El tipo de accion no ha sido definido en la peticion.");
+        }
+
+        switch (tipoAccion) {
 
             case UNIRSE_PARTIDA -> {
                 break;
             }
-
             case JUGAR_CARTA -> {
                 subDominio.jugarCarta(peticion.getIdJugador(), peticion.getCartaAJugar());
             }
-
             case ROBAR_CARTA -> {
                 subDominio.robarCarta(peticion.getIdJugador());
             }
-
             case ELEGIR_COLOR -> {
                 subDominio.elegirColorComodin(peticion.getNuevoColor());
             }
-
             case TIRAR_RULETA -> {
                 subDominio.tirarRuleta();
             }
-
             case GRITAR_UNO -> {
                 subDominio.gritarUno(peticion.getIdJugador());
             }
-
             case TERMINAR_TURNO ->
                 subDominio.terminarTurno();
 
             default ->
-                throw new UnsupportedOperationException("Tipo de accion no reconocido: " + this.tipoAccion);
+                throw new UnsupportedOperationException("Tipo de accion no reconocido: " + tipoAccion);
         }
 
         return contexto;
