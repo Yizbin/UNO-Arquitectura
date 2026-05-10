@@ -1,57 +1,69 @@
 package Main;
 
 //@author SAUL ISAAC APODACA BALDENEGRO 00000252020
+import Adapter.Adapter;
+import Conexiones.Control;
 import DTOs.EstadoPartidaDTO;
+import DTOs.PaqueteRedDTO;
 import DTOs.PeticionJugadaDTO;
 import Deserializador.Deserializador;
 import Factory.DispatcherFactory;
+import Factory.ReceptorFactory;
+import Interfaces.IConexionSalida;
 import Interfaces.ISink;
 import MVC_JugarTurno.ModeloJuego;
 import MVC_JugarTurno.PantallaTurno;
 import Serializador.Serializador;
-import java.net.Socket;
 import javax.swing.SwingUtilities;
 import pipeline.CoordinadorFiltros;
 
 public class Ensamblador {
 
     public static void main(String[] args) {
-        // En un caso real, aquí obtendrías el socket de un login o diálogo de conexión
-        // Socket socket = new Socket("127.0.0.1", 5000); 
-        
         SwingUtilities.invokeLater(() -> {
-            // Pasamos un socket (puedes mockear el socket para pruebas de compilación)
-            configurarConexionRed(null); 
+            configurarConexionRed(5000);
         });
     }
 
-    private static void configurarConexionRed(Socket socket) {
-        // --- 1. CONFIGURACIÓN DE RED (CAPA FÍSICA) ---
-        // Obtenemos el sumidero de bytes para enviar al servidor
-        ISink<byte[]> dispatcher = DispatcherFactory.crearDispatcher("127.0.0.1", 5000);
+    private static void configurarConexionRed(int puertoServidor) {
+        // --- 1. CONFIGURACIÓN DE SALIDA (CAPA FÍSICA Y ADAPTADOR) ---
+        // El Dispatcher ahora es el gestor de conexiones (IConexionSalida)
+        IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
+
+        // El Adapter actúa como el Sink final de la tubería, recibiendo PaqueteRedDTO
+        ISink<PaqueteRedDTO> adapterSink = new Adapter<>(dispatcher);
 
         // --- 2. PIPELINE DE SALIDA (MVC -> RED) ---
-        // Entrada: PeticionJugadaDTO -> Salida: byte[]
-        CoordinadorFiltros<PeticionJugadaDTO, byte[]> pipelineSalida = new CoordinadorFiltros<>();
-        pipelineSalida.agregarFiltro(new Serializador<PeticionJugadaDTO>()); // Convierte DTO a JSON bytes
-        pipelineSalida.conectarDestino(dispatcher); // Al final, envía por el socket
+        // Entrada: PeticionJugadaDTO -> Salida: PaqueteRedDTO
+        CoordinadorFiltros<PeticionJugadaDTO, PaqueteRedDTO> pipelineSalida = new CoordinadorFiltros<>();
+
+        // El Serializador convierte de Objeto a byte[]
+        pipelineSalida.agregarFiltro(new Serializador<PeticionJugadaDTO>());
+
+        // El Filtro Control toma los bytes y les asigna IP/Puerto, devolviendo un PaqueteRedDTO
+        // Nota: Asegúrate que tu clase Control implemente IFiltro<byte[], PaqueteRedDTO>
+        Control<byte[]> filtroControl = new Control<>();
+        // Aquí podrías registrar la IP/Puerto del servidor para el cliente
+        pipelineSalida.agregarFiltro(filtroControl);
+
+        // Conectamos el final de la tubería al Adapter
+        pipelineSalida.conectarDestino(adapterSink);
 
         // --- 3. MODELO Y VISTA ---
         ModeloJuego modelo = new ModeloJuego();
-        modelo.setIdJugadorLocal(1); // Esto vendría de la respuesta del servidor al unirse
-        modelo.conectarDestino(pipelineSalida); // El modelo bombea al pipeline de salida
+        modelo.setIdJugadorLocal(1);
+        modelo.conectarDestino(pipelineSalida);
 
         // --- 4. PIPELINE DE ENTRADA (RED -> MVC) ---
         // Entrada: byte[] -> Salida: EstadoPartidaDTO
         CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada = new CoordinadorFiltros<>();
         pipelineEntrada.agregarFiltro(new Deserializador<>(EstadoPartidaDTO.class));
-        pipelineEntrada.conectarDestino(modelo); // El resultado final actualiza el modelo
+        pipelineEntrada.conectarDestino(modelo);
 
-        // Iniciamos la escucha de red y conectamos la bomba (Receptor) al inicio del pipeline
-        // ReceptorFactory.iniciarConexion(socket, pipelineEntrada);
+        // Iniciamos la escucha de red usando el nuevo ReceptorFactory corregido
+        ReceptorFactory.iniciarConexion(puertoServidor, pipelineEntrada);
 
         // --- 5. MOCK DEL ESTADO INICIAL ---
-        // Para que la pantalla no aparezca vacía antes de que el servidor responda
         EstadoPartidaDTO estadoInicial = crearEstadoMock(1);
         modelo.enviar(new Plantilla.ContextoPipeline<>(estadoInicial));
 
@@ -62,10 +74,6 @@ public class Ensamblador {
         ventana.setVisible(true);
     }
 
-    /**
-     * Crea un estado ficticio para que la vista cargue inicialmente 
-     * mientras esperamos datos del servidor.
-     */
     private static EstadoPartidaDTO crearEstadoMock(int idLocal) {
         EstadoPartidaDTO mock = new EstadoPartidaDTO();
         mock.setIdJugadorEnTurno(idLocal);

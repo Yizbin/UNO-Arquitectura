@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 
-package Adapter;
+package Interfaces;
 
 /**
  *
@@ -12,5 +12,5 @@ package Adapter;
  */
 public interface IConexionSalida<T> {
     
-    void enviarMensaje(T dto);
+    void enviarMensaje(String ip, int puerto, byte[] payload);
 }

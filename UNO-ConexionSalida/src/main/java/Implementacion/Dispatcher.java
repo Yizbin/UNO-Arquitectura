@@ -4,33 +4,40 @@
  */
 package Implementacion;
 
-import Plantilla.ContextoPipeline;
-import Interfaces.ISink;
-
+import Interfaces.IConexionSalida;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author Abraham Coronel
  */
-public class Dispatcher implements ISink<byte[]> {
+public class Dispatcher implements IConexionSalida {
 
-    private ColaSalida cola;
-    private ClienteTCP cliente;
+    // Mapa para gestionar múltiples conexiones (Key: "ip:puerto")
+    private final Map<String, ClienteTCP> poolClientes;
+    private final Map<String, ColaSalida> poolColas;
 
-    public Dispatcher(String ip, int puerto) {
-        this.cola = new ColaSalida();
-        this.cliente = new ClienteTCP(ip, puerto, cola);
+    public Dispatcher() {
+        this.poolClientes = new HashMap<>();
+        this.poolColas = new HashMap<>();
     }
 
     @Override
-    public void enviar(ContextoPipeline<byte[]> contexto) throws Exception {
-        if (contexto != null && !contexto.estaDetenido()) {
-            byte[] datos = contexto.getMensaje();
-            
-            if (datos != null && datos.length > 0) {
-                cola.encolar(datos); 
-            }
+    public void enviarMensaje(String ip, int puerto, byte[] payload) {
+        String llave = ip + ":" + puerto;
+
+        if (!poolClientes.containsKey(llave)) {
+            ColaSalida nuevaCola = new ColaSalida();
+            ClienteTCP nuevoCliente = new ClienteTCP(ip, puerto, nuevaCola);
+
+            poolColas.put(llave, nuevaCola);
+            poolClientes.put(llave, nuevoCliente);
+        }
+
+        ColaSalida colaDestino = poolColas.get(llave);
+        if (colaDestino != null && payload != null) {
+            colaDestino.encolar(payload);
         }
     }
-
 }

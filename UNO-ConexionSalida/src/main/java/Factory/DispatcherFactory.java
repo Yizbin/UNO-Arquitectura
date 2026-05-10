@@ -5,7 +5,7 @@
 package Factory;
 
 import Implementacion.Dispatcher;
-import Interfaces.ISink;
+import Interfaces.IConexionSalida;
 
 /**
  *
@@ -13,7 +13,7 @@ import Interfaces.ISink;
  */
 public class DispatcherFactory {
 
-    public static ISink<byte[]> crearDispatcher(String ip, int puerto) {
-        return new Dispatcher(ip, puerto);
+    public static IConexionSalida crearDispatcher() {
+        return new Dispatcher();
     }
 }
