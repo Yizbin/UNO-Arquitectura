@@ -10,15 +10,15 @@
         <module>../UNO_Principal</module>
         <module>../UNO-Ensamblador</module>
         <module>../UNO-Serializador</module>
-        <module>../Conexion-Red</module>
         <module>../UNO-DTOs</module>
-        <module>../CoordinadorFiltros</module>
         <module>../UNO-Control</module>
         <module>../UNO-EstadoPartida</module>
         <module>../UNO-Interfaces</module>
         <module>../UNO-Adapter</module>
         <module>../UNO-ConexionSalida</module>
         <module>../UNO-Deserializador</module>
+        <module>../UNO-ConexionEntrada</module>
+        <module>../UNO-CoordinadorFiltros</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
