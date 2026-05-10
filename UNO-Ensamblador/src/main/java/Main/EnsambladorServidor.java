@@ -37,14 +37,15 @@ public class EnsambladorServidor {
     }
 
     private static void configurarServidor(int puertoEscucha) {
-        // --- 0. DOMINIO COMPARTIDO ---
-        // ✅ Una sola instancia compartida entre todos los filtros que la necesiten
         SubDominioConcreto subDominio = new SubDominioConcreto();
 
-        // ✅ Preparar la partida con los jugadores conocidos antes de abrir el puerto
+        int cantidadJugadores = 1;
+
         List<JugadorResumenDTO> jugadoresIniciales = new ArrayList<>();
-        jugadoresIniciales.add(new JugadorResumenDTO(1, "Jugador1"));
-        // Agregar los demás jugadores según tu lógica de lobby...
+        for (int i = 1; i <= cantidadJugadores; i++) {
+            jugadoresIniciales.add(new JugadorResumenDTO(i, "Jugador" + i));
+        }
+
         try {
             subDominio.prepararJuego(jugadoresIniciales);
         } catch (MazoVacioException e) {
@@ -52,7 +53,6 @@ public class EnsambladorServidor {
             return;
         }
 
-        // --- 1. CAPA DE SALIDA ---
         IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
         ISink<List<PaqueteRedDTO>> adapterSink = new Adapter(dispatcher);
 
@@ -60,21 +60,22 @@ public class EnsambladorServidor {
         pipelineSalida.agregarFiltro(new Serializador<EstadoPartidaDTO>());
 
         Control filtroControlServidor = new Control();
-        filtroControlServidor.registrarJugador(new ConexionJugadorDTO(1, "127.0.0.1", 5001));
+
+        for (int i = 1; i <= cantidadJugadores; i++) {
+            filtroControlServidor.registrarJugador(
+                    new ConexionJugadorDTO(i, "127.0.0.1", puertoEscucha + i)
+            );
+        }
+
         pipelineSalida.agregarFiltro(filtroControlServidor);
         pipelineSalida.conectarDestino(adapterSink);
 
-        // --- 2. CAPA DE ENTRADA ---
-        CoordinadorFiltros<byte[], PeticionJugadaDTO> pipelineEntrada = new CoordinadorFiltros<>();
+        CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada = new CoordinadorFiltros<>();
         pipelineEntrada.agregarFiltro(new Deserializador<>(PeticionJugadaDTO.class));
-
-        // ✅ Se pasa la instancia compartida al filtro
         pipelineEntrada.agregarFiltro(new DominioFiltro(subDominio));
+        pipelineEntrada.agregarFiltro(new EstadoPartida());
+        pipelineEntrada.conectarDestino(pipelineSalida); // respuesta va a los clientes
 
-        EstadoPartida filtroEstado = new EstadoPartida();
-        pipelineEntrada.agregarFiltro(filtroEstado);
-
-        // --- 3. RED ---
         ReceptorFactory.iniciarConexion(puertoEscucha, pipelineEntrada);
         System.out.println("Servidor escuchando en el puerto: " + puertoEscucha);
     }

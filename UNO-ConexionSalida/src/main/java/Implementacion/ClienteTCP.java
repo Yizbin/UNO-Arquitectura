@@ -14,17 +14,26 @@ import java.net.Socket;
  */
 public class ClienteTCP implements IObserverCola {
 
+    private final String ip;
+    private final int puerto;
     private ColaSalida cola;
     private DataOutputStream out;
 
     public ClienteTCP(String ip, int puerto, ColaSalida cola) {
+        this.ip = ip;
+        this.puerto = puerto;
         this.cola = cola;
         this.cola.setObservador(this);
+    }
+
+    private boolean conectar() {
         try {
             Socket socket = new Socket(ip, puerto);
             this.out = new DataOutputStream(socket.getOutputStream());
+            return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("No se pudo conectar a " + ip + ":" + puerto + " — " + e.getMessage());
+            return false;
         }
     }
 
@@ -32,19 +41,22 @@ public class ClienteTCP implements IObserverCola {
     public void nuevoMensaje() {
         try {
             byte[] datos = cola.desencolar();
-            if (datos != null) {
-
-                if (out != null) {
-                    out.writeInt(datos.length);
-                    out.write(datos);
-                    out.flush();
-                } else {
-                    System.err.println("Mensaje ignorado: No hay conexión con el servidor.");
-                }
-
+            if (datos == null) {
+                return;
             }
+
+            if (out == null && !conectar()) {
+                System.err.println("Mensaje descartado: cliente " + ip + ":" + puerto + " no disponible.");
+                return;
+            }
+
+            out.writeInt(datos.length);
+            out.write(datos);
+            out.flush();
+
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Error al enviar a " + ip + ":" + puerto + " — reseteando conexión.");
+            out = null;
         }
     }
 

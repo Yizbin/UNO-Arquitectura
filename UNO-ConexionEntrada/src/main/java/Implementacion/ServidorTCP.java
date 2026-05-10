@@ -25,17 +25,26 @@ public class ServidorTCP implements Runnable {
 
     @Override
     public void run() {
-        try {
-            Socket socket = serverSocket.accept();
-            DataInputStream in = new DataInputStream(socket.getInputStream());
-            while (true) {
-                int size = in.readInt();
-                byte[] datos = new byte[size];
-                in.readFully(datos);
-                cola.encolar(datos);
+        while (true) {
+            try {
+                Socket socket = serverSocket.accept();
+                new Thread(() -> {
+                    try {
+                        DataInputStream in = new DataInputStream(socket.getInputStream());
+                        while (true) {
+                            int size = in.readInt();
+                            byte[] datos = new byte[size];
+                            in.readFully(datos);
+                            cola.encolar(datos);
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Cliente desconectado: " + e.getMessage());
+                    }
+                }).start();
+            } catch (Exception e) {
+                e.printStackTrace();
+                break;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }
