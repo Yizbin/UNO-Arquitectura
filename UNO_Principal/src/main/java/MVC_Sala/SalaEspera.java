@@ -4,13 +4,17 @@
  */
 package MVC_Sala;
 
+import MVC_JugarTurno.IModeloVista;
 import javax.swing.Icon;
 
 /**
  *
  * @author Abraham Coronel
  */
-public class SalaEspera extends javax.swing.JFrame {
+public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
+    
+    private IModeloVista modeloVista;
+    private ControladorSala controlador;
 
     public SalaEspera() {
         initComponents();
@@ -130,4 +134,9 @@ public class SalaEspera extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JScrollPane scroll;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(IModeloSalaVista modeloVista) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
