@@ -4,7 +4,7 @@
  */
 package MVC_Sala;
 
-import MVC_JugarTurno.IModeloVista;
+
 
 /**
  *
@@ -12,7 +12,7 @@ import MVC_JugarTurno.IModeloVista;
  */
 public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala {
 
-    private IModeloVista modeloVista;
+    private IModeloSalaVista modeloVista;
     private ControladorSala controlador;
 
     public MenuPrincipal() {

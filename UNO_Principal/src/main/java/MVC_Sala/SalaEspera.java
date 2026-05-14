@@ -4,26 +4,35 @@
  */
 package MVC_Sala;
 
-import MVC_JugarTurno.IModeloVista;
-import javax.swing.Icon;
+import DTOs.JugadorResumenDTO;
+import MVC_Utilidades.UtilidadesGraficas;
+import java.util.List;
+import javax.swing.ImageIcon;
 
 /**
  *
  * @author Abraham Coronel
  */
 public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
-    
-    private IModeloVista modeloVista;
+
+    private IModeloSalaVista modeloVista;
     private ControladorSala controlador;
 
     public SalaEspera() {
         initComponents();
     }
 
-    public void agregarJugadorVisual(String nombre, Icon avatar, boolean listo) {
-        PanelJugador nuevaTarjeta = new PanelJugador(nombre, avatar, listo);
-        PanelEspera.add(nuevaTarjeta);
+    private void refrescarPanelJugadores(List<JugadorResumenDTO> jugadores) {
+        PanelListaJugadores.removeAll();
+        for (JugadorResumenDTO jugador : jugadores) {
+            ImageIcon imagen = new ImageIcon(jugador.getRutaAvatar());
+            ImageIcon avatar = UtilidadesGraficas.hacerAvatarCircular(imagen.getImage(), 60);
 
+            PanelJugador tarjeta = new PanelJugador(
+                    jugador.getNombreUsuario(), avatar, false
+            );
+            PanelListaJugadores.add(tarjeta);
+        }
         PanelListaJugadores.revalidate();
         PanelListaJugadores.repaint();
     }
@@ -137,6 +146,6 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
 
     @Override
     public void update(IModeloSalaVista modeloVista) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        refrescarPanelJugadores(modeloVista.getJugadoresEnSala());
     }
 }

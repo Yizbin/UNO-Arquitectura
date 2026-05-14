@@ -36,6 +36,11 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
             s.update(this);
         }
     }
+    
+    @Override
+    public boolean solicitarUnirsePartida(JugadorResumenDTO jugadorDTO) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     @Override
     public void enviar(ContextoPipeline<EstadoPartidaDTO> contexto) throws Exception {
@@ -51,5 +56,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     public List<JugadorResumenDTO> getJugadoresEnSala() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    
 
 }

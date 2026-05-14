@@ -4,7 +4,6 @@
  */
 package MVC_Sala;
 
-import javax.swing.Icon;
 
 /**
  *
@@ -13,12 +12,12 @@ import javax.swing.Icon;
 public class MenuDTO {
 
     private String nombreJugador;
-    private Icon avatar;
+    private String avatar;
 
     public MenuDTO() {
     }
 
-    public MenuDTO(String nombreJugador, Icon avatar) {
+    public MenuDTO(String nombreJugador, String avatar) {
         this.nombreJugador = nombreJugador;
         this.avatar = avatar;
     }
@@ -31,11 +30,11 @@ public class MenuDTO {
         this.nombreJugador = nombreJugador;
     }
 
-    public Icon getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Icon avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 

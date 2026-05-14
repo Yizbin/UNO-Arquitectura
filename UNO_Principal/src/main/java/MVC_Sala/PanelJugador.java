@@ -16,24 +16,23 @@ import javax.swing.Icon;
 public class PanelJugador extends javax.swing.JPanel {
 
     public PanelJugador(String nombre, Icon avatar, boolean estaListo) {
-        initComponents(); // Método intocable de NetBeans
-
+        initComponents();
         configurarEstiloPanel();
         setDatosJugador(nombre, avatar);
         setEstado(estaListo);
     }
-    
+
     private void configurarEstiloPanel() {
         // Fondo blanco para dar el aspecto limpio y moderno
-        setBackground(Color.WHITE); 
-        
+        setBackground(Color.WHITE);
+
         // Borde inferior gris claro para simular una lista divisoria
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
-        
+
         // Evita que el panel se expanda a lo alto al usar BoxLayout en el contenedor padre
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, 70)); 
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
     }
-    
+
     public void setDatosJugador(String nombre, Icon avatar) {
         if (nombre != null) {
             lblNombre.setText(nombre);
@@ -42,11 +41,11 @@ public class PanelJugador extends javax.swing.JPanel {
             lblAvatar.setIcon(avatar);
         }
     }
-    
+
     public void setEstado(boolean estaListo) {
         if (estaListo) {
             lblEstado.setText("✔️ Listo");
-            lblEstado.setForeground(new Color(0, 153, 0)); 
+            lblEstado.setForeground(new Color(0, 153, 0));
         } else {
             lblEstado.setText("⏳ Esperando...");
             lblEstado.setForeground(Color.GRAY);

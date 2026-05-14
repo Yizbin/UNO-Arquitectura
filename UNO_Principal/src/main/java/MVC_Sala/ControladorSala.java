@@ -12,6 +12,12 @@ import DTOs.JugadorResumenDTO;
  */
 public class ControladorSala {
 
+    private final IControlModeloSala modelo;
+
+    public ControladorSala(IControlModeloSala modelo) {
+        this.modelo = modelo;
+    }
+
     public boolean solicitarUnirsePartida(JugadorResumenDTO jugador) {
 
         return false;
