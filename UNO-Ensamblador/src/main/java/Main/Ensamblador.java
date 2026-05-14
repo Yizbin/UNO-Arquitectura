@@ -12,11 +12,8 @@ import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
 import Interfaces.IConexionSalida;
 import Interfaces.ISink;
-import MVC_JugarTurno.ModeloJuego;
 import MVC_JugarTurno.PantallaTurno;
-import MVC_JugarTurno.UnoSpinControlador;
 import Serializador.Serializador;
-import java.net.Socket;
 import java.util.List;
 import javax.swing.SwingUtilities;
 import pipeline.CoordinadorFiltros;
@@ -33,6 +30,7 @@ public class Ensamblador {
     }
 
     private static void configurarConexionRed(String ipServidor, int puertoServidor) {
+
         IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
         dispatcher.preConectar(ipServidor, puertoServidor);
         ISink<List<PaqueteRedDTO>> adapterSink = new Adapter(dispatcher);
@@ -43,25 +41,25 @@ public class Ensamblador {
         Control filtroControl = new Control();
         filtroControl.registrarJugador(new ConexionJugadorDTO(0, ipServidor, puertoServidor));
         pipelineSalida.agregarFiltro(filtroControl);
-        pipelineSalida.conectarDestino(adapterSink);
 
-        ModeloJuego modelo = new ModeloJuego();
-        modelo.setIdJugadorLocal(1);
-        modelo.conectarDestino(pipelineSalida);
+        pipelineSalida.conectarDestino(adapterSink);
 
         CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada = new CoordinadorFiltros<>();
         pipelineEntrada.agregarFiltro(new Deserializador<>(EstadoPartidaDTO.class));
-        pipelineEntrada.conectarDestino(modelo);
 
         ReceptorFactory.iniciarConexion(puertoServidor + 1, pipelineEntrada);
 
-        UnoSpinControlador controlador = new UnoSpinControlador(modelo);
-        PantallaTurno ventana = new PantallaTurno(modelo, controlador);
-        modelo.suscribir(ventana);
+        int idJugadorLocal = 1;
 
-        ventana.setTitle("UNO Spin - Cliente Red");
-        ventana.setLocation(100, 100);
+        PantallaTurno ventana = FabricaJugadorMVC.crearEntornoJugador(
+                pipelineSalida,
+                pipelineEntrada,
+                idJugadorLocal,
+                "UNO Spin - Cliente Red (Jugador " + idJugadorLocal + ")",
+                100,
+                100
+        );
+
         ventana.setVisible(true);
-
     }
 }

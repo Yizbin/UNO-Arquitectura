@@ -18,7 +18,6 @@ import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
 import Filtro.DominioFiltro;
 import Interfaces.IConexionSalida;
-import Interfaces.IObserverConexion;
 import Interfaces.ISink;
 import Interfaces.SubDominioConcreto;
 import Serializador.Serializador;

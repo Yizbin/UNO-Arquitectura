@@ -15,6 +15,7 @@ import Interfaces.ISink;
 import Plantilla.ContextoPipeline;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -86,7 +87,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
     public void enviar(ContextoPipeline<EstadoPartidaDTO> contexto) {
         if (contexto != null && !contexto.estaDetenido()) {
             this.estadoActual = contexto.getMensaje();
-            notificar();
+            SwingUtilities.invokeLater(this::notificar);
         }
     }
 
@@ -151,7 +152,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
 
     public void notificar() {
         for (ISuscriptor s : suscriptores) {
-            s.update();
+            s.update(this);
         }
     }
 }
