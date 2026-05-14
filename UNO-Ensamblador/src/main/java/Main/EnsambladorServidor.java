@@ -41,19 +41,7 @@ public class EnsambladorServidor {
     private static void configurarServidor(int puertoEscucha) {
         SubDominioConcreto subDominio = new SubDominioConcreto();
 
-        int cantidadJugadores = 2;
-
-        List<JugadorResumenDTO> jugadoresIniciales = new ArrayList<>();
-        for (int i = 1; i <= cantidadJugadores; i++) {
-            jugadoresIniciales.add(new JugadorResumenDTO(i, "Jugador " + i));
-        }
-
-        try {
-            subDominio.prepararJuego(jugadoresIniciales);
-        } catch (MazoVacioException e) {
-            System.err.println("Error al preparar la partida: " + e.getMessage());
-            return;
-        }
+        simularFinDeSalaDeEsperaMock(subDominio); //Metodo Mock
 
         IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
         ISink<List<PaqueteRedDTO>> adapterSink = new Adapter(dispatcher);
@@ -71,18 +59,18 @@ public class EnsambladorServidor {
         pipelineEntrada.agregarFiltro(new EstadoPartida());
         pipelineEntrada.conectarDestino(pipelineSalida);
 
-        int[] idJugadorActual = {1}; 
+        int[] idJugadorActual = {1};
         int puertoRespuestaCliente = puertoEscucha + 1;
         List<String> ipsConectadas = new ArrayList<>();
 
         ReceptorFactory.iniciarConexion(puertoEscucha, pipelineEntrada, (String ipCliente) -> {
             if (!ipsConectadas.contains(ipCliente)) {
-                
-                ipsConectadas.add(ipCliente); 
-                
+
+                ipsConectadas.add(ipCliente);
+
                 int id = idJugadorActual[0]++;
                 filtroControlServidor.registrarJugador(new ConexionJugadorDTO(id, ipCliente, puertoRespuestaCliente));
-                
+
                 System.out.println("==================================================");
                 System.out.println(">>> NUEVO JUGADOR CONECTADO Y REGISTRADO <<<");
                 System.out.println("    Jugador ID: " + id);
@@ -94,5 +82,18 @@ public class EnsambladorServidor {
 
         System.out.println("\n[ESTADO] Servidor escuchando peticiones en el puerto: " + puertoEscucha);
         System.out.println("[ESTADO] Listo para jugar.");
+    }
+
+    private static void simularFinDeSalaDeEsperaMock(SubDominioConcreto subDominio) {
+        int cantidadJugadores = 2;
+        List<JugadorResumenDTO> jugadoresIniciales = new ArrayList<>();
+        for (int i = 1; i <= cantidadJugadores; i++) {
+            jugadoresIniciales.add(new JugadorResumenDTO(i, "Jugador " + i));
+        }
+        try {
+            subDominio.prepararJuego(jugadoresIniciales);
+        } catch (MazoVacioException e) {
+            System.err.println("Error al preparar la partida (Mock): " + e.getMessage());
+        }
     }
 }
