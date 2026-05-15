@@ -6,6 +6,7 @@ package MVC_Sala;
 
 import DTOs.JugadorResumenDTO;
 
+
 /**
  *
  * @author Abraham Coronel
@@ -18,9 +19,11 @@ public class ControladorSala {
         this.modelo = modelo;
     }
 
-    public boolean solicitarUnirsePartida(JugadorResumenDTO jugador) {
-
-        return false;
-
+    public boolean solicitarUnirsePartida() {
+        return modelo.solicitarUnirsePartida();
+    }
+    
+    public void actualizarPerfil(JugadorResumenDTO datos) {
+        modelo.actualizarDatosJugador(datos);
     }
 }

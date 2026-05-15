@@ -16,5 +16,6 @@ public enum TipoAccionPartida {
     TIRAR_RULETA,
     GRITAR_UNO,
     TERMINAR_TURNO,
-    INICIAR_PARTIDA
+    INICIAR_PARTIDA,
+    ACTUALIZAR_PERFIL
 }

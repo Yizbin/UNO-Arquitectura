@@ -12,5 +12,7 @@ import DTOs.JugadorResumenDTO;
  */
 public interface IControlModeloSala {
 
-    boolean solicitarUnirsePartida(JugadorResumenDTO jugadorDTO);
+    boolean solicitarUnirsePartida();
+    
+    void actualizarDatosJugador(JugadorResumenDTO datos);
 }

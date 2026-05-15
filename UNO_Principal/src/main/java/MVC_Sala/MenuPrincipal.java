@@ -4,7 +4,7 @@
  */
 package MVC_Sala;
 
-
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -12,12 +12,16 @@ package MVC_Sala;
  */
 public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala {
 
-    private IModeloSalaVista modeloVista;
-    private ControladorSala controlador;
+    private final ControladorSala controlador;
 
-    public MenuPrincipal() {
+    public MenuPrincipal(ControladorSala controlador) {
+        this.controlador = controlador;
         initComponents();
         setLocationRelativeTo(null);
+    }
+
+    private void mostrarMensaje(String mensaje, String titulo, int tipo) {
+        JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
     }
 
     /**
@@ -31,7 +35,7 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
 
         panelFondo = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnUnirsePartida = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         panelLogo1 = new MVC_Sala.PanelLogo();
 
@@ -45,13 +49,13 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Crear Partida");
 
-        jButton2.setBackground(new java.awt.Color(0, 0, 255));
-        jButton2.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Unirse Partida");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnUnirsePartida.setBackground(new java.awt.Color(0, 0, 255));
+        btnUnirsePartida.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        btnUnirsePartida.setForeground(new java.awt.Color(255, 255, 255));
+        btnUnirsePartida.setText("Unirse Partida");
+        btnUnirsePartida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnUnirsePartidaActionPerformed(evt);
             }
         });
 
@@ -71,7 +75,7 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
                 .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
                         .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
+                            .addComponent(btnUnirsePartida)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(373, 373, 373))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
@@ -89,7 +93,7 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
                 .addGap(50, 50, 50)
                 .addComponent(jButton1)
                 .addGap(38, 38, 38)
-                .addComponent(jButton2)
+                .addComponent(btnUnirsePartida)
                 .addGap(49, 49, 49)
                 .addComponent(jButton3)
                 .addContainerGap(138, Short.MAX_VALUE))
@@ -115,14 +119,25 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnUnirsePartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnirsePartidaActionPerformed
+        if (controlador != null) {
+            if (controlador.solicitarUnirsePartida()) {
+                abrirSalaEspera();
+            } else {
+                mostrarMensaje("No se pudo conectar con el servidor.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnUnirsePartidaActionPerformed
 
+    private void abrirSalaEspera() {
+        SalaEspera sala = new SalaEspera();
+        sala.setVisible(true);
+        this.dispose();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnUnirsePartida;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JPanel panelFondo;
     private MVC_Sala.PanelLogo panelLogo1;
