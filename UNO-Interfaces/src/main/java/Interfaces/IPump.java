@@ -4,11 +4,13 @@
  */
 package Interfaces;
 
+import Plantilla.ContextoPipeline;
+
 /**
  *
  * @author Abraham Coronel
  */
-public interface IPump<T> {
+public interface IPump<I> {
 
-    void conectarDestino(ISink<T> destino);
+    void procesar(ContextoPipeline<I> contexto) throws Exception;
 }

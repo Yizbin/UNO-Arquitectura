@@ -28,7 +28,7 @@ import java.util.ArrayList;
  *
  * @author saula
  */
-public class CoordinadorFiltros<I, O> implements IPump<O>, ISink<I> {
+public class CoordinadorFiltros<I, O> implements IPump<I> {
 
     private final List<IFiltro<?, ?>> filtros;
     private ISink<O> sink;
@@ -44,27 +44,6 @@ public class CoordinadorFiltros<I, O> implements IPump<O>, ISink<I> {
      */
     public void agregarFiltro(IFiltro<?, ?> filtro) {
         this.filtros.add(filtro);
-    }
-
-    /**
-     * Implementación de IPump: Conecta el final de esta tubería a un destino.
-     *
-     * @param destino
-     */
-    @Override
-    public void conectarDestino(ISink<O> destino) {
-        this.sink = destino;
-    }
-
-    /**
-     * Implementación de ISink: Recibe el contexto e inicia el procesamiento.
-     *
-     * @param contexto
-     * @throws java.lang.Exception
-     */
-    @Override
-    public void enviar(ContextoPipeline<I> contexto) throws Exception {
-        procesar(contexto);
     }
 
     public void procesar(ContextoPipeline<I> contexto) throws Exception {
