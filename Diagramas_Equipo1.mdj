@@ -35870,81 +35870,13 @@
 																	"height": 13,
 																	"text": "-castearContextoSalida(contextoActual: ContextoPipeline<?>): ContextoPipeline<O>",
 																	"horizontalAlignment": 0
-																},
-																{
-																	"_type": "UMLOperationView",
-																	"_id": "AAAAAAGeL1eAshuPm60=",
-																	"_parent": {
-																		"$ref": "AAAAAAGd1SwluSMjQgc="
-																	},
-																	"model": {
-																		"$ref": "AAAAAAGeL1eAqhuMzLQ="
-																	},
-																	"font": "Arial;13;0",
-																	"left": 221,
-																	"top": 529,
-																	"width": 488.7919921875,
-																	"height": 13,
-																	"text": "+enviarSolicitudFinalizacion(solicitudDTO: SolicitudFinalizacionDTO): void",
-																	"horizontalAlignment": 0
-																},
-																{
-																	"_type": "UMLOperationView",
-																	"_id": "AAAAAAGeL1eD+xuVvRk=",
-																	"_parent": {
-																		"$ref": "AAAAAAGd1SwluSMjQgc="
-																	},
-																	"model": {
-																		"$ref": "AAAAAAGeL1eD8xuSdYM="
-																	},
-																	"font": "Arial;13;0",
-																	"left": 221,
-																	"top": 544,
-																	"width": 488.7919921875,
-																	"height": 13,
-																	"text": "+Operation2()",
-																	"horizontalAlignment": 0
-																},
-																{
-																	"_type": "UMLOperationView",
-																	"_id": "AAAAAAGeL1eG+RubogE=",
-																	"_parent": {
-																		"$ref": "AAAAAAGd1SwluSMjQgc="
-																	},
-																	"model": {
-																		"$ref": "AAAAAAGeL1eG8xuYZ5I="
-																	},
-																	"font": "Arial;13;0",
-																	"left": 221,
-																	"top": 559,
-																	"width": 488.7919921875,
-																	"height": 13,
-																	"text": "+Operation3()",
-																	"horizontalAlignment": 0
-																},
-																{
-																	"_type": "UMLOperationView",
-																	"_id": "AAAAAAGeL1eJmhuh3ps=",
-																	"_parent": {
-																		"$ref": "AAAAAAGd1SwluSMjQgc="
-																	},
-																	"model": {
-																		"$ref": "AAAAAAGeL1eJkxue5f4="
-																	},
-																	"font": "Arial;13;0",
-																	"left": 221,
-																	"top": 574,
-																	"width": 488.7919921875,
-																	"height": 13,
-																	"text": "+Operation4()",
-																	"horizontalAlignment": 0
 																}
 															],
 															"font": "Arial;13;0",
 															"left": 216,
 															"top": 479,
 															"width": 498.7919921875,
-															"height": 113
+															"height": 53
 														},
 														{
 															"_type": "UMLReceptionCompartmentView",
@@ -37457,58 +37389,6 @@
 															"direction": "return"
 														}
 													]
-												},
-												{
-													"_type": "UMLOperation",
-													"_id": "AAAAAAGeL1eAqhuMzLQ=",
-													"_parent": {
-														"$ref": "AAAAAAGd1SwluCMa/yc="
-													},
-													"name": "enviarSolicitudFinalizacion",
-													"parameters": [
-														{
-															"_type": "UMLParameter",
-															"_id": "AAAAAAGeL1eejRul4EM=",
-															"_parent": {
-																"$ref": "AAAAAAGeL1eAqhuMzLQ="
-															},
-															"name": "solicitudDTO",
-															"type": "SolicitudFinalizacionDTO"
-														},
-														{
-															"_type": "UMLParameter",
-															"_id": "AAAAAAGeL1eejhumdcg=",
-															"_parent": {
-																"$ref": "AAAAAAGeL1eAqhuMzLQ="
-															},
-															"type": "void",
-															"direction": "return"
-														}
-													]
-												},
-												{
-													"_type": "UMLOperation",
-													"_id": "AAAAAAGeL1eD8xuSdYM=",
-													"_parent": {
-														"$ref": "AAAAAAGd1SwluCMa/yc="
-													},
-													"name": "Operation2"
-												},
-												{
-													"_type": "UMLOperation",
-													"_id": "AAAAAAGeL1eG8xuYZ5I=",
-													"_parent": {
-														"$ref": "AAAAAAGd1SwluCMa/yc="
-													},
-													"name": "Operation3"
-												},
-												{
-													"_type": "UMLOperation",
-													"_id": "AAAAAAGeL1eJkxue5f4=",
-													"_parent": {
-														"$ref": "AAAAAAGd1SwluCMa/yc="
-													},
-													"name": "Operation4"
 												}
 											]
 										},
