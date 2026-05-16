@@ -6,6 +6,7 @@ import Enums.TipoColor;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -327,8 +328,8 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void update() {
-        EstadoPantallaTurnoDTO estadoPantalla = modelo.getEstadoPantalla();
+    public void update(IModeloVista modeloVista) {
+        EstadoPantallaTurnoDTO estadoPantalla = modeloVista.getEstadoPantalla();
         if (estadoPantalla == null) {
             return;
         }
@@ -345,14 +346,14 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         this.revalidate();
         this.repaint();
 
-        String msg = modelo.consumirMensajePendiente();
+        String msg = modeloVista.consumirMensajePendiente();
         if (msg != null && !msg.isBlank()) {
             mostrarError(msg);
         }
 
         if (estadoPantalla.isEsperandoColor() && !pidiendoColor && estadoPantalla.isTurnoLocal()) {
             pidiendoColor = true;
-            pedirColorUsuario();
+            SwingUtilities.invokeLater(this::pedirColorUsuario);
         }
 
     }
