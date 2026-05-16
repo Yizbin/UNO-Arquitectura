@@ -15,4 +15,5 @@ public interface IModeloVista {
     public EstadoPantallaTurnoDTO getEstadoPantalla();
 
     public String consumirMensajePendiente();
+    
 }

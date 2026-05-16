@@ -20,5 +20,5 @@ public interface IModeloSalaVista {
     void desuscribir(ISuscriptorSala suscriptor);
     
     void notificar();
-            
+    
 }
