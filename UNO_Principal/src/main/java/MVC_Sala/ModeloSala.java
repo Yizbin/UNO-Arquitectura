@@ -40,19 +40,16 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         this.coordinador = coordinador;
     }
 
-    @Override
     public void suscribir(ISuscriptorSala suscriptor) {
         if (!suscriptores.contains(suscriptor)) {
             suscriptores.add(suscriptor);
         }
     }
 
-    @Override
     public void desuscribir(ISuscriptorSala suscriptor) {
         suscriptores.remove(suscriptor);
     }
 
-    @Override
     public void notificar() {
         for (ISuscriptorSala s : suscriptores) {
             s.update(this);

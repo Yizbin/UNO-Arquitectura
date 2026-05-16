@@ -14,11 +14,5 @@ import java.util.List;
 public interface IModeloSalaVista {
 
     List<JugadorResumenDTO> getJugadoresEnSala();
-
-    void suscribir(ISuscriptorSala suscriptor);
-    
-    void desuscribir(ISuscriptorSala suscriptor);
-    
-    void notificar();
     
 }
