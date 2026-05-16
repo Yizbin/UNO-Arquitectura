@@ -4,6 +4,7 @@
  */
 package Filtro;
 
+import DTOs.EstadoPartidaDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.TipoAccionPartida;
 import Interfaces.ISubDominio;
@@ -14,18 +15,18 @@ import Interfaces.IFiltro;
  *
  * @author Abraham Coronel
  */
-public class DominioFiltro implements IFiltro {
+public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDTO> {
 
     private final ISubDominio subDominio;
 
-     public DominioFiltro(ISubDominio subDominio) {
+    public DominioFiltro(ISubDominio subDominio) {
         this.subDominio = subDominio;
     }
 
     @Override
-    public ContextoPipeline procesar(ContextoPipeline contexto) throws Exception {
+    public ContextoPipeline<EstadoPartidaDTO> procesar(ContextoPipeline<PeticionJugadaDTO> contexto) throws Exception {
 
-        PeticionJugadaDTO peticion = (PeticionJugadaDTO) contexto.getMensaje();
+        PeticionJugadaDTO peticion = contexto.getMensaje();
 
         if (peticion == null) {
             throw new IllegalStateException("La petición en el contexto es nula.");
@@ -64,7 +65,8 @@ public class DominioFiltro implements IFiltro {
                 throw new UnsupportedOperationException("Tipo de accion no reconocido: " + tipoAccion);
         }
 
-        return contexto;
+        EstadoPartidaDTO estado = subDominio.obtenerEstadoPartida();
+        return new ContextoPipeline<>(estado);
     }
 
 }

@@ -40,8 +40,6 @@ public class FabricaJugadorMVC {
         ModeloJuego modelo = new ModeloJuego();
         modelo.setIdJugadorLocal(idJugador);
 
-        modelo.conectarDestino(pipelineSalida);
-
         if (pipelineEntrada != null) {
             pipelineEntrada.conectarDestino(modelo);
         }
