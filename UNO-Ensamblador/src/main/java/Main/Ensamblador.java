@@ -11,8 +11,8 @@ import Deserializador.Deserializador;
 import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
 import Interfaces.IConexionSalida;
-import Interfaces.IPump;
 import Interfaces.ISink;
+import MVC_JugarTurno.PantallaTurno;
 import Serializador.Serializador;
 import java.util.List;
 import javax.swing.SwingUtilities;
@@ -46,39 +46,16 @@ public class Ensamblador {
 
         CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada = new CoordinadorFiltros<>();
         pipelineEntrada.agregarFiltro(new Deserializador<>(EstadoPartidaDTO.class));
-
-        ReceptorFactory.iniciarConexion(puertoServidor + 1, pipelineEntrada);
-
-        probarCasoUsoJugarTurnoMock(pipelineSalida, pipelineEntrada); //Mock
-    }
-
-    private static void probarCasoUsoJugarTurnoMock(
-            ISink<PeticionJugadaDTO> pipelineSalida,
-            IPump<EstadoPartidaDTO> pipelineEntrada) {
-
-        int idJugadorLocal = 1;
-
-        MVC_JugarTurno.PantallaTurno ventana = FabricaJugadorMVC.crearEntornoJugador(
+        PantallaTurno ventana = FabricaJugadorMVC.crearEntornoJugador(
                 pipelineSalida,
                 pipelineEntrada,
-                idJugadorLocal,
-                "UNO Spin - Cliente Red (Jugador " + idJugadorLocal + ")",
-                100, 100
+                0,
+                "UNO Spin - Cliente Red",
+                100,
+                100
         );
         ventana.setVisible(true);
 
-        new Thread(() -> {
-            try {
-                Thread.sleep(500);
-                PeticionJugadaDTO peticionMock = new PeticionJugadaDTO();
-                peticionMock.setIdJugador(idJugadorLocal);
-                peticionMock.setAccion(Enums.TipoAccionPartida.UNIRSE_PARTIDA);
-
-                pipelineSalida.enviar(new Plantilla.ContextoPipeline<>(peticionMock));
-                System.out.println("Peticion inicial enviada.");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
+        ReceptorFactory.iniciarConexion(puertoServidor + 1, pipelineEntrada);
     }
 }
