@@ -6,11 +6,11 @@ package Main;
 
 import DTOs.EstadoPartidaDTO;
 import DTOs.PeticionJugadaDTO;
-import Interfaces.IPump;
 import Interfaces.ISink;
 import MVC_JugarTurno.ModeloJuego;
 import MVC_JugarTurno.PantallaTurno;
 import MVC_JugarTurno.UnoSpinControlador;
+import pipeline.CoordinadorFiltros;
 
 /**
  *
@@ -31,7 +31,7 @@ public class FabricaJugadorMVC {
      */
     public static PantallaTurno crearEntornoJugador(
             ISink<PeticionJugadaDTO> pipelineSalida,
-            IPump<EstadoPartidaDTO> pipelineEntrada, 
+            CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada,
             int idJugador,
             String tituloVista,
             int posX,

@@ -7,36 +7,34 @@ package Implementacion;
 import Plantilla.ContextoPipeline;
 import Interfaces.IObserverCola;
 import Interfaces.IPump;
-import Interfaces.ISink;
 
 /**
  *
  * @author Abraham Coronel
  */
-public class Receptor implements IObserverCola, IPump<byte[]>{
+public class Receptor implements IObserverCola {
 
     private ColaEntrada cola;
-    private ISink<byte[]> destinoTuberias; 
+    private IPump<byte[]> pump;
 
     public Receptor(ColaEntrada cola) {
         this.cola = cola;
-        this.cola.setObservador(this); 
+        this.cola.setObservador(this);
     }
 
-    @Override
-    public void conectarDestino(ISink<byte[]> destino) {
-        this.destinoTuberias = destino;
+    public void conectarPump(IPump<byte[]> pump) {
+        this.pump = pump;
     }
 
     @Override
     public void nuevoMensaje() {
         byte[] datos = cola.desencolar();
-        
-        if (datos != null && destinoTuberias != null) {
+
+        if (datos != null) {
             try {
                 ContextoPipeline<byte[]> contexto = new ContextoPipeline<>(datos);
-                
-                destinoTuberias.enviar(contexto); 
+
+                pump.procesar(contexto);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -28,7 +28,7 @@ import java.util.ArrayList;
  *
  * @author saula
  */
-public class CoordinadorFiltros<I, O> implements IPump<I> {
+public class CoordinadorFiltros<I, O> implements IPump<I>, ISink<I> {
 
     private final List<IFiltro<?, ?>> filtros;
     private ISink<O> sink;
@@ -46,6 +46,16 @@ public class CoordinadorFiltros<I, O> implements IPump<I> {
         this.filtros.add(filtro);
     }
 
+    public void conectarDestino(ISink<O> sink) {
+        this.sink = sink;
+    }
+
+    @Override
+    public void enviar(ContextoPipeline<I> contexto) throws Exception {
+        procesar(contexto);
+    }
+
+    @Override
     public void procesar(ContextoPipeline<I> contexto) throws Exception {
 
         ContextoPipeline<?> contextoActual = contexto;

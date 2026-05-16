@@ -8,7 +8,7 @@ import Implementacion.ColaEntrada;
 import Implementacion.Receptor;
 import Implementacion.ServidorTCP;
 import Interfaces.IObserverConexion;
-import Interfaces.ISink;
+import Interfaces.IPump;
 
 /**
  *
@@ -16,11 +16,11 @@ import Interfaces.ISink;
  */
 public class ReceptorFactory {
 
-    public static void iniciarConexion(int puerto, ISink<byte[]> pipeline, IObserverConexion observador) {
+    public static void iniciarConexion(int puerto, IPump<byte[]> pipeline, IObserverConexion observador) {
         try {
             ColaEntrada cola = new ColaEntrada();
             Receptor receptor = new Receptor(cola);
-            receptor.conectarDestino(pipeline);
+            receptor.conectarPump(pipeline);
 
             ServidorTCP servidor = new ServidorTCP(puerto, cola, observador);
             new Thread(servidor).start();
@@ -29,8 +29,7 @@ public class ReceptorFactory {
         }
     }
 
-    // Método original intacto para que el Ensamblador del Cliente no marque error
-    public static void iniciarConexion(int puerto, ISink<byte[]> pipeline) {
+    public static void iniciarConexion(int puerto, IPump<byte[]> pipeline) {
         iniciarConexion(puerto, pipeline, null);
     }
 }

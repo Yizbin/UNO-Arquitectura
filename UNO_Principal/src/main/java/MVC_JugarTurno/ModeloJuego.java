@@ -21,9 +21,10 @@ import javax.swing.SwingUtilities;
  *
  * @author Abraham Coronel
  */
-public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPartidaDTO>, IPump<PeticionJugadaDTO> {
+public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPartidaDTO> {
 
     private final List<ISuscriptor> suscriptores = new ArrayList<>();
+    private IPump<EstadoPartidaDTO> coordinador;
     private EstadoPartidaDTO estadoActual;
     private ISink<PeticionJugadaDTO> destinoTuberias;
     private int idJugadorLocal;
@@ -33,7 +34,6 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         this.idJugadorLocal = idJugadorLocal;
     }
 
-    @Override
     public void conectarDestino(ISink<PeticionJugadaDTO> destino) {
         this.destinoTuberias = destino;
     }
