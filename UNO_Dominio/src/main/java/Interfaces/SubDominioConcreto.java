@@ -117,6 +117,11 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     private Jugador obtenerJugadorPorId(int idJugador) {
+        if (this.partida == null) {
+            throw new IllegalStateException(
+                    "La partida no ha sido inicializada. Llama a prepararJuego() primero."
+            );
+        }
         for (Jugador j : partida.getJugadores()) {
             if (j.getId() == idJugador) {
                 return j;
