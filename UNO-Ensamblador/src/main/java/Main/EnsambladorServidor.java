@@ -43,24 +43,21 @@ public class EnsambladorServidor {
         IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
         ISink<List<PaqueteRedDTO>> adapterSink = new Adapter(dispatcher);
 
-        CoordinadorFiltros<EstadoPartidaDTO, List<PaqueteRedDTO>> pipelineSalida = new CoordinadorFiltros<>();
-        pipelineSalida.agregarFiltro(new Serializador<EstadoPartidaDTO>());
-
         Control filtroControlServidor = new Control();
-        pipelineSalida.agregarFiltro(filtroControlServidor);
-        pipelineSalida.conectarDestino(adapterSink);
 
-        CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada = new CoordinadorFiltros<>();
-        pipelineEntrada.agregarFiltro(new Deserializador<>(PeticionJugadaDTO.class));
-        pipelineEntrada.agregarFiltro(new DominioFiltro(subDominio));
-        pipelineEntrada.agregarFiltro(new EstadoPartida());
-        pipelineEntrada.conectarDestino(pipelineSalida);
+        CoordinadorFiltros<byte[], List<PaqueteRedDTO>> pipelineServidor = new CoordinadorFiltros<>();
+        pipelineServidor.agregarFiltro(new Deserializador<>(PeticionJugadaDTO.class));
+        pipelineServidor.agregarFiltro(new DominioFiltro(subDominio));
+        pipelineServidor.agregarFiltro(new EstadoPartida());
+        pipelineServidor.agregarFiltro(new Serializador<EstadoPartidaDTO>());
+        pipelineServidor.agregarFiltro(filtroControlServidor);
+        pipelineServidor.conectarDestino(adapterSink);
 
         int[] idJugadorActual = {1};
         int puertoRespuestaCliente = puertoEscucha + 1;
         Set<String> ipsConectadas = new HashSet<>();
 
-        ReceptorFactory.iniciarConexion(puertoEscucha, pipelineEntrada, (String ipCliente) -> {
+        ReceptorFactory.iniciarConexion(puertoEscucha, pipelineServidor, (String ipCliente) -> {
             if (ipsConectadas.add(ipCliente)) {
                 int id = idJugadorActual[0]++;
                 filtroControlServidor.registrarJugador(new ConexionJugadorDTO(id, ipCliente, puertoRespuestaCliente));

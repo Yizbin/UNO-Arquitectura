@@ -6,7 +6,7 @@ package Implementacion;
 
 import Plantilla.ContextoPipeline;
 import Interfaces.IObserverCola;
-import Interfaces.IPump;
+import interfaces.IPump;
 
 /**
  *

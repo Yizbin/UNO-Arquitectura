@@ -8,7 +8,7 @@ import Implementacion.ColaEntrada;
 import Implementacion.Receptor;
 import Implementacion.ServidorTCP;
 import Interfaces.IObserverConexion;
-import Interfaces.IPump;
+import interfaces.IPump;
 
 /**
  *

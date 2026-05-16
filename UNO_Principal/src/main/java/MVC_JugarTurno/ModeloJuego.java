@@ -10,7 +10,7 @@ import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.TipoAccionPartida;
 import Enums.TipoColor;
-import Interfaces.IPump;
+import interfaces.IPump;
 import Interfaces.ISink;
 import Plantilla.ContextoPipeline;
 import java.util.ArrayList;
@@ -31,6 +31,10 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
 
     public void setIdJugadorLocal(int idJugadorLocal) {
         this.idJugadorLocal = idJugadorLocal;
+    }
+
+    public void conectarDestino(IPump<PeticionJugadaDTO> coordinador) {
+        this.coordinador = coordinador;
     }
 
     public void realizarAccionJugador(PeticionJugadaDTO jugada) {

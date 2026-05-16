@@ -8,7 +8,7 @@ import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.TipoAccionPartida;
-import Interfaces.IPump;
+import interfaces.IPump;
 import Interfaces.ISink;
 import Plantilla.ContextoPipeline;
 import java.util.ArrayList;

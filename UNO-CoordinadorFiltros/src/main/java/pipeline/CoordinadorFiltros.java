@@ -6,7 +6,7 @@ package pipeline;
 import java.util.List;
 import Plantilla.ContextoPipeline;
 import Interfaces.IFiltro;
-import Interfaces.IPump;
+import interfaces.IPump;
 import Interfaces.ISink;
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ import java.util.ArrayList;
  *
  * @author saula
  */
-public class CoordinadorFiltros<I, O> implements IPump<I>, ISink<I> {
+public class CoordinadorFiltros<I, O> implements IPump<I> {
 
     private final List<IFiltro<?, ?>> filtros;
     private ISink<O> sink;
@@ -48,11 +48,6 @@ public class CoordinadorFiltros<I, O> implements IPump<I>, ISink<I> {
 
     public void conectarDestino(ISink<O> sink) {
         this.sink = sink;
-    }
-
-    @Override
-    public void enviar(ContextoPipeline<I> contexto) throws Exception {
-        procesar(contexto);
     }
 
     @Override

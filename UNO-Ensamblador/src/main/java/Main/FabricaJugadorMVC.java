@@ -6,7 +6,7 @@ package Main;
 
 import DTOs.EstadoPartidaDTO;
 import DTOs.PeticionJugadaDTO;
-import Interfaces.ISink;
+import interfaces.IPump;
 import MVC_JugarTurno.ModeloJuego;
 import MVC_JugarTurno.PantallaTurno;
 import MVC_JugarTurno.UnoSpinControlador;
@@ -30,7 +30,7 @@ public class FabricaJugadorMVC {
      * @return Instancia de la vista (JFrame) configurada.
      */
     public static PantallaTurno crearEntornoJugador(
-            ISink<PeticionJugadaDTO> pipelineSalida,
+            IPump<PeticionJugadaDTO> pipelineSalida,
             CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada,
             int idJugador,
             String tituloVista,
@@ -39,6 +39,7 @@ public class FabricaJugadorMVC {
 
         ModeloJuego modelo = new ModeloJuego();
         modelo.setIdJugadorLocal(idJugador);
+        modelo.conectarDestino(pipelineSalida);
 
         if (pipelineEntrada != null) {
             pipelineEntrada.conectarDestino(modelo);
