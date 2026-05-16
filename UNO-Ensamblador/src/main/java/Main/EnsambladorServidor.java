@@ -8,12 +8,10 @@ import Adapter.Adapter;
 import Conexiones.Control;
 import DTOs.ConexionJugadorDTO;
 import DTOs.EstadoPartidaDTO;
-import DTOs.JugadorResumenDTO;
 import DTOs.PaqueteRedDTO;
 import DTOs.PeticionJugadaDTO;
 import Deserializador.Deserializador;
 import Estado.EstadoPartida;
-import Excepciones.MazoVacioException;
 import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
 import Filtro.DominioFiltro;
@@ -21,8 +19,9 @@ import Interfaces.IConexionSalida;
 import Interfaces.ISink;
 import Interfaces.SubDominioConcreto;
 import Serializador.Serializador;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import pipeline.CoordinadorFiltros;
 
 /**
@@ -41,33 +40,25 @@ public class EnsambladorServidor {
     private static void configurarServidor(int puertoEscucha) {
         SubDominioConcreto subDominio = new SubDominioConcreto();
 
-        simularFinDeSalaDeEsperaMock(subDominio); //Metodo Mock
-
         IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
         ISink<List<PaqueteRedDTO>> adapterSink = new Adapter(dispatcher);
 
-        CoordinadorFiltros<EstadoPartidaDTO, List<PaqueteRedDTO>> pipelineSalida = new CoordinadorFiltros<>();
-        pipelineSalida.agregarFiltro(new Serializador<EstadoPartidaDTO>());
-
         Control filtroControlServidor = new Control();
-        pipelineSalida.agregarFiltro(filtroControlServidor);
-        pipelineSalida.conectarDestino(adapterSink);
 
-        CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada = new CoordinadorFiltros<>();
-        pipelineEntrada.agregarFiltro(new Deserializador<>(PeticionJugadaDTO.class));
-        pipelineEntrada.agregarFiltro(new DominioFiltro(subDominio));
-        pipelineEntrada.agregarFiltro(new EstadoPartida());
-        pipelineEntrada.conectarDestino(pipelineSalida);
+        CoordinadorFiltros<byte[], List<PaqueteRedDTO>> pipelineServidor = new CoordinadorFiltros<>();
+        pipelineServidor.agregarFiltro(new Deserializador<>(PeticionJugadaDTO.class));
+        pipelineServidor.agregarFiltro(new DominioFiltro(subDominio));
+        pipelineServidor.agregarFiltro(new EstadoPartida());
+        pipelineServidor.agregarFiltro(new Serializador<EstadoPartidaDTO>());
+        pipelineServidor.agregarFiltro(filtroControlServidor);
+        pipelineServidor.conectarDestino(adapterSink);
 
         int[] idJugadorActual = {1};
         int puertoRespuestaCliente = puertoEscucha + 1;
-        List<String> ipsConectadas = new ArrayList<>();
+        Set<String> ipsConectadas = new HashSet<>();
 
-        ReceptorFactory.iniciarConexion(puertoEscucha, pipelineEntrada, (String ipCliente) -> {
-            if (!ipsConectadas.contains(ipCliente)) {
-
-                ipsConectadas.add(ipCliente);
-
+        ReceptorFactory.iniciarConexion(puertoEscucha, pipelineServidor, (String ipCliente) -> {
+            if (ipsConectadas.add(ipCliente)) {
                 int id = idJugadorActual[0]++;
                 filtroControlServidor.registrarJugador(new ConexionJugadorDTO(id, ipCliente, puertoRespuestaCliente));
 
@@ -82,18 +73,5 @@ public class EnsambladorServidor {
 
         System.out.println("\n[ESTADO] Servidor escuchando peticiones en el puerto: " + puertoEscucha);
         System.out.println("[ESTADO] Listo para jugar.");
-    }
-
-    private static void simularFinDeSalaDeEsperaMock(SubDominioConcreto subDominio) {
-        int cantidadJugadores = 2;
-        List<JugadorResumenDTO> jugadoresIniciales = new ArrayList<>();
-        for (int i = 1; i <= cantidadJugadores; i++) {
-            jugadoresIniciales.add(new JugadorResumenDTO(i, "Jugador " + i));
-        }
-        try {
-            subDominio.prepararJuego(jugadoresIniciales);
-        } catch (MazoVacioException e) {
-            System.err.println("Error al preparar la partida (Mock): " + e.getMessage());
-        }
     }
 }

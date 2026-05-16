@@ -11,5 +11,5 @@ package MVC_JugarTurno;
  */
 public interface ISuscriptor {
 
-    public void update(IModeloVista modeloVista);
+    void update(IModeloVista modeloVista);
 }

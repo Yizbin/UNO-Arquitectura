@@ -8,9 +8,8 @@ package Interfaces;
 /**
  *
  * @author Abraham Coronel
- * @param <T>
  */
-public interface IConexionSalida<T> {
+public interface IConexionSalida {
     
     void enviarMensaje(String ip, int puerto, byte[] payload);
     
