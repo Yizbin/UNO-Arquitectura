@@ -68,7 +68,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         try {
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
                     TipoAccionPartida.UNIRSE_PARTIDA,
-                    jugadorLocal.getId()
+                    jugadorLocal
             );
             enviarPeticion(peticion);
             return true;
@@ -94,7 +94,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         try {
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
                     TipoAccionPartida.ACTUALIZAR_PERFIL,
-                    jugadorLocal.getId()
+                    jugadorLocal
             );
             enviarPeticion(peticion);
         } catch (Exception e) {

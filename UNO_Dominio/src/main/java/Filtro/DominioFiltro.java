@@ -40,7 +40,7 @@ public class DominioFiltro implements IFiltro {
         switch (tipoAccion) {
 
             case UNIRSE_PARTIDA -> {
-                break;
+                subDominio.unirJugador(peticion.getJugador());
             }
             case JUGAR_CARTA -> {
                 subDominio.jugarCarta(peticion.getIdJugador(), peticion.getCartaAJugar());
