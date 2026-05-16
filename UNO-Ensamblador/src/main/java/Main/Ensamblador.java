@@ -20,7 +20,7 @@ import pipeline.CoordinadorFiltros;
 
 public class Ensamblador {
 
-    private static final String IP_SERVIDOR = "192.168.1.67";
+    private static final String IP_SERVIDOR = "192.168.0.102";
     private static final int PUERTO_SERVIDOR = 5000;
 
     public static void main(String[] args) {
