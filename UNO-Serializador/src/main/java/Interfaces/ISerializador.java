@@ -11,4 +11,11 @@ package Interfaces;
 public interface ISerializador {
 
     byte[] serializar(Object objeto) throws Exception;
+
+    boolean solicitarUnirsePartida();
+    
+    void actualizarDatosJugador(JugadorResumenDTO datos);
+    
+    void notificar();
+    
 }

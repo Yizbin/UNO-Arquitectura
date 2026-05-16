@@ -11,4 +11,12 @@ package Interfaces;
  */
 public interface IDispatcher {
     void enviar(Object mensaje, String ip, int puerto);
+public interface IModeloSalaVista {
+
+    List<JugadorResumenDTO> getJugadoresEnSala();
+    
+    void suscribir(ISuscriptorSala suscriptor);
+    
+    void desuscribir(ISuscriptorSala suscriptor);
+
 }
