@@ -24,6 +24,7 @@ import java.util.Objects;
 public class Partida {
 
     private List<Jugador> jugadores;
+    private int idJugador;
     private Mazo mazo;
     private Descarte descarte;
     private Ruleta ruleta;
@@ -33,17 +34,21 @@ public class Partida {
     private boolean esperandoColor;
 
     public Partida() {
+    }
+
+    public Partida(int idJugador) {
         this.jugadores = List.of();
-        this.ruleta = new Ruleta();
+        this.idJugador = idJugador;
         this.descarte = new Descarte();
+        this.ruleta = new Ruleta();
         this.indiceTurnoActual = 0;
         this.sentidoHorario = true;
         this.colorActual = TipoColor.NINGUNO;
         this.esperandoColor = false;
     }
 
-    public Partida(List<Jugador> jugadores) {
-        this();
+    public Partida(int idJugador, List<Jugador> jugadores) {
+        this(idJugador);
         this.jugadores = List.copyOf(jugadores);
     }
 
@@ -51,12 +56,8 @@ public class Partida {
         this.jugadores = List.copyOf(new JugadorMapper().toEntityList(jugadoresDTO));
     }
 
-    public void unirJugador(JugadorResumenDTO jugadorDTO) {
-        Jugador jugador = new JugadorMapper().toEntity(jugadorDTO);
-
-        if (jugador == null) {
-            throw new IllegalArgumentException("El jugador a unir no puede ser nulo.");
-        }
+    public void unirJugador(int idJugador) {
+        Jugador jugador = new Jugador(idJugador);
 
         if (jugadores.contains(jugador)) {
             throw new IllegalArgumentException("El jugador ya esta unido a la partida.");
@@ -68,8 +69,12 @@ public class Partida {
     }
 
     public void actualizarPerfilJugador(JugadorResumenDTO jugadorDTO) {
-        Jugador jugador = obtenerJugadorPorId(jugadorDTO.getId());
-        
+        if (jugadorDTO == null) {
+            throw new IllegalArgumentException("Los datos del jugador no pueden ser nulos.");
+        }
+
+        JugadorMapper mapper = new JugadorMapper();
+        Jugador jugador = mapper.toEntity(jugadorDTO);
         jugador.actualizarPerfil(
                 jugadorDTO.getNombreUsuario(),
                 jugadorDTO.getRutaAvatar(),
@@ -168,7 +173,7 @@ public class Partida {
         estadoDTO.setEsperandoColor(esperandoColor);
         estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
         estadoDTO.setRuletaActiva(false);
-        estadoDTO.setIdJugadorEnTurno(idJugadorActual);
+        estadoDTO.setIdJugador(idJugadorActual);
         estadoDTO.setPartidaListaParaIniciar(puedeIniciarPartida());
 
         return estadoDTO;
