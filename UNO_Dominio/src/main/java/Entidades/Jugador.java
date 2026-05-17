@@ -29,6 +29,10 @@ public class Jugador {
         this.estadoSala = EstadoJugadorSala.ESPERANDO;
     }
 
+    public Jugador(int id) {
+        this.id = id;
+    }
+
     public Jugador(int id, String usuario, String avatar) {
         this.id = id;
         this.usuario = usuario;

@@ -51,34 +51,32 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
     @Override
     public void iniciarJuego(List<JugadorResumenDTO> jugadores) {
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
-        peticion.setIdJugador(idJugadorLocal);
         peticion.setAccion(TipoAccionPartida.INICIAR_PARTIDA);
+        peticion.setEstadoPartida(estadoActual);
         realizarAccionJugador(peticion);
     }
 
     @Override
     public void robarCarta() {
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
-        peticion.setIdJugador(idJugadorLocal);
         peticion.setAccion(TipoAccionPartida.ROBAR_CARTA);
+        peticion.setEstadoPartida(estadoActual);
         realizarAccionJugador(peticion);
     }
 
     @Override
     public void jugarCarta(CartaDTO carta) {
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
-        peticion.setIdJugador(idJugadorLocal);
         peticion.setAccion(TipoAccionPartida.JUGAR_CARTA);
-        peticion.setCartaAJugar(carta);
+        peticion.setEstadoPartida(estadoActual);
         realizarAccionJugador(peticion);
     }
 
     @Override
     public void seleccionarColor(TipoColor color) {
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
-        peticion.setIdJugador(idJugadorLocal);
         peticion.setAccion(TipoAccionPartida.ELEGIR_COLOR);
-        peticion.setNuevoColor(color);
+        peticion.setEstadoPartida(estadoActual);
         realizarAccionJugador(peticion);
     }
 
@@ -104,7 +102,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         EstadoPantallaTurnoDTO vista = new EstadoPantallaTurnoDTO();
         vista.setCartaEnDescarte(estadoActual.getCartaEnDescarte());
         vista.setManoLocal(estadoActual.getManoJugadorActual() != null ? estadoActual.getManoJugadorActual() : List.of());
-        vista.setTurnoLocal(estadoActual.getIdJugadorEnTurno() == this.idJugadorLocal);
+        vista.setTurnoLocal(estadoActual.getIdJugador() == this.idJugadorLocal);
 
         List<JugadorResumenDTO> jugadores = estadoActual.getJugadores() != null
                 ? estadoActual.getJugadores()

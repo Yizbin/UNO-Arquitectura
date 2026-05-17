@@ -41,28 +41,39 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
         switch (tipoAccion) {
 
             case UNIRSE_PARTIDA -> {
-                subDominio.unirJugador(peticion.getJugador());
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+                subDominio.unirJugador(
+                        estado.getIdJugador()
+                );
             }
             case SOLICITAR_INICIO_PARTIDA -> {
-                subDominio.confirmarInicioPartida(peticion.getJugador());
+//                subDominio.confirmarInicioPartida(peticion.getJugador());
             }
             case JUGAR_CARTA -> {
-                subDominio.jugarCarta(peticion.getIdJugador(), peticion.getCartaAJugar());
+                subDominio.jugarCarta(peticion.getEstadoPartida().getIdJugador(), peticion.getEstadoPartida().getCartaEnDescarte());
             }
             case ROBAR_CARTA -> {
-                subDominio.robarCarta(peticion.getIdJugador());
+                subDominio.robarCarta(peticion.getEstadoPartida().getIdJugador());
             }
             case ELEGIR_COLOR -> {
-                subDominio.elegirColorComodin(peticion.getNuevoColor());
+                subDominio.elegirColorComodin(peticion.getEstadoPartida().getColorSeleccionado());
             }
             case TIRAR_RULETA -> {
                 subDominio.tirarRuleta();
             }
             case GRITAR_UNO -> {
-                subDominio.gritarUno(peticion.getIdJugador());
+                subDominio.gritarUno(peticion.getEstadoPartida().getIdJugador());
             }
-            case TERMINAR_TURNO ->
+            case TERMINAR_TURNO -> {
                 subDominio.terminarTurno();
+            }
+            case ACTUALIZAR_PERFIL -> {
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+
+                subDominio.actualizarPerfilJugador(
+                        peticion.getJugadorActualizar()
+                );
+            }
 
             default ->
                 throw new UnsupportedOperationException("Tipo de accion no reconocido: " + tipoAccion);
