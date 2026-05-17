@@ -68,6 +68,5 @@ public interface ISubDominio {
     public List<JugadorResumenDTO> obtenerJugadoresConfirmados();
 
     public boolean puedeIniciarPartida();
-
-    //
+    
 }

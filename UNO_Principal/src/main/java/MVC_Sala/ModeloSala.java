@@ -9,9 +9,9 @@ import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.EstadoJugadorSala;
 import Enums.TipoAccionPartida;
-import interfaces.IPump;
 import Interfaces.ISink;
 import Plantilla.ContextoPipeline;
+import interfaces.IPump;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingUtilities;
@@ -26,6 +26,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     private IPump<PeticionJugadaDTO> coordinador;
     private List<JugadorResumenDTO> jugadoresEnSala;
     private JugadorResumenDTO jugadorLocal;
+    private boolean cambiarFrame = false;
     private boolean partidaListaParaIniciar;
 
     public ModeloSala() {
@@ -43,16 +44,19 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         this.coordinador = coordinador;
     }
 
+    @Override
     public void suscribir(ISuscriptorSala suscriptor) {
         if (!suscriptores.contains(suscriptor)) {
             suscriptores.add(suscriptor);
         }
     }
 
+    @Override
     public void desuscribir(ISuscriptorSala suscriptor) {
         suscriptores.remove(suscriptor);
     }
 
+    @Override
     public void notificar() {
         for (ISuscriptorSala s : suscriptores) {
             s.update(this);
@@ -208,6 +212,15 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     @Override
     public List<JugadorResumenDTO> getJugadoresEnSala() {
         return this.jugadoresEnSala;
+    }
+    
+    public void abrirSalaEspera() {
+        this.cambiarFrame = true;
+        notificar();
+    }
+    
+    public boolean isCambiarFrame() {
+        return cambiarFrame;
     }
 
     @Override

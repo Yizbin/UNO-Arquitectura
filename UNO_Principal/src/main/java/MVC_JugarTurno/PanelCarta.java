@@ -27,7 +27,7 @@ public class PanelCarta extends javax.swing.JPanel {
 
         lblImgCarta = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(31, 84, 182));
+        setBackground(new java.awt.Color(0, 102, 219));
         setLayout(new java.awt.BorderLayout());
 
         lblImgCarta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

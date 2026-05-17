@@ -16,25 +16,16 @@ import java.util.stream.Collectors;
  */
 public class JugadorMapper {
 
-    public JugadorResumenDTO toDTO(Jugador jugador) {
-        if (jugador == null) {
+    public JugadorResumenDTO toDTO(Jugador entity) {
+        if (entity == null) {
             return null;
         }
-
         JugadorResumenDTO dto = new JugadorResumenDTO();
-
-        dto.setId(jugador.getId());
-
-        dto.setNombreUsuario(jugador.getUsuario());
-
-        int cantidadCartas = (jugador.getMano() != null) ? jugador.getMano().size() : 0;
-        dto.setCantidadDeCartas(cantidadCartas);
-
-        dto.setPuntos(jugador.calcularPuntosRestantes());
-
-        dto.setEnTurno(false);
-
-        dto.setEstadoSala(jugador.getEstadoSala());
+        dto.setId(entity.getId());
+        dto.setNombreUsuario(entity.getUsuario());
+        dto.setRutaAvatar(entity.getAvatar());
+        dto.setEstadoSala(entity.getEstadoSala());
+        dto.setPreferenciasColor(entity.getPreferenciasColor());
 
         return dto;
     }
@@ -53,10 +44,9 @@ public class JugadorMapper {
         if (dto == null) {
             return null;
         }
-
-        Jugador jugador = new Jugador(dto.getId(), dto.getNombreUsuario(), "avatar_por_defecto.png");
-
+        Jugador jugador = new Jugador(dto.getId(), dto.getNombreUsuario(), dto.getRutaAvatar());
         jugador.setEstadoSala(dto.getEstadoSala());
+        jugador.setPreferenciasColor(dto.getPreferenciasColor());
 
         return jugador;
     }

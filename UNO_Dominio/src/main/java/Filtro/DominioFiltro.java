@@ -7,9 +7,9 @@ package Filtro;
 import DTOs.EstadoPartidaDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.TipoAccionPartida;
+import Interfaces.IFiltro;
 import Interfaces.ISubDominio;
 import Plantilla.ContextoPipeline;
-import Interfaces.IFiltro;
 
 /**
  *
@@ -82,11 +82,9 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
             case ACTUALIZAR_PERFIL -> {
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
 
-                subDominio.actualizarPerfilJugador(
-                        peticion.getJugadorActualizar()
-                );
+                subDominio.actualizarPerfilJugador(peticion.getJugadorActualizar());
             }
-
+            
             default ->
                 throw new UnsupportedOperationException("Tipo de accion no reconocido: " + tipoAccion);
         }
