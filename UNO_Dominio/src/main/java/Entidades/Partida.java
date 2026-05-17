@@ -69,9 +69,11 @@ public class Partida {
 
     public void actualizarPerfilJugador(JugadorResumenDTO jugadorDTO) {
         Jugador jugador = obtenerJugadorPorId(jugadorDTO.getId());
+        
         jugador.actualizarPerfil(
                 jugadorDTO.getNombreUsuario(),
-                jugadorDTO.getRutaAvatar()
+                jugadorDTO.getRutaAvatar(),
+                jugadorDTO.getPreferenciasColor()
         );
     }
 

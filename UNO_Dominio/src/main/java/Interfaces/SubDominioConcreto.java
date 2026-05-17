@@ -105,4 +105,9 @@ public class SubDominioConcreto implements ISubDominio {
     public void gritarUno(int idJugador) {
         partida.gritarUno(idJugador);
     }
+
+    @Override
+    public void actualizarPerfilJugador(JugadorResumenDTO jugadorDTO) {
+        this.partida.actualizarPerfilJugador(jugadorDTO);
+    }
 }

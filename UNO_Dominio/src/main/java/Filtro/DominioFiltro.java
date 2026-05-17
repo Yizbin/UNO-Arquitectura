@@ -61,9 +61,12 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
             case GRITAR_UNO -> {
                 subDominio.gritarUno(peticion.getIdJugador());
             }
-            case TERMINAR_TURNO ->
+            case TERMINAR_TURNO -> {
                 subDominio.terminarTurno();
-
+            }
+            case ACTUALIZAR_PERFIL -> {
+                subDominio.actualizarPerfilJugador(peticion.getJugador());
+            }   
             default ->
                 throw new UnsupportedOperationException("Tipo de accion no reconocido: " + tipoAccion);
         }
