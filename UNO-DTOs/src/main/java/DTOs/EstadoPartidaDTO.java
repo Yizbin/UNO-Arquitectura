@@ -7,6 +7,10 @@ package DTOs;
 import Enums.EstadoRetoSpin;
 import java.util.List;
 
+/**
+ *
+ * @author Abraham Coronel
+ */
 public class EstadoPartidaDTO {
 
     private int idJugadorEnTurno;
