@@ -81,6 +81,14 @@ public class Partida {
     public void aceptarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante) {
         validarAnfitrion(idAnfitrion);
 
+        if (partidaIniciada) {
+            throw new IllegalStateException("No se puede aceptar jugadores en una partida iniciada.");
+        }
+
+        if (jugadores.size() >= 4) {
+            throw new IllegalStateException("La partida ya alcanzo el numero maximo de jugadores.");
+        }
+
         if (!solicitudesPendientes.contains(idJugadorSolicitante)) {
             throw new IllegalArgumentException("No existe una solicitud pendiente para ese jugador.");
         }
@@ -91,6 +99,10 @@ public class Partida {
 
     public void rechazarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante) {
         validarAnfitrion(idAnfitrion);
+
+        if (partidaIniciada) {
+            throw new IllegalStateException("No se puede responder solicitudes en una partida iniciada.");
+        }
 
         if (!solicitudesPendientes.contains(idJugadorSolicitante)) {
             throw new IllegalArgumentException("No existe una solicitud pendiente para ese jugador.");
@@ -145,6 +157,8 @@ public class Partida {
     }
 
     public void iniciarPartida() throws MazoVacioException {
+
+        this.partidaIniciada = true;
 
         this.mazo = MazoFactory.crear();
 
