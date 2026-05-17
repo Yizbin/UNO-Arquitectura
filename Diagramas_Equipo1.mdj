@@ -67844,7 +67844,7 @@
 											"_parent": {
 												"$ref": "AAAAAAGeMzi0l2CroIg="
 											},
-											"name": "Collaboration1",
+											"name": "DS_Arquitectura_FinalizacionPartida",
 											"ownedElements": [
 												{
 													"_type": "UMLInteraction",
@@ -67852,7 +67852,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeMzket2H5bRE="
 													},
-													"name": "Interaction1",
+													"name": "DS_Arquitectura_EnviarSolicitudFinalizacion",
 													"ownedElements": [
 														{
 															"_type": "UMLSequenceDiagram",
@@ -67921,7 +67921,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeMzket2H5bRE="
 													},
-													"name": "Interaction2",
+													"name": "DS_Arquitectura_RecibirSolicitudFinalizacion",
 													"ownedElements": [
 														{
 															"_type": "UMLSequenceDiagram",
@@ -67990,7 +67990,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeMzket2H5bRE="
 													},
-													"name": "Interaction3",
+													"name": "DS_Arquitectura_EvaluarRespuestaFinalizacion",
 													"ownedElements": [
 														{
 															"_type": "UMLSequenceDiagram",
@@ -68061,7 +68061,7 @@
 											"_parent": {
 												"$ref": "AAAAAAGeMzi0l2CroIg="
 											},
-											"name": "Collaboration2",
+											"name": "DS_MVC_FinalizacionPartida",
 											"ownedElements": [
 												{
 													"_type": "UMLInteraction",
@@ -68069,7 +68069,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeMzl6rGP5wnY="
 													},
-													"name": "Interaction1",
+													"name": "DS_MVC_EnviarSolicitudFinalizacion",
 													"ownedElements": [
 														{
 															"_type": "UMLSequenceDiagram",
@@ -68138,7 +68138,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeMzl6rGP5wnY="
 													},
-													"name": "Interaction2",
+													"name": "DS_MVC_RecibirSolicitudFinalizacion",
 													"ownedElements": [
 														{
 															"_type": "UMLSequenceDiagram",
@@ -68207,7 +68207,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeMzl6rGP5wnY="
 													},
-													"name": "Interaction3",
+													"name": "DS_MVC_EvaluarRespuestaFinalizacion",
 													"ownedElements": [
 														{
 															"_type": "UMLSequenceDiagram",
