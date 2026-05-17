@@ -148,8 +148,8 @@ public class Partida {
             throw new IllegalArgumentException("Los datos del jugador no pueden ser nulos.");
         }
 
-        JugadorMapper mapper = new JugadorMapper();
-        Jugador jugador = mapper.toEntity(jugadorDTO);
+        Jugador jugador = obtenerJugadorPorId(jugadorDTO.getId());
+
         jugador.actualizarPerfil(
                 jugadorDTO.getNombreUsuario(),
                 jugadorDTO.getRutaAvatar(),
