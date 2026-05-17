@@ -5,6 +5,7 @@ import Adapter.AdapterCliente;
 import DTOs.EstadoPartidaDTO;
 import DTOs.PeticionJugadaDTO;
 import Deserializador.Deserializador;
+import Entidades.Partida;
 import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
 import Filtro.DominioFiltro;
@@ -29,23 +30,24 @@ public class Ensamblador {
 
     private static void configurarConexionRed(String ipServidor, int puertoServidor) {
 
-        SubDominioConcreto subDominio = new SubDominioConcreto();
+        Partida partida = new Partida();
+        SubDominioConcreto subDominio = new SubDominioConcreto(partida);
 
         IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
         dispatcher.preConectar(ipServidor, puertoServidor);
 
-        ISink<byte[]> adapterSink =
-                new AdapterCliente(ipServidor, puertoServidor, dispatcher);
+        ISink<byte[]> adapterSink
+                = new AdapterCliente(ipServidor, puertoServidor, dispatcher);
 
-        CoordinadorFiltros<PeticionJugadaDTO, byte[]> pipelineSalida =
-                new CoordinadorFiltros<>();
+        CoordinadorFiltros<PeticionJugadaDTO, byte[]> pipelineSalida
+                = new CoordinadorFiltros<>();
 
         pipelineSalida.agregarFiltro(new DominioFiltro(subDominio));
         pipelineSalida.agregarFiltro(new Serializador<EstadoPartidaDTO>());
         pipelineSalida.conectarDestino(adapterSink);
 
-        CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada =
-                new CoordinadorFiltros<>();
+        CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada
+                = new CoordinadorFiltros<>();
 
         pipelineEntrada.agregarFiltro(
                 new Deserializador<>(EstadoPartidaDTO.class)

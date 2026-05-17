@@ -87,7 +87,7 @@ public class SubDominioConcreto implements ISubDominio {
 
     @Override
     public EstadoPartidaDTO obtenerEstadoPartida() {
-        return this.partida != null ? this.partida.obtenerEstadoPartidaDTO() : new EstadoPartidaDTO();
+        return this.partida.obtenerEstadoPartidaDTO();
     }
 
     @Override
