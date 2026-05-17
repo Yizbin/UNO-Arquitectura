@@ -26,7 +26,6 @@ public class Partida {
     private List<Jugador> jugadores;
     private int idAnfitrion;
     private List<Integer> solicitudesPendientes; //aqui va el id de los jugadores que solicitan unirse
-    private boolean partidaIniciada;
 
     private Mazo mazo;
     private Descarte descarte;
@@ -39,7 +38,6 @@ public class Partida {
     public Partida() {
         this.jugadores = List.of();
         this.solicitudesPendientes = new ArrayList<>();
-        this.partidaIniciada = false;
         this.descarte = new Descarte();
         this.ruleta = new Ruleta();
         this.indiceTurnoActual = 0;
@@ -59,7 +57,7 @@ public class Partida {
     }
 
     public void solicitarUnion(int idJugadorSolicitante) {
-        if (partidaIniciada) {
+        if (estaIniciada()) {
             throw new IllegalStateException("No se puede solicitar unirse a una partida iniciada.");
         }
 
@@ -81,7 +79,7 @@ public class Partida {
     public void aceptarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante) {
         validarAnfitrion(idAnfitrion);
 
-        if (partidaIniciada) {
+        if (estaIniciada()) {
             throw new IllegalStateException("No se puede aceptar jugadores en una partida iniciada.");
         }
 
@@ -100,7 +98,7 @@ public class Partida {
     public void rechazarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante) {
         validarAnfitrion(idAnfitrion);
 
-        if (partidaIniciada) {
+        if (estaIniciada()) {
             throw new IllegalStateException("No se puede responder solicitudes en una partida iniciada.");
         }
 
@@ -139,6 +137,10 @@ public class Partida {
         }
     }
 
+    private boolean estaIniciada() {
+        return mazo != null;
+    }
+
     public void cargarJugadoresDesdeDTO(List<JugadorResumenDTO> jugadoresDTO) {
         this.jugadores = List.copyOf(new JugadorMapper().toEntityList(jugadoresDTO));
     }
@@ -158,8 +160,6 @@ public class Partida {
     }
 
     public void iniciarPartida() throws MazoVacioException {
-
-        this.partidaIniciada = true;
 
         this.mazo = MazoFactory.crear();
 
@@ -263,7 +263,6 @@ public class Partida {
         estadoDTO.setPartidaListaParaIniciar(puedeIniciarPartida());
 
         estadoDTO.setIdAnfitrion(idAnfitrion);
-        estadoDTO.setPartidaIniciada(partidaIniciada);
         estadoDTO.setSolicitudesPendientes(List.copyOf(solicitudesPendientes));
 
         return estadoDTO;
@@ -507,14 +506,6 @@ public class Partida {
 
     public List<Integer> getSolicitudesPendientes() {
         return List.copyOf(solicitudesPendientes);
-    }
-
-    public boolean isPartidaIniciada() {
-        return partidaIniciada;
-    }
-
-    public void setPartidaIniciada(boolean partidaIniciada) {
-        this.partidaIniciada = partidaIniciada;
     }
 
     @Override

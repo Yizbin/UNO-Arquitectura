@@ -32,7 +32,6 @@ public class EstadoPartidaDTO {
     private boolean partidaListaParaIniciar;
 
     private int idAnfitrion;
-    private boolean partidaIniciada;
     private List<Integer> solicitudesPendientes;
 
     public EstadoPartidaDTO() {
@@ -65,6 +64,24 @@ public class EstadoPartidaDTO {
         this.colorSeleccionado = colorSeleccionado;
         this.mensajeEstado = mensajeEstado;
         this.partidaListaParaIniciar = partidaListaParaIniciar;
+    }
+
+    public EstadoPartidaDTO(int idJugador, List<JugadorResumenDTO> jugadores, List<CartaDTO> manoJugadorActual, CartaDTO cartaEnDescarte, EstadoRetoSpin estadoReto, boolean ruletaActiva, boolean puedeTirarCarta, boolean puedeRobar, boolean puedeDecirUno, boolean esperandoColor, TipoColor colorSeleccionado, String mensajeEstado, boolean partidaListaParaIniciar, int idAnfitrion, List<Integer> solicitudesPendientes) {
+        this.idJugador = idJugador;
+        this.jugadores = jugadores;
+        this.manoJugadorActual = manoJugadorActual;
+        this.cartaEnDescarte = cartaEnDescarte;
+        this.estadoReto = estadoReto;
+        this.ruletaActiva = ruletaActiva;
+        this.puedeTirarCarta = puedeTirarCarta;
+        this.puedeRobar = puedeRobar;
+        this.puedeDecirUno = puedeDecirUno;
+        this.esperandoColor = esperandoColor;
+        this.colorSeleccionado = colorSeleccionado;
+        this.mensajeEstado = mensajeEstado;
+        this.partidaListaParaIniciar = partidaListaParaIniciar;
+        this.idAnfitrion = idAnfitrion;
+        this.solicitudesPendientes = solicitudesPendientes;
     }
 
     public int getIdJugador() {
@@ -177,14 +194,6 @@ public class EstadoPartidaDTO {
 
     public void setIdAnfitrion(int idAnfitrion) {
         this.idAnfitrion = idAnfitrion;
-    }
-
-    public boolean isPartidaIniciada() {
-        return partidaIniciada;
-    }
-
-    public void setPartidaIniciada(boolean partidaIniciada) {
-        this.partidaIniciada = partidaIniciada;
     }
 
     public List<Integer> getSolicitudesPendientes() {

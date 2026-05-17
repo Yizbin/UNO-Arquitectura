@@ -27,10 +27,15 @@ class PartidaUnirJugadorTest {
     }
 
     @Test
-    void noDebePermitirAceptarSolicitudSiLaPartidaYaInicio() {
+    void noDebePermitirAceptarSolicitudSiLaPartidaYaInicio() throws Exception {
         Partida partida = new Partida(1);
         partida.solicitarUnion(2);
-        partida.setPartidaIniciada(true);
+
+        partida.setJugadores(List.of(
+                new Jugador(1),
+                new Jugador(3)
+        ));
+        partida.iniciarPartida();
 
         IllegalStateException excepcion = assertThrows(
                 IllegalStateException.class,
@@ -39,6 +44,48 @@ class PartidaUnirJugadorTest {
 
         assertEquals(
                 "No se puede aceptar jugadores en una partida iniciada.",
+                excepcion.getMessage()
+        );
+    }
+
+    @Test
+    void noDebePermitirSolicitarUnionSiLaPartidaYaInicio() throws Exception {
+        Partida partida = new Partida(1);
+        partida.setJugadores(List.of(
+                new Jugador(1),
+                new Jugador(2)
+        ));
+        partida.iniciarPartida();
+
+        IllegalStateException excepcion = assertThrows(
+                IllegalStateException.class,
+                () -> partida.solicitarUnion(3)
+        );
+
+        assertEquals(
+                "No se puede solicitar unirse a una partida iniciada.",
+                excepcion.getMessage()
+        );
+    }
+
+    @Test
+    void noDebePermitirRechazarSolicitudSiLaPartidaYaInicio() throws Exception {
+        Partida partida = new Partida(1);
+        partida.solicitarUnion(2);
+
+        partida.setJugadores(List.of(
+                new Jugador(1),
+                new Jugador(3)
+        ));
+        partida.iniciarPartida();
+
+        IllegalStateException excepcion = assertThrows(
+                IllegalStateException.class,
+                () -> partida.rechazarSolicitudUnion(1, 2)
+        );
+
+        assertEquals(
+                "No se puede responder solicitudes en una partida iniciada.",
                 excepcion.getMessage()
         );
     }
