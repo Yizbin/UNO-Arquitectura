@@ -3,14 +3,10 @@ package Interfaces;
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
-<<<<<<< HEAD
 import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
 import DTOs.SolicitudFinalizacionDTO;
 import DTOs.TablaPosicionesDTO;
-import Entidades.Mazo;
-=======
->>>>>>> main
 import Entidades.Partida;
 import Enums.AccionesPosibles;
 import Enums.EstadoFinalizacion;
@@ -19,14 +15,10 @@ import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
 import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
-<<<<<<< HEAD
-import factorys.MazoFactory;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-=======
->>>>>>> main
 import java.util.List;
 import java.util.Map;
 
@@ -36,17 +28,12 @@ import java.util.Map;
  */
 public class SubDominioConcreto implements ISubDominio {
 
-<<<<<<< HEAD
     private Partida partida;
-    private final MazoFactory mazoFactory;
     private EstadoFinalizacion estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
     private SolicitudFinalizacionDTO solicitudFinalizacion;
     private ResultadoFinalizacionDTO resultadoFinalizacion;
     private TablaPosicionesDTO tablaPosiciones;
     private final Map<Integer, RespuestaFinalizacionDTO> respuestasFinalizacion = new HashMap<>();
-=======
-    private final Partida partida;
->>>>>>> main
 
     public SubDominioConcreto(Partida partida) {
         this.partida = partida;
@@ -115,16 +102,13 @@ public class SubDominioConcreto implements ISubDominio {
 
     @Override
     public EstadoPartidaDTO obtenerEstadoPartida() {
-<<<<<<< HEAD
+
         EstadoPartidaDTO estado = this.partida != null ? this.partida.obtenerEstadoPartidaDTO() : new EstadoPartidaDTO();
         estado.setEstadoFinalizacion(estadoFinalizacion);
         estado.setSolicitudFinalizacion(solicitudFinalizacion);
         estado.setResultadoFinalizacion(resultadoFinalizacion);
         estado.setTablaPosiciones(tablaPosiciones);
         return estado;
-=======
-        return this.partida.obtenerEstadoPartidaDTO();
->>>>>>> main
     }
 
     @Override

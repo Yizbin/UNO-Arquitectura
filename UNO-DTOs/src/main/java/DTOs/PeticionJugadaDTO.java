@@ -14,13 +14,19 @@ import Enums.TipoColor;
 public class PeticionJugadaDTO {
 
     private TipoAccionPartida accion;
+    //retirarlo por que no hace sentido que en este lugar
     private int idJugador;
     private JugadorResumenDTO jugador;
+    
+    //no tiene sentido
     private CartaDTO cartaAJugar;
     private TipoColor nuevoColor;
+    
+    //no tiene sentido 
     private SolicitudFinalizacionDTO solicitudFinalizacion;
     private RespuestaFinalizacionDTO respuestaFinalizacion;
 
+    
     public PeticionJugadaDTO() {
     }
 

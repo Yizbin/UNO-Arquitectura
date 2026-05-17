@@ -111,6 +111,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         vista.setCartaEnDescarte(estadoActual.getCartaEnDescarte());
         vista.setManoLocal(estadoActual.getManoJugadorActual() != null ? estadoActual.getManoJugadorActual() : List.of());
         vista.setTurnoLocal(estadoActual.getIdJugadorEnTurno() == this.idJugadorLocal);
+        vista.setEsperandoColor(estadoActual.isEsperandoColor());
         vista.setEstadoFinalizacion(estadoActual.getEstadoFinalizacion());
         vista.setSolicitudFinalizacion(estadoActual.getSolicitudFinalizacion());
         vista.setResultadoFinalizacion(estadoActual.getResultadoFinalizacion());

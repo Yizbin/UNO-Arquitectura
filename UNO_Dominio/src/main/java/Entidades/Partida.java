@@ -41,7 +41,9 @@ public class Partida {
         this.colorActual = TipoColor.NINGUNO;
         this.esperandoColor = false;
     }
-
+    
+    
+    
     public Partida(List<Jugador> jugadores) {
         this();
         this.jugadores = List.copyOf(jugadores);

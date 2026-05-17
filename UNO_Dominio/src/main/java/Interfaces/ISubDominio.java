@@ -58,12 +58,11 @@ public interface ISubDominio {
 
     public EstadoPartidaDTO obtenerEstadoPartida();
 
-<<<<<<< HEAD
     //finalizar partida
     void solicitarFinalizacion(SolicitudFinalizacionDTO solicitud);
 
     void responderFinalizacion(RespuestaFinalizacionDTO respuesta);
-=======
+
     // METODOS PARA LA SALA
     public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO);
 
@@ -71,5 +70,4 @@ public interface ISubDominio {
     
     public boolean puedeIniciarPartida();
     //
->>>>>>> main
 }

@@ -6,11 +6,10 @@ import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Deserializador.Deserializador;
-<<<<<<< HEAD
 import Enums.TipoAccionPartida;
-=======
+
 import Entidades.Partida;
->>>>>>> main
+
 import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
 import Filtro.DominioFiltro;
@@ -73,7 +72,7 @@ public class Ensamblador {
 
         registrarJugadorLocal(pipelineSalida, 1);
     }
-<<<<<<< HEAD
+
 
     private static void registrarJugadorLocal(
             CoordinadorFiltros<PeticionJugadaDTO, byte[]> pipelineSalida,
@@ -88,6 +87,5 @@ public class Ensamblador {
             e.printStackTrace();
         }
     }
-=======
->>>>>>> main
+
 }
