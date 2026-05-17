@@ -62,6 +62,7 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         this.control = control;
         this.modelo = modelo;
         this.modelo.suscribir(this);
+        acciones();
     }
 
     private void initComponents() {
@@ -220,7 +221,7 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         c2.setColor(jugador.getPreferenciasColor().getOrDefault(TipoColor.AZUL, TipoColor.AZUL));
         c3.setColor(jugador.getPreferenciasColor().getOrDefault(TipoColor.VERDE, TipoColor.VERDE));
         c4.setColor(jugador.getPreferenciasColor().getOrDefault(TipoColor.AMARILLO, TipoColor.AMARILLO));
-        
+
         //agregar las cartas donde se eligen los colores
         PanelCartaMano carta1 = new PanelCartaMano();
         carta1.setBounds(350, 500, 85, 130);
@@ -257,69 +258,47 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         panelCentro.revalidate();
         panelCentro.repaint();
 
-        //label para decirle al usuario que ponga su nombre
-        JLabel nombre = new JLabel("Elegir un color");
-        nombre.setBounds(415, 50, 300, 50);
+        JLabel nombre = new JLabel("Elegir un color", SwingConstants.CENTER);
+        nombre.setBounds(0, 50, panelCentro.getWidth(), 50);
         nombre.setFont(new Font("Rubik One", Font.BOLD, 40));
         nombre.setForeground(Color.BLACK);
         panelCentro.add(nombre);
 
-        //agregar los colores para elegir
-        BotonRedondeado color1 = new BotonRedondeado(Color.ORANGE, 120);
-        color1.setBounds(285, 230, 120, 120);
-        panelCentro.add(color1);
-        color1.addActionListener(e -> {
-            seleccionarColor(color1, Color.ORANGE);
-        });
+        java.util.List<TipoColor> coloresDisponibles = new java.util.ArrayList<>(java.util.Arrays.asList(
+                TipoColor.ROJO, TipoColor.AZUL, TipoColor.VERDE, TipoColor.AMARILLO,
+                TipoColor.NARANJA, TipoColor.MORADO, TipoColor.ROSA, TipoColor.CAFE,
+                TipoColor.NEGRO, TipoColor.MAGENTA, TipoColor.GRIS, TipoColor.CIAN
+        ));
 
-        BotonRedondeado color2 = new BotonRedondeado(Color.decode("#D363FF"), 120);
-        color2.setBounds(435, 230, 120, 120);
-        panelCentro.add(color2);
-        color2.addActionListener(e -> {
-            seleccionarColor(color2, Color.decode("#D363FF"));
-        });
+        java.util.List<TipoColor> coloresUsados = java.util.Arrays.asList(
+                c1.getColor(), c2.getColor(), c3.getColor(), c4.getColor()
+        );
+        coloresDisponibles.removeAll(coloresUsados);
+        int startX = 285;
+        int startY = 180;
 
-        BotonRedondeado color3 = new BotonRedondeado(Color.PINK, 120);
-        color3.setBounds(585, 230, 120, 120);
-        panelCentro.add(color3);
-        color3.addActionListener(e -> {
-            seleccionarColor(color3, Color.PINK);
-        });
+        for (int i = 0; i < coloresDisponibles.size(); i++) {
+            TipoColor colorLogico = coloresDisponibles.get(i);
+            Color colorVisual = traducirColor(colorLogico);
 
-        BotonRedondeado color4 = new BotonRedondeado(Color.decode("#693A19"), 120);
-        color4.setBounds(735, 230, 120, 120);
-        panelCentro.add(color4);
-        color4.addActionListener(e -> {
-            seleccionarColor(color4, Color.decode("#693A19"));
-        });
+            BotonRedondeado btnColor = new BotonRedondeado(colorVisual, 120);
 
-        BotonRedondeado color5 = new BotonRedondeado(Color.BLACK, 120);
-        color5.setBounds(285, 365, 120, 120);
-        panelCentro.add(color5);
-        color5.addActionListener(e -> {
-            seleccionarColor(color5, Color.BLACK);
-        });
+            int fila = i / 4;
+            int columna = i % 4;
+            btnColor.setBounds(startX + (columna * 150), startY + (fila * 150), 120, 120);
 
-        BotonRedondeado color6 = new BotonRedondeado(Color.MAGENTA, 120);
-        color6.setBounds(435, 365, 120, 120);
-        panelCentro.add(color6);
-        color6.addActionListener(e -> {
-            seleccionarColor(color6, Color.MAGENTA);
-        });
+            btnColor.addActionListener(e -> seleccionarColor(btnColor, colorVisual));
+            panelCentro.add(btnColor);
+        }
 
-        BotonRedondeado color7 = new BotonRedondeado(Color.LIGHT_GRAY, 120);
-        color7.setBounds(585, 365, 120, 120);
-        panelCentro.add(color7);
-        color7.addActionListener(e -> {
-            seleccionarColor(color7, Color.LIGHT_GRAY);
-        });
+        BotonRedondeado btnCancelar = new BotonRedondeado(Color.RED, 20);
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setBounds((panelCentro.getWidth() - 150) / 2, 530, 150, 50);
+        btnCancelar.addActionListener(e -> cargarConfiguración());
+        panelCentro.add(btnCancelar);
 
-        BotonRedondeado color8 = new BotonRedondeado(Color.CYAN, 120);
-        color8.setBounds(735, 365, 120, 120);
-        panelCentro.add(color8);
-        color8.addActionListener(e -> {
-            seleccionarColor(color8, Color.CYAN);
-        });
+        panelCentro.revalidate();
+        panelCentro.repaint();
     }
 
     private void seleccionarAvatar(JButton botonClickeado, String rutaImagen) {
@@ -422,9 +401,9 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
             return TipoColor.CIAN;
         } else if (Color.MAGENTA.equals(color)) {
             return TipoColor.MAGENTA;
-        }else if (Color.BLACK.equals(color)) {
+        } else if (Color.BLACK.equals(color)) {
             return TipoColor.NEGRO;
-        }else {
+        } else {
             throw new AssertionError("Color no reconocido: " + color);
         }
     }
@@ -432,25 +411,28 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     private void acciones() {
 
         siguiente.addActionListener(e -> {
-            try {
-                if (txtField != null) {
-                    jugador.setNombreUsuario(txtField.getText());
-                } else {
+            if (txtField != null) {
+                jugador.setNombreUsuario(txtField.getText());
+                control.actualizarPerfil(jugador);
+                control.abrirSalaEspera();
+            } else {
+                try {
                     throw new Exception("El campo de texto no puede estar vacío");
+                } catch (Exception ex) {
+                    System.getLogger(ConfiguracionJugador.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                 }
-                
-
-            } catch (Exception ex) {
-
             }
-
         });
 
     }
 
     @Override
     public void update(IModeloSalaVista modeloVista) {
-
+        if (modeloVista.isCambiarFrame()) {
+            this.dispose();
+            SalaEspera sala = new SalaEspera();
+            sala.setVisible(true);
+        }
     }
 
     static class CampoTextoRedondeado extends JTextField {

@@ -21,4 +21,6 @@ public interface IModeloSalaVista {
     
     void notificar();
     
+    boolean isCambiarFrame();
+    
 }

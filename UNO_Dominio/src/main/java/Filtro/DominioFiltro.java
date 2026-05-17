@@ -7,9 +7,9 @@ package Filtro;
 import DTOs.EstadoPartidaDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.TipoAccionPartida;
+import Interfaces.IFiltro;
 import Interfaces.ISubDominio;
 import Plantilla.ContextoPipeline;
-import Interfaces.IFiltro;
 
 /**
  *

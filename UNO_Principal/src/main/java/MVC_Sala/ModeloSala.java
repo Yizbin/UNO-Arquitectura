@@ -25,6 +25,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     private IPump<PeticionJugadaDTO> coordinador;
     private List<JugadorResumenDTO> jugadoresEnSala;
     private JugadorResumenDTO jugadorLocal;
+    private boolean cambiarFrame = false;
 
     public ModeloSala() {
         this.suscriptores = new ArrayList<>();
@@ -125,6 +126,15 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     @Override
     public List<JugadorResumenDTO> getJugadoresEnSala() {
         return this.jugadoresEnSala;
+    }
+    
+    public void abrirSalaEspera() {
+        this.cambiarFrame = true;
+        notificar();
+    }
+    
+    public boolean isCambiarFrame() {
+        return cambiarFrame;
     }
 
 }

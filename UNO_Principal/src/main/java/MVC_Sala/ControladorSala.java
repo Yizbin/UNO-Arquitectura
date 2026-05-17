@@ -26,4 +26,8 @@ public class ControladorSala {
     public void actualizarPerfil(JugadorResumenDTO datos) {
         modelo.actualizarDatosJugador(datos);
     }
+    
+    public void abrirSalaEspera(){
+        modelo.abrirSalaEspera();
+    }
 }
