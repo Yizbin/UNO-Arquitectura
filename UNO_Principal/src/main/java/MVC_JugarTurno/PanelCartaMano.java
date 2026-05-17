@@ -18,7 +18,7 @@ public class PanelCartaMano extends javax.swing.JPanel {
     private static final int CARD_H = 130;
     private static final int ARC = 14;
 
-    private CartaDTO carta;
+    public CartaDTO carta;
     private boolean esDorso = true;
 
     public PanelCartaMano() {
@@ -139,18 +139,21 @@ public class PanelCartaMano extends javax.swing.JPanel {
         if (c == null) {
             return new Color(50, 50, 50);
         }
-        switch (c) {
-            case ROJO:
-                return new Color(210, 40, 40);
-            case AZUL:
-                return new Color(30, 90, 200);
-            case VERDE:
-                return new Color(40, 160, 60);
-            case AMARILLO:
-                return new Color(220, 190, 20);
-            default:
-                return new Color(60, 60, 60);
-        }
+        return switch (c) {
+            case ROJO -> new Color(210, 40, 40);
+            case AZUL -> new Color(30, 90, 200);
+            case VERDE -> new Color(40, 160, 60);
+            case AMARILLO -> new Color(220, 190, 20);
+            case NARANJA -> Color.ORANGE;
+            case MORADO -> Color.decode("#D363FF");
+            case ROSA -> Color.PINK;
+            case CAFE -> Color.decode("#693A19");
+            case GRIS -> Color.LIGHT_GRAY;
+            case CIAN -> Color.CYAN;
+            case MAGENTA -> Color.MAGENTA;
+            case NEGRO -> Color.BLACK;
+            default -> new Color(60, 60, 60);
+        };
     }
 
     @Override
