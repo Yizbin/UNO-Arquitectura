@@ -46,8 +46,13 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public void unirJugador(JugadorResumenDTO jugadorDTO) {
-        this.partida.unirJugador(jugadorDTO);
+    public void actualizarPerfilJugador(JugadorResumenDTO datosPerfil) {
+        this.partida.actualizarPerfilJugador(datosPerfil);
+    }
+
+    @Override
+    public void unirJugador(int idJugador) {
+        this.partida.unirJugador(idJugador);
     }
 
     @Override

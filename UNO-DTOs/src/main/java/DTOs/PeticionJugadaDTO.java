@@ -5,7 +5,6 @@
 package DTOs;
 
 import Enums.TipoAccionPartida;
-import Enums.TipoColor;
 
 /**
  *
@@ -14,38 +13,21 @@ import Enums.TipoColor;
 public class PeticionJugadaDTO {
 
     private TipoAccionPartida accion;
-    //retirarlo por que no hace sentido que en este lugar
-    private int idJugador;
-    private JugadorResumenDTO jugador;
-    
-    //no tiene sentido
-    private CartaDTO cartaAJugar;
-    private TipoColor nuevoColor;
-    
-    //no tiene sentido 
-    private SolicitudFinalizacionDTO solicitudFinalizacion;
-    private RespuestaFinalizacionDTO respuestaFinalizacion;
+    private JugadorResumenDTO jugadorActualizar;
+    private EstadoPartidaDTO estadoPartida;
 
-    
     public PeticionJugadaDTO() {
     }
 
-    public PeticionJugadaDTO(TipoAccionPartida accion, int idJugador) {
+    public PeticionJugadaDTO(TipoAccionPartida accion, EstadoPartidaDTO estadoPartida) {
         this.accion = accion;
-        this.idJugador = idJugador;
+        this.estadoPartida = estadoPartida;
     }
 
-    public PeticionJugadaDTO(TipoAccionPartida accion, JugadorResumenDTO jugador) {
+    public PeticionJugadaDTO(TipoAccionPartida accion, JugadorResumenDTO jugadorActualizar, EstadoPartidaDTO estadoPartida) {
         this.accion = accion;
-        this.jugador = jugador;
-        this.idJugador = jugador != null ? jugador.getId() : 0;
-    }
-
-    public PeticionJugadaDTO(TipoAccionPartida accion, int idJugador, CartaDTO cartaAJugar, TipoColor nuevoColor) {
-        this.accion = accion;
-        this.idJugador = idJugador;
-        this.cartaAJugar = cartaAJugar;
-        this.nuevoColor = nuevoColor;
+        this.jugadorActualizar = jugadorActualizar;
+        this.estadoPartida = estadoPartida;
     }
 
     public TipoAccionPartida getAccion() {
@@ -56,52 +38,22 @@ public class PeticionJugadaDTO {
         this.accion = accion;
     }
 
-    public int getIdJugador() {
-        return idJugador;
+    public EstadoPartidaDTO getEstadoPartida() {
+        return estadoPartida;
     }
 
-    public void setIdJugador(int idJugador) {
-        this.idJugador = idJugador;
+    public void setEstadoPartida(EstadoPartidaDTO estadoPartida) {
+        this.estadoPartida = estadoPartida;
     }
 
-    public JugadorResumenDTO getJugador() {
-        return jugador;
+    public JugadorResumenDTO getJugadorActualizar() {
+        return jugadorActualizar;
     }
 
-    public void setJugador(JugadorResumenDTO jugador) {
-        this.jugador = jugador;
-    }
-
-    public CartaDTO getCartaAJugar() {
-        return cartaAJugar;
-    }
-
-    public void setCartaAJugar(CartaDTO cartaAJugar) {
-        this.cartaAJugar = cartaAJugar;
-    }
-
-    public TipoColor getNuevoColor() {
-        return nuevoColor;
-    }
-
-    public void setNuevoColor(TipoColor nuevoColor) {
-        this.nuevoColor = nuevoColor;
-    }
-
-    public SolicitudFinalizacionDTO getSolicitudFinalizacion() {
-        return solicitudFinalizacion;
-    }
-
-    public void setSolicitudFinalizacion(SolicitudFinalizacionDTO solicitudFinalizacion) {
-        this.solicitudFinalizacion = solicitudFinalizacion;
-    }
-
-    public RespuestaFinalizacionDTO getRespuestaFinalizacion() {
-        return respuestaFinalizacion;
-    }
-
-    public void setRespuestaFinalizacion(RespuestaFinalizacionDTO respuestaFinalizacion) {
-        this.respuestaFinalizacion = respuestaFinalizacion;
+    public void setJugadorActualizar(JugadorResumenDTO jugadorActualizar) {
+        this.jugadorActualizar = jugadorActualizar;
     }
     
+    
+
 }

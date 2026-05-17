@@ -4,8 +4,8 @@
  */
 package DTOs;
 
-import Enums.EstadoFinalizacion;
 import Enums.EstadoRetoSpin;
+import Enums.TipoColor;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class EstadoPartidaDTO {
 
-    private int idJugadorEnTurno;
+    private int idJugador;
     private List<JugadorResumenDTO> jugadores;
     private List<CartaDTO> manoJugadorActual;
     private CartaDTO cartaEnDescarte;
@@ -25,20 +25,17 @@ public class EstadoPartidaDTO {
     private boolean puedeRobar;
     private boolean puedeDecirUno;
     private boolean esperandoColor;
+    private TipoColor colorSeleccionado;
 
     private String mensajeEstado;
 
     private boolean partidaListaParaIniciar;
-    private EstadoFinalizacion estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
-    private SolicitudFinalizacionDTO solicitudFinalizacion;
-    private ResultadoFinalizacionDTO resultadoFinalizacion;
-    private TablaPosicionesDTO tablaPosiciones;
 
     public EstadoPartidaDTO() {
     }
 
-    public EstadoPartidaDTO(int idJugadorEnTurno, List<JugadorResumenDTO> jugadores, List<CartaDTO> manoJugadorActual, CartaDTO cartaEnDescarte, EstadoRetoSpin estadoReto, boolean ruletaActiva, boolean puedeTirarCarta, boolean puedeRobar, boolean puedeDecirUno, String mensajeEstado) {
-        this.idJugadorEnTurno = idJugadorEnTurno;
+    public EstadoPartidaDTO(int idJugador, List<JugadorResumenDTO> jugadores, List<CartaDTO> manoJugadorActual, CartaDTO cartaEnDescarte, EstadoRetoSpin estadoReto, boolean ruletaActiva, boolean puedeTirarCarta, boolean puedeRobar, boolean puedeDecirUno, String mensajeEstado) {
+        this.idJugador = idJugador;
         this.jugadores = jugadores;
         this.manoJugadorActual = manoJugadorActual;
         this.cartaEnDescarte = cartaEnDescarte;
@@ -50,12 +47,28 @@ public class EstadoPartidaDTO {
         this.mensajeEstado = mensajeEstado;
     }
 
-    public int getIdJugadorEnTurno() {
-        return idJugadorEnTurno;
+    public EstadoPartidaDTO(int idJugador, List<JugadorResumenDTO> jugadores, List<CartaDTO> manoJugadorActual, CartaDTO cartaEnDescarte, EstadoRetoSpin estadoReto, boolean ruletaActiva, boolean puedeTirarCarta, boolean puedeRobar, boolean puedeDecirUno, boolean esperandoColor, TipoColor colorSeleccionado, String mensajeEstado, boolean partidaListaParaIniciar) {
+        this.idJugador = idJugador;
+        this.jugadores = jugadores;
+        this.manoJugadorActual = manoJugadorActual;
+        this.cartaEnDescarte = cartaEnDescarte;
+        this.estadoReto = estadoReto;
+        this.ruletaActiva = ruletaActiva;
+        this.puedeTirarCarta = puedeTirarCarta;
+        this.puedeRobar = puedeRobar;
+        this.puedeDecirUno = puedeDecirUno;
+        this.esperandoColor = esperandoColor;
+        this.colorSeleccionado = colorSeleccionado;
+        this.mensajeEstado = mensajeEstado;
+        this.partidaListaParaIniciar = partidaListaParaIniciar;
     }
 
-    public void setIdJugadorEnTurno(int idJugadorEnTurno) {
-        this.idJugadorEnTurno = idJugadorEnTurno;
+    public int getIdJugador() {
+        return idJugador;
+    }
+
+    public void setIdJugador(int idJugador) {
+        this.idJugador = idJugador;
     }
 
     public List<JugadorResumenDTO> getJugadores() {
@@ -146,38 +159,12 @@ public class EstadoPartidaDTO {
         this.partidaListaParaIniciar = partidaListaParaIniciar;
     }
 
-    public EstadoFinalizacion getEstadoFinalizacion() {
-        return estadoFinalizacion;
+    public TipoColor getColorSeleccionado() {
+        return colorSeleccionado;
     }
 
-    public void setEstadoFinalizacion(EstadoFinalizacion estadoFinalizacion) {
-        this.estadoFinalizacion = estadoFinalizacion != null ? estadoFinalizacion : EstadoFinalizacion.SIN_SOLICITUD;
+    public void setColorSeleccionado(TipoColor colorSeleccionado) {
+        this.colorSeleccionado = colorSeleccionado;
     }
 
-    public SolicitudFinalizacionDTO getSolicitudFinalizacion() {
-        return solicitudFinalizacion;
-    }
-
-    public void setSolicitudFinalizacion(SolicitudFinalizacionDTO solicitudFinalizacion) {
-        this.solicitudFinalizacion = solicitudFinalizacion;
-    }
-
-    public ResultadoFinalizacionDTO getResultadoFinalizacion() {
-        return resultadoFinalizacion;
-    }
-
-    public void setResultadoFinalizacion(ResultadoFinalizacionDTO resultadoFinalizacion) {
-        this.resultadoFinalizacion = resultadoFinalizacion;
-    }
-
-    public TablaPosicionesDTO getTablaPosiciones() {
-        if (tablaPosiciones != null) {
-            return tablaPosiciones;
-        }
-        return resultadoFinalizacion != null ? resultadoFinalizacion.getTablaPosiciones() : null;
-    }
-
-    public void setTablaPosiciones(TablaPosicionesDTO tablaPosiciones) {
-        this.tablaPosiciones = tablaPosiciones;
-    }
 }

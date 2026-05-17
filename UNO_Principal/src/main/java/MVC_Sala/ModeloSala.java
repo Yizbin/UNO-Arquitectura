@@ -66,10 +66,14 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         }
 
         try {
+            EstadoPartidaDTO estado = new EstadoPartidaDTO();
+            estado.setIdJugador(jugadorLocal.getId());
+
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
                     TipoAccionPartida.UNIRSE_PARTIDA,
-                    jugadorLocal
+                    estado
             );
+
             enviarPeticion(peticion);
             return true;
         } catch (Exception e) {
@@ -81,25 +85,25 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
 
     @Override
     public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {
-        JugadorResumenDTO jugadorSolicitud = jugadorDTO != null ? jugadorDTO : jugadorLocal;
-
-        if (coordinador == null || jugadorSolicitud == null) {
-            return false;
-        }
-
-        jugadorSolicitud.setEstadoSala(EstadoJugadorSala.CONFIRMADO);
-        this.jugadorLocal = jugadorSolicitud;
-
-        try {
-            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
-                    TipoAccionPartida.SOLICITAR_INICIO_PARTIDA,
-                    jugadorSolicitud
-            );
-            enviarPeticion(peticion);
-            return true;
-        } catch (Exception e) {
-            System.err.println("Error al solicitar inicio de partida: " + e.getMessage());
-        }
+//        JugadorResumenDTO jugadorSolicitud = jugadorDTO != null ? jugadorDTO : jugadorLocal;
+//
+//        if (coordinador == null || jugadorSolicitud == null) {
+//            return false;
+//        }
+//
+//        jugadorSolicitud.setEstadoSala(EstadoJugadorSala.CONFIRMADO);
+//        this.jugadorLocal = jugadorSolicitud;
+//
+//        try {
+//            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
+//                    TipoAccionPartida.SOLICITAR_INICIO_PARTIDA,
+//                    jugadorSolicitud
+//            );
+//            enviarPeticion(peticion);
+//            return true;
+//        } catch (Exception e) {
+//            System.err.println("Error al solicitar inicio de partida: " + e.getMessage());
+//        }
 
         return false;
     }
@@ -117,10 +121,14 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         }
 
         try {
+            EstadoPartidaDTO estado = new EstadoPartidaDTO();
+            estado.setJugadores(List.of(jugadorLocal));
+
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
                     TipoAccionPartida.ACTUALIZAR_PERFIL,
-                    jugadorLocal
+                    estado
             );
+
             enviarPeticion(peticion);
         } catch (Exception e) {
             System.err.println("Error al actualizar perfil: " + e.getMessage());
