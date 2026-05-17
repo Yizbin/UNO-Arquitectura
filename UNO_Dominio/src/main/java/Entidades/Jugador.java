@@ -31,6 +31,8 @@ public class Jugador {
 
     public Jugador(int id) {
         this.id = id;
+        this.mano = new ArrayList<>();
+        this.estadoSala = EstadoJugadorSala.ESPERANDO;
     }
 
     public Jugador(int id, String usuario, String avatar) {

@@ -70,7 +70,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
             estado.setIdJugador(jugadorLocal.getId());
 
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
-                    TipoAccionPartida.UNIRSE_PARTIDA,
+                    TipoAccionPartida.SOLICITAR_UNIRSE_PARTIDA,
                     estado
             );
 
@@ -81,6 +81,52 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         }
 
         return false;
+    }
+
+    public boolean aceptarSolicitudUnion(int idJugadorSolicitante) {
+        if (coordinador == null || jugadorLocal == null) {
+            return false;
+        }
+
+        try {
+            EstadoPartidaDTO estado = new EstadoPartidaDTO();
+            estado.setIdAnfitrion(jugadorLocal.getId());
+            estado.setIdJugador(idJugadorSolicitante);
+
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
+                    TipoAccionPartida.ACEPTAR_SOLICITUD_UNION,
+                    estado
+            );
+
+            enviarPeticion(peticion);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error al aceptar solicitud: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean rechazarSolicitudUnion(int idJugadorSolicitante) {
+        if (coordinador == null || jugadorLocal == null) {
+            return false;
+        }
+
+        try {
+            EstadoPartidaDTO estado = new EstadoPartidaDTO();
+            estado.setIdAnfitrion(jugadorLocal.getId());
+            estado.setIdJugador(idJugadorSolicitante);
+
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
+                    TipoAccionPartida.RECHAZAR_SOLICITUD_UNION,
+                    estado
+            );
+
+            enviarPeticion(peticion);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error al rechazar solicitud: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override

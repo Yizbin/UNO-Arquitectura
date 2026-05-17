@@ -9,7 +9,9 @@ package Enums;
  * @author Abraham Coronel
  */
 public enum TipoAccionPartida {
-    UNIRSE_PARTIDA,
+    SOLICITAR_UNIRSE_PARTIDA,
+    ACEPTAR_SOLICITUD_UNION,
+    RECHAZAR_SOLICITUD_UNION,
     JUGAR_CARTA,
     ROBAR_CARTA,
     ELEGIR_COLOR,

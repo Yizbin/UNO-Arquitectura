@@ -36,8 +36,18 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public void unirJugador(int idJugador) {
-        this.partida.unirJugador(idJugador);
+    public void solicitarUnion(int idJugadorSolicitante) {
+        this.partida.solicitarUnion(idJugadorSolicitante);
+    }
+
+    @Override
+    public void aceptarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante) {
+        this.partida.aceptarSolicitudUnion(idAnfitrion, idJugadorSolicitante);
+    }
+
+    @Override
+    public void rechazarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante) {
+        this.partida.rechazarSolicitudUnion(idAnfitrion, idJugadorSolicitante);
     }
 
     @Override
