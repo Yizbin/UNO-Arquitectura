@@ -65,7 +65,4 @@ public interface ISubDominio {
     
     public boolean puedeIniciarPartida();
     
-    //
-    
-    void actualizarPerfilJugador(JugadorResumenDTO jugadorDTO);
 }
