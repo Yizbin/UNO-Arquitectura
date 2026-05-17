@@ -4,6 +4,7 @@
  */
 package DTOs;
 
+import Enums.EstadoJugadorSala;
 import Enums.TipoColor;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class JugadorResumenDTO {
     private int puntos;
     private boolean enTurno;
     private Map<TipoColor, TipoColor> preferenciasColor = new HashMap<>();
+    private EstadoJugadorSala estadoSala = EstadoJugadorSala.ESPERANDO;
 
     public JugadorResumenDTO() {
         preferenciasColor.put(TipoColor.ROJO, TipoColor.ROJO);
@@ -98,6 +100,12 @@ public class JugadorResumenDTO {
         this.preferenciasColor = preferenciasColor;
     }
 
-    
+    public EstadoJugadorSala getEstadoSala() {
+        return estadoSala;
+    }
+
+    public void setEstadoSala(EstadoJugadorSala estadoSala) {
+        this.estadoSala = estadoSala != null ? estadoSala : EstadoJugadorSala.ESPERANDO;
+    }
 
 }

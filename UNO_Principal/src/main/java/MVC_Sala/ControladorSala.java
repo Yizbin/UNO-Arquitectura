@@ -22,6 +22,10 @@ public class ControladorSala {
     public boolean solicitarUnirsePartida() {
         return modelo.solicitarUnirsePartida();
     }
+
+    public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {
+        return modelo.iniciarPartida(jugadorDTO);
+    }
     
     public void actualizarPerfil(JugadorResumenDTO datos) {
         modelo.actualizarDatosJugador(datos);

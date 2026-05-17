@@ -23,4 +23,10 @@ public interface IModeloSalaVista {
     
     boolean isCambiarFrame();
     
+    JugadorResumenDTO getJugadorLocal();
+
+    List<JugadorResumenDTO> getJugadoresConfirmados();
+
+    boolean isPartidaListaParaIniciar();
+
 }

@@ -22,17 +22,49 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
         initComponents();
     }
 
+    public SalaEspera(ControladorSala controlador) {
+        this();
+        this.controlador = controlador;
+        btnListo.addActionListener(evt -> solicitarInicio());
+    }
+
+    public void solicitarInicio() {
+        JugadorResumenDTO jugadorLocal = modeloVista != null ? modeloVista.getJugadorLocal() : null;
+        boolean respuesta = controlador != null && controlador.iniciarPartida(jugadorLocal);
+        responderInicio(respuesta);
+    }
+
+    public void responderInicio(boolean respuesta) {
+        if (respuesta) {
+            mostrarInicioPartida();
+        }
+    }
+
+    public void mostrarInicioPartida() {
+        btnListo.setEnabled(false);
+        btnListo.setText("Confirmado");
+    }
+
+    public void actualizarPanelJugadoresConfirmados(List<JugadorResumenDTO> jugadores) {
+        refrescarPanelJugadores(jugadores);
+    }
+
     private void refrescarPanelJugadores(List<JugadorResumenDTO> jugadores) {
         PanelListaJugadores.removeAll();
+
         for (JugadorResumenDTO jugador : jugadores) {
             ImageIcon imagen = new ImageIcon(jugador.getRutaAvatar());
             ImageIcon avatar = UtilidadesGraficas.hacerAvatarCircular(imagen.getImage(), 60);
 
             PanelJugador tarjeta = new PanelJugador(
-                    jugador.getNombreUsuario(), avatar, false
+                    jugador.getNombreUsuario(),
+                    avatar,
+                    jugador.getEstadoSala()
             );
+
             PanelListaJugadores.add(tarjeta);
         }
+
         PanelListaJugadores.revalidate();
         PanelListaJugadores.repaint();
     }
@@ -146,6 +178,11 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
 
     @Override
     public void update(IModeloSalaVista modeloVista) {
-        refrescarPanelJugadores(modeloVista.getJugadoresEnSala());
+        this.modeloVista = modeloVista;
+        actualizarPanelJugadoresConfirmados(modeloVista.getJugadoresEnSala());
+
+        if (modeloVista.isPartidaListaParaIniciar()) {
+            mostrarInicioPartida();
+        }
     }
 }

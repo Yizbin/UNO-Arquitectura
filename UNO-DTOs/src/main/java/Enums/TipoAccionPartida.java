@@ -17,5 +17,6 @@ public enum TipoAccionPartida {
     GRITAR_UNO,
     TERMINAR_TURNO,
     INICIAR_PARTIDA,
+    SOLICITAR_INICIO_PARTIDA,
     ACTUALIZAR_PERFIL
 }

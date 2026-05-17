@@ -4,6 +4,7 @@
  */
 package Entidades;
 
+import Enums.EstadoJugadorSala;
 import Excepciones.ValidarManoException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,11 @@ public class Jugador {
     private List<Carta> mano;
     private int puntos;
     private boolean dijoUno;
+    private EstadoJugadorSala estadoSala;
 
     public Jugador() {
         this.mano = new ArrayList<>();
+        this.estadoSala = EstadoJugadorSala.ESPERANDO;
     }
 
     public Jugador(int id, String usuario, String avatar) {
@@ -33,6 +36,7 @@ public class Jugador {
         this.mano = new ArrayList<>();
         this.puntos = 0;
         this.dijoUno = false;
+        this.estadoSala = EstadoJugadorSala.ESPERANDO;
     }
 
     public void robarCarta(Carta carta) {
@@ -93,6 +97,11 @@ public class Jugador {
         return mano.isEmpty();
     }
 
+    public void actualizarPerfil(String usuario, String avatar) {
+        this.usuario = usuario;
+        this.avatar = avatar;
+    }
+
     public String getUsuario() {
         return usuario;
     }
@@ -141,6 +150,14 @@ public class Jugador {
         this.id = id;
     }
 
+    public EstadoJugadorSala getEstadoSala() {
+        return estadoSala;
+    }
+
+    public void setEstadoSala(EstadoJugadorSala estadoSala) {
+        this.estadoSala = estadoSala != null ? estadoSala : EstadoJugadorSala.ESPERANDO;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id, usuario);
@@ -163,7 +180,5 @@ public class Jugador {
         }
         return Objects.equals(this.usuario, other.usuario);
     }
-
-   
 
 }

@@ -7,6 +7,7 @@ package MVC_Sala;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
+import Enums.EstadoJugadorSala;
 import Enums.TipoAccionPartida;
 import Interfaces.ISink;
 import Plantilla.ContextoPipeline;
@@ -26,10 +27,12 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     private List<JugadorResumenDTO> jugadoresEnSala;
     private JugadorResumenDTO jugadorLocal;
     private boolean cambiarFrame = false;
+    private boolean partidaListaParaIniciar;
 
     public ModeloSala() {
         this.suscriptores = new ArrayList<>();
         this.jugadoresEnSala = new ArrayList<>();
+        this.partidaListaParaIniciar = false;
     }
 
     public ModeloSala(IPump<PeticionJugadaDTO> coordinador) {
@@ -80,6 +83,31 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     }
 
     @Override
+    public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {
+        JugadorResumenDTO jugadorSolicitud = jugadorDTO != null ? jugadorDTO : jugadorLocal;
+
+        if (coordinador == null || jugadorSolicitud == null) {
+            return false;
+        }
+
+        jugadorSolicitud.setEstadoSala(EstadoJugadorSala.CONFIRMADO);
+        this.jugadorLocal = jugadorSolicitud;
+
+        try {
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
+                    TipoAccionPartida.SOLICITAR_INICIO_PARTIDA,
+                    jugadorSolicitud
+            );
+            enviarPeticion(peticion);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error al solicitar inicio de partida: " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    @Override
     public void actualizarDatosJugador(JugadorResumenDTO datos) {
         if (datos == null) {
             return;
@@ -116,6 +144,9 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         this.jugadoresEnSala = estado.getJugadores() != null
                 ? estado.getJugadores()
                 : List.of();
+
+        this.partidaListaParaIniciar = estado.isPartidaListaParaIniciar();
+
         SwingUtilities.invokeLater(this::notificar);
     }
 
@@ -135,6 +166,29 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     
     public boolean isCambiarFrame() {
         return cambiarFrame;
+    }
+
+    @Override
+    public JugadorResumenDTO getJugadorLocal() {
+        return this.jugadorLocal;
+    }
+
+    @Override
+    public List<JugadorResumenDTO> getJugadoresConfirmados() {
+        List<JugadorResumenDTO> jugadoresConfirmados = new ArrayList<>();
+
+        for (JugadorResumenDTO jugador : jugadoresEnSala) {
+            if (jugador.getEstadoSala() == EstadoJugadorSala.CONFIRMADO) {
+                jugadoresConfirmados.add(jugador);
+            }
+        }
+
+        return jugadoresConfirmados;
+    }
+
+    @Override
+    public boolean isPartidaListaParaIniciar() {
+        return this.partidaListaParaIniciar;
     }
 
 }

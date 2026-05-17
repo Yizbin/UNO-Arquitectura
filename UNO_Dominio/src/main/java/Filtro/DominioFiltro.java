@@ -43,6 +43,9 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
             case UNIRSE_PARTIDA -> {
                 subDominio.unirJugador(peticion.getJugador());
             }
+            case SOLICITAR_INICIO_PARTIDA -> {
+                subDominio.confirmarInicioPartida(peticion.getJugador());
+            }
             case JUGAR_CARTA -> {
                 subDominio.jugarCarta(peticion.getIdJugador(), peticion.getCartaAJugar());
             }

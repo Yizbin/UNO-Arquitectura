@@ -34,6 +34,8 @@ public class JugadorMapper {
 
         dto.setEnTurno(false);
 
+        dto.setEstadoSala(jugador.getEstadoSala());
+
         return dto;
     }
 
@@ -53,6 +55,8 @@ public class JugadorMapper {
         }
 
         Jugador jugador = new Jugador(dto.getId(), dto.getNombreUsuario(), "avatar_por_defecto.png");
+
+        jugador.setEstadoSala(dto.getEstadoSala());
 
         return jugador;
     }

@@ -22,7 +22,7 @@ import java.util.Stack;
  */
 public class MazoFactory {
 
-    public Mazo crear() {
+    public static Mazo crear() {
         List<Carta> lista = new ArrayList<>(108);
         List<TipoColor> colores = List.of(TipoColor.ROJO, TipoColor.AZUL,
                 TipoColor.AMARILLO, TipoColor.VERDE);
