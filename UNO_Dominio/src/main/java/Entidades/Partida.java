@@ -65,7 +65,7 @@ public class Partida {
         Jugador jugador = new Jugador(idJugador);
 
         if (jugadores.contains(jugador)) {
-            throw new IllegalArgumentException("El jugador ya esta unido a la partida.");
+            return;
         }
 
         List<Jugador> jugadoresActualizados = new ArrayList<>(jugadores);

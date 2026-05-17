@@ -151,8 +151,6 @@ public class SubDominioConcreto implements ISubDominio {
         respuestaSolicitante.setFecha(new Date());
         respuestaSolicitante.setAcepta(Boolean.TRUE);
         this.respuestasFinalizacion.put(solicitud.getJugador().getId(), respuestaSolicitante);
-
-        evaluarFinalizacion();
     }
 
     @Override
