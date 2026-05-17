@@ -14,6 +14,7 @@ import Interfaces.IConexionSalida;
 import Interfaces.ISink;
 import MVC_JugarTurno.PantallaTurno;
 import Serializador.Serializador;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import pipeline.CoordinadorFiltros;
 
@@ -30,14 +31,36 @@ public class Ensamblador {
     }
 
     private static int obtenerIdJugador(String[] args) {
-        if (args == null || args.length == 0) {
-            return 1;
+        if (args != null && args.length > 0) {
+            try {
+                return Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                System.err.println("Id de jugador invalido: " + args[0]);
+            }
         }
 
-        try {
-            return Integer.parseInt(args[0]);
-        } catch (NumberFormatException e) {
-            return 1;
+        while (true) {
+            String entrada = JOptionPane.showInputDialog(
+                    null,
+                    "Ingresa el id de este jugador:",
+                    "Jugador UNO Spin",
+                    JOptionPane.QUESTION_MESSAGE
+            );
+
+            if (entrada == null) {
+                System.exit(0);
+            }
+
+            try {
+                return Integer.parseInt(entrada.trim());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "El id debe ser un numero entero.",
+                        "Id invalido",
+                        JOptionPane.WARNING_MESSAGE
+                );
+            }
         }
     }
 
@@ -66,7 +89,7 @@ public class Ensamblador {
                 pipelineSalida,
                 pipelineEntrada,
                 idJugador,
-                "UNO Spin - Cliente Red",
+                "UNO Spin - Cliente Red - Jugador " + idJugador,
                 100,
                 100
         );
