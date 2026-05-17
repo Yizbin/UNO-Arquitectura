@@ -214,11 +214,13 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         return this.jugadoresEnSala;
     }
     
+    @Override
     public void abrirSalaEspera() {
         this.cambiarFrame = true;
         notificar();
     }
     
+    @Override
     public boolean isCambiarFrame() {
         return cambiarFrame;
     }

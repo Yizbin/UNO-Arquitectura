@@ -415,6 +415,9 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
                 jugador.setNombreUsuario(txtField.getText());
                 control.actualizarPerfil(jugador);
                 control.abrirSalaEspera();
+                this.dispose();
+                SalaEspera sala = new SalaEspera();
+                sala.isActive();
             } else {
                 try {
                     throw new Exception("El campo de texto no puede estar vacío");
