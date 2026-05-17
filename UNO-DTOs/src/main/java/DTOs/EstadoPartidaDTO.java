@@ -31,6 +31,10 @@ public class EstadoPartidaDTO {
 
     private boolean partidaListaParaIniciar;
 
+    private int idAnfitrion;
+    private boolean partidaIniciada;
+    private List<Integer> solicitudesPendientes;
+
     public EstadoPartidaDTO() {
     }
 
@@ -165,6 +169,30 @@ public class EstadoPartidaDTO {
 
     public void setColorSeleccionado(TipoColor colorSeleccionado) {
         this.colorSeleccionado = colorSeleccionado;
+    }
+
+    public int getIdAnfitrion() {
+        return idAnfitrion;
+    }
+
+    public void setIdAnfitrion(int idAnfitrion) {
+        this.idAnfitrion = idAnfitrion;
+    }
+
+    public boolean isPartidaIniciada() {
+        return partidaIniciada;
+    }
+
+    public void setPartidaIniciada(boolean partidaIniciada) {
+        this.partidaIniciada = partidaIniciada;
+    }
+
+    public List<Integer> getSolicitudesPendientes() {
+        return solicitudesPendientes;
+    }
+
+    public void setSolicitudesPendientes(List<Integer> solicitudesPendientes) {
+        this.solicitudesPendientes = solicitudesPendientes;
     }
 
 }

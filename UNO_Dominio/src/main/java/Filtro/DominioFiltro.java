@@ -40,9 +40,21 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
 
         switch (tipoAccion) {
 
-            case UNIRSE_PARTIDA -> {
+            case SOLICITAR_UNIRSE_PARTIDA -> {
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
-                subDominio.unirJugador(
+                subDominio.solicitarUnion(estado.getIdJugador());
+            }
+            case ACEPTAR_SOLICITUD_UNION -> {
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+                subDominio.aceptarSolicitudUnion(
+                        estado.getIdAnfitrion(),
+                        estado.getIdJugador()
+                );
+            }
+            case RECHAZAR_SOLICITUD_UNION -> {
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+                subDominio.rechazarSolicitudUnion(
+                        estado.getIdAnfitrion(),
                         estado.getIdJugador()
                 );
             }
