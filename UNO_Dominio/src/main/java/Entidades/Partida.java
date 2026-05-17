@@ -34,21 +34,23 @@ public class Partida {
     private TipoColor colorActual;
     private boolean esperandoColor;
 
-    public Partida (List<Jugador> jugadores){
-        this.jugadores = List.copyOf(jugadores);
-    }
-    
     public Partida() {
+        this.jugadores = List.of();
         this.ruleta = new Ruleta();
+        this.descarte = new Descarte();
         this.indiceTurnoActual = 0;
         this.sentidoHorario = true;
         this.colorActual = TipoColor.NINGUNO;
         this.esperandoColor = false;
     }
 
-    public Partida desdeJugadoresDTO(List<JugadorResumenDTO> jugadoresDTO) {
-        this.jugadores = new JugadorMapper().toEntityList(jugadoresDTO);
-        return new Partida(jugadores);
+    public Partida(List<Jugador> jugadores) {
+        this();
+        this.jugadores = List.copyOf(jugadores);
+    }
+
+    public void cargarJugadoresDesdeDTO(List<JugadorResumenDTO> jugadoresDTO) {
+        this.jugadores = List.copyOf(new JugadorMapper().toEntityList(jugadoresDTO));
     }
 
     public void unirJugador(JugadorResumenDTO jugadorDTO) {
