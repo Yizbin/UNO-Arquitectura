@@ -3,11 +3,14 @@ package Interfaces;
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
+<<<<<<< HEAD
 import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
 import DTOs.SolicitudFinalizacionDTO;
 import DTOs.TablaPosicionesDTO;
 import Entidades.Mazo;
+=======
+>>>>>>> main
 import Entidades.Partida;
 import Enums.AccionesPosibles;
 import Enums.EstadoFinalizacion;
@@ -16,11 +19,14 @@ import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
 import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
+<<<<<<< HEAD
 import factorys.MazoFactory;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+=======
+>>>>>>> main
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +36,7 @@ import java.util.Map;
  */
 public class SubDominioConcreto implements ISubDominio {
 
+<<<<<<< HEAD
     private Partida partida;
     private final MazoFactory mazoFactory;
     private EstadoFinalizacion estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
@@ -37,26 +44,38 @@ public class SubDominioConcreto implements ISubDominio {
     private ResultadoFinalizacionDTO resultadoFinalizacion;
     private TablaPosicionesDTO tablaPosiciones;
     private final Map<Integer, RespuestaFinalizacionDTO> respuestasFinalizacion = new HashMap<>();
+=======
+    private final Partida partida;
+>>>>>>> main
 
-    public SubDominioConcreto() {
-        this.mazoFactory = new MazoFactory();
+    public SubDominioConcreto(Partida partida) {
+        this.partida = partida;
     }
 
     @Override
     public void prepararJuego(List<JugadorResumenDTO> jugadoresDTO) throws MazoVacioException {
-        Mazo mazo = generarMazoCompleto();
-
-        this.partida = Partida.desdeJugadoresDTO(jugadoresDTO, mazo);
-        this.partida.iniciarPartida();
+        partida.cargarJugadoresDesdeDTO(jugadoresDTO);
+        partida.iniciarPartida();
     }
 
     @Override
     public void unirJugador(JugadorResumenDTO jugadorDTO) {
-        if (this.partida == null) {
-            this.partida = Partida.desdeJugadoresDTO(List.of(), generarMazoCompleto());
-        }
-
         this.partida.unirJugador(jugadorDTO);
+    }
+
+    @Override
+    public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO) {
+        return this.partida.confirmarInicioPartida(jugadorDTO);
+    }
+
+    @Override
+    public List<JugadorResumenDTO> obtenerJugadoresConfirmados() {
+        return this.partida.obtenerJugadoresConfirmados();
+    }
+
+    @Override
+    public boolean puedeIniciarPartida() {
+        return this.partida.puedeIniciarPartida();
     }
 
     @Override
@@ -89,10 +108,6 @@ public class SubDominioConcreto implements ISubDominio {
         return this.partida.getColorActual();
     }
 
-    private Mazo generarMazoCompleto() {
-        return mazoFactory.crear();
-    }
-
     @Override
     public List<CartaDTO> obtenerManoJugador(int idJugador) {
         return partida.obtenerManoJugadorDTO(idJugador);
@@ -100,12 +115,16 @@ public class SubDominioConcreto implements ISubDominio {
 
     @Override
     public EstadoPartidaDTO obtenerEstadoPartida() {
+<<<<<<< HEAD
         EstadoPartidaDTO estado = this.partida != null ? this.partida.obtenerEstadoPartidaDTO() : new EstadoPartidaDTO();
         estado.setEstadoFinalizacion(estadoFinalizacion);
         estado.setSolicitudFinalizacion(solicitudFinalizacion);
         estado.setResultadoFinalizacion(resultadoFinalizacion);
         estado.setTablaPosiciones(tablaPosiciones);
         return estado;
+=======
+        return this.partida.obtenerEstadoPartidaDTO();
+>>>>>>> main
     }
 
     @Override

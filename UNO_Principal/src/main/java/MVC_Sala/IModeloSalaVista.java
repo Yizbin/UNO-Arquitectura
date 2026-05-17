@@ -15,4 +15,9 @@ public interface IModeloSalaVista {
 
     List<JugadorResumenDTO> getJugadoresEnSala();
     
+    JugadorResumenDTO getJugadorLocal();
+
+    List<JugadorResumenDTO> getJugadoresConfirmados();
+
+    boolean isPartidaListaParaIniciar();
 }

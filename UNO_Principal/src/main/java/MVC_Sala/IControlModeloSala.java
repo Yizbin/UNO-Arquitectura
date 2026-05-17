@@ -15,4 +15,6 @@ public interface IControlModeloSala {
     boolean solicitarUnirsePartida();
     
     void actualizarDatosJugador(JugadorResumenDTO datos);
+    
+    boolean iniciarPartida(JugadorResumenDTO jugadorDTO);
 }
