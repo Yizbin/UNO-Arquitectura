@@ -97,6 +97,11 @@ public class Jugador {
         return mano.isEmpty();
     }
 
+    public void actualizarPerfil(String usuario, String avatar) {
+        this.usuario = usuario;
+        this.avatar = avatar;
+    }
+
     public String getUsuario() {
         return usuario;
     }
@@ -144,7 +149,6 @@ public class Jugador {
     public void setId(int id) {
         this.id = id;
     }
-
 
     public EstadoJugadorSala getEstadoSala() {
         return estadoSala;

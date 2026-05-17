@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
-
 /**
  *
  * @author Abraham Coronel
@@ -69,10 +67,18 @@ public class Partida {
         this.jugadores = List.copyOf(jugadoresActualizados);
     }
 
+    public void actualizarPerfilJugador(JugadorResumenDTO jugadorDTO) {
+        Jugador jugador = obtenerJugadorPorId(jugadorDTO.getId());
+        jugador.actualizarPerfil(
+                jugadorDTO.getNombreUsuario(),
+                jugadorDTO.getRutaAvatar()
+        );
+    }
+
     public void iniciarPartida() throws MazoVacioException {
-        
+
         this.mazo = MazoFactory.crear();
-        
+
         for (int i = 0; i < 7; i++) {
             for (Jugador jugador : jugadores) {
                 jugador.robarCarta(mazo.sacarCarta());
