@@ -1,20 +1,18 @@
 package Main;
 
 //@author SAUL ISAAC APODACA BALDENEGRO 00000252020
-import Adapter.Adapter;
-import Conexiones.Control;
-import DTOs.ConexionJugadorDTO;
+import Adapter.AdapterCliente;
 import DTOs.EstadoPartidaDTO;
-import DTOs.PaqueteRedDTO;
 import DTOs.PeticionJugadaDTO;
 import Deserializador.Deserializador;
 import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
+import Filtro.DominioFiltro;
 import Interfaces.IConexionSalida;
 import Interfaces.ISink;
+import Interfaces.SubDominioConcreto;
 import MVC_JugarTurno.PantallaTurno;
 import Serializador.Serializador;
-import java.util.List;
 import javax.swing.SwingUtilities;
 import pipeline.CoordinadorFiltros;
 
@@ -31,21 +29,28 @@ public class Ensamblador {
 
     private static void configurarConexionRed(String ipServidor, int puertoServidor) {
 
+        SubDominioConcreto subDominio = new SubDominioConcreto();
+
         IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
         dispatcher.preConectar(ipServidor, puertoServidor);
-        ISink<List<PaqueteRedDTO>> adapterSink = new Adapter(dispatcher);
 
-        CoordinadorFiltros<PeticionJugadaDTO, List<PaqueteRedDTO>> pipelineSalida = new CoordinadorFiltros<>();
-        pipelineSalida.agregarFiltro(new Serializador<PeticionJugadaDTO>());
+        ISink<byte[]> adapterSink =
+                new AdapterCliente(ipServidor, puertoServidor, dispatcher);
 
-        Control filtroControl = new Control();
-        filtroControl.registrarJugador(new ConexionJugadorDTO(0, ipServidor, puertoServidor));
-        pipelineSalida.agregarFiltro(filtroControl);
+        CoordinadorFiltros<PeticionJugadaDTO, byte[]> pipelineSalida =
+                new CoordinadorFiltros<>();
 
+        pipelineSalida.agregarFiltro(new DominioFiltro(subDominio));
+        pipelineSalida.agregarFiltro(new Serializador<EstadoPartidaDTO>());
         pipelineSalida.conectarDestino(adapterSink);
 
-        CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada = new CoordinadorFiltros<>();
-        pipelineEntrada.agregarFiltro(new Deserializador<>(EstadoPartidaDTO.class));
+        CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada =
+                new CoordinadorFiltros<>();
+
+        pipelineEntrada.agregarFiltro(
+                new Deserializador<>(EstadoPartidaDTO.class)
+        );
+
         PantallaTurno ventana = FabricaJugadorMVC.crearEntornoJugador(
                 pipelineSalida,
                 pipelineEntrada,
@@ -54,6 +59,7 @@ public class Ensamblador {
                 100,
                 100
         );
+
         ventana.setVisible(true);
 
         ReceptorFactory.iniciarConexion(puertoServidor + 1, pipelineEntrada);

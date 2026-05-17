@@ -4,20 +4,17 @@
  */
 package Main;
 
-import Adapter.Adapter;
+import Adapter.AdapterServidor;
 import Conexiones.Control;
 import DTOs.ConexionJugadorDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.PaqueteRedDTO;
-import DTOs.PeticionJugadaDTO;
 import Deserializador.Deserializador;
 import Estado.EstadoPartida;
 import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
-import Filtro.DominioFiltro;
 import Interfaces.IConexionSalida;
 import Interfaces.ISink;
-import Interfaces.SubDominioConcreto;
 import Serializador.Serializador;
 import java.util.HashSet;
 import java.util.List;
@@ -38,16 +35,19 @@ public class EnsambladorServidor {
     }
 
     private static void configurarServidor(int puertoEscucha) {
-        SubDominioConcreto subDominio = new SubDominioConcreto();
 
         IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
-        ISink<List<PaqueteRedDTO>> adapterSink = new Adapter(dispatcher);
+        ISink<List<PaqueteRedDTO>> adapterSink =
+                new AdapterServidor(dispatcher);
 
         Control filtroControlServidor = new Control();
 
-        CoordinadorFiltros<byte[], List<PaqueteRedDTO>> pipelineServidor = new CoordinadorFiltros<>();
-        pipelineServidor.agregarFiltro(new Deserializador<>(PeticionJugadaDTO.class));
-        pipelineServidor.agregarFiltro(new DominioFiltro(subDominio));
+        CoordinadorFiltros<byte[], List<PaqueteRedDTO>> pipelineServidor =
+                new CoordinadorFiltros<>();
+
+        pipelineServidor.agregarFiltro(
+                new Deserializador<>(EstadoPartidaDTO.class)
+        );
         pipelineServidor.agregarFiltro(new EstadoPartida());
         pipelineServidor.agregarFiltro(new Serializador<EstadoPartidaDTO>());
         pipelineServidor.agregarFiltro(filtroControlServidor);
@@ -57,21 +57,34 @@ public class EnsambladorServidor {
         int puertoRespuestaCliente = puertoEscucha + 1;
         Set<String> ipsConectadas = new HashSet<>();
 
-        ReceptorFactory.iniciarConexion(puertoEscucha, pipelineServidor, (String ipCliente) -> {
-            if (ipsConectadas.add(ipCliente)) {
-                int id = idJugadorActual[0]++;
-                filtroControlServidor.registrarJugador(new ConexionJugadorDTO(id, ipCliente, puertoRespuestaCliente));
+        ReceptorFactory.iniciarConexion(
+                puertoEscucha,
+                pipelineServidor,
+                (String ipCliente) -> {
+                    if (ipsConectadas.add(ipCliente)) {
+                        int id = idJugadorActual[0]++;
+                        filtroControlServidor.registrarJugador(
+                                new ConexionJugadorDTO(
+                                        id,
+                                        ipCliente,
+                                        puertoRespuestaCliente
+                                )
+                        );
 
-                System.out.println("==================================================");
-                System.out.println(">>> NUEVO JUGADOR CONECTADO Y REGISTRADO <<<");
-                System.out.println("    Jugador ID: " + id);
-                System.out.println("    IP Origen: " + ipCliente);
-                System.out.println("    Puerto Asignado: " + puertoRespuestaCliente);
-                System.out.println("==================================================");
-            }
-        });
+                        System.out.println("==================================================");
+                        System.out.println(">>> NUEVO JUGADOR CONECTADO Y REGISTRADO <<<");
+                        System.out.println("    Jugador ID: " + id);
+                        System.out.println("    IP Origen: " + ipCliente);
+                        System.out.println("    Puerto Asignado: " + puertoRespuestaCliente);
+                        System.out.println("==================================================");
+                    }
+                }
+        );
 
-        System.out.println("\n[ESTADO] Servidor escuchando peticiones en el puerto: " + puertoEscucha);
+        System.out.println(
+                "\n[ESTADO] Servidor escuchando peticiones en el puerto: "
+                + puertoEscucha
+        );
         System.out.println("[ESTADO] Listo para jugar.");
     }
 }

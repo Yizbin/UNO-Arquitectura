@@ -4,8 +4,8 @@
  */
 package Adapter;
 
-import Interfaces.IConexionSalida;
 import DTOs.PaqueteRedDTO;
+import Interfaces.IConexionSalida;
 import Interfaces.ISink;
 import Plantilla.ContextoPipeline;
 import java.util.List;
@@ -14,27 +14,28 @@ import java.util.List;
  *
  * @author Abraham Coronel
  */
-public class Adapter implements ISink<List<PaqueteRedDTO>> {
+public class AdapterServidor implements ISink<List<PaqueteRedDTO>> {
 
     private final IConexionSalida conexionSalida;
 
-    public Adapter(IConexionSalida conexionSalida) {
+    public AdapterServidor(IConexionSalida conexionSalida) {
         this.conexionSalida = conexionSalida;
     }
 
     @Override
     public void enviar(ContextoPipeline<List<PaqueteRedDTO>> contexto) throws Exception {
-        List<PaqueteRedDTO> listaPaquetes = contexto.getMensaje();
+        List<PaqueteRedDTO> paquetes = contexto.getMensaje();
 
-        if (listaPaquetes != null && !listaPaquetes.isEmpty()) {
-            for (PaqueteRedDTO paquete : listaPaquetes) {
-                conexionSalida.enviarMensaje(
-                        paquete.getIp(),
-                        paquete.getPuerto(),
-                        paquete.getPayload()
-                );
-            }
+        if (paquetes == null || paquetes.isEmpty()) {
+            return;
+        }
+
+        for (PaqueteRedDTO paquete : paquetes) {
+            conexionSalida.enviarMensaje(
+                    paquete.getIp(),
+                    paquete.getPuerto(),
+                    paquete.getPayload()
+            );
         }
     }
-
 }
