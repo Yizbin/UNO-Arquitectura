@@ -4,6 +4,9 @@
  */
 package MVC_JugarTurno;
 
+import DTOs.TablaPosicionesDTO;
+import Enums.EstadoFinalizacion;
+
 /**
  *
  * @author Abraham Coronel
@@ -15,5 +18,9 @@ public interface IModeloVista {
     public EstadoPantallaTurnoDTO getEstadoPantalla();
 
     public String consumirMensajePendiente();
+
+    public EstadoFinalizacion getEstadoFinalizacion();
+
+    public TablaPosicionesDTO getTablaPosiciones();
     
 }

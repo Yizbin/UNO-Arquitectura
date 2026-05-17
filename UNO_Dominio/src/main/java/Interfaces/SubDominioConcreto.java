@@ -3,16 +3,26 @@ package Interfaces;
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
+import DTOs.RespuestaFinalizacionDTO;
+import DTOs.ResultadoFinalizacionDTO;
+import DTOs.SolicitudFinalizacionDTO;
+import DTOs.TablaPosicionesDTO;
 import Entidades.Mazo;
 import Entidades.Partida;
 import Enums.AccionesPosibles;
+import Enums.EstadoFinalizacion;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
 import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
 import factorys.MazoFactory;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -22,6 +32,11 @@ public class SubDominioConcreto implements ISubDominio {
 
     private Partida partida;
     private final MazoFactory mazoFactory;
+    private EstadoFinalizacion estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
+    private SolicitudFinalizacionDTO solicitudFinalizacion;
+    private ResultadoFinalizacionDTO resultadoFinalizacion;
+    private TablaPosicionesDTO tablaPosiciones;
+    private final Map<Integer, RespuestaFinalizacionDTO> respuestasFinalizacion = new HashMap<>();
 
     public SubDominioConcreto() {
         this.mazoFactory = new MazoFactory();
@@ -85,7 +100,12 @@ public class SubDominioConcreto implements ISubDominio {
 
     @Override
     public EstadoPartidaDTO obtenerEstadoPartida() {
-        return this.partida != null ? this.partida.obtenerEstadoPartidaDTO() : new EstadoPartidaDTO();
+        EstadoPartidaDTO estado = this.partida != null ? this.partida.obtenerEstadoPartidaDTO() : new EstadoPartidaDTO();
+        estado.setEstadoFinalizacion(estadoFinalizacion);
+        estado.setSolicitudFinalizacion(solicitudFinalizacion);
+        estado.setResultadoFinalizacion(resultadoFinalizacion);
+        estado.setTablaPosiciones(tablaPosiciones);
+        return estado;
     }
 
     @Override
@@ -102,5 +122,82 @@ public class SubDominioConcreto implements ISubDominio {
     @Override
     public void gritarUno(int idJugador) {
         partida.gritarUno(idJugador);
+    }
+    
+    
+    //finalizar partida
+    @Override
+    public void solicitarFinalizacion(SolicitudFinalizacionDTO solicitud) {
+        if (solicitud == null || solicitud.getJugador() == null) {
+            throw new IllegalArgumentException("La solicitud de finalizacion debe incluir un jugador.");
+        }
+
+        this.solicitudFinalizacion = solicitud;
+        this.estadoFinalizacion = EstadoFinalizacion.EN_ESPERA_RESPUESTAS;
+        this.resultadoFinalizacion = null;
+        this.tablaPosiciones = null;
+        this.respuestasFinalizacion.clear();
+
+        RespuestaFinalizacionDTO respuestaSolicitante = new RespuestaFinalizacionDTO();
+        respuestaSolicitante.setJugador(solicitud.getJugador());
+        respuestaSolicitante.setFecha(new Date());
+        respuestaSolicitante.setAcepta(Boolean.TRUE);
+        this.respuestasFinalizacion.put(solicitud.getJugador().getId(), respuestaSolicitante);
+
+        evaluarFinalizacion();
+    }
+
+    @Override
+    public void responderFinalizacion(RespuestaFinalizacionDTO respuesta) {
+        if (estadoFinalizacion != EstadoFinalizacion.EN_ESPERA_RESPUESTAS) {
+            return;
+        }
+
+        if (respuesta == null || respuesta.getJugador() == null) {
+            throw new IllegalArgumentException("La respuesta de finalizacion debe incluir un jugador.");
+        }
+
+        respuestasFinalizacion.put(respuesta.getJugador().getId(), respuesta);
+        evaluarFinalizacion();
+    }
+
+    private void evaluarFinalizacion() {
+        for (RespuestaFinalizacionDTO respuesta : respuestasFinalizacion.values()) {
+            if (!Boolean.TRUE.equals(respuesta.getAcepta())) {
+                estadoFinalizacion = EstadoFinalizacion.CANCELADA;
+                resultadoFinalizacion = new ResultadoFinalizacionDTO(
+                        estadoFinalizacion,
+                        null,
+                        "La finalizacion fue cancelada porque un jugador rechazo la solicitud."
+                );
+                return;
+            }
+        }
+
+        int totalJugadores = obtenerJugadoresActuales().size();
+        if (totalJugadores > 0 && respuestasFinalizacion.size() >= totalJugadores) {
+            estadoFinalizacion = EstadoFinalizacion.FINALIZADA;
+            tablaPosiciones = generarTablaPosiciones();
+            resultadoFinalizacion = new ResultadoFinalizacionDTO(
+                    estadoFinalizacion,
+                    tablaPosiciones,
+                    "La partida finalizo por acuerdo de todos los jugadores."
+            );
+        }
+    }
+
+    private TablaPosicionesDTO generarTablaPosiciones() {
+        List<JugadorResumenDTO> posiciones = new ArrayList<>(obtenerJugadoresActuales());
+        posiciones.sort(
+                Comparator.comparingInt(JugadorResumenDTO::getPuntos).reversed()
+                        .thenComparingInt(JugadorResumenDTO::getCantidadDeCartas)
+                        .thenComparing(JugadorResumenDTO::getNombreUsuario, Comparator.nullsLast(String::compareToIgnoreCase))
+        );
+        return new TablaPosicionesDTO(posiciones, new Date());
+    }
+
+    private List<JugadorResumenDTO> obtenerJugadoresActuales() {
+        EstadoPartidaDTO estado = partida != null ? partida.obtenerEstadoPartidaDTO() : new EstadoPartidaDTO();
+        return estado.getJugadores() != null ? estado.getJugadores() : List.of();
     }
 }

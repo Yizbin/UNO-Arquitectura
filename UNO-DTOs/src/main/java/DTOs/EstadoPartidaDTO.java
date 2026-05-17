@@ -4,6 +4,7 @@
  */
 package DTOs;
 
+import Enums.EstadoFinalizacion;
 import Enums.EstadoRetoSpin;
 import java.util.List;
 
@@ -26,6 +27,11 @@ public class EstadoPartidaDTO {
     private boolean esperandoColor;
 
     private String mensajeEstado;
+
+    private EstadoFinalizacion estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
+    private SolicitudFinalizacionDTO solicitudFinalizacion;
+    private ResultadoFinalizacionDTO resultadoFinalizacion;
+    private TablaPosicionesDTO tablaPosiciones;
 
     public EstadoPartidaDTO() {
     }
@@ -131,4 +137,36 @@ public class EstadoPartidaDTO {
         this.esperandoColor = esperandoColor;
     }
 
+    public EstadoFinalizacion getEstadoFinalizacion() {
+        return estadoFinalizacion;
+    }
+
+    public void setEstadoFinalizacion(EstadoFinalizacion estadoFinalizacion) {
+        this.estadoFinalizacion = estadoFinalizacion;
+    }
+
+    public SolicitudFinalizacionDTO getSolicitudFinalizacion() {
+        return solicitudFinalizacion;
+    }
+
+    public void setSolicitudFinalizacion(SolicitudFinalizacionDTO solicitudFinalizacion) {
+        this.solicitudFinalizacion = solicitudFinalizacion;
+    }
+
+    public ResultadoFinalizacionDTO getResultadoFinalizacion() {
+        return resultadoFinalizacion;
+    }
+
+    public void setResultadoFinalizacion(ResultadoFinalizacionDTO resultadoFinalizacion) {
+        this.resultadoFinalizacion = resultadoFinalizacion;
+    }
+
+    public TablaPosicionesDTO getTablaPosiciones() {
+        return tablaPosiciones;
+    }
+
+    public void setTablaPosiciones(TablaPosicionesDTO tablaPosiciones) {
+        this.tablaPosiciones = tablaPosiciones;
+    }
+    
 }

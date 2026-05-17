@@ -2,6 +2,10 @@ package MVC_JugarTurno;
 
 import DTOs.CartaDTO;
 import DTOs.JugadorResumenDTO;
+import DTOs.ResultadoFinalizacionDTO;
+import DTOs.SolicitudFinalizacionDTO;
+import DTOs.TablaPosicionesDTO;
+import Enums.EstadoFinalizacion;
 import java.util.List;
 
 /**
@@ -19,6 +23,10 @@ public class EstadoPantallaTurnoDTO {
     private CartaDTO cartaEnDescarte;
     private boolean esperandoColor;
     private boolean turnoLocal;
+    private EstadoFinalizacion estadoFinalizacion;
+    private SolicitudFinalizacionDTO solicitudFinalizacion;
+    private ResultadoFinalizacionDTO resultadoFinalizacion;
+    private TablaPosicionesDTO tablaPosiciones;
 
     public JugadorResumenDTO getJugadorLocal() {
         return jugadorLocal;
@@ -82,5 +90,37 @@ public class EstadoPantallaTurnoDTO {
 
     public void setTurnoLocal(boolean turnoLocal) {
         this.turnoLocal = turnoLocal;
+    }
+
+    public EstadoFinalizacion getEstadoFinalizacion() {
+        return estadoFinalizacion;
+    }
+
+    public void setEstadoFinalizacion(EstadoFinalizacion estadoFinalizacion) {
+        this.estadoFinalizacion = estadoFinalizacion;
+    }
+
+    public SolicitudFinalizacionDTO getSolicitudFinalizacion() {
+        return solicitudFinalizacion;
+    }
+
+    public void setSolicitudFinalizacion(SolicitudFinalizacionDTO solicitudFinalizacion) {
+        this.solicitudFinalizacion = solicitudFinalizacion;
+    }
+
+    public ResultadoFinalizacionDTO getResultadoFinalizacion() {
+        return resultadoFinalizacion;
+    }
+
+    public void setResultadoFinalizacion(ResultadoFinalizacionDTO resultadoFinalizacion) {
+        this.resultadoFinalizacion = resultadoFinalizacion;
+    }
+
+    public TablaPosicionesDTO getTablaPosiciones() {
+        return tablaPosiciones;
+    }
+
+    public void setTablaPosiciones(TablaPosicionesDTO tablaPosiciones) {
+        this.tablaPosiciones = tablaPosiciones;
     }
 }

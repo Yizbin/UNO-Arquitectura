@@ -18,6 +18,8 @@ public class PeticionJugadaDTO {
     private JugadorResumenDTO jugador;
     private CartaDTO cartaAJugar;
     private TipoColor nuevoColor;
+    private SolicitudFinalizacionDTO solicitudFinalizacion;
+    private RespuestaFinalizacionDTO respuestaFinalizacion;
 
     public PeticionJugadaDTO() {
     }
@@ -80,4 +82,20 @@ public class PeticionJugadaDTO {
         this.nuevoColor = nuevoColor;
     }
 
+    public SolicitudFinalizacionDTO getSolicitudFinalizacion() {
+        return solicitudFinalizacion;
+    }
+
+    public void setSolicitudFinalizacion(SolicitudFinalizacionDTO solicitudFinalizacion) {
+        this.solicitudFinalizacion = solicitudFinalizacion;
+    }
+
+    public RespuestaFinalizacionDTO getRespuestaFinalizacion() {
+        return respuestaFinalizacion;
+    }
+
+    public void setRespuestaFinalizacion(RespuestaFinalizacionDTO respuestaFinalizacion) {
+        this.respuestaFinalizacion = respuestaFinalizacion;
+    }
+    
 }

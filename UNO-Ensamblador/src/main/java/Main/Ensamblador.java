@@ -3,8 +3,10 @@ package Main;
 //@author SAUL ISAAC APODACA BALDENEGRO 00000252020
 import Adapter.AdapterCliente;
 import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Deserializador.Deserializador;
+import Enums.TipoAccionPartida;
 import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
 import Filtro.DominioFiltro;
@@ -54,7 +56,7 @@ public class Ensamblador {
         PantallaTurno ventana = FabricaJugadorMVC.crearEntornoJugador(
                 pipelineSalida,
                 pipelineEntrada,
-                0,
+                1,
                 "UNO Spin - Cliente Red",
                 100,
                 100
@@ -63,5 +65,21 @@ public class Ensamblador {
         ventana.setVisible(true);
 
         ReceptorFactory.iniciarConexion(puertoServidor + 1, pipelineEntrada);
+
+        registrarJugadorLocal(pipelineSalida, 1);
+    }
+
+    private static void registrarJugadorLocal(
+            CoordinadorFiltros<PeticionJugadaDTO, byte[]> pipelineSalida,
+            int idJugador) {
+        try {
+            JugadorResumenDTO jugador = new JugadorResumenDTO(idJugador, "Jugador " + idJugador);
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(TipoAccionPartida.UNIRSE_PARTIDA, jugador);
+            pipelineSalida.procesar(new Plantilla.ContextoPipeline<>(peticion));
+            System.out.println("Jugador local registrado en partida: " + idJugador);
+        } catch (Exception e) {
+            System.err.println("No se pudo registrar el jugador local: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

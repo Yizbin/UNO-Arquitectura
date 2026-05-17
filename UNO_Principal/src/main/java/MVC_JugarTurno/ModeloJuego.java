@@ -8,12 +8,17 @@ import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
+import DTOs.RespuestaFinalizacionDTO;
+import DTOs.SolicitudFinalizacionDTO;
+import DTOs.TablaPosicionesDTO;
+import Enums.EstadoFinalizacion;
 import Enums.TipoAccionPartida;
 import Enums.TipoColor;
 import interfaces.IPump;
 import Interfaces.ISink;
 import Plantilla.ContextoPipeline;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.SwingUtilities;
 
@@ -44,6 +49,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
                 coordinador.procesar(contexto);
             } catch (Exception e) {
                 System.err.println("Error al procesar" + e.getMessage());
+                e.printStackTrace();
             }
         }
     }
@@ -105,6 +111,10 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         vista.setCartaEnDescarte(estadoActual.getCartaEnDescarte());
         vista.setManoLocal(estadoActual.getManoJugadorActual() != null ? estadoActual.getManoJugadorActual() : List.of());
         vista.setTurnoLocal(estadoActual.getIdJugadorEnTurno() == this.idJugadorLocal);
+        vista.setEstadoFinalizacion(estadoActual.getEstadoFinalizacion());
+        vista.setSolicitudFinalizacion(estadoActual.getSolicitudFinalizacion());
+        vista.setResultadoFinalizacion(estadoActual.getResultadoFinalizacion());
+        vista.setTablaPosiciones(estadoActual.getTablaPosiciones());
 
         List<JugadorResumenDTO> jugadores = estadoActual.getJugadores() != null
                 ? estadoActual.getJugadores()
@@ -139,6 +149,16 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         return msg;
     }
 
+    @Override
+    public EstadoFinalizacion getEstadoFinalizacion() {
+        return estadoActual != null ? estadoActual.getEstadoFinalizacion() : EstadoFinalizacion.SIN_SOLICITUD;
+    }
+
+    @Override
+    public TablaPosicionesDTO getTablaPosiciones() {
+        return estadoActual != null ? estadoActual.getTablaPosiciones() : null;
+    }
+
     public void suscribir(ISuscriptor suscriptor) {
         if (!suscriptores.contains(suscriptor)) {
             suscriptores.add(suscriptor);
@@ -153,5 +173,67 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         for (ISuscriptor s : suscriptores) {
             s.update(this);
         }
+    }
+
+    // caso finalizar partida
+    @Override
+    public boolean solicitarFinalizacion(JugadorResumenDTO jugadorDTO) {
+        JugadorResumenDTO solicitante = jugadorDTO != null ? jugadorDTO : obtenerJugadorLocal();
+        if (solicitante == null) {
+            mensajePendiente = "No se pudo solicitar la finalizacion: jugador local no disponible.";
+            notificar();
+            return false;
+        }
+
+        PeticionJugadaDTO peticion = new PeticionJugadaDTO();
+        peticion.setIdJugador(idJugadorLocal);
+        peticion.setAccion(TipoAccionPartida.SOLICITAR_FINALIZACION);
+
+        SolicitudFinalizacionDTO solicitud = new SolicitudFinalizacionDTO();
+        solicitud.setJugador(solicitante);
+        solicitud.setFecha(new Date());
+        solicitud.setMensaje("El jugador " + solicitante.getNombreUsuario() + " solicita finalizar la partida.");
+        peticion.setSolicitudFinalizacion(solicitud);
+
+        System.out.println("Enviando solicitud de finalizacion del jugador " + solicitante.getId());
+        realizarAccionJugador(peticion);
+        return true;
+    }
+
+    @Override
+    public boolean responderFinalizacion(JugadorResumenDTO jugadorDTO, boolean acepta) {
+        JugadorResumenDTO jugador = jugadorDTO != null ? jugadorDTO : obtenerJugadorLocal();
+        if (jugador == null) {
+            mensajePendiente = "No se pudo responder la finalizacion: jugador local no disponible.";
+            notificar();
+            return false;
+        }
+
+        PeticionJugadaDTO peticion = new PeticionJugadaDTO();
+        peticion.setIdJugador(idJugadorLocal);
+        peticion.setAccion(TipoAccionPartida.RESPONDER_FINALIZACION);
+
+        RespuestaFinalizacionDTO respuesta = new RespuestaFinalizacionDTO();
+        respuesta.setJugador(jugador);
+        respuesta.setFecha(new Date());
+        respuesta.setAcepta(acepta);
+        peticion.setRespuestaFinalizacion(respuesta);
+
+        System.out.println("Enviando respuesta de finalizacion del jugador " + jugador.getId() + ": " + acepta);
+        realizarAccionJugador(peticion);
+        return true;
+    }
+
+    private JugadorResumenDTO obtenerJugadorLocal() {
+        if (estadoActual == null || estadoActual.getJugadores() == null) {
+            return null;
+        }
+
+        for (JugadorResumenDTO jugador : estadoActual.getJugadores()) {
+            if (jugador.getId() == idJugadorLocal) {
+                return jugador;
+            }
+        }
+        return null;
     }
 }

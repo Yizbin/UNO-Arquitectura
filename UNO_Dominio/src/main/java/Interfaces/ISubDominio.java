@@ -7,6 +7,8 @@ package Interfaces;
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
+import DTOs.RespuestaFinalizacionDTO;
+import DTOs.SolicitudFinalizacionDTO;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
@@ -51,8 +53,13 @@ public interface ISubDominio {
 
     // Devuelve el color que está activo en el juego (útil si hay un comodín en el tope)
     public TipoColor obtenerColorActual();
-    
+
     public List<CartaDTO> obtenerManoJugador(int idJugador);
-    
+
     public EstadoPartidaDTO obtenerEstadoPartida();
+
+    //finalizar partida
+    void solicitarFinalizacion(SolicitudFinalizacionDTO solicitud);
+
+    void responderFinalizacion(RespuestaFinalizacionDTO respuesta);
 }
