@@ -4,6 +4,7 @@
  */
 package MVC_Sala;
 
+import Enums.EstadoJugadorSala;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.BorderFactory;
@@ -15,11 +16,11 @@ import javax.swing.Icon;
  */
 public class PanelJugador extends javax.swing.JPanel {
 
-    public PanelJugador(String nombre, Icon avatar, boolean estaListo) {
+  public PanelJugador(String nombre, Icon avatar, EstadoJugadorSala estadoSala) {
         initComponents();
         configurarEstiloPanel();
         setDatosJugador(nombre, avatar);
-        setEstado(estaListo);
+        setEstado(estadoSala);
     }
 
     private void configurarEstiloPanel() {
@@ -42,9 +43,9 @@ public class PanelJugador extends javax.swing.JPanel {
         }
     }
 
-    public void setEstado(boolean estaListo) {
-        if (estaListo) {
-            lblEstado.setText("✔️ Listo");
+    public void setEstado(EstadoJugadorSala estadoSala) {
+        if (estadoSala == EstadoJugadorSala.CONFIRMADO) {
+            lblEstado.setText("✔️ Confirmado");
             lblEstado.setForeground(new Color(0, 153, 0));
         } else {
             lblEstado.setText("⏳ Esperando...");
