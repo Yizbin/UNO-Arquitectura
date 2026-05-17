@@ -28,20 +28,17 @@ public class SubDominioConcreto implements ISubDominio {
     private Partida partida;
     private final CartaMapper cartaMapper;
     private final JugadorMapper jugadorMapper;
-    private final MazoFactory mazoFactory;
 
     public SubDominioConcreto() {
         this.cartaMapper = new CartaMapper();
         this.jugadorMapper = new JugadorMapper();
-        this.mazoFactory = new MazoFactory();
     }
 
     @Override
     public void prepararJuego(List<JugadorResumenDTO> jugadoresDTO) throws MazoVacioException {
         List<Jugador> jugadores = jugadorMapper.toEntityList(jugadoresDTO);
-        Mazo mazo = generarMazoCompleto();
 
-        this.partida = new Partida(jugadores, mazo);
+        this.partida = new Partida(jugadores);
         this.partida.iniciarPartida();
     }
 
@@ -78,11 +75,7 @@ public class SubDominioConcreto implements ISubDominio {
     public TipoColor obtenerColorActual() {
         return this.partida.getColorActual();
     }
-
-    private Mazo generarMazoCompleto() {
-        return mazoFactory.crear();
-    }
-
+    
     @Override
     public List<CartaDTO> obtenerManoJugador(int idJugador) {
         for (Jugador jugador : partida.getJugadores()) {

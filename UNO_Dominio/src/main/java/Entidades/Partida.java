@@ -6,6 +6,7 @@ import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
 import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
+import factorys.MazoFactory;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,10 +25,11 @@ public class Partida {
     private TipoColor colorActual;
     private boolean esperandoColor;
 
-    public Partida(List<Jugador> jugadores, Mazo mazo) {
+    public Partida (List<Jugador> jugadores){
         this.jugadores = List.copyOf(jugadores);
-        this.mazo = mazo;
-        this.descarte = new Descarte();
+    }
+    
+    public Partida() {
         this.ruleta = new Ruleta();
         this.indiceTurnoActual = 0;
         this.sentidoHorario = true;
@@ -36,6 +38,9 @@ public class Partida {
     }
 
     public void iniciarPartida() throws MazoVacioException {
+        
+        this.mazo = MazoFactory.crear();
+        
         for (int i = 0; i < 7; i++) {
             for (Jugador jugador : jugadores) {
                 jugador.robarCarta(mazo.sacarCarta());

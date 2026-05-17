@@ -10,7 +10,6 @@ import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.TipoAccionPartida;
 import Enums.TipoColor;
-import Interfaces.IPump;
 import Interfaces.ISink;
 import Plantilla.ContextoPipeline;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import javax.swing.SwingUtilities;
  *
  * @author Abraham Coronel
  */
-public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPartidaDTO>, IPump<PeticionJugadaDTO> {
+public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPartidaDTO> {
 
     private final List<ISuscriptor> suscriptores = new ArrayList<>();
     private EstadoPartidaDTO estadoActual;
@@ -31,11 +30,6 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
 
     public void setIdJugadorLocal(int idJugadorLocal) {
         this.idJugadorLocal = idJugadorLocal;
-    }
-
-    @Override
-    public void conectarDestino(ISink<PeticionJugadaDTO> destino) {
-        this.destinoTuberias = destino;
     }
 
     public void realizarAccionJugador(PeticionJugadaDTO jugada) {
