@@ -34,6 +34,7 @@ public class Partida {
     private boolean esperandoColor;
 
     public Partida() {
+        this(0);
     }
 
     public Partida(int idJugador) {
@@ -46,17 +47,13 @@ public class Partida {
         this.colorActual = TipoColor.NINGUNO;
         this.esperandoColor = false;
     }
-<<<<<<< HEAD
-    
-    
-    
+
     public Partida(List<Jugador> jugadores) {
-        this();
-=======
+        this(0, jugadores);
+    }
 
     public Partida(int idJugador, List<Jugador> jugadores) {
         this(idJugador);
->>>>>>> main
         this.jugadores = List.copyOf(jugadores);
     }
 

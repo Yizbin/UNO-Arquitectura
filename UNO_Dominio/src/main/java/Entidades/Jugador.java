@@ -30,6 +30,7 @@ public class Jugador {
     }
 
     public Jugador(int id) {
+        this();
         this.id = id;
     }
 

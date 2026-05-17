@@ -58,7 +58,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
     public void iniciarJuego(List<JugadorResumenDTO> jugadores) {
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
         peticion.setAccion(TipoAccionPartida.INICIAR_PARTIDA);
-        peticion.setEstadoPartida(estadoActual);
+        peticion.setEstadoPartida(crearEstadoPeticion());
         realizarAccionJugador(peticion);
     }
 
@@ -66,7 +66,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
     public void robarCarta() {
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
         peticion.setAccion(TipoAccionPartida.ROBAR_CARTA);
-        peticion.setEstadoPartida(estadoActual);
+        peticion.setEstadoPartida(crearEstadoPeticion());
         realizarAccionJugador(peticion);
     }
 
@@ -74,7 +74,9 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
     public void jugarCarta(CartaDTO carta) {
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
         peticion.setAccion(TipoAccionPartida.JUGAR_CARTA);
-        peticion.setEstadoPartida(estadoActual);
+        EstadoPartidaDTO estadoPeticion = crearEstadoPeticion();
+        estadoPeticion.setCartaEnDescarte(carta);
+        peticion.setEstadoPartida(estadoPeticion);
         realizarAccionJugador(peticion);
     }
 
@@ -82,7 +84,9 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
     public void seleccionarColor(TipoColor color) {
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
         peticion.setAccion(TipoAccionPartida.ELEGIR_COLOR);
-        peticion.setEstadoPartida(estadoActual);
+        EstadoPartidaDTO estadoPeticion = crearEstadoPeticion();
+        estadoPeticion.setColorSeleccionado(color);
+        peticion.setEstadoPartida(estadoPeticion);
         realizarAccionJugador(peticion);
     }
 
@@ -108,16 +112,12 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         EstadoPantallaTurnoDTO vista = new EstadoPantallaTurnoDTO();
         vista.setCartaEnDescarte(estadoActual.getCartaEnDescarte());
         vista.setManoLocal(estadoActual.getManoJugadorActual() != null ? estadoActual.getManoJugadorActual() : List.of());
-<<<<<<< HEAD
-        vista.setTurnoLocal(estadoActual.getIdJugadorEnTurno() == this.idJugadorLocal);
+        vista.setTurnoLocal(estadoActual.getIdJugador() == this.idJugadorLocal);
         vista.setEsperandoColor(estadoActual.isEsperandoColor());
         vista.setEstadoFinalizacion(estadoActual.getEstadoFinalizacion());
         vista.setSolicitudFinalizacion(estadoActual.getSolicitudFinalizacion());
         vista.setResultadoFinalizacion(estadoActual.getResultadoFinalizacion());
         vista.setTablaPosiciones(estadoActual.getTablaPosiciones());
-=======
-        vista.setTurnoLocal(estadoActual.getIdJugador() == this.idJugadorLocal);
->>>>>>> main
 
         List<JugadorResumenDTO> jugadores = estadoActual.getJugadores() != null
                 ? estadoActual.getJugadores()
@@ -189,14 +189,16 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         }
 
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
-        peticion.setIdJugador(idJugadorLocal);
         peticion.setAccion(TipoAccionPartida.SOLICITAR_FINALIZACION);
 
         SolicitudFinalizacionDTO solicitud = new SolicitudFinalizacionDTO();
         solicitud.setJugador(solicitante);
         solicitud.setFecha(new Date());
         solicitud.setMensaje("El jugador " + solicitante.getNombreUsuario() + " solicita finalizar la partida.");
-        peticion.setSolicitudFinalizacion(solicitud);
+
+        EstadoPartidaDTO estadoPeticion = crearEstadoPeticion();
+        estadoPeticion.setSolicitudFinalizacion(solicitud);
+        peticion.setEstadoPartida(estadoPeticion);
 
         System.out.println("Enviando solicitud de finalizacion del jugador " + solicitante.getId());
         realizarAccionJugador(peticion);
@@ -213,18 +215,26 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         }
 
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
-        peticion.setIdJugador(idJugadorLocal);
         peticion.setAccion(TipoAccionPartida.RESPONDER_FINALIZACION);
 
         RespuestaFinalizacionDTO respuesta = new RespuestaFinalizacionDTO();
         respuesta.setJugador(jugador);
         respuesta.setFecha(new Date());
         respuesta.setAcepta(acepta);
-        peticion.setRespuestaFinalizacion(respuesta);
+
+        EstadoPartidaDTO estadoPeticion = crearEstadoPeticion();
+        estadoPeticion.setRespuestaFinalizacion(respuesta);
+        peticion.setEstadoPartida(estadoPeticion);
 
         System.out.println("Enviando respuesta de finalizacion del jugador " + jugador.getId() + ": " + acepta);
         realizarAccionJugador(peticion);
         return true;
+    }
+
+    private EstadoPartidaDTO crearEstadoPeticion() {
+        EstadoPartidaDTO estadoPeticion = new EstadoPartidaDTO();
+        estadoPeticion.setIdJugador(idJugadorLocal);
+        return estadoPeticion;
     }
 
     private JugadorResumenDTO obtenerJugadorLocal() {

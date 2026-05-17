@@ -76,10 +76,12 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
             }
 
             case SOLICITAR_FINALIZACION -> {
-                subDominio.solicitarFinalizacion(peticion.getSolicitudFinalizacion());
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+                subDominio.solicitarFinalizacion(estado != null ? estado.getSolicitudFinalizacion() : null);
             }
             case RESPONDER_FINALIZACION -> {
-                subDominio.responderFinalizacion(peticion.getRespuestaFinalizacion());
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+                subDominio.responderFinalizacion(estado != null ? estado.getRespuestaFinalizacion() : null);
             }
 
             default ->

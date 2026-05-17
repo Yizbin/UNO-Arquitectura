@@ -8,14 +8,10 @@ import DTOs.PeticionJugadaDTO;
 import Deserializador.Deserializador;
 import Enums.TipoAccionPartida;
 
-import Entidades.Partida;
-
 import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
-import Filtro.DominioFiltro;
 import Interfaces.IConexionSalida;
 import Interfaces.ISink;
-import Interfaces.SubDominioConcreto;
 import MVC_JugarTurno.PantallaTurno;
 import Serializador.Serializador;
 import javax.swing.SwingUtilities;
@@ -27,15 +23,25 @@ public class Ensamblador {
     private static final int PUERTO_SERVIDOR = 5000;
 
     public static void main(String[] args) {
+        int idJugador = obtenerIdJugador(args);
         SwingUtilities.invokeLater(() -> {
-            configurarConexionRed(IP_SERVIDOR, PUERTO_SERVIDOR);
+            configurarConexionRed(IP_SERVIDOR, PUERTO_SERVIDOR, idJugador);
         });
     }
 
-    private static void configurarConexionRed(String ipServidor, int puertoServidor) {
+    private static int obtenerIdJugador(String[] args) {
+        if (args == null || args.length == 0) {
+            return 1;
+        }
 
-        Partida partida = new Partida();
-        SubDominioConcreto subDominio = new SubDominioConcreto(partida);
+        try {
+            return Integer.parseInt(args[0]);
+        } catch (NumberFormatException e) {
+            return 1;
+        }
+    }
+
+    private static void configurarConexionRed(String ipServidor, int puertoServidor, int idJugador) {
 
         IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
         dispatcher.preConectar(ipServidor, puertoServidor);
@@ -46,8 +52,7 @@ public class Ensamblador {
         CoordinadorFiltros<PeticionJugadaDTO, byte[]> pipelineSalida
                 = new CoordinadorFiltros<>();
 
-        pipelineSalida.agregarFiltro(new DominioFiltro(subDominio));
-        pipelineSalida.agregarFiltro(new Serializador<EstadoPartidaDTO>());
+        pipelineSalida.agregarFiltro(new Serializador<PeticionJugadaDTO>());
         pipelineSalida.conectarDestino(adapterSink);
 
         CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada
@@ -60,7 +65,7 @@ public class Ensamblador {
         PantallaTurno ventana = FabricaJugadorMVC.crearEntornoJugador(
                 pipelineSalida,
                 pipelineEntrada,
-                1,
+                idJugador,
                 "UNO Spin - Cliente Red",
                 100,
                 100
@@ -70,7 +75,7 @@ public class Ensamblador {
 
         ReceptorFactory.iniciarConexion(puertoServidor + 1, pipelineEntrada);
 
-        registrarJugadorLocal(pipelineSalida, 1);
+        registrarJugadorLocal(pipelineSalida, idJugador);
     }
 
 
@@ -79,7 +84,9 @@ public class Ensamblador {
             int idJugador) {
         try {
             JugadorResumenDTO jugador = new JugadorResumenDTO(idJugador, "Jugador " + idJugador);
-            PeticionJugadaDTO peticion = new PeticionJugadaDTO(TipoAccionPartida.UNIRSE_PARTIDA, jugador);
+            EstadoPartidaDTO estado = new EstadoPartidaDTO();
+            estado.setIdJugador(jugador.getId());
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(TipoAccionPartida.UNIRSE_PARTIDA, estado);
             pipelineSalida.procesar(new Plantilla.ContextoPipeline<>(peticion));
             System.out.println("Jugador local registrado en partida: " + idJugador);
         } catch (Exception e) {
