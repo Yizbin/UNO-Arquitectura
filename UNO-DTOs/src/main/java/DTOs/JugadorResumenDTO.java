@@ -4,6 +4,10 @@
  */
 package DTOs;
 
+import Enums.TipoColor;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author Abraham Coronel
@@ -16,8 +20,13 @@ public class JugadorResumenDTO {
     private int cantidadDeCartas;
     private int puntos;
     private boolean enTurno;
+    private Map<TipoColor, TipoColor> preferenciasColor = new HashMap<>();
 
     public JugadorResumenDTO() {
+        preferenciasColor.put(TipoColor.ROJO, TipoColor.ROJO);
+        preferenciasColor.put(TipoColor.AZUL, TipoColor.AZUL);
+        preferenciasColor.put(TipoColor.VERDE, TipoColor.VERDE);
+        preferenciasColor.put(TipoColor.AMARILLO, TipoColor.AMARILLO);
     }
 
     public JugadorResumenDTO(int id, String nombreUsuario) {
@@ -80,5 +89,15 @@ public class JugadorResumenDTO {
     public void setId(int id) {
         this.id = id;
     }
+
+    public Map<TipoColor, TipoColor> getPreferenciasColor() {
+        return preferenciasColor;
+    }
+
+    public void setPreferenciasColor(Map<TipoColor, TipoColor> preferenciasColor) {
+        this.preferenciasColor = preferenciasColor;
+    }
+
+    
 
 }

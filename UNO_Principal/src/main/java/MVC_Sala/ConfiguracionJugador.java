@@ -4,8 +4,21 @@
  */
 package MVC_Sala;
 
+import DTOs.CartaDTO;
 import DTOs.JugadorResumenDTO;
-import MVC_JugarTurno.PanelCarta;
+import Enums.TipoColor;
+import static Enums.TipoColor.AMARILLO;
+import static Enums.TipoColor.AZUL;
+import static Enums.TipoColor.CAFE;
+import static Enums.TipoColor.CIAN;
+import static Enums.TipoColor.GRIS;
+import static Enums.TipoColor.MAGENTA;
+import static Enums.TipoColor.MORADO;
+import static Enums.TipoColor.NARANJA;
+import static Enums.TipoColor.ROJO;
+import static Enums.TipoColor.ROSA;
+import static Enums.TipoColor.VERDE;
+import MVC_JugarTurno.PanelCartaMano;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -35,7 +48,13 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     private BotonRedondeado siguiente;
     private BotonRedondeado anterior;
     private JButton avatarSeleccionado = null;
-    private final JugadorResumenDTO  jugador = new JugadorResumenDTO();
+    private PanelCartaMano cartaSeleccionada = null;
+    private TipoColor colorBaseSeleccionado = null;
+    private final JugadorResumenDTO jugador = new JugadorResumenDTO();
+    private final CartaDTO c1 = new CartaDTO();
+    private final CartaDTO c2 = new CartaDTO();
+    private final CartaDTO c3 = new CartaDTO();
+    private final CartaDTO c4 = new CartaDTO();
 
     public ConfiguracionJugador(ControladorSala control, IModeloSalaVista modelo) throws IOException {
         this.panelFondo = new PanelImagenFondo("/fondo.png");
@@ -79,7 +98,7 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         panelCentro.removeAll();
         panelCentro.revalidate();
         panelCentro.repaint();
-        
+
         //agregar los avatars
         JButton avatar1 = new JButton();
         avatar1.setBackground(Color.decode("#0066DB"));
@@ -88,7 +107,9 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         String unicornio = "/unicornio.png";
         avatar1.setIcon(new ImageIcon(getClass().getResource(unicornio)));
         panelCentro.add(avatar1);
-        avatar1.addActionListener(e ->{seleccionarAvatar(avatar1, unicornio);});
+        avatar1.addActionListener(e -> {
+            seleccionarAvatar(avatar1, unicornio);
+        });
 
         JButton avatar2 = new JButton();
         avatar2.setBackground(Color.decode("#0066DB"));
@@ -97,7 +118,9 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         String panda = "/panda.png";
         avatar2.setIcon(new ImageIcon(getClass().getResource(panda)));
         panelCentro.add(avatar2);
-        avatar2.addActionListener(e ->{seleccionarAvatar(avatar2, panda);});
+        avatar2.addActionListener(e -> {
+            seleccionarAvatar(avatar2, panda);
+        });
 
         JButton avatar3 = new JButton();
         avatar3.setBackground(Color.decode("#0066DB"));
@@ -106,7 +129,9 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         String mono = "/mono.png";
         avatar3.setIcon(new ImageIcon(getClass().getResource(mono)));
         panelCentro.add(avatar3);
-        avatar3.addActionListener(e ->{seleccionarAvatar(avatar3, mono);});
+        avatar3.addActionListener(e -> {
+            seleccionarAvatar(avatar3, mono);
+        });
 
         JButton avatar4 = new JButton();
         avatar4.setBackground(Color.decode("#0066DB"));
@@ -115,7 +140,9 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         String gato = "/gato.png";
         avatar4.setIcon(new ImageIcon(getClass().getResource(gato)));
         panelCentro.add(avatar4);
-        avatar4.addActionListener(e ->{seleccionarAvatar(avatar4, gato);});
+        avatar4.addActionListener(e -> {
+            seleccionarAvatar(avatar4, gato);
+        });
 
         JButton avatar5 = new JButton();
         avatar5.setBackground(Color.decode("#0066DB"));
@@ -124,7 +151,9 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         String vaca = "/vaca.png";
         avatar5.setIcon(new ImageIcon(getClass().getResource(vaca)));
         panelCentro.add(avatar5);
-        avatar5.addActionListener(e ->{seleccionarAvatar(avatar5, vaca);});
+        avatar5.addActionListener(e -> {
+            seleccionarAvatar(avatar5, vaca);
+        });
 
         JButton avatar6 = new JButton();
         avatar6.setBackground(Color.decode("#0066DB"));
@@ -133,8 +162,9 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         String zorro = "/zorro.png";
         avatar6.setIcon(new ImageIcon(getClass().getResource(zorro)));
         panelCentro.add(avatar6);
-        avatar6.addActionListener(e ->{seleccionarAvatar(avatar6, zorro);});
-
+        avatar6.addActionListener(e -> {
+            seleccionarAvatar(avatar6, zorro);
+        });
 
         JButton avatar7 = new JButton();
         avatar7.setBackground(Color.decode("#0066DB"));
@@ -143,7 +173,9 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         String pinguino = "/pinguino.png";
         avatar7.setIcon(new ImageIcon(getClass().getResource(pinguino)));
         panelCentro.add(avatar7);
-        avatar7.addActionListener(e ->{seleccionarAvatar(avatar7, pinguino);});
+        avatar7.addActionListener(e -> {
+            seleccionarAvatar(avatar7, pinguino);
+        });
 
         JButton avatar8 = new JButton();
         avatar8.setBackground(Color.decode("#0066DB"));
@@ -152,7 +184,9 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         String perro = "/perro.png";
         avatar8.setIcon(new ImageIcon(getClass().getResource(perro)));
         panelCentro.add(avatar8);
-        avatar8.addActionListener(e ->{seleccionarAvatar(avatar8, perro);});
+        avatar8.addActionListener(e -> {
+            seleccionarAvatar(avatar8, perro);
+        });
 
         //label para decirle al usuario que ponga su nombre
         JLabel nombre = new JLabel("Nombre de usuario");
@@ -166,30 +200,7 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         txtField.setBounds(365, 400, 400, 60);
         panelCentro.add(txtField);
 
-        //agregar las cartas donde se eligen los colores
-        PanelCarta carta1 = new PanelCarta();
-        carta1.setBounds(350, 500, 85, 130);
-        panelCentro.add(carta1);
-        carta1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        carta1.addMouseListener(eventoClickCarta);
-
-        PanelCarta carta2 = new PanelCarta();
-        carta2.setBounds(465, 500, 85, 130);
-        panelCentro.add(carta2);
-        carta2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        carta2.addMouseListener(eventoClickCarta);
-
-        PanelCarta carta3 = new PanelCarta();
-        carta3.setBounds(580, 500, 85, 130);
-        panelCentro.add(carta3);
-        carta3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        carta3.addMouseListener(eventoClickCarta);
-
-        PanelCarta carta4 = new PanelCarta();
-        carta4.setBounds(695, 500, 85, 130);
-        panelCentro.add(carta4);
-        carta4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        carta4.addMouseListener(eventoClickCarta);
+        cargarCartas();
 
         //boton de anterior y siguiente
         anterior = new BotonRedondeado(Color.red, 20);
@@ -201,72 +212,117 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         siguiente.setText("Siguiente");
         siguiente.setBounds(931, 600, 150, 50);
         panelCentro.add(siguiente);
+
+    }
+
+    private void cargarCartas() {
+        c1.setColor(jugador.getPreferenciasColor().getOrDefault(TipoColor.ROJO, TipoColor.ROJO));
+        c2.setColor(jugador.getPreferenciasColor().getOrDefault(TipoColor.AZUL, TipoColor.AZUL));
+        c3.setColor(jugador.getPreferenciasColor().getOrDefault(TipoColor.VERDE, TipoColor.VERDE));
+        c4.setColor(jugador.getPreferenciasColor().getOrDefault(TipoColor.AMARILLO, TipoColor.AMARILLO));
         
+        //agregar las cartas donde se eligen los colores
+        PanelCartaMano carta1 = new PanelCartaMano();
+        carta1.setBounds(350, 500, 85, 130);
+        carta1.setCarta(c1);
+        panelCentro.add(carta1);
+        carta1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        carta1.addMouseListener(eventoClickCarta);
+
+        PanelCartaMano carta2 = new PanelCartaMano();
+        carta2.setBounds(465, 500, 85, 130);
+        carta2.setCarta(c2);
+        panelCentro.add(carta2);
+        carta2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        carta2.addMouseListener(eventoClickCarta);
+
+        PanelCartaMano carta3 = new PanelCartaMano();
+        carta3.setBounds(580, 500, 85, 130);
+        carta3.setCarta(c3);
+        panelCentro.add(carta3);
+        carta3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        carta3.addMouseListener(eventoClickCarta);
+
+        PanelCartaMano carta4 = new PanelCartaMano();
+        carta4.setBounds(695, 500, 85, 130);
+        carta4.setCarta(c4);
+        panelCentro.add(carta4);
+        carta4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        carta4.addMouseListener(eventoClickCarta);
+
     }
 
     private void cargarColores() {
         panelCentro.removeAll();
         panelCentro.revalidate();
         panelCentro.repaint();
-        
+
         //label para decirle al usuario que ponga su nombre
         JLabel nombre = new JLabel("Elegir un color");
         nombre.setBounds(415, 50, 300, 50);
         nombre.setFont(new Font("Rubik One", Font.BOLD, 40));
         nombre.setForeground(Color.BLACK);
         panelCentro.add(nombre);
-        
+
         //agregar los colores para elegir
-        BotonRedondeado color1 = new BotonRedondeado(Color.decode("#0AC500"), 120);
+        BotonRedondeado color1 = new BotonRedondeado(Color.ORANGE, 120);
         color1.setBounds(285, 230, 120, 120);
         panelCentro.add(color1);
-        color1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        color1.addMouseListener(eventoClickColor);
+        color1.addActionListener(e -> {
+            seleccionarColor(color1, Color.ORANGE);
+        });
 
-        BotonRedondeado color2 = new BotonRedondeado(Color.decode("#FF9D00"), 120);
+        BotonRedondeado color2 = new BotonRedondeado(Color.decode("#D363FF"), 120);
         color2.setBounds(435, 230, 120, 120);
         panelCentro.add(color2);
-        color2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        color2.addMouseListener(eventoClickColor);
+        color2.addActionListener(e -> {
+            seleccionarColor(color2, Color.decode("#D363FF"));
+        });
 
-        BotonRedondeado color3 = new BotonRedondeado(Color.decode("#00C559"), 120);
+        BotonRedondeado color3 = new BotonRedondeado(Color.PINK, 120);
         color3.setBounds(585, 230, 120, 120);
         panelCentro.add(color3);
-        color3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        color3.addMouseListener(eventoClickColor);
+        color3.addActionListener(e -> {
+            seleccionarColor(color3, Color.PINK);
+        });
 
-        BotonRedondeado color4 = new BotonRedondeado(Color.decode("#00397B"), 120);
+        BotonRedondeado color4 = new BotonRedondeado(Color.decode("#693A19"), 120);
         color4.setBounds(735, 230, 120, 120);
         panelCentro.add(color4);
-        color4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        color4.addMouseListener(eventoClickColor);
+        color4.addActionListener(e -> {
+            seleccionarColor(color4, Color.decode("#693A19"));
+        });
 
-        BotonRedondeado color5 = new BotonRedondeado(Color.decode("#D06868"), 120);
+        BotonRedondeado color5 = new BotonRedondeado(Color.BLACK, 120);
         color5.setBounds(285, 365, 120, 120);
         panelCentro.add(color5);
-        color5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        color5.addMouseListener(eventoClickColor);
+        color5.addActionListener(e -> {
+            seleccionarColor(color5, Color.BLACK);
+        });
 
-        BotonRedondeado color6 = new BotonRedondeado(Color.decode("#6EB2CF"), 120);
+        BotonRedondeado color6 = new BotonRedondeado(Color.MAGENTA, 120);
         color6.setBounds(435, 365, 120, 120);
         panelCentro.add(color6);
-        color6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        color6.addMouseListener(eventoClickColor);
+        color6.addActionListener(e -> {
+            seleccionarColor(color6, Color.MAGENTA);
+        });
 
-        BotonRedondeado color7 = new BotonRedondeado(Color.decode("#FF79F2"), 120);
+        BotonRedondeado color7 = new BotonRedondeado(Color.LIGHT_GRAY, 120);
         color7.setBounds(585, 365, 120, 120);
         panelCentro.add(color7);
-        color7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        color7.addMouseListener(eventoClickColor);
+        color7.addActionListener(e -> {
+            seleccionarColor(color7, Color.LIGHT_GRAY);
+        });
 
-        BotonRedondeado color8 = new BotonRedondeado(Color.decode("#E6E600"), 120);
+        BotonRedondeado color8 = new BotonRedondeado(Color.CYAN, 120);
         color8.setBounds(735, 365, 120, 120);
         panelCentro.add(color8);
-        color8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        color8.addMouseListener(eventoClickColor);
+        color8.addActionListener(e -> {
+            seleccionarColor(color8, Color.CYAN);
+        });
     }
-    
-    private void seleccionarAvatar(JButton botonClickeado, String rutaImagen){
+
+    private void seleccionarAvatar(JButton botonClickeado, String rutaImagen) {
         if (avatarSeleccionado != null) {
             avatarSeleccionado.setBackground(Color.decode("#0066DB"));
         }
@@ -278,39 +334,123 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     private final java.awt.event.MouseAdapter eventoClickCarta = new java.awt.event.MouseAdapter() {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent e) {
+            cartaSeleccionada = (PanelCartaMano) e.getSource();
+            if (cartaSeleccionada.carta == c1) {
+                colorBaseSeleccionado = TipoColor.ROJO;
+            } else if (cartaSeleccionada.carta == c2) {
+                colorBaseSeleccionado = TipoColor.AZUL;
+            } else if (cartaSeleccionada.carta == c3) {
+                colorBaseSeleccionado = TipoColor.VERDE;
+            } else if (cartaSeleccionada.carta == c4) {
+                colorBaseSeleccionado = TipoColor.AMARILLO;
+            }
             cargarColores();
         }
     };
-    
-    private final java.awt.event.MouseAdapter eventoClickColor = new java.awt.event.MouseAdapter() {
-        @Override
-        public void mouseClicked(java.awt.event.MouseEvent e) {
-            cargarConfiguración();
+
+    private void seleccionarColor(BotonRedondeado boton, Color colorSeleccionado) {
+        Color colorCambiado = traducirColor(cartaSeleccionada.carta.getColor());
+        TipoColor nuevoColor = traducirTipoColor(colorSeleccionado);
+        jugador.getPreferenciasColor().put(colorBaseSeleccionado, nuevoColor);
+        boton.setBackground(colorCambiado);
+        cargarConfiguración();
+    }
+
+    private Color traducirColor(TipoColor tipo) {
+        switch (tipo) {
+            case ROJO -> {
+                return Color.RED;
+            }
+            case AZUL -> {
+                return Color.BLUE;
+            }
+            case AMARILLO -> {
+                return Color.YELLOW;
+            }
+            case VERDE -> {
+                return Color.GREEN;
+            }
+            case NARANJA -> {
+                return Color.ORANGE;
+            }
+            case MORADO -> {
+                return Color.decode("#D363FF");
+            }
+            case ROSA -> {
+                return Color.PINK;
+            }
+            case CAFE -> {
+                return Color.decode("#693A19");
+            }
+            case GRIS -> {
+                return Color.LIGHT_GRAY;
+            }
+            case CIAN -> {
+                return Color.CYAN;
+            }
+            case MAGENTA -> {
+                return Color.MAGENTA;
+            }
+            case NEGRO -> {
+                return Color.BLACK;
+            }
+            default ->
+                throw new AssertionError();
         }
-    };
-    
-    private void acciones(){
-        
-        siguiente.addActionListener(e ->{
-            try{
+    }
+
+    private TipoColor traducirTipoColor(Color color) {
+        if (Color.RED.equals(color)) {
+            return TipoColor.ROJO;
+        } else if (Color.BLUE.equals(color)) {
+            return TipoColor.AZUL;
+        } else if (Color.YELLOW.equals(color)) {
+            return TipoColor.AMARILLO;
+        } else if (Color.GREEN.equals(color)) {
+            return TipoColor.VERDE;
+        } else if (Color.ORANGE.equals(color)) {
+            return TipoColor.NARANJA;
+        } else if (Color.decode("#D363FF").equals(color)) {
+            return TipoColor.MORADO;
+        } else if (Color.PINK.equals(color)) {
+            return TipoColor.ROSA;
+        } else if (Color.decode("#693A19").equals(color)) {
+            return TipoColor.CAFE;
+        } else if (Color.LIGHT_GRAY.equals(color)) {
+            return TipoColor.GRIS;
+        } else if (Color.CYAN.equals(color)) {
+            return TipoColor.CIAN;
+        } else if (Color.MAGENTA.equals(color)) {
+            return TipoColor.MAGENTA;
+        }else if (Color.BLACK.equals(color)) {
+            return TipoColor.NEGRO;
+        }else {
+            throw new AssertionError("Color no reconocido: " + color);
+        }
+    }
+
+    private void acciones() {
+
+        siguiente.addActionListener(e -> {
+            try {
                 if (txtField != null) {
                     jugador.setNombreUsuario(txtField.getText());
-                }else{
+                } else {
                     throw new Exception("El campo de texto no puede estar vacío");
                 }
                 
-                
-            }catch(Exception ex){
-                
+
+            } catch (Exception ex) {
+
             }
-            
+
         });
-        
+
     }
 
     @Override
     public void update(IModeloSalaVista modeloVista) {
-        
+
     }
 
     static class CampoTextoRedondeado extends JTextField {
