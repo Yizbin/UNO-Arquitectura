@@ -14,11 +14,10 @@ import java.util.List;
 public interface IModeloSalaVista {
 
     List<JugadorResumenDTO> getJugadoresEnSala();
+    
+    JugadorResumenDTO getJugadorLocal();
 
-    void suscribir(ISuscriptorSala suscriptor);
-    
-    void desuscribir(ISuscriptorSala suscriptor);
-    
-    void notificar();
-    
+    List<JugadorResumenDTO> getJugadoresConfirmados();
+
+    boolean isPartidaListaParaIniciar();
 }

@@ -7,30 +7,40 @@ package MVC_Sala;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
+import Enums.EstadoJugadorSala;
 import Enums.TipoAccionPartida;
-import Interfaces.IPump;
+import interfaces.IPump;
 import Interfaces.ISink;
 import Plantilla.ContextoPipeline;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.SwingUtilities;
 
 /**
  *
  * @author Abraham Coronel
  */
-public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<EstadoPartidaDTO>, IPump<PeticionJugadaDTO> {
+public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<EstadoPartidaDTO> {
 
     private final List<ISuscriptorSala> suscriptores;
-
+    private IPump<PeticionJugadaDTO> coordinador;
     private List<JugadorResumenDTO> jugadoresEnSala;
-
-    private ISink<PeticionJugadaDTO> destino;
-
     private JugadorResumenDTO jugadorLocal;
+    private boolean partidaListaParaIniciar;
 
     public ModeloSala() {
         this.suscriptores = new ArrayList<>();
         this.jugadoresEnSala = new ArrayList<>();
+        this.partidaListaParaIniciar = false;
+    }
+
+    public ModeloSala(IPump<PeticionJugadaDTO> coordinador) {
+        this();
+        this.coordinador = coordinador;
+    }
+
+    public void conectarCoordinador(IPump<PeticionJugadaDTO> coordinador) {
+        this.coordinador = coordinador;
     }
 
     public void suscribir(ISuscriptorSala suscriptor) {
@@ -51,49 +61,122 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
 
     @Override
     public boolean solicitarUnirsePartida() {
-        if (destino != null) {
-            try {
-                PeticionJugadaDTO peticion = new PeticionJugadaDTO(TipoAccionPartida.UNIRSE_PARTIDA, jugadorLocal.getId());
-                destino.enviar(new ContextoPipeline<>(peticion));
-                return true;
-            } catch (Exception e) {
-                System.err.println("Error al unirse: " + e.getMessage());
-            }
+        if (coordinador == null || jugadorLocal == null) {
+            return false;
         }
+
+        try {
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
+                    TipoAccionPartida.UNIRSE_PARTIDA,
+                    jugadorLocal
+            );
+            enviarPeticion(peticion);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error al unirse: " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {
+        JugadorResumenDTO jugadorSolicitud = jugadorDTO != null ? jugadorDTO : jugadorLocal;
+
+        if (coordinador == null || jugadorSolicitud == null) {
+            return false;
+        }
+
+        jugadorSolicitud.setEstadoSala(EstadoJugadorSala.CONFIRMADO);
+        this.jugadorLocal = jugadorSolicitud;
+
+        try {
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
+                    TipoAccionPartida.SOLICITAR_INICIO_PARTIDA,
+                    jugadorSolicitud
+            );
+            enviarPeticion(peticion);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error al solicitar inicio de partida: " + e.getMessage());
+        }
+
         return false;
     }
 
     @Override
     public void actualizarDatosJugador(JugadorResumenDTO datos) {
-        if (destino != null && datos != null) {
-            try {
-                this.jugadorLocal = datos;
-                PeticionJugadaDTO peticion = new PeticionJugadaDTO(TipoAccionPartida.ACTUALIZAR_PERFIL, jugadorLocal.getId());
-                destino.enviar(new ContextoPipeline<>(peticion));
-            } catch (Exception e) {
-                System.err.println("Error al actualizar perfil: " + e.getMessage());
-            }
+        if (datos == null) {
+            return;
+        }
+
+        this.jugadorLocal = datos;
+
+        if (coordinador == null) {
+            return;
+        }
+
+        try {
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
+                    TipoAccionPartida.ACTUALIZAR_PERFIL,
+                    jugadorLocal
+            );
+            enviarPeticion(peticion);
+        } catch (Exception e) {
+            System.err.println("Error al actualizar perfil: " + e.getMessage());
         }
     }
 
     @Override
     public void enviar(ContextoPipeline<EstadoPartidaDTO> contexto) throws Exception {
-        EstadoPartidaDTO estado = contexto.getMensaje();
-
-        if (estado != null) {
-            this.jugadoresEnSala = estado.getJugadores();
-            notificar();
+        if (contexto == null || contexto.estaDetenido()) {
+            return;
         }
+
+        EstadoPartidaDTO estado = contexto.getMensaje();
+        if (estado == null) {
+            return;
+        }
+
+        this.jugadoresEnSala = estado.getJugadores() != null
+                ? estado.getJugadores()
+                : List.of();
+
+        this.partidaListaParaIniciar = estado.isPartidaListaParaIniciar();
+
+        SwingUtilities.invokeLater(this::notificar);
     }
 
-    @Override
-    public void conectarDestino(ISink<PeticionJugadaDTO> destino) {
-        this.destino = destino;
+    private void enviarPeticion(PeticionJugadaDTO peticion) throws Exception {
+        coordinador.procesar(new ContextoPipeline<>(peticion));
     }
 
     @Override
     public List<JugadorResumenDTO> getJugadoresEnSala() {
         return this.jugadoresEnSala;
+    }
+
+    @Override
+    public JugadorResumenDTO getJugadorLocal() {
+        return this.jugadorLocal;
+    }
+
+    @Override
+    public List<JugadorResumenDTO> getJugadoresConfirmados() {
+        List<JugadorResumenDTO> jugadoresConfirmados = new ArrayList<>();
+
+        for (JugadorResumenDTO jugador : jugadoresEnSala) {
+            if (jugador.getEstadoSala() == EstadoJugadorSala.CONFIRMADO) {
+                jugadoresConfirmados.add(jugador);
+            }
+        }
+
+        return jugadoresConfirmados;
+    }
+
+    @Override
+    public boolean isPartidaListaParaIniciar() {
+        return this.partidaListaParaIniciar;
     }
 
 }

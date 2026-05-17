@@ -5,35 +5,42 @@
 package Estado;
 
 import DTOs.EstadoPartidaDTO;
-import DTOs.PeticionJugadaDTO;
 import Plantilla.ContextoPipeline;
 import Interfaces.IFiltro;
+import java.util.List;
 
 /**
  *
  * @author Abraham Coronel
  */
-public class EstadoPartida implements IFiltro<PeticionJugadaDTO, EstadoPartidaDTO> {
+public class EstadoPartida implements IFiltro<EstadoPartidaDTO, EstadoPartidaDTO> {
 
     @Override
-    public ContextoPipeline<EstadoPartidaDTO> procesar(ContextoPipeline<PeticionJugadaDTO> contexto) throws Exception {
+    public ContextoPipeline<EstadoPartidaDTO> procesar(ContextoPipeline<EstadoPartidaDTO> contexto) {
 
-        PeticionJugadaDTO peticion = contexto.getMensaje();
+        if (contexto == null || contexto.estaDetenido()) {
+            return contexto;
+        }
 
-        if (peticion == null) {
+        EstadoPartidaDTO estado = contexto.getMensaje();
+
+        if (estado == null) {
             return new ContextoPipeline<>(null);
         }
 
-        EstadoPartidaDTO nuevoEstado = actualizarLogicaJuego(peticion);
-        return new ContextoPipeline<>(nuevoEstado);
+        actualizarEstado(estado);
+        return new ContextoPipeline<>(estado);
     }
 
-    private EstadoPartidaDTO actualizarLogicaJuego(PeticionJugadaDTO peticion) {
-
-        EstadoPartidaDTO estado = new EstadoPartidaDTO();
-
-        estado.setIdJugadorEnTurno(peticion.getIdJugador());
-
-        return estado;
+    private void actualizarEstado(EstadoPartidaDTO estado) {
+        if (estado.getJugadores() == null) {
+            estado.setJugadores(List.of());
+        }
+        if (estado.getManoJugadorActual() == null) {
+            estado.setManoJugadorActual(List.of());
+        }
+        if (estado.getMensajeEstado() == null) {
+            estado.setMensajeEstado("");
+        }
     }
 }

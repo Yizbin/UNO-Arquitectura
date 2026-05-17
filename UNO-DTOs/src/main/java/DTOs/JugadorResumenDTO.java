@@ -4,6 +4,8 @@
  */
 package DTOs;
 
+import Enums.EstadoJugadorSala;
+
 /**
  *
  * @author Abraham Coronel
@@ -16,6 +18,7 @@ public class JugadorResumenDTO {
     private int cantidadDeCartas;
     private int puntos;
     private boolean enTurno;
+    private EstadoJugadorSala estadoSala = EstadoJugadorSala.ESPERANDO;
 
     public JugadorResumenDTO() {
     }
@@ -79,6 +82,14 @@ public class JugadorResumenDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public EstadoJugadorSala getEstadoSala() {
+        return estadoSala;
+    }
+
+    public void setEstadoSala(EstadoJugadorSala estadoSala) {
+        this.estadoSala = estadoSala != null ? estadoSala : EstadoJugadorSala.ESPERANDO;
     }
 
 }

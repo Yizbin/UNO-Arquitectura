@@ -1,14 +1,23 @@
 package Entidades;
 
+import DTOs.CartaDTO;
+import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorResumenDTO;
 import Enums.Comodines;
+import Enums.EstadoJugadorSala;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
 import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
+import Mappers.CartaMapper;
+import Mappers.JugadorMapper;
 import factorys.MazoFactory;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+
 
 /**
  *
@@ -37,6 +46,27 @@ public class Partida {
         this.esperandoColor = false;
     }
 
+    public Partida desdeJugadoresDTO(List<JugadorResumenDTO> jugadoresDTO) {
+        this.jugadores = new JugadorMapper().toEntityList(jugadoresDTO);
+        return new Partida(jugadores);
+    }
+
+    public void unirJugador(JugadorResumenDTO jugadorDTO) {
+        Jugador jugador = new JugadorMapper().toEntity(jugadorDTO);
+
+        if (jugador == null) {
+            throw new IllegalArgumentException("El jugador a unir no puede ser nulo.");
+        }
+
+        if (jugadores.contains(jugador)) {
+            throw new IllegalArgumentException("El jugador ya esta unido a la partida.");
+        }
+
+        List<Jugador> jugadoresActualizados = new ArrayList<>(jugadores);
+        jugadoresActualizados.add(jugador);
+        this.jugadores = List.copyOf(jugadoresActualizados);
+    }
+
     public void iniciarPartida() throws MazoVacioException {
         
         this.mazo = MazoFactory.crear();
@@ -51,13 +81,16 @@ public class Partida {
         descarte.apilarCarta(primeraCarta);
 
         switch (primeraCarta) {
-            case CartaNumero cartaNumero -> this.colorActual = cartaNumero.getColor();
-            case CartaAccion cartaAccion -> this.colorActual = cartaAccion.getColor();
-            default -> this.colorActual = TipoColor.NINGUNO;
+            case CartaNumero cartaNumero ->
+                this.colorActual = cartaNumero.getColor();
+            case CartaAccion cartaAccion ->
+                this.colorActual = cartaAccion.getColor();
+            default ->
+                this.colorActual = TipoColor.NINGUNO;
         }
     }
 
-    public void jugarCarta(Jugador jugador, Carta cartaAJugar)
+    private void aplicarJugadaDeCarta(Jugador jugador, Carta cartaAJugar)
             throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException {
         validarTurno(jugador);
 
@@ -86,9 +119,58 @@ public class Partida {
         }
     }
 
+    public void procesarJugadaCarta(int idJugador, CartaDTO cartaAJugarDTO)
+            throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException {
+        Jugador jugador = obtenerJugadorPorId(idJugador);
+        Carta cartaAJugar = new CartaMapper().toEntity(cartaAJugarDTO);
+
+        if (cartaAJugar == null) {
+            throw new IllegalArgumentException("La carta a jugar no puede ser nula.");
+        }
+
+        aplicarJugadaDeCarta(jugador, cartaAJugar);
+    }
+
+    public JugadorResumenDTO obtenerJugadorActualDTO() {
+        JugadorResumenDTO dto = new JugadorMapper().toDTO(getJugadorActual());
+        dto.setEnTurno(true);
+        return dto;
+    }
+
+    public CartaDTO obtenerCartaEnTopeDTO() {
+        return new CartaMapper().toDTO(descarte.getTope());
+    }
+
+    public List<CartaDTO> obtenerManoJugadorDTO(int idJugador) {
+        return new CartaMapper().toDTOList(obtenerJugadorPorId(idJugador).getMano());
+    }
+
+    public EstadoPartidaDTO obtenerEstadoPartidaDTO() {
+        EstadoPartidaDTO estadoDTO = new EstadoPartidaDTO();
+        List<JugadorResumenDTO> jugadoresDTO = new JugadorMapper().toDTOList(jugadores);
+        int idJugadorActual = getJugadorActual().getId();
+
+        for (JugadorResumenDTO jugadorDTO : jugadoresDTO) {
+            jugadorDTO.setEnTurno(jugadorDTO.getId() == idJugadorActual);
+        }
+
+        estadoDTO.setJugadores(jugadoresDTO);
+        estadoDTO.setEsperandoColor(esperandoColor);
+        estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
+        estadoDTO.setRuletaActiva(false);
+        estadoDTO.setIdJugadorEnTurno(idJugadorActual);
+        estadoDTO.setPartidaListaParaIniciar(puedeIniciarPartida());
+
+        return estadoDTO;
+    }
+
     public void robarCarta(Jugador jugador) throws MazoVacioException, ValidarTurnoException {
         validarTurno(jugador);
         this.getJugadorActual().robarCarta(obtenerCartaDelMazo());
+    }
+
+    public void robarCarta(int idJugador) throws MazoVacioException, ValidarTurnoException {
+        robarCarta(obtenerJugadorPorId(idJugador));
     }
 
     public void gritarUno(Jugador jugador) {
@@ -98,6 +180,10 @@ public class Partida {
                 break;
             }
         }
+    }
+
+    public void gritarUno(int idJugador) {
+        gritarUno(obtenerJugadorPorId(idJugador));
     }
 
     public Jugador getJugadorActual() {
@@ -147,6 +233,15 @@ public class Partida {
         }
     }
 
+    private Jugador obtenerJugadorPorId(int idJugador) {
+        for (Jugador jugador : jugadores) {
+            if (jugador.getId() == idJugador) {
+                return jugador;
+            }
+        }
+        throw new IllegalArgumentException("Jugador no encontrado con ID: " + idJugador);
+    }
+
     private Carta obtenerCartaDelMazo() throws MazoVacioException {
         if (mazo.estaVacio()) {
             mazo.rellenar(descarte.vaciarParaRellenarMazo());
@@ -170,6 +265,66 @@ public class Partida {
                 avanzarTurno();
             }
         }
+    }
+
+    // METODOS PARA LA SALA
+    public void solicitarInicioPartida(JugadorResumenDTO jugadorDTO) {
+        confirmarInicioPartida(jugadorDTO);
+    }
+
+    public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO) {
+        if (jugadorDTO == null) {
+            return false;
+        }
+
+        for (Jugador jugador : jugadores) {
+            boolean mismoId = jugador.getId() == jugadorDTO.getId();
+            boolean mismoNombre = Objects.equals(jugador.getUsuario(), jugadorDTO.getNombreUsuario());
+
+            if (mismoId || mismoNombre) {
+                jugador.setEstadoSala(EstadoJugadorSala.CONFIRMADO);
+                return puedeIniciarPartida();
+            }
+        }
+
+        return false;
+    }
+
+    public List<JugadorResumenDTO> obtenerJugadoresConfirmados() {
+        List<JugadorResumenDTO> jugadoresConfirmados = new ArrayList<>();
+        JugadorMapper mapper = new JugadorMapper();
+
+        for (Jugador jugador : jugadores) {
+            if (jugador.getEstadoSala() == EstadoJugadorSala.CONFIRMADO) {
+                jugadoresConfirmados.add(mapper.toDTO(jugador));
+            }
+        }
+
+        return jugadoresConfirmados;
+    }
+
+    public boolean puedeIniciarPartida() {
+        int totalJugadores = jugadores.size();
+
+        if (totalJugadores == 4) {
+            return true;
+        }
+
+        if (totalJugadores >= 2 && totalJugadores <= 3) {
+            return todosLosJugadoresConfirmados();
+        }
+
+        return false;
+    }
+
+    private boolean todosLosJugadoresConfirmados() {
+        for (Jugador jugador : jugadores) {
+            if (jugador.getEstadoSala() != EstadoJugadorSala.CONFIRMADO) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public List<Jugador> getJugadores() {

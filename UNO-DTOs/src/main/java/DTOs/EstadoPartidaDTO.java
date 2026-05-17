@@ -27,6 +27,8 @@ public class EstadoPartidaDTO {
 
     private String mensajeEstado;
 
+    private boolean partidaListaParaIniciar;
+
     public EstadoPartidaDTO() {
     }
 
@@ -131,4 +133,11 @@ public class EstadoPartidaDTO {
         this.esperandoColor = esperandoColor;
     }
 
+    public boolean isPartidaListaParaIniciar() {
+        return partidaListaParaIniciar;
+    }
+
+    public void setPartidaListaParaIniciar(boolean partidaListaParaIniciar) {
+        this.partidaListaParaIniciar = partidaListaParaIniciar;
+    }
 }

@@ -10,6 +10,7 @@ import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.TipoAccionPartida;
 import Enums.TipoColor;
+import interfaces.IPump;
 import Interfaces.ISink;
 import Plantilla.ContextoPipeline;
 import java.util.ArrayList;
@@ -23,8 +24,8 @@ import javax.swing.SwingUtilities;
 public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPartidaDTO> {
 
     private final List<ISuscriptor> suscriptores = new ArrayList<>();
+    private IPump<PeticionJugadaDTO> coordinador;
     private EstadoPartidaDTO estadoActual;
-    private ISink<PeticionJugadaDTO> destinoTuberias;
     private int idJugadorLocal;
     private String mensajePendiente;
 
@@ -32,13 +33,17 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         this.idJugadorLocal = idJugadorLocal;
     }
 
+    public void conectarDestino(IPump<PeticionJugadaDTO> coordinador) {
+        this.coordinador = coordinador;
+    }
+
     public void realizarAccionJugador(PeticionJugadaDTO jugada) {
-        if (destinoTuberias != null) {
+        if (coordinador != null) {
             ContextoPipeline<PeticionJugadaDTO> contexto = new ContextoPipeline<>(jugada);
             try {
-                destinoTuberias.enviar(contexto);
+                coordinador.procesar(contexto);
             } catch (Exception e) {
-                System.err.println("Error al bombear la jugada a la tubería: " + e.getMessage());
+                System.err.println("Error al procesar" + e.getMessage());
             }
         }
     }

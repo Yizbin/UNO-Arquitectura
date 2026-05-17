@@ -23,6 +23,8 @@ public interface ISubDominio {
 
     public void prepararJuego(List<JugadorResumenDTO> jugadoresDTO) throws MazoVacioException;
 
+    public void unirJugador(JugadorResumenDTO jugadorDTO);
+
     //Intenta jugar una carta de la mano del jugador actual hacia el descarte
     public void jugarCarta(int idJugador, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException;
 
@@ -49,8 +51,16 @@ public interface ISubDominio {
 
     // Devuelve el color que está activo en el juego (útil si hay un comodín en el tope)
     public TipoColor obtenerColorActual();
-    
+
     public List<CartaDTO> obtenerManoJugador(int idJugador);
-    
+
     public EstadoPartidaDTO obtenerEstadoPartida();
+
+    // METODOS PARA LA SALA
+    public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO);
+
+    public List<JugadorResumenDTO> obtenerJugadoresConfirmados();
+    
+    public boolean puedeIniciarPartida();
+    //
 }
