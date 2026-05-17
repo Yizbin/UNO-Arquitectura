@@ -4,6 +4,7 @@ import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import Enums.Comodines;
+import Enums.EstadoJugadorSala;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
@@ -73,9 +74,12 @@ public class Partida {
         descarte.apilarCarta(primeraCarta);
 
         switch (primeraCarta) {
-            case CartaNumero cartaNumero -> this.colorActual = cartaNumero.getColor();
-            case CartaAccion cartaAccion -> this.colorActual = cartaAccion.getColor();
-            default -> this.colorActual = TipoColor.NINGUNO;
+            case CartaNumero cartaNumero ->
+                this.colorActual = cartaNumero.getColor();
+            case CartaAccion cartaAccion ->
+                this.colorActual = cartaAccion.getColor();
+            default ->
+                this.colorActual = TipoColor.NINGUNO;
         }
     }
 
@@ -148,6 +152,8 @@ public class Partida {
         estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
         estadoDTO.setRuletaActiva(false);
         estadoDTO.setIdJugadorEnTurno(idJugadorActual);
+        estadoDTO.setPartidaListaParaIniciar(puedeIniciarPartida());
+
         return estadoDTO;
     }
 
@@ -252,6 +258,66 @@ public class Partida {
                 avanzarTurno();
             }
         }
+    }
+
+    // METODOS PARA LA SALA
+    public void solicitarInicioPartida(JugadorResumenDTO jugadorDTO) {
+        confirmarInicioPartida(jugadorDTO);
+    }
+
+    public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO) {
+        if (jugadorDTO == null) {
+            return false;
+        }
+
+        for (Jugador jugador : jugadores) {
+            boolean mismoId = jugador.getId() == jugadorDTO.getId();
+            boolean mismoNombre = Objects.equals(jugador.getUsuario(), jugadorDTO.getNombreUsuario());
+
+            if (mismoId || mismoNombre) {
+                jugador.setEstadoSala(EstadoJugadorSala.CONFIRMADO);
+                return puedeIniciarPartida();
+            }
+        }
+
+        return false;
+    }
+
+    public List<JugadorResumenDTO> obtenerJugadoresConfirmados() {
+        List<JugadorResumenDTO> jugadoresConfirmados = new ArrayList<>();
+        JugadorMapper mapper = new JugadorMapper();
+
+        for (Jugador jugador : jugadores) {
+            if (jugador.getEstadoSala() == EstadoJugadorSala.CONFIRMADO) {
+                jugadoresConfirmados.add(mapper.toDTO(jugador));
+            }
+        }
+
+        return jugadoresConfirmados;
+    }
+
+    public boolean puedeIniciarPartida() {
+        int totalJugadores = jugadores.size();
+
+        if (totalJugadores == 4) {
+            return true;
+        }
+
+        if (totalJugadores >= 2 && totalJugadores <= 3) {
+            return todosLosJugadoresConfirmados();
+        }
+
+        return false;
+    }
+
+    private boolean todosLosJugadoresConfirmados() {
+        for (Jugador jugador : jugadores) {
+            if (jugador.getEstadoSala() != EstadoJugadorSala.CONFIRMADO) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public List<Jugador> getJugadores() {

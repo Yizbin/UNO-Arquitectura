@@ -7,10 +7,6 @@ package DTOs;
 import Enums.EstadoRetoSpin;
 import java.util.List;
 
-/**
- *
- * @author Abraham Coronel
- */
 public class EstadoPartidaDTO {
 
     private int idJugadorEnTurno;
@@ -26,6 +22,8 @@ public class EstadoPartidaDTO {
     private boolean esperandoColor;
 
     private String mensajeEstado;
+
+    private boolean partidaListaParaIniciar;
 
     public EstadoPartidaDTO() {
     }
@@ -131,4 +129,11 @@ public class EstadoPartidaDTO {
         this.esperandoColor = esperandoColor;
     }
 
+    public boolean isPartidaListaParaIniciar() {
+        return partidaListaParaIniciar;
+    }
+
+    public void setPartidaListaParaIniciar(boolean partidaListaParaIniciar) {
+        this.partidaListaParaIniciar = partidaListaParaIniciar;
+    }
 }

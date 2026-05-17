@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class SubDominioConcreto implements ISubDominio {
 
-    private Partida partida;
+     private Partida partida;
     private final MazoFactory mazoFactory;
 
     public SubDominioConcreto() {
@@ -42,6 +42,29 @@ public class SubDominioConcreto implements ISubDominio {
         }
 
         this.partida.unirJugador(jugadorDTO);
+    }
+
+    @Override
+    public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO) {
+        if (this.partida == null || jugadorDTO == null) {
+            return false;
+        }
+
+        return this.partida.confirmarInicioPartida(jugadorDTO);
+    }
+
+    @Override
+    public List<JugadorResumenDTO> obtenerJugadoresConfirmados() {
+        if (this.partida == null) {
+            return List.of();
+        }
+
+        return this.partida.obtenerJugadoresConfirmados();
+    }
+
+    @Override
+    public boolean puedeIniciarPartida() {
+        return this.partida != null && this.partida.puedeIniciarPartida();
     }
 
     @Override
