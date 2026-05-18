@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
  */
-
-import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
+import Entidades.Jugador;
 import Entidades.Partida;
-import Enums.EstadoJugadorSala;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,146 +15,275 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class PartidaUnirJugadorTest {
 
-//    @Test
-//    void debeUnirJugadorValidoALaPartida() {
-//        Partida partida = new Partida();
-//        JugadorResumenDTO jugadorDTO = new JugadorResumenDTO(1, "Abraham");
-//
-//        partida.unirJugador(jugadorDTO);
-//
-//        assertEquals(1, partida.getJugadores().size());
-//        assertEquals(1, partida.getJugadores().get(0).getId());
-//        assertEquals("Abraham", partida.getJugadores().get(0).getUsuario());
-//    }
-//
-//    @Test
-//    void noDebePermitirUnirElMismoJugadorDosVeces() {
-//        Partida partida = new Partida();
-//        JugadorResumenDTO jugadorDTO = new JugadorResumenDTO(1, "Abraham");
-//
-//        partida.unirJugador(jugadorDTO);
-//
-//        IllegalArgumentException excepcion = assertThrows(
-//                IllegalArgumentException.class,
-//                () -> partida.unirJugador(jugadorDTO)
-//        );
-//
-//        assertEquals("El jugador ya esta unido a la partida.", excepcion.getMessage());
-//        assertEquals(1, partida.getJugadores().size());
-//    }
-//
-//    @Test
-//    void noDebePermitirUnirJugadorNulo() {
-//        Partida partida = new Partida();
-//
-//        IllegalArgumentException excepcion = assertThrows(
-//                IllegalArgumentException.class,
-//                () -> partida.unirJugador(null)
-//        );
-//
-//        assertEquals("El jugador a unir no puede ser nulo.", excepcion.getMessage());
-//        assertTrue(partida.getJugadores().isEmpty());
-//    }
-//
-//    @Test
-//    void debeMostrarAlJugadorEnElEstadoDespuesDeUnirse() {
-//        Partida partida = new Partida();
-//        JugadorResumenDTO jugadorDTO = new JugadorResumenDTO(1, "Abraham");
-//
-//        partida.unirJugador(jugadorDTO);
-//
-//        EstadoPartidaDTO estado = partida.obtenerEstadoPartidaDTO();
-//
-//        assertNotNull(estado.getJugadores());
-//        assertEquals(1, estado.getJugadores().size());
-//        assertEquals(1, estado.getJugadores().get(0).getId());
-//        assertEquals("Abraham", estado.getJugadores().get(0).getNombreUsuario());
-//    }
-//
-//    @Test
-//    void debePermitirUnirJugadorSinPerfilCompleto() {
-//        Partida partida = new Partida();
-//        JugadorResumenDTO jugadorDTO = new JugadorResumenDTO();
-//
-//        partida.unirJugador(jugadorDTO);
-//
-//        assertEquals(1, partida.getJugadores().size());
-//        assertEquals(0, partida.getJugadores().get(0).getId());
-//        assertNull(partida.getJugadores().get(0).getUsuario());
-//    }
-//
-//    @Test
-//    void jugadorSinPerfilDebeQuedarEnEstadoEsperando() {
-//        Partida partida = new Partida();
-//        JugadorResumenDTO jugadorDTO = new JugadorResumenDTO();
-//
-//        partida.unirJugador(jugadorDTO);
-//
-//        assertEquals(
-//                EstadoJugadorSala.ESPERANDO,
-//                partida.getJugadores().get(0).getEstadoSala()
-//        );
-//    }
-//
-//    @Test
-//    void debeConservarLosDatosCuandoJugadorLlegaConPerfilCompleto() {
-//        Partida partida = new Partida();
-//        JugadorResumenDTO jugadorDTO = new JugadorResumenDTO(10, "Abraham");
-//
-//        partida.unirJugador(jugadorDTO);
-//
-//        assertEquals(10, partida.getJugadores().get(0).getId());
-//        assertEquals("Abraham", partida.getJugadores().get(0).getUsuario());
-//    }
-//
-//    @Test
-//    void dosJugadoresSinPerfilActualmenteSeConsideranDuplicados() {
-//        Partida partida = new Partida();
-//
-//        JugadorResumenDTO jugador1 = new JugadorResumenDTO();
-//        JugadorResumenDTO jugador2 = new JugadorResumenDTO();
-//
-//        partida.unirJugador(jugador1);
-//
-//        assertThrows(
-//                IllegalArgumentException.class,
-//                () -> partida.unirJugador(jugador2)
-//        );
-//    }
-//
-//    @Test
-//    void debePermitirUnirJugadoresSinNombreSiTienenIdsDistintos() {
-//        Partida partida = new Partida();
-//
-//        JugadorResumenDTO jugador1 = new JugadorResumenDTO();
-//        jugador1.setId(1);
-//
-//        JugadorResumenDTO jugador2 = new JugadorResumenDTO();
-//        jugador2.setId(2);
-//
-//        partida.unirJugador(jugador1);
-//        partida.unirJugador(jugador2);
-//
-//        assertEquals(2, partida.getJugadores().size());
-//    }
-//
-//    @Test
-//    void debeActualizarJugadorProvisionalCuandoSeCompletaSuPerfil() {
-//        Partida partida = new Partida();
-//
-//        JugadorResumenDTO jugadorVacio = new JugadorResumenDTO();
-//        jugadorVacio.setId(1);
-//
-//        partida.unirJugador(jugadorVacio);
-//
-//        JugadorResumenDTO perfilActualizado = new JugadorResumenDTO();
-//        perfilActualizado.setId(1);
-//        perfilActualizado.setNombreUsuario("Abraham");
-//
-//        partida.actualizarPerfilJugador(perfilActualizado);
-//
-//        assertEquals(1, partida.getJugadores().size());
-//        assertEquals(1, partida.getJugadores().get(0).getId());
-//        assertEquals("Abraham", partida.getJugadores().get(0).getUsuario());
-//    }
+    @Test
+    void debeRegistrarSolicitudPendienteSinAgregarJugadorALaPartida() {
+        Partida partida = new Partida(1);
+
+        partida.solicitarUnion(2);
+
+        assertEquals(1, partida.getSolicitudesPendientes().size());
+        assertTrue(partida.getSolicitudesPendientes().contains(2));
+        assertEquals(0, partida.getJugadores().size());
+    }
+
+    @Test
+    void noDebePermitirAceptarSolicitudSiLaPartidaYaInicio() throws Exception {
+        Partida partida = new Partida(1);
+        partida.solicitarUnion(2);
+
+        partida.setJugadores(List.of(
+                new Jugador(1),
+                new Jugador(3)
+        ));
+        partida.iniciarPartida();
+
+        IllegalStateException excepcion = assertThrows(
+                IllegalStateException.class,
+                () -> partida.aceptarSolicitudUnion(1, 2)
+        );
+
+        assertEquals(
+                "No se puede aceptar jugadores en una partida iniciada.",
+                excepcion.getMessage()
+        );
+    }
+
+    @Test
+    void noDebePermitirSolicitarUnionSiLaPartidaYaInicio() throws Exception {
+        Partida partida = new Partida(1);
+        partida.setJugadores(List.of(
+                new Jugador(1),
+                new Jugador(2)
+        ));
+        partida.iniciarPartida();
+
+        IllegalStateException excepcion = assertThrows(
+                IllegalStateException.class,
+                () -> partida.solicitarUnion(3)
+        );
+
+        assertEquals(
+                "No se puede solicitar unirse a una partida iniciada.",
+                excepcion.getMessage()
+        );
+    }
+
+    @Test
+    void noDebePermitirRechazarSolicitudSiLaPartidaYaInicio() throws Exception {
+        Partida partida = new Partida(1);
+        partida.solicitarUnion(2);
+
+        partida.setJugadores(List.of(
+                new Jugador(1),
+                new Jugador(3)
+        ));
+        partida.iniciarPartida();
+
+        IllegalStateException excepcion = assertThrows(
+                IllegalStateException.class,
+                () -> partida.rechazarSolicitudUnion(1, 2)
+        );
+
+        assertEquals(
+                "No se puede responder solicitudes en una partida iniciada.",
+                excepcion.getMessage()
+        );
+    }
+
+    @Test
+    void noDebePermitirAceptarSolicitudSiLaPartidaYaTieneCuatroJugadores() {
+        Partida partida = new Partida(1);
+        partida.solicitarUnion(5);
+        partida.setJugadores(List.of(
+                new Jugador(1),
+                new Jugador(2),
+                new Jugador(3),
+                new Jugador(4)
+        ));
+
+        IllegalStateException excepcion = assertThrows(
+                IllegalStateException.class,
+                () -> partida.aceptarSolicitudUnion(1, 5)
+        );
+
+        assertEquals(
+                "La partida ya alcanzo el numero maximo de jugadores.",
+                excepcion.getMessage()
+        );
+    }
+
+    @Test
+    void noDebePermitirSolicitarUnionSiElJugadorYaEstaUnido() {
+        Partida partida = new Partida(1);
+        partida.setJugadores(List.of(new Jugador(2)));
+
+        IllegalArgumentException excepcion = assertThrows(
+                IllegalArgumentException.class,
+                () -> partida.solicitarUnion(2)
+        );
+
+        assertEquals(
+                "El jugador ya esta unido a la partida.",
+                excepcion.getMessage()
+        );
+    }
+
+    @Test
+    void noDebePermitirSolicitudesPendientesDuplicadas() {
+        Partida partida = new Partida(1);
+
+        partida.solicitarUnion(2);
+
+        IllegalArgumentException excepcion = assertThrows(
+                IllegalArgumentException.class,
+                () -> partida.solicitarUnion(2)
+        );
+
+        assertEquals(
+                "El jugador ya tiene una solicitud pendiente.",
+                excepcion.getMessage()
+        );
+    }
+
+    @Test
+    void debeAgregarJugadorCuandoElAnfitrionAceptaLaSolicitud() {
+        Partida partida = new Partida(1);
+
+        partida.solicitarUnion(2);
+        partida.aceptarSolicitudUnion(1, 2);
+
+        assertEquals(0, partida.getSolicitudesPendientes().size());
+        assertEquals(1, partida.getJugadores().size());
+        assertEquals(2, partida.getJugadores().get(0).getId());
+        assertNull(partida.getJugadores().get(0).getUsuario());
+        assertNull(partida.getJugadores().get(0).getAvatar());
+    }
+
+    @Test
+    void noDebePermitirAceptarSolicitudSiQuienRespondeNoEsElAnfitrion() {
+        Partida partida = new Partida(1);
+        partida.solicitarUnion(2);
+
+        IllegalArgumentException excepcion = assertThrows(
+                IllegalArgumentException.class,
+                () -> partida.aceptarSolicitudUnion(99, 2)
+        );
+
+        assertEquals(
+                "Solo el anfitrion puede responder solicitudes.",
+                excepcion.getMessage()
+        );
+    }
+
+    @Test
+    void noDebePermitirAceptarSolicitudInexistente() {
+        Partida partida = new Partida(1);
+
+        IllegalArgumentException excepcion = assertThrows(
+                IllegalArgumentException.class,
+                () -> partida.aceptarSolicitudUnion(1, 2)
+        );
+
+        assertEquals(
+                "No existe una solicitud pendiente para ese jugador.",
+                excepcion.getMessage()
+        );
+    }
+
+    @Test
+    void debeEliminarSolicitudCuandoElAnfitrionLaRechaza() {
+        Partida partida = new Partida(1);
+
+        partida.solicitarUnion(2);
+        partida.rechazarSolicitudUnion(1, 2);
+
+        assertEquals(0, partida.getSolicitudesPendientes().size());
+        assertEquals(0, partida.getJugadores().size());
+    }
+
+    @Test
+    void noDebePermitirRechazarSolicitudSiQuienRespondeNoEsElAnfitrion() {
+        Partida partida = new Partida(1);
+        partida.solicitarUnion(2);
+
+        IllegalArgumentException excepcion = assertThrows(
+                IllegalArgumentException.class,
+                () -> partida.rechazarSolicitudUnion(99, 2)
+        );
+
+        assertEquals(
+                "Solo el anfitrion puede responder solicitudes.",
+                excepcion.getMessage()
+        );
+    }
+
+    @Test
+    void noDebePermitirRechazarSolicitudInexistente() {
+        Partida partida = new Partida(1);
+
+        IllegalArgumentException excepcion = assertThrows(
+                IllegalArgumentException.class,
+                () -> partida.rechazarSolicitudUnion(1, 2)
+        );
+
+        assertEquals(
+                "No existe una solicitud pendiente para ese jugador.",
+                excepcion.getMessage()
+        );
+    }
+
+    @Test
+    void debePermitirActualizarPerfilDelJugadorAceptado() {
+        Partida partida = new Partida(1);
+        partida.solicitarUnion(2);
+        partida.aceptarSolicitudUnion(1, 2);
+
+        JugadorResumenDTO perfilActualizado = new JugadorResumenDTO();
+        perfilActualizado.setId(2);
+        perfilActualizado.setNombreUsuario("Abraham");
+        perfilActualizado.setRutaAvatar("avatar.png");
+
+        partida.actualizarPerfilJugador(perfilActualizado);
+
+        assertEquals("Abraham", partida.getJugadores().get(0).getUsuario());
+        assertEquals("avatar.png", partida.getJugadores().get(0).getAvatar());
+    }
+
+    @Test
+    void noDebeActualizarPerfilSiLosDatosSonNulos() {
+        Partida partida = new Partida(1);
+        partida.solicitarUnion(2);
+        partida.aceptarSolicitudUnion(1, 2);
+
+        IllegalArgumentException excepcion = assertThrows(
+                IllegalArgumentException.class,
+                () -> partida.actualizarPerfilJugador(null)
+        );
+
+        assertEquals(
+                "Los datos del jugador no pueden ser nulos.",
+                excepcion.getMessage()
+        );
+    }
+
+    @Test
+    void noDebeActualizarPerfilSiElJugadorNoExiste() {
+        Partida partida = new Partida(1);
+        partida.solicitarUnion(2);
+        partida.aceptarSolicitudUnion(1, 2);
+
+        JugadorResumenDTO perfilActualizado = new JugadorResumenDTO();
+        perfilActualizado.setId(99);
+        perfilActualizado.setNombreUsuario("Abraham");
+
+        IllegalArgumentException excepcion = assertThrows(
+                IllegalArgumentException.class,
+                () -> partida.actualizarPerfilJugador(perfilActualizado)
+        );
+
+        assertEquals(
+                "Jugador no encontrado con ID: 99",
+                excepcion.getMessage()
+        );
+    }
 }

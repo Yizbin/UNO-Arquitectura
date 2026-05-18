@@ -33,7 +33,9 @@ import java.util.Objects;
 public class Partida {
 
     private List<Jugador> jugadores;
-    private int idJugador;
+    private int idAnfitrion;
+    private List<Integer> solicitudesPendientes; //aqui va el id de los jugadores que solicitan unirse
+
     private Mazo mazo;
     private Descarte descarte;
     private Ruleta ruleta;
@@ -48,12 +50,15 @@ public class Partida {
     private final Map<Integer, RespuestaFinalizacionDTO> respuestasFinalizacion;
 
     public Partida() {
+<<<<<<< HEAD
         this(0);
     }
 
     public Partida(int idJugador) {
+=======
+>>>>>>> main
         this.jugadores = List.of();
-        this.idJugador = idJugador;
+        this.solicitudesPendientes = new ArrayList<>();
         this.descarte = new Descarte();
         this.ruleta = new Ruleta();
         this.indiceTurnoActual = 0;
@@ -68,25 +73,108 @@ public class Partida {
         this(0, jugadores);
     }
 
-    public Partida(int idJugador, List<Jugador> jugadores) {
-        this(idJugador);
+    public Partida(int idAnfitrion) {
+        this();
+        this.idAnfitrion = idAnfitrion;
+    }
+
+    public Partida(int idAnfitrion, List<Jugador> jugadores) {
+        this(idAnfitrion);
         this.jugadores = List.copyOf(jugadores);
     }
 
-    public void cargarJugadoresDesdeDTO(List<JugadorResumenDTO> jugadoresDTO) {
-        this.jugadores = List.copyOf(new JugadorMapper().toEntityList(jugadoresDTO));
-    }
+    public void solicitarUnion(int idJugadorSolicitante) {
+        if (estaIniciada()) {
+            throw new IllegalStateException("No se puede solicitar unirse a una partida iniciada.");
+        }
 
-    public void unirJugador(int idJugador) {
-        Jugador jugador = new Jugador(idJugador);
+        if (jugadores.size() >= 4) {
+            throw new IllegalStateException("La partida ya alcanzo el numero maximo de jugadores.");
+        }
 
+<<<<<<< HEAD
         if (jugadores.contains(jugador)) {
             return;
+=======
+        if (jugadorYaEstaUnido(idJugadorSolicitante)) {
+            throw new IllegalArgumentException("El jugador ya esta unido a la partida.");
+>>>>>>> main
         }
+
+        if (solicitudesPendientes.contains(idJugadorSolicitante)) {
+            throw new IllegalArgumentException("El jugador ya tiene una solicitud pendiente.");
+        }
+
+        solicitudesPendientes.add(idJugadorSolicitante);
+    }
+
+    public void aceptarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante) {
+        validarAnfitrion(idAnfitrion);
+
+        if (estaIniciada()) {
+            throw new IllegalStateException("No se puede aceptar jugadores en una partida iniciada.");
+        }
+
+        if (jugadores.size() >= 4) {
+            throw new IllegalStateException("La partida ya alcanzo el numero maximo de jugadores.");
+        }
+
+        if (!solicitudesPendientes.contains(idJugadorSolicitante)) {
+            throw new IllegalArgumentException("No existe una solicitud pendiente para ese jugador.");
+        }
+
+        solicitudesPendientes.remove(Integer.valueOf(idJugadorSolicitante));
+        agregarJugadorAceptado(idJugadorSolicitante);
+    }
+
+    public void rechazarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante) {
+        validarAnfitrion(idAnfitrion);
+
+        if (estaIniciada()) {
+            throw new IllegalStateException("No se puede responder solicitudes en una partida iniciada.");
+        }
+
+        if (!solicitudesPendientes.contains(idJugadorSolicitante)) {
+            throw new IllegalArgumentException("No existe una solicitud pendiente para ese jugador.");
+        }
+
+        solicitudesPendientes.remove(Integer.valueOf(idJugadorSolicitante));
+    }
+
+    private void agregarJugadorAceptado(int idJugador) {
+        if (jugadorYaEstaUnido(idJugador)) {
+            throw new IllegalArgumentException("El jugador ya esta unido a la partida.");
+        }
+
+        Jugador jugador = new Jugador(idJugador);
 
         List<Jugador> jugadoresActualizados = new ArrayList<>(jugadores);
         jugadoresActualizados.add(jugador);
         this.jugadores = List.copyOf(jugadoresActualizados);
+    }
+
+    private boolean jugadorYaEstaUnido(int idJugador) {
+        for (Jugador jugador : jugadores) {
+            if (jugador.getId() == idJugador) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void validarAnfitrion(int idAnfitrion) {
+        if (this.idAnfitrion != idAnfitrion) {
+            throw new IllegalArgumentException("Solo el anfitrion puede responder solicitudes.");
+        }
+    }
+
+    private boolean estaIniciada() {
+        return mazo != null;
+    }
+
+    public void cargarJugadoresDesdeDTO(List<JugadorResumenDTO> jugadoresDTO) {
+        this.jugadores = List.copyOf(new JugadorMapper().toEntityList(jugadoresDTO));
     }
 
     public void actualizarPerfilJugador(JugadorResumenDTO jugadorDTO) {
@@ -98,7 +186,8 @@ public class Partida {
 
         jugador.actualizarPerfil(
                 jugadorDTO.getNombreUsuario(),
-                jugadorDTO.getRutaAvatar()
+                jugadorDTO.getRutaAvatar(),
+                jugadorDTO.getPreferenciasColor()
         );
     }
 
@@ -183,22 +272,34 @@ public class Partida {
     public EstadoPartidaDTO obtenerEstadoPartidaDTO() {
         EstadoPartidaDTO estadoDTO = new EstadoPartidaDTO();
         List<JugadorResumenDTO> jugadoresDTO = new JugadorMapper().toDTOList(jugadores);
-        int idJugadorActual = getJugadorActual().getId();
 
-        for (JugadorResumenDTO jugadorDTO : jugadoresDTO) {
-            jugadorDTO.setEnTurno(jugadorDTO.getId() == idJugadorActual);
+        if (!jugadores.isEmpty()) {
+            int idJugadorActual = getJugadorActual().getId();
+
+            for (JugadorResumenDTO jugadorDTO : jugadoresDTO) {
+                jugadorDTO.setEnTurno(jugadorDTO.getId() == idJugadorActual);
+            }
+
+            estadoDTO.setIdJugador(idJugadorActual);
         }
 
         estadoDTO.setJugadores(jugadoresDTO);
         estadoDTO.setEsperandoColor(esperandoColor);
-        estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
+
+        if (descarte != null && descarte.getTope() != null) {
+            estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
+        }
+
         estadoDTO.setRuletaActiva(false);
-        estadoDTO.setIdJugador(idJugadorActual);
+
         estadoDTO.setPartidaListaParaIniciar(puedeIniciarPartida());
         estadoDTO.setEstadoFinalizacion(estadoFinalizacion);
         estadoDTO.setSolicitudFinalizacion(solicitudFinalizacion);
         estadoDTO.setResultadoFinalizacion(resultadoFinalizacion);
         estadoDTO.setTablaPosiciones(tablaPosiciones);
+
+        estadoDTO.setIdAnfitrion(idAnfitrion);
+        estadoDTO.setSolicitudesPendientes(List.copyOf(solicitudesPendientes));
 
         return estadoDTO;
     }
@@ -529,6 +630,18 @@ public class Partida {
 
     public void setEsperandoColor(boolean esperandoColor) {
         this.esperandoColor = esperandoColor;
+    }
+
+    public int getIdAnfitrion() {
+        return idAnfitrion;
+    }
+
+    public void setIdAnfitrion(int idAnfitrion) {
+        this.idAnfitrion = idAnfitrion;
+    }
+
+    public List<Integer> getSolicitudesPendientes() {
+        return List.copyOf(solicitudesPendientes);
     }
 
     @Override

@@ -15,9 +15,18 @@ public interface IModeloSalaVista {
 
     List<JugadorResumenDTO> getJugadoresEnSala();
     
+    void suscribir(ISuscriptorSala suscriptor);
+    
+    void desuscribir(ISuscriptorSala suscriptor);
+    
+    void notificar();
+    
+    boolean isCambiarFrame();
+    
     JugadorResumenDTO getJugadorLocal();
 
     List<JugadorResumenDTO> getJugadoresConfirmados();
 
     boolean isPartidaListaParaIniciar();
+
 }

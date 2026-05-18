@@ -31,7 +31,7 @@ public class EstadoPartidaDTO {
     private String mensajeEstado;
 
     private boolean partidaListaParaIniciar;
-    
+
     
     private boolean partidaActiva;
     private EstadoFinalizacion estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
@@ -40,6 +40,11 @@ public class EstadoPartidaDTO {
     private ResultadoFinalizacionDTO resultadoFinalizacion;
     private TablaPosicionesDTO tablaPosiciones;
     
+
+    private int idAnfitrion;
+    private List<Integer> solicitudesPendientes;
+
+
     public EstadoPartidaDTO() {
     }
 
@@ -70,6 +75,24 @@ public class EstadoPartidaDTO {
         this.colorSeleccionado = colorSeleccionado;
         this.mensajeEstado = mensajeEstado;
         this.partidaListaParaIniciar = partidaListaParaIniciar;
+    }
+
+    public EstadoPartidaDTO(int idJugador, List<JugadorResumenDTO> jugadores, List<CartaDTO> manoJugadorActual, CartaDTO cartaEnDescarte, EstadoRetoSpin estadoReto, boolean ruletaActiva, boolean puedeTirarCarta, boolean puedeRobar, boolean puedeDecirUno, boolean esperandoColor, TipoColor colorSeleccionado, String mensajeEstado, boolean partidaListaParaIniciar, int idAnfitrion, List<Integer> solicitudesPendientes) {
+        this.idJugador = idJugador;
+        this.jugadores = jugadores;
+        this.manoJugadorActual = manoJugadorActual;
+        this.cartaEnDescarte = cartaEnDescarte;
+        this.estadoReto = estadoReto;
+        this.ruletaActiva = ruletaActiva;
+        this.puedeTirarCarta = puedeTirarCarta;
+        this.puedeRobar = puedeRobar;
+        this.puedeDecirUno = puedeDecirUno;
+        this.esperandoColor = esperandoColor;
+        this.colorSeleccionado = colorSeleccionado;
+        this.mensajeEstado = mensajeEstado;
+        this.partidaListaParaIniciar = partidaListaParaIniciar;
+        this.idAnfitrion = idAnfitrion;
+        this.solicitudesPendientes = solicitudesPendientes;
     }
 
     public int getIdJugador() {
@@ -176,6 +199,7 @@ public class EstadoPartidaDTO {
         this.colorSeleccionado = colorSeleccionado;
     }
 
+
     public boolean isPartidaActiva() {
         return partidaActiva;
     }
@@ -225,6 +249,22 @@ public class EstadoPartidaDTO {
 
     public void setTablaPosiciones(TablaPosicionesDTO tablaPosiciones) {
         this.tablaPosiciones = tablaPosiciones;
+    }
+    public int getIdAnfitrion() {
+        return idAnfitrion;
+    }
+
+    public void setIdAnfitrion(int idAnfitrion) {
+        this.idAnfitrion = idAnfitrion;
+    }
+
+    public List<Integer> getSolicitudesPendientes() {
+        return solicitudesPendientes;
+    }
+
+    public void setSolicitudesPendientes(List<Integer> solicitudesPendientes) {
+        this.solicitudesPendientes = solicitudesPendientes;
+
     }
 
 }

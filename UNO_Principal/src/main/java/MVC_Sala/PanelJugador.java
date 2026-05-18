@@ -16,7 +16,7 @@ import javax.swing.Icon;
  */
 public class PanelJugador extends javax.swing.JPanel {
 
-  public PanelJugador(String nombre, Icon avatar, EstadoJugadorSala estadoSala) {
+    public PanelJugador(String nombre, Icon avatar, EstadoJugadorSala estadoSala) {
         initComponents();
         configurarEstiloPanel();
         setDatosJugador(nombre, avatar);
@@ -24,20 +24,24 @@ public class PanelJugador extends javax.swing.JPanel {
     }
 
     private void configurarEstiloPanel() {
-        // Fondo blanco para dar el aspecto limpio y moderno
-        setBackground(Color.WHITE);
+        setBackground(new Color(135, 206, 235));
 
-        // Borde inferior gris claro para simular una lista divisoria
-        setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
+        setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY),
+                BorderFactory.createEmptyBorder(8, 24, 8, 24)
+        ));
 
-        // Evita que el panel se expanda a lo alto al usar BoxLayout en el contenedor padre
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 86));
+        setPreferredSize(new Dimension(0, 86));
     }
 
     public void setDatosJugador(String nombre, Icon avatar) {
         if (nombre != null) {
             lblNombre.setText(nombre);
         }
+
+        lblAvatar.setText("");
+
         if (avatar != null) {
             lblAvatar.setIcon(avatar);
         }
@@ -70,11 +74,7 @@ public class PanelJugador extends javax.swing.JPanel {
 
         lblNombre.setFont(new java.awt.Font("Segoe UI Black", 1, 12)); // NOI18N
         lblNombre.setForeground(new java.awt.Color(0, 0, 0));
-        lblNombre.setText("jLabel1");
-
-        lblAvatar.setText("jLabel1");
-
-        lblEstado.setText("jLabel1");
+        lblNombre.setText("Jugador");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -85,7 +85,7 @@ public class PanelJugador extends javax.swing.JPanel {
                 .addComponent(lblAvatar)
                 .addGap(122, 122, 122)
                 .addComponent(lblNombre)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
                 .addComponent(lblEstado)
                 .addGap(23, 23, 23))
         );

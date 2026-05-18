@@ -16,9 +16,9 @@ import java.net.Socket;
  */
 public class ServidorTCP implements Runnable {
 
-    private ServerSocket serverSocket;
-    private ColaEntrada cola;
-    private IObserverConexion observador; 
+    private final ServerSocket serverSocket;
+    private final ColaEntrada cola;
+    private final IObserverConexion observador; 
 
     public ServidorTCP(int puerto, ColaEntrada cola, IObserverConexion observador) throws IOException {
         this.cola = cola;
@@ -47,12 +47,11 @@ public class ServidorTCP implements Runnable {
                             in.readFully(datos);
                             cola.encolar(datos);
                         }
-                    } catch (Exception e) {
+                    } catch (IOException e) {
                         System.err.println("Cliente desconectado: " + ipCliente);
                     }
                 }).start();
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (IOException e) {
                 break;
             }
         }

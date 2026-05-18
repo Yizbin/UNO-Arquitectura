@@ -9,9 +9,9 @@ import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.EstadoJugadorSala;
 import Enums.TipoAccionPartida;
-import interfaces.IPump;
 import Interfaces.ISink;
 import Plantilla.ContextoPipeline;
+import interfaces.IPump;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingUtilities;
@@ -26,6 +26,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     private IPump<PeticionJugadaDTO> coordinador;
     private List<JugadorResumenDTO> jugadoresEnSala;
     private JugadorResumenDTO jugadorLocal;
+    private boolean cambiarFrame = false;
     private boolean partidaListaParaIniciar;
 
     public ModeloSala() {
@@ -43,16 +44,19 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         this.coordinador = coordinador;
     }
 
+    @Override
     public void suscribir(ISuscriptorSala suscriptor) {
         if (!suscriptores.contains(suscriptor)) {
             suscriptores.add(suscriptor);
         }
     }
 
+    @Override
     public void desuscribir(ISuscriptorSala suscriptor) {
         suscriptores.remove(suscriptor);
     }
 
+    @Override
     public void notificar() {
         for (ISuscriptorSala s : suscriptores) {
             s.update(this);
@@ -70,7 +74,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
             estado.setIdJugador(jugadorLocal.getId());
 
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
-                    TipoAccionPartida.UNIRSE_PARTIDA,
+                    TipoAccionPartida.SOLICITAR_UNIRSE_PARTIDA,
                     estado
             );
 
@@ -81,6 +85,52 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         }
 
         return false;
+    }
+
+    public boolean aceptarSolicitudUnion(int idJugadorSolicitante) {
+        if (coordinador == null || jugadorLocal == null) {
+            return false;
+        }
+
+        try {
+            EstadoPartidaDTO estado = new EstadoPartidaDTO();
+            estado.setIdAnfitrion(jugadorLocal.getId());
+            estado.setIdJugador(idJugadorSolicitante);
+
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
+                    TipoAccionPartida.ACEPTAR_SOLICITUD_UNION,
+                    estado
+            );
+
+            enviarPeticion(peticion);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error al aceptar solicitud: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean rechazarSolicitudUnion(int idJugadorSolicitante) {
+        if (coordinador == null || jugadorLocal == null) {
+            return false;
+        }
+
+        try {
+            EstadoPartidaDTO estado = new EstadoPartidaDTO();
+            estado.setIdAnfitrion(jugadorLocal.getId());
+            estado.setIdJugador(idJugadorSolicitante);
+
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
+                    TipoAccionPartida.RECHAZAR_SOLICITUD_UNION,
+                    estado
+            );
+
+            enviarPeticion(peticion);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error al rechazar solicitud: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
@@ -109,6 +159,15 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     }
 
     @Override
+    public void establecerJugadorLocal(JugadorResumenDTO datos) {
+        if (datos == null) {
+            return;
+        }
+
+        this.jugadorLocal = datos;
+    }
+
+    @Override
     public void actualizarDatosJugador(JugadorResumenDTO datos) {
         if (datos == null) {
             return;
@@ -121,12 +180,10 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         }
 
         try {
-            EstadoPartidaDTO estado = new EstadoPartidaDTO();
-            estado.setJugadores(List.of(jugadorLocal));
-
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
                     TipoAccionPartida.ACTUALIZAR_PERFIL,
-                    estado
+                    jugadorLocal,
+                    null
             );
 
             enviarPeticion(peticion);
@@ -162,6 +219,17 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     @Override
     public List<JugadorResumenDTO> getJugadoresEnSala() {
         return this.jugadoresEnSala;
+    }
+
+    @Override
+    public void abrirSalaEspera() {
+        this.cambiarFrame = true;
+        notificar();
+    }
+
+    @Override
+    public boolean isCambiarFrame() {
+        return cambiarFrame;
     }
 
     @Override

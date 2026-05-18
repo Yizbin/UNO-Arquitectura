@@ -26,8 +26,12 @@ public interface ISubDominio {
 
     public void prepararJuego(List<JugadorResumenDTO> jugadoresDTO) throws MazoVacioException;
 
-    public void unirJugador(int idJugador);
-    
+    public void solicitarUnion(int idJugadorSolicitante);
+
+    public void aceptarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante);
+
+    public void rechazarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante);
+
     public void actualizarPerfilJugador(JugadorResumenDTO datosPerfil);
 
     //Intenta jugar una carta de la mano del jugador actual hacia el descarte
@@ -74,8 +78,7 @@ public interface ISubDominio {
     public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO);
 
     public List<JugadorResumenDTO> obtenerJugadoresConfirmados();
-    
+
     public boolean puedeIniciarPartida();
     
-    //
 }

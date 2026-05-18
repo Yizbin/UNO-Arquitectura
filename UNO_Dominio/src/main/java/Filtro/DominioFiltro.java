@@ -7,9 +7,9 @@ package Filtro;
 import DTOs.EstadoPartidaDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.TipoAccionPartida;
+import Interfaces.IFiltro;
 import Interfaces.ISubDominio;
 import Plantilla.ContextoPipeline;
-import Interfaces.IFiltro;
 
 /**
  *
@@ -40,9 +40,21 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
 
         switch (tipoAccion) {
 
-            case UNIRSE_PARTIDA -> {
+            case SOLICITAR_UNIRSE_PARTIDA -> {
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
-                subDominio.unirJugador(
+                subDominio.solicitarUnion(estado.getIdJugador());
+            }
+            case ACEPTAR_SOLICITUD_UNION -> {
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+                subDominio.aceptarSolicitudUnion(
+                        estado.getIdAnfitrion(),
+                        estado.getIdJugador()
+                );
+            }
+            case RECHAZAR_SOLICITUD_UNION -> {
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+                subDominio.rechazarSolicitudUnion(
+                        estado.getIdAnfitrion(),
                         estado.getIdJugador()
                 );
             }
@@ -70,10 +82,9 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
             case ACTUALIZAR_PERFIL -> {
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
 
-                subDominio.actualizarPerfilJugador(
-                        peticion.getJugadorActualizar()
-                );
+                subDominio.actualizarPerfilJugador(peticion.getJugadorActualizar());
             }
+
 
             case SOLICITAR_FINALIZACION -> {
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
@@ -83,6 +94,7 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
                 subDominio.responderFinalizacion(estado != null ? estado.getRespuestaFinalizacion() : null);
             }
+
 
             default ->
                 throw new UnsupportedOperationException("Tipo de accion no reconocido: " + tipoAccion);

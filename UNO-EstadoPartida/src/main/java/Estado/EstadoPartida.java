@@ -15,6 +15,16 @@ import java.util.List;
  */
 public class EstadoPartida implements IFiltro<EstadoPartidaDTO, EstadoPartidaDTO> {
 
+    private final EstadoPartidaDTO estadoActual;
+
+    public EstadoPartida() {
+        this.estadoActual = new EstadoPartidaDTO();
+        this.estadoActual.setJugadores(List.of());
+        this.estadoActual.setManoJugadorActual(List.of());
+        this.estadoActual.setSolicitudesPendientes(List.of());
+        this.estadoActual.setMensajeEstado("");
+    }
+
     @Override
     public ContextoPipeline<EstadoPartidaDTO> procesar(ContextoPipeline<EstadoPartidaDTO> contexto) {
 
@@ -22,25 +32,48 @@ public class EstadoPartida implements IFiltro<EstadoPartidaDTO, EstadoPartidaDTO
             return contexto;
         }
 
-        EstadoPartidaDTO estado = contexto.getMensaje();
+        EstadoPartidaDTO estadoRecibido = contexto.getMensaje();
 
-        if (estado == null) {
-            return new ContextoPipeline<>(null);
+        if (estadoRecibido == null) {
+            return new ContextoPipeline<>(estadoActual);
         }
 
-        actualizarEstado(estado);
-        return new ContextoPipeline<>(estado);
+        actualizarEstado(estadoRecibido);
+
+        return new ContextoPipeline<>(estadoActual);
     }
 
-    private void actualizarEstado(EstadoPartidaDTO estado) {
-        if (estado.getJugadores() == null) {
-            estado.setJugadores(List.of());
-        }
-        if (estado.getManoJugadorActual() == null) {
-            estado.setManoJugadorActual(List.of());
-        }
-        if (estado.getMensajeEstado() == null) {
-            estado.setMensajeEstado("");
-        }
+    private void actualizarEstado(EstadoPartidaDTO estadoRecibido) {
+        estadoActual.setIdJugador(estadoRecibido.getIdJugador());
+        estadoActual.setJugadores(
+                estadoRecibido.getJugadores() != null
+                ? estadoRecibido.getJugadores()
+                : List.of()
+        );
+        estadoActual.setManoJugadorActual(
+                estadoRecibido.getManoJugadorActual() != null
+                ? estadoRecibido.getManoJugadorActual()
+                : List.of()
+        );
+        estadoActual.setCartaEnDescarte(estadoRecibido.getCartaEnDescarte());
+        estadoActual.setEstadoReto(estadoRecibido.getEstadoReto());
+        estadoActual.setRuletaActiva(estadoRecibido.isRuletaActiva());
+        estadoActual.setPuedeTirarCarta(estadoRecibido.isPuedeTirarCarta());
+        estadoActual.setPuedeRobar(estadoRecibido.isPuedeRobar());
+        estadoActual.setPuedeDecirUno(estadoRecibido.isPuedeDecirUno());
+        estadoActual.setEsperandoColor(estadoRecibido.isEsperandoColor());
+        estadoActual.setColorSeleccionado(estadoRecibido.getColorSeleccionado());
+        estadoActual.setMensajeEstado(
+                estadoRecibido.getMensajeEstado() != null
+                ? estadoRecibido.getMensajeEstado()
+                : ""
+        );
+        estadoActual.setPartidaListaParaIniciar(estadoRecibido.isPartidaListaParaIniciar());
+        estadoActual.setIdAnfitrion(estadoRecibido.getIdAnfitrion());
+        estadoActual.setSolicitudesPendientes(
+                estadoRecibido.getSolicitudesPendientes() != null
+                ? estadoRecibido.getSolicitudesPendientes()
+                : List.of()
+        );
     }
 }

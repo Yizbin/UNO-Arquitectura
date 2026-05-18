@@ -7,6 +7,7 @@ package MVC_Sala;
 import DTOs.JugadorResumenDTO;
 import MVC_Utilidades.UtilidadesGraficas;
 import java.util.List;
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 
 /**
@@ -63,6 +64,7 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
             );
 
             PanelListaJugadores.add(tarjeta);
+            PanelListaJugadores.add(Box.createVerticalStrut(12));
         }
 
         PanelListaJugadores.revalidate();
@@ -84,7 +86,6 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
         PanelBotones = new javax.swing.JPanel();
         btnListo = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
-        scroll = new javax.swing.JScrollPane();
         PanelListaJugadores = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -100,7 +101,6 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
         lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         PanelFondo.add(lblTitulo, java.awt.BorderLayout.PAGE_START);
 
-        PanelEspera.setBackground(new java.awt.Color(0, 0, 255));
         PanelEspera.setForeground(new java.awt.Color(255, 255, 255));
         PanelEspera.setLayout(new java.awt.BorderLayout());
 
@@ -138,13 +138,9 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
 
         PanelEspera.add(PanelBotones, java.awt.BorderLayout.PAGE_END);
 
-        scroll.setOpaque(false);
-
-        PanelListaJugadores.setBackground(new java.awt.Color(0, 0, 255));
-        PanelListaJugadores.setLayout(new javax.swing.BoxLayout(PanelListaJugadores, javax.swing.BoxLayout.LINE_AXIS));
-        scroll.setViewportView(PanelListaJugadores);
-
-        PanelEspera.add(scroll, java.awt.BorderLayout.CENTER);
+        PanelListaJugadores.setBackground(new java.awt.Color(255, 255, 255));
+        PanelListaJugadores.setLayout(new javax.swing.BoxLayout(PanelListaJugadores, javax.swing.BoxLayout.Y_AXIS));
+        PanelEspera.add(PanelListaJugadores, java.awt.BorderLayout.CENTER);
 
         PanelFondo.add(PanelEspera, java.awt.BorderLayout.CENTER);
 
@@ -173,7 +169,6 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnListo;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JScrollPane scroll;
     // End of variables declaration//GEN-END:variables
 
     @Override
