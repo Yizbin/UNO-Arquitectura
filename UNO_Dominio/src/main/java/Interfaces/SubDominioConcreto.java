@@ -34,23 +34,18 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public void actualizarPerfilJugador(JugadorResumenDTO datosPerfil) {
-        this.partida.actualizarPerfilJugador(datosPerfil);
+    public void solicitarUnion(JugadorResumenDTO jugadorSolicitante) {
+        this.partida.solicitarUnion(jugadorSolicitante);
     }
 
     @Override
-    public void solicitarUnion(int idJugadorSolicitante) {
-        this.partida.solicitarUnion(idJugadorSolicitante);
+    public void aceptarSolicitudUnion(int idJugadorSolicitante) {
+        this.partida.aceptarSolicitudUnion(idJugadorSolicitante);
     }
 
     @Override
-    public void aceptarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante) {
-        this.partida.aceptarSolicitudUnion(idAnfitrion, idJugadorSolicitante);
-    }
-
-    @Override
-    public void rechazarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante) {
-        this.partida.rechazarSolicitudUnion(idAnfitrion, idJugadorSolicitante);
+    public void rechazarSolicitudUnion(int idJugadorSolicitante) {
+        this.partida.rechazarSolicitudUnion(idJugadorSolicitante);
     }
 
     @Override
@@ -123,8 +118,7 @@ public class SubDominioConcreto implements ISubDominio {
     public void gritarUno(int idJugador) {
         partida.gritarUno(idJugador);
     }
-    
-    
+
     //finalizar partida
     @Override
     public void solicitarFinalizacion(SolicitudFinalizacionDTO solicitud) {

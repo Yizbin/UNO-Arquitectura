@@ -41,22 +41,17 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
         switch (tipoAccion) {
 
             case SOLICITAR_UNIRSE_PARTIDA -> {
-                EstadoPartidaDTO estado = peticion.getEstadoPartida();
-                subDominio.solicitarUnion(estado.getIdJugador());
+                subDominio.solicitarUnion(peticion.getJugadorActualizar());
             }
+
             case ACEPTAR_SOLICITUD_UNION -> {
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
-                subDominio.aceptarSolicitudUnion(
-                        estado.getIdAnfitrion(),
-                        estado.getIdJugador()
-                );
+                subDominio.aceptarSolicitudUnion(estado.getIdJugador());
             }
+
             case RECHAZAR_SOLICITUD_UNION -> {
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
-                subDominio.rechazarSolicitudUnion(
-                        estado.getIdAnfitrion(),
-                        estado.getIdJugador()
-                );
+                subDominio.rechazarSolicitudUnion(estado.getIdJugador());
             }
             case SOLICITAR_INICIO_PARTIDA -> {
 //                subDominio.confirmarInicioPartida(peticion.getJugador());
@@ -79,13 +74,6 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
             case TERMINAR_TURNO -> {
                 subDominio.terminarTurno();
             }
-            case ACTUALIZAR_PERFIL -> {
-                EstadoPartidaDTO estado = peticion.getEstadoPartida();
-
-                subDominio.actualizarPerfilJugador(peticion.getJugadorActualizar());
-            }
-
-
             case SOLICITAR_FINALIZACION -> {
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
                 subDominio.solicitarFinalizacion(estado != null ? estado.getSolicitudFinalizacion() : null);
@@ -94,7 +82,6 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
                 subDominio.responderFinalizacion(estado != null ? estado.getRespuestaFinalizacion() : null);
             }
-
 
             default ->
                 throw new UnsupportedOperationException("Tipo de accion no reconocido: " + tipoAccion);

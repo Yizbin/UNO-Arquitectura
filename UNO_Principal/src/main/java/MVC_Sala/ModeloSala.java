@@ -94,7 +94,6 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
 
         try {
             EstadoPartidaDTO estado = new EstadoPartidaDTO();
-            estado.setIdAnfitrion(jugadorLocal.getId());
             estado.setIdJugador(idJugadorSolicitante);
 
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
@@ -117,7 +116,6 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
 
         try {
             EstadoPartidaDTO estado = new EstadoPartidaDTO();
-            estado.setIdAnfitrion(jugadorLocal.getId());
             estado.setIdJugador(idJugadorSolicitante);
 
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(

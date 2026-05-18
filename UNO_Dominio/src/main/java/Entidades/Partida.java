@@ -33,8 +33,6 @@ import java.util.Objects;
 public class Partida {
 
     private List<Jugador> jugadores;
-    private int idAnfitrion;
-
     private Mazo mazo;
     private Descarte descarte;
     private Ruleta ruleta;
@@ -60,21 +58,11 @@ public class Partida {
         this.respuestasFinalizacion = new HashMap<>();
     }
 
-    public Partida(List<Jugador> jugadores) {
-        this(0, jugadores);
-    }
+    public void solicitarUnion(JugadorResumenDTO jugadorSolicitanteDTO) {
+        if (jugadorSolicitanteDTO == null) {
+            throw new IllegalArgumentException("El jugador solicitante no puede ser nulo.");
+        }
 
-    public Partida(int idAnfitrion) {
-        this();
-        this.idAnfitrion = idAnfitrion;
-    }
-
-    public Partida(int idAnfitrion, List<Jugador> jugadores) {
-        this(idAnfitrion);
-        this.jugadores = List.copyOf(jugadores);
-    }
-
-    public void solicitarUnion(int idJugadorSolicitante) {
         if (estaIniciada()) {
             throw new IllegalStateException("No se puede solicitar unirse a una partida iniciada.");
         }
@@ -83,11 +71,11 @@ public class Partida {
             throw new IllegalStateException("La partida ya alcanzo el numero maximo de jugadores.");
         }
 
-        if (jugadorYaEstaUnido(idJugadorSolicitante)) {
+        if (jugadorYaEstaUnido(jugadorSolicitanteDTO.getId())) {
             throw new IllegalArgumentException("El jugador ya esta unido a la partida.");
         }
 
-        Jugador jugadorSolicitante = new Jugador(idJugadorSolicitante);
+        Jugador jugadorSolicitante = new JugadorMapper().toEntity(jugadorSolicitanteDTO);
         jugadorSolicitante.setAceptado(false);
 
         List<Jugador> jugadoresActualizados = new ArrayList<>(jugadores);
@@ -95,9 +83,7 @@ public class Partida {
         this.jugadores = List.copyOf(jugadoresActualizados);
     }
 
-    public void aceptarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante) {
-        validarAnfitrion(idAnfitrion);
-
+    public void aceptarSolicitudUnion(int idJugadorSolicitante) {
         if (estaIniciada()) {
             throw new IllegalStateException("No se puede aceptar jugadores en una partida iniciada.");
         }
@@ -111,9 +97,7 @@ public class Partida {
         jugador.setAceptado(true);
     }
 
-    public void rechazarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante) {
-        validarAnfitrion(idAnfitrion);
-
+    public void rechazarSolicitudUnion(int idJugadorSolicitante) {
         if (estaIniciada()) {
             throw new IllegalStateException("No se puede responder solicitudes en una partida iniciada.");
         }
@@ -139,32 +123,12 @@ public class Partida {
         return false;
     }
 
-    private void validarAnfitrion(int idAnfitrion) {
-        if (this.idAnfitrion != idAnfitrion) {
-            throw new IllegalArgumentException("Solo el anfitrion puede responder solicitudes.");
-        }
-    }
-
     private boolean estaIniciada() {
         return mazo != null;
     }
 
     public void cargarJugadoresDesdeDTO(List<JugadorResumenDTO> jugadoresDTO) {
         this.jugadores = List.copyOf(new JugadorMapper().toEntityList(jugadoresDTO));
-    }
-
-    public void actualizarPerfilJugador(JugadorResumenDTO jugadorDTO) {
-        if (jugadorDTO == null) {
-            throw new IllegalArgumentException("Los datos del jugador no pueden ser nulos.");
-        }
-
-        Jugador jugador = obtenerJugadorPorId(jugadorDTO.getId());
-
-        jugador.actualizarPerfil(
-                jugadorDTO.getNombreUsuario(),
-                jugadorDTO.getRutaAvatar(),
-                jugadorDTO.getPreferenciasColor()
-        );
     }
 
     public void iniciarPartida() throws MazoVacioException {
@@ -598,14 +562,6 @@ public class Partida {
 
     public void setEsperandoColor(boolean esperandoColor) {
         this.esperandoColor = esperandoColor;
-    }
-
-    public int getIdAnfitrion() {
-        return idAnfitrion;
-    }
-
-    public void setIdAnfitrion(int idAnfitrion) {
-        this.idAnfitrion = idAnfitrion;
     }
 
     @Override
