@@ -199,6 +199,9 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         //agregar el textfield para el nombre de usuario
         txtField = new CampoTextoRedondeado();
         txtField.setBounds(365, 400, 400, 60);
+        if (jugador.getNombreUsuario() != null) {
+            txtField.setText(jugador.getNombreUsuario());
+        }
         panelCentro.add(txtField);
 
         cargarCartas();
@@ -214,7 +217,22 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         siguiente.setBounds(931, 600, 150, 50);
         panelCentro.add(siguiente);
 
+        acciones();
+
+        if (jugador.getRutaAvatar() != null) {
+            for (java.awt.Component comp : panelCentro.getComponents()) {
+                if (comp instanceof JButton btn) {
+                    javax.swing.Icon icon = btn.getIcon();
+                    if (icon != null && icon.toString().contains(jugador.getRutaAvatar())) {
+                        btn.setBackground(Color.decode("#003366"));
+                        avatarSeleccionado = btn;
+                        break;
+                    }
+                }
+            }
+        }
     }
+    
 
     private void cargarCartas() {
         c1.setColor(jugador.getPreferenciasColor().getOrDefault(TipoColor.ROJO, TipoColor.ROJO));
@@ -313,6 +331,9 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     private final java.awt.event.MouseAdapter eventoClickCarta = new java.awt.event.MouseAdapter() {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent e) {
+            if (txtField != null) {
+                jugador.setNombreUsuario(txtField.getText());
+            }
             cartaSeleccionada = (PanelCartaMano) e.getSource();
             if (cartaSeleccionada.carta == c1) {
                 colorBaseSeleccionado = TipoColor.ROJO;
@@ -415,9 +436,6 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
                 jugador.setNombreUsuario(txtField.getText());
                 control.actualizarPerfil(jugador);
                 control.abrirSalaEspera();
-                this.dispose();
-                SalaEspera sala = new SalaEspera();
-                sala.isActive();
             } else {
                 try {
                     throw new Exception("El campo de texto no puede estar vacío");
