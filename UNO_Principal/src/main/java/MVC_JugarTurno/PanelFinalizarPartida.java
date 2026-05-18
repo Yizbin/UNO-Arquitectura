@@ -63,7 +63,7 @@ public class PanelFinalizarPartida extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(31, 84, 182));
-        setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED, null, new java.awt.Color(0, 0, 0)));
+        setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
 
         btnEnviarFinalizacion.setBackground(new java.awt.Color(204, 0, 0));
         btnEnviarFinalizacion.setFont(new java.awt.Font("Trebuchet MS", 1, 24)); // NOI18N
