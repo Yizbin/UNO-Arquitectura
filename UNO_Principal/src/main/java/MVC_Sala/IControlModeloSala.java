@@ -19,4 +19,6 @@ public interface IControlModeloSala {
     void abrirSalaEspera();
     
     boolean iniciarPartida(JugadorResumenDTO jugadorDTO);
+    
+    void establecerJugadorLocal(JugadorResumenDTO datos);
 }

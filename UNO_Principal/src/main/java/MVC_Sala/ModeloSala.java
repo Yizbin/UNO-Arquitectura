@@ -159,6 +159,15 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     }
 
     @Override
+    public void establecerJugadorLocal(JugadorResumenDTO datos) {
+        if (datos == null) {
+            return;
+        }
+
+        this.jugadorLocal = datos;
+    }
+
+    @Override
     public void actualizarDatosJugador(JugadorResumenDTO datos) {
         if (datos == null) {
             return;
@@ -171,12 +180,10 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         }
 
         try {
-            EstadoPartidaDTO estado = new EstadoPartidaDTO();
-            estado.setJugadores(List.of(jugadorLocal));
-
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
                     TipoAccionPartida.ACTUALIZAR_PERFIL,
-                    estado
+                    jugadorLocal,
+                    null
             );
 
             enviarPeticion(peticion);
@@ -213,13 +220,13 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     public List<JugadorResumenDTO> getJugadoresEnSala() {
         return this.jugadoresEnSala;
     }
-    
+
     @Override
     public void abrirSalaEspera() {
         this.cambiarFrame = true;
         notificar();
     }
-    
+
     @Override
     public boolean isCambiarFrame() {
         return cambiarFrame;
