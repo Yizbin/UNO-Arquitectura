@@ -3,77 +3,39 @@ package Main;
 //@author SAUL ISAAC APODACA BALDENEGRO 00000252020
 import Adapter.AdapterCliente;
 import DTOs.EstadoPartidaDTO;
-import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Deserializador.Deserializador;
-import Enums.TipoAccionPartida;
-
+import Entidades.Partida;
 import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
+import Filtro.DominioFiltro;
 import Interfaces.IConexionSalida;
 import Interfaces.ISink;
+import Interfaces.SubDominioConcreto;
 import MVC_JugarTurno.PantallaTurno;
 import MVC_Sala.ControladorSala;
 import MVC_Sala.MenuPrincipal;
 import MVC_Sala.ModeloSala;
 import Serializador.Serializador;
-
-import javax.swing.JOptionPane;
-
 import java.awt.EventQueue;
-
 import javax.swing.SwingUtilities;
 import pipeline.CoordinadorFiltros;
 
 public class Ensamblador {
 
-
-    private static final String IP_SERVIDOR = "192.168.0.102";
-
+    private static final String IP_SERVIDOR = "192.168.1.72";
     private static final int PUERTO_SERVIDOR = 5000;
 
     public static void main(String[] args) {
-        int idJugador = obtenerIdJugador(args);
         SwingUtilities.invokeLater(() -> {
-            configurarConexionRed(IP_SERVIDOR, PUERTO_SERVIDOR, idJugador);
+            configurarConexionRed(IP_SERVIDOR, PUERTO_SERVIDOR);
         });
     }
 
-    private static int obtenerIdJugador(String[] args) {
-        if (args != null && args.length > 0) {
-            try {
-                return Integer.parseInt(args[0]);
-            } catch (NumberFormatException e) {
-                System.err.println("Id de jugador invalido: " + args[0]);
-            }
-        }
+    private static void configurarConexionRed(String ipServidor, int puertoServidor) {
 
-        while (true) {
-            String entrada = JOptionPane.showInputDialog(
-                    null,
-                    "Ingresa el id de este jugador:",
-                    "Jugador UNO Spin",
-                    JOptionPane.QUESTION_MESSAGE
-            );
-
-            if (entrada == null) {
-                System.exit(0);
-            }
-
-            try {
-                return Integer.parseInt(entrada.trim());
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(
-                        null,
-                        "El id debe ser un numero entero.",
-                        "Id invalido",
-                        JOptionPane.WARNING_MESSAGE
-                );
-            }
-        }
-    }
-
-    private static void configurarConexionRed(String ipServidor, int puertoServidor, int idJugador) {
+        Partida partida = new Partida();
+        SubDominioConcreto subDominio = new SubDominioConcreto(partida);
 
         IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
         dispatcher.preConectar(ipServidor, puertoServidor);
@@ -84,7 +46,8 @@ public class Ensamblador {
         CoordinadorFiltros<PeticionJugadaDTO, byte[]> pipelineSalida
                 = new CoordinadorFiltros<>();
 
-        pipelineSalida.agregarFiltro(new Serializador<PeticionJugadaDTO>());
+        pipelineSalida.agregarFiltro(new DominioFiltro(subDominio));
+        pipelineSalida.agregarFiltro(new Serializador<EstadoPartidaDTO>());
         pipelineSalida.conectarDestino(adapterSink);
 
         CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada
@@ -97,8 +60,8 @@ public class Ensamblador {
         PantallaTurno ventana = FabricaJugadorMVC.crearEntornoJugador(
                 pipelineSalida,
                 pipelineEntrada,
-                idJugador,
-                "UNO Spin - Cliente Red - Jugador " + idJugador,
+                0,
+                "UNO Spin - Cliente Red",
                 100,
                 100
         );
@@ -120,25 +83,5 @@ public class Ensamblador {
         });
         
         ReceptorFactory.iniciarConexion(puertoServidor + 1, pipelineEntrada);
-
-        registrarJugadorLocal(pipelineSalida, idJugador);
     }
-
-
-    private static void registrarJugadorLocal(
-            CoordinadorFiltros<PeticionJugadaDTO, byte[]> pipelineSalida,
-            int idJugador) {
-        try {
-            JugadorResumenDTO jugador = new JugadorResumenDTO(idJugador, "Jugador " + idJugador);
-            EstadoPartidaDTO estado = new EstadoPartidaDTO();
-            estado.setIdJugador(jugador.getId());
-            PeticionJugadaDTO peticion = new PeticionJugadaDTO(TipoAccionPartida.SOLICITAR_UNIRSE_PARTIDA, estado);
-            pipelineSalida.procesar(new Plantilla.ContextoPipeline<>(peticion));
-            System.out.println("Jugador local registrado en partida: " + idJugador);
-        } catch (Exception e) {
-            System.err.println("No se pudo registrar el jugador local: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
 }
