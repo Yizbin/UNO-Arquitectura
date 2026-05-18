@@ -43,15 +43,15 @@ public class EnsambladorServidor {
         Control filtroControlServidor = new Control();
 
         CoordinadorFiltros<byte[], List<PaqueteRedDTO>> pipelineServidor =
-                new CoordinadorFiltros<>();
-
-        pipelineServidor.agregarFiltro(
-                new Deserializador<>(EstadoPartidaDTO.class)
-        );
-        pipelineServidor.agregarFiltro(new EstadoPartida());
-        pipelineServidor.agregarFiltro(new Serializador<EstadoPartidaDTO>());
-        pipelineServidor.agregarFiltro(filtroControlServidor);
-        pipelineServidor.conectarDestino(adapterSink);
+                new CoordinadorFiltros<>(
+                        List.of(
+                                new Deserializador<>(EstadoPartidaDTO.class),
+                                new EstadoPartida(),
+                                new Serializador<EstadoPartidaDTO>(),
+                                filtroControlServidor
+                        ),
+                        adapterSink
+                );
 
         int[] idJugadorActual = {1};
         int puertoRespuestaCliente = puertoEscucha + 1;

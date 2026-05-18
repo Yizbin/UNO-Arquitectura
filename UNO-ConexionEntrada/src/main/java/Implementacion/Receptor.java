@@ -15,14 +15,14 @@ import interfaces.IPump;
 public class Receptor implements IObserverCola {
 
     private ColaEntrada cola;
-    private IPump<byte[]> pump;
+    private IPump<byte[], ?> pump;
 
     public Receptor(ColaEntrada cola) {
         this.cola = cola;
         this.cola.setObservador(this);
     }
 
-    public void conectarPump(IPump<byte[]> pump) {
+    public void conectarPump(IPump<byte[], ?> pump) {
         this.pump = pump;
     }
 

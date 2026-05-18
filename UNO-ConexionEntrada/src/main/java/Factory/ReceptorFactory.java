@@ -16,7 +16,7 @@ import interfaces.IPump;
  */
 public class ReceptorFactory {
 
-    public static void iniciarConexion(int puerto, IPump<byte[]> pipeline, IObserverConexion observador) {
+    public static void iniciarConexion(int puerto, IPump<byte[], ?> pipeline, IObserverConexion observador) {
         try {
             ColaEntrada cola = new ColaEntrada();
             Receptor receptor = new Receptor(cola);
@@ -29,7 +29,7 @@ public class ReceptorFactory {
         }
     }
 
-    public static void iniciarConexion(int puerto, IPump<byte[]> pipeline) {
+    public static void iniciarConexion(int puerto, IPump<byte[], ?> pipeline) {
         iniciarConexion(puerto, pipeline, null);
     }
 }

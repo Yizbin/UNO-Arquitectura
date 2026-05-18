@@ -13,11 +13,13 @@ import Interfaces.IConexionSalida;
 import Interfaces.ISink;
 import Interfaces.SubDominioConcreto;
 import MVC_JugarTurno.PantallaTurno;
+import MVC_JugarTurno.ModeloJuego;
 import MVC_Sala.ControladorSala;
 import MVC_Sala.MenuPrincipal;
 import MVC_Sala.ModeloSala;
 import Serializador.Serializador;
 import java.awt.EventQueue;
+import java.util.List;
 import javax.swing.SwingUtilities;
 import pipeline.CoordinadorFiltros;
 
@@ -44,22 +46,25 @@ public class Ensamblador {
                 = new AdapterCliente(ipServidor, puertoServidor, dispatcher);
 
         CoordinadorFiltros<PeticionJugadaDTO, byte[]> pipelineSalida
-                = new CoordinadorFiltros<>();
+                = new CoordinadorFiltros<>(
+                        List.of(
+                                new DominioFiltro(subDominio),
+                                new Serializador<EstadoPartidaDTO>()
+                        ),
+                        adapterSink
+                );
 
-        pipelineSalida.agregarFiltro(new DominioFiltro(subDominio));
-        pipelineSalida.agregarFiltro(new Serializador<EstadoPartidaDTO>());
-        pipelineSalida.conectarDestino(adapterSink);
+        ModeloJuego modeloJuego = new ModeloJuego();
 
         CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada
-                = new CoordinadorFiltros<>();
-
-        pipelineEntrada.agregarFiltro(
-                new Deserializador<>(EstadoPartidaDTO.class)
-        );
+                = new CoordinadorFiltros<>(
+                        List.of(new Deserializador<>(EstadoPartidaDTO.class)),
+                        modeloJuego
+                );
 
         PantallaTurno ventana = FabricaJugadorMVC.crearEntornoJugador(
                 pipelineSalida,
-                pipelineEntrada,
+                modeloJuego,
                 0,
                 "UNO Spin - Cliente Red",
                 100,
@@ -70,7 +75,7 @@ public class Ensamblador {
         
         //agrege esto para poder probar la conexión
         System.out.println("Se conectó al servidor");
-        ModeloSala modelo = new ModeloSala();
+        ModeloSala modelo = new ModeloSala(pipelineSalida);
 
         ControladorSala controlador = new ControladorSala(modelo);
         EventQueue.invokeLater(() -> {

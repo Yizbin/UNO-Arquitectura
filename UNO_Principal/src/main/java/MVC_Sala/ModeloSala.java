@@ -23,7 +23,7 @@ import javax.swing.SwingUtilities;
 public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<EstadoPartidaDTO> {
 
     private final List<ISuscriptorSala> suscriptores;
-    private IPump<PeticionJugadaDTO> coordinador;
+    private IPump<PeticionJugadaDTO, byte[]> coordinador;
     private List<JugadorResumenDTO> jugadoresEnSala;
     private JugadorResumenDTO jugadorLocal;
     private boolean cambiarFrame = false;
@@ -35,12 +35,12 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         this.partidaListaParaIniciar = false;
     }
 
-    public ModeloSala(IPump<PeticionJugadaDTO> coordinador) {
+    public ModeloSala(IPump<PeticionJugadaDTO, byte[]> coordinador) {
         this();
         this.coordinador = coordinador;
     }
 
-    public void conectarCoordinador(IPump<PeticionJugadaDTO> coordinador) {
+    public void conectarCoordinador(IPump<PeticionJugadaDTO, byte[]> coordinador) {
         this.coordinador = coordinador;
     }
 

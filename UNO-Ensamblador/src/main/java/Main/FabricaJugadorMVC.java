@@ -30,20 +30,15 @@ public class FabricaJugadorMVC {
      * @return Instancia de la vista (JFrame) configurada.
      */
     public static PantallaTurno crearEntornoJugador(
-            IPump<PeticionJugadaDTO> pipelineSalida,
-            CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntrada,
+            IPump<PeticionJugadaDTO, byte[]> pipelineSalida,
+            ModeloJuego modelo,
             int idJugador,
             String tituloVista,
             int posX,
             int posY) {
 
-        ModeloJuego modelo = new ModeloJuego();
         modelo.setIdJugadorLocal(idJugador);
         modelo.conectarDestino(pipelineSalida);
-
-        if (pipelineEntrada != null) {
-            pipelineEntrada.conectarDestino(modelo);
-        }
 
         UnoSpinControlador controlador = new UnoSpinControlador(modelo);
         PantallaTurno vista = new PantallaTurno(modelo, controlador);
