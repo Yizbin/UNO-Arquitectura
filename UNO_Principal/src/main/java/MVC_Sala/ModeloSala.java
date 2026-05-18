@@ -207,8 +207,6 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
                 ? estado.getJugadores()
                 : List.of();
 
-        this.partidaListaParaIniciar = estado.isPartidaListaParaIniciar();
-
         SwingUtilities.invokeLater(this::notificar);
     }
 

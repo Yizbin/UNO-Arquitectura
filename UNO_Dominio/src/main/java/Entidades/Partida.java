@@ -260,7 +260,6 @@ public class Partida {
         }
 
         estadoDTO.setJugadores(jugadoresDTO);
-        estadoDTO.setEsperandoColor(esperandoColor);
 
         if (descarte != null && descarte.getTope() != null) {
             estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
@@ -268,13 +267,7 @@ public class Partida {
 
         estadoDTO.setRuletaActiva(false);
 
-        estadoDTO.setPartidaListaParaIniciar(puedeIniciarPartida());
         estadoDTO.setEstadoFinalizacion(estadoFinalizacion);
-        estadoDTO.setSolicitudFinalizacion(solicitudFinalizacion);
-        estadoDTO.setResultadoFinalizacion(resultadoFinalizacion);
-        estadoDTO.setTablaPosiciones(tablaPosiciones);
-
-        estadoDTO.setIdAnfitrion(idAnfitrion);
 
         return estadoDTO;
     }

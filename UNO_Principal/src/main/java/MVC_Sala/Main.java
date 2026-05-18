@@ -50,7 +50,6 @@ public class Main {
 
         EstadoPartidaDTO estadoMock = new EstadoPartidaDTO();
         estadoMock.setJugadores(List.of(jugador1, jugador2, jugador3, jugador4));
-        estadoMock.setPartidaListaParaIniciar(false);
 
         modelo.enviar(new ContextoPipeline<>(estadoMock));
     }
