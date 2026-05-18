@@ -13,13 +13,17 @@ import Interfaces.IConexionSalida;
 import Interfaces.ISink;
 import Interfaces.SubDominioConcreto;
 import MVC_JugarTurno.PantallaTurno;
+import MVC_Sala.ControladorSala;
+import MVC_Sala.MenuPrincipal;
+import MVC_Sala.ModeloSala;
 import Serializador.Serializador;
+import java.awt.EventQueue;
 import javax.swing.SwingUtilities;
 import pipeline.CoordinadorFiltros;
 
 public class Ensamblador {
 
-    private static final String IP_SERVIDOR = "192.168.1.67";
+    private static final String IP_SERVIDOR = "192.168.1.72";
     private static final int PUERTO_SERVIDOR = 5000;
 
     public static void main(String[] args) {
@@ -62,8 +66,22 @@ public class Ensamblador {
                 100
         );
 
-        ventana.setVisible(true);
+        ventana.setVisible(false);
+        
+        //agrege esto para poder probar la conexión
+        System.out.println("Se conectó al servidor");
+        ModeloSala modelo = new ModeloSala();
 
+        ControladorSala controlador = new ControladorSala(modelo);
+        EventQueue.invokeLater(() -> {
+            try {
+                MenuPrincipal ventanaMenu = new MenuPrincipal(controlador);
+                ventanaMenu.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        
         ReceptorFactory.iniciarConexion(puertoServidor + 1, pipelineEntrada);
     }
 }
