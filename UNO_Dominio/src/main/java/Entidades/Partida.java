@@ -34,7 +34,6 @@ public class Partida {
 
     private List<Jugador> jugadores;
     private int idAnfitrion;
-    private List<Integer> solicitudesPendientes; //aqui va el id de los jugadores que solicitan unirse
 
     private Mazo mazo;
     private Descarte descarte;
@@ -51,7 +50,6 @@ public class Partida {
 
     public Partida() {
         this.jugadores = List.of();
-        this.solicitudesPendientes = new ArrayList<>();
         this.descarte = new Descarte();
         this.ruleta = new Ruleta();
         this.indiceTurnoActual = 0;
@@ -89,11 +87,12 @@ public class Partida {
             throw new IllegalArgumentException("El jugador ya esta unido a la partida.");
         }
 
-        if (solicitudesPendientes.contains(idJugadorSolicitante)) {
-            throw new IllegalArgumentException("El jugador ya tiene una solicitud pendiente.");
-        }
+        Jugador jugadorSolicitante = new Jugador(idJugadorSolicitante);
+        jugadorSolicitante.setAceptado(false);
 
-        solicitudesPendientes.add(idJugadorSolicitante);
+        List<Jugador> jugadoresActualizados = new ArrayList<>(jugadores);
+        jugadoresActualizados.add(jugadorSolicitante);
+        this.jugadores = List.copyOf(jugadoresActualizados);
     }
 
     public void aceptarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante) {
@@ -103,16 +102,13 @@ public class Partida {
             throw new IllegalStateException("No se puede aceptar jugadores en una partida iniciada.");
         }
 
-        if (jugadores.size() >= 4) {
-            throw new IllegalStateException("La partida ya alcanzo el numero maximo de jugadores.");
+        Jugador jugador = obtenerJugadorPorId(idJugadorSolicitante);
+
+        if (jugador.isAceptado()) {
+            throw new IllegalArgumentException("El jugador ya fue aceptado.");
         }
 
-        if (!solicitudesPendientes.contains(idJugadorSolicitante)) {
-            throw new IllegalArgumentException("No existe una solicitud pendiente para ese jugador.");
-        }
-
-        solicitudesPendientes.remove(Integer.valueOf(idJugadorSolicitante));
-        agregarJugadorAceptado(idJugadorSolicitante);
+        jugador.setAceptado(true);
     }
 
     public void rechazarSolicitudUnion(int idAnfitrion, int idJugadorSolicitante) {
@@ -122,22 +118,14 @@ public class Partida {
             throw new IllegalStateException("No se puede responder solicitudes en una partida iniciada.");
         }
 
-        if (!solicitudesPendientes.contains(idJugadorSolicitante)) {
-            throw new IllegalArgumentException("No existe una solicitud pendiente para ese jugador.");
+        Jugador jugador = obtenerJugadorPorId(idJugadorSolicitante);
+
+        if (jugador.isAceptado()) {
+            throw new IllegalArgumentException("No se puede rechazar a un jugador ya aceptado.");
         }
-
-        solicitudesPendientes.remove(Integer.valueOf(idJugadorSolicitante));
-    }
-
-    private void agregarJugadorAceptado(int idJugador) {
-        if (jugadorYaEstaUnido(idJugador)) {
-            throw new IllegalArgumentException("El jugador ya esta unido a la partida.");
-        }
-
-        Jugador jugador = new Jugador(idJugador);
 
         List<Jugador> jugadoresActualizados = new ArrayList<>(jugadores);
-        jugadoresActualizados.add(jugador);
+        jugadoresActualizados.remove(jugador);
         this.jugadores = List.copyOf(jugadoresActualizados);
     }
 
@@ -287,7 +275,6 @@ public class Partida {
         estadoDTO.setTablaPosiciones(tablaPosiciones);
 
         estadoDTO.setIdAnfitrion(idAnfitrion);
-        estadoDTO.setSolicitudesPendientes(List.copyOf(solicitudesPendientes));
 
         return estadoDTO;
     }
@@ -626,10 +613,6 @@ public class Partida {
 
     public void setIdAnfitrion(int idAnfitrion) {
         this.idAnfitrion = idAnfitrion;
-    }
-
-    public List<Integer> getSolicitudesPendientes() {
-        return List.copyOf(solicitudesPendientes);
     }
 
     @Override

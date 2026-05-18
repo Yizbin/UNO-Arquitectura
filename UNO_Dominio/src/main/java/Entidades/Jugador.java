@@ -25,19 +25,19 @@ public class Jugador {
     private List<Carta> mano;
     private int puntos;
     private boolean dijoUno;
+    private boolean aceptado;
     private EstadoJugadorSala estadoSala;
     private Map<TipoColor, TipoColor> preferenciasColor = new HashMap<>();
 
     public Jugador() {
         this.mano = new ArrayList<>();
         this.estadoSala = EstadoJugadorSala.ESPERANDO;
+        this.aceptado = false;
     }
 
     public Jugador(int id) {
         this();
         this.id = id;
-        this.mano = new ArrayList<>();
-        this.estadoSala = EstadoJugadorSala.ESPERANDO;
     }
 
     public Jugador(int id, String usuario, String avatar) {
@@ -48,6 +48,7 @@ public class Jugador {
         this.puntos = 0;
         this.dijoUno = false;
         this.estadoSala = EstadoJugadorSala.ESPERANDO;
+        this.aceptado = false;
     }
 
     public void robarCarta(Carta carta) {
@@ -179,8 +180,14 @@ public class Jugador {
     public void setPreferenciasColor(Map<TipoColor, TipoColor> preferenciasColor) {
         this.preferenciasColor = preferenciasColor;
     }
-    
-    
+
+    public boolean isAceptado() {
+        return aceptado;
+    }
+
+    public void setAceptado(boolean aceptado) {
+        this.aceptado = aceptado;
+    }
 
     @Override
     public int hashCode() {
