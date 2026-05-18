@@ -148,4 +148,47 @@ public class SubDominioConcreto implements ISubDominio {
         System.out.println("[CONFIG] Configuración asignada a la partida.");
         System.out.println("[CONFIG] Partida disponible: " + partida.isDisponible());
     }
+    
+    //metodo para confirmar que partida se creo
+//    @Override
+//    public void configurarPartida(ConfiguracionPartidaDTO configuracionDTO) {
+//        ConfiguracionPartida configuracionPartida = configuracionMapper.toEntity(configuracionDTO);
+//
+//        if (partida == null) {
+//            partida = Partida.crearConConfiguracion(configuracionPartida);
+//        } else {
+//            partida.configurarPartida(configuracionPartida);
+//        }
+//
+//        partida.establecerDisponible();
+//
+//        System.out.println("[CONFIG] Partida creada: " + (partida != null));
+//        System.out.println("[CONFIG] Configuración asignada: " + (partida.getConfiguracion() != null));
+//        System.out.println("[CONFIG] Partida disponible: " + partida.isDisponible());
+//        System.out.println("[CONFIG] Mazo creado en configurar partida: " + (partida.getMazo() != null));
+//
+//        if (partida.getConfiguracion() != null) {
+//            System.out.println("[CONFIG] Rango: "
+//                    + partida.getConfiguracion().getNumeroInicio()
+//                    + " - "
+//                    + partida.getConfiguracion().getNumeroFin()
+//                    + ", comodines: "
+//                    + partida.getConfiguracion().getNumComodines());
+//        }
+//        if (partida == null) {
+//            throw new IllegalStateException("La partida no fue creada.");
+//        }
+//
+//        if (partida.getConfiguracion() == null) {
+//            throw new IllegalStateException("La configuración no fue asignada a la partida.");
+//        }
+//
+//        if (!partida.isDisponible()) {
+//            throw new IllegalStateException("La partida no quedó disponible.");
+//        }
+//
+//        if (partida.getMazo() != null) {
+//            throw new IllegalStateException("El mazo no debe crearse en Configurar partida.");
+//    }
+//  }
 }
