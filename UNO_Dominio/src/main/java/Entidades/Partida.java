@@ -30,6 +30,9 @@ public class Partida {
     private boolean sentidoHorario;
     private TipoColor colorActual;
     private boolean esperandoColor;
+    
+    private ConfiguracionPartida configuracion;
+    private boolean disponible;
 
     public Partida(List<Jugador> jugadores, Mazo mazo) {
         this.jugadores = List.copyOf(jugadores);
@@ -138,24 +141,53 @@ public class Partida {
         return new CartaMapper().toDTOList(obtenerJugadorPorId(idJugador).getMano());
     }
 
+//    public EstadoPartidaDTO obtenerEstadoPartidaDTO() {
+//        EstadoPartidaDTO estadoDTO = new EstadoPartidaDTO();
+//        List<JugadorResumenDTO> jugadoresDTO = new JugadorMapper().toDTOList(jugadores);
+//        int idJugadorActual = getJugadorActual().getId();
+//
+//        for (JugadorResumenDTO jugadorDTO : jugadoresDTO) {
+//            jugadorDTO.setEnTurno(jugadorDTO.getId() == idJugadorActual);
+//        }
+//
+//        estadoDTO.setJugadores(jugadoresDTO);
+//        estadoDTO.setEsperandoColor(esperandoColor);
+//        estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
+//        estadoDTO.setRuletaActiva(false);
+//        estadoDTO.setIdJugadorEnTurno(idJugadorActual);
+//        estadoDTO.setPartidaListaParaIniciar(puedeIniciarPartida());
+//
+//        return estadoDTO;
+//    }
+    
     public EstadoPartidaDTO obtenerEstadoPartidaDTO() {
         EstadoPartidaDTO estadoDTO = new EstadoPartidaDTO();
         List<JugadorResumenDTO> jugadoresDTO = new JugadorMapper().toDTOList(jugadores);
-        int idJugadorActual = getJugadorActual().getId();
 
-        for (JugadorResumenDTO jugadorDTO : jugadoresDTO) {
-            jugadorDTO.setEnTurno(jugadorDTO.getId() == idJugadorActual);
+        int idJugadorActual = -1;
+
+        if (jugadores!=null && !jugadores.isEmpty() ) {
+            idJugadorActual = getJugadorActual().getId();
+
+            for (JugadorResumenDTO jugadorDTO : jugadoresDTO) {
+                jugadorDTO.setEnTurno(jugadorDTO.getId() == idJugadorActual);
+            }
+
+            estadoDTO.setIdJugadorEnTurno(idJugadorActual);
         }
 
         estadoDTO.setJugadores(jugadoresDTO);
         estadoDTO.setEsperandoColor(esperandoColor);
-        estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
         estadoDTO.setRuletaActiva(false);
-        estadoDTO.setIdJugadorEnTurno(idJugadorActual);
         estadoDTO.setPartidaListaParaIniciar(puedeIniciarPartida());
+
+        if (descarte != null && descarte.getTope() != null) {
+            estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
+        }
 
         return estadoDTO;
     }
+    
 
     public void robarCarta(Jugador jugador) throws MazoVacioException, ValidarTurnoException {
         validarTurno(jugador);
@@ -319,7 +351,37 @@ public class Partida {
 
         return true;
     }
+    
+    //ConfiguracionPartida
+    public void configurarPartida(ConfiguracionPartida configuracion, Mazo mazo) {
+        if (configuracion == null) {
+            throw new IllegalArgumentException("La configuración no puede ser nula.");
+        }
 
+        if (mazo == null) {
+            throw new IllegalArgumentException("El mazo no puede ser nulo.");
+        }
+
+        configuracion.validarConfiguracion();
+
+        this.configuracion = configuracion;
+        this.mazo = mazo;
+    }
+    
+    public void establecerDisponible() {
+        if (this.configuracion == null) {
+            throw new IllegalStateException("No se puede establecer disponible una partida sin configuración.");
+        }
+        this.disponible = true;
+    }
+
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    public ConfiguracionPartida getConfiguracion() {
+        return configuracion;
+    }
     public List<Jugador> getJugadores() {
         return List.copyOf(jugadores);
     }

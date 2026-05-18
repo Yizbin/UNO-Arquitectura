@@ -1,10 +1,12 @@
 package Interfaces;
 
 import DTOs.CartaDTO;
+import DTOs.ConfiguracionPartidaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import Entidades.Mazo;
 import Entidades.Partida;
+import Entidades.ConfiguracionPartida;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
@@ -12,6 +14,7 @@ import Excepciones.MazoVacioException;
 import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
 import factorys.MazoFactory;
+import Mappers.ConfiguracionMapper;
 import java.util.List;
 
 /**
@@ -20,11 +23,13 @@ import java.util.List;
  */
 public class SubDominioConcreto implements ISubDominio {
 
-     private Partida partida;
+    private Partida partida;
     private final MazoFactory mazoFactory;
+    private final ConfiguracionMapper configuracionMapper;
 
     public SubDominioConcreto() {
         this.mazoFactory = new MazoFactory();
+        this.configuracionMapper= new ConfiguracionMapper();
     }
 
     @Override
@@ -125,5 +130,18 @@ public class SubDominioConcreto implements ISubDominio {
     @Override
     public void gritarUno(int idJugador) {
         partida.gritarUno(idJugador);
+    }
+
+    @Override
+    public void configurarPartida(ConfiguracionPartidaDTO configuracionDTO) {
+         ConfiguracionPartida configuracionPartida = configuracionMapper.toEntity(configuracionDTO);
+         Mazo mazoConfigurado = mazoFactory.crear(configuracionPartida);
+
+        if (partida == null) {
+            partida = Partida.desdeJugadoresDTO(List.of(), mazoConfigurado);
+        }
+
+        partida.configurarPartida(configuracionPartida, mazoConfigurado);
+        partida.establecerDisponible();
     }
 }

@@ -9,5 +9,5 @@ package MVC_ConfigurarPartida;
  * @author Pride Factor Black
  */
 public interface ISuscriptor {
-    
+   public void update(IModeloConfgPartida modelo);
 }

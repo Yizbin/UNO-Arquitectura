@@ -7,6 +7,7 @@ package Interfaces;
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
+import DTOs.ConfiguracionPartidaDTO;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
@@ -63,4 +64,6 @@ public interface ISubDominio {
     
     public boolean puedeIniciarPartida();
     //
+    
+    public void configurarPartida(ConfiguracionPartidaDTO configuracion);
 }

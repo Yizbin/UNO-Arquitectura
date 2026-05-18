@@ -6,6 +6,7 @@ import Entidades.CartaAccion;
 import Entidades.CartaComodin;
 import Entidades.CartaNumero;
 import Entidades.Mazo;
+import Entidades.ConfiguracionPartida;
 import Enums.Acciones;
 import Enums.Comodines;
 import Enums.TipoColor;
@@ -51,6 +52,54 @@ public class MazoFactory {
         for (int i = 0; i < 4; i++) {
             lista.add(new CartaComodin(Comodines.CAMBIO_COLOR));
             lista.add(new CartaComodin(Comodines.TOMA_CUATRO));
+        }
+
+        Collections.shuffle(lista);
+
+        Stack<Carta> stack = new Stack<>();
+        stack.addAll(lista);
+
+        return new Mazo(stack);
+    }
+    
+    
+    public Mazo crear(ConfiguracionPartida configuracion){
+        
+        if (configuracion == null) {
+        throw new IllegalArgumentException("La configuración no puede ser nula.");
+        }
+
+        List<Carta> lista = new ArrayList<>();
+        List<TipoColor> colores = List.of(
+                TipoColor.ROJO,
+                TipoColor.AZUL,
+                TipoColor.AMARILLO,
+                TipoColor.VERDE
+        );
+
+        for (TipoColor color : colores) {
+            for (int n = configuracion.getNumeroInicio(); n <= configuracion.getNumeroFin(); n++) {
+                if (n == 0) {
+                    lista.add(new CartaNumero(0, color, false));
+                } else {
+                    lista.add(new CartaNumero(n, color, false));
+                    lista.add(new CartaNumero(n, color, false));
+                }
+            }
+
+            for (int i = 1; i <= 2; i++) {
+                lista.add(new CartaAccion(Acciones.SALTA, color));
+                lista.add(new CartaAccion(Acciones.REVERSA, color));
+                lista.add(new CartaAccion(Acciones.TOMA_DOS, color));
+            }
+        }
+
+        for (int i = 0; i < configuracion.getNumComodines(); i++) {
+            if (i % 2 == 0) {
+                lista.add(new CartaComodin(Comodines.CAMBIO_COLOR));
+            } else {
+                lista.add(new CartaComodin(Comodines.TOMA_CUATRO));
+            }
         }
 
         Collections.shuffle(lista);

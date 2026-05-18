@@ -18,6 +18,7 @@ public class PeticionJugadaDTO {
     private JugadorResumenDTO jugador;
     private CartaDTO cartaAJugar;
     private TipoColor nuevoColor;
+    private ConfiguracionPartidaDTO configuracionPartida;
 
     public PeticionJugadaDTO() {
     }
@@ -40,6 +41,12 @@ public class PeticionJugadaDTO {
         this.nuevoColor = nuevoColor;
     }
 
+    public PeticionJugadaDTO(TipoAccionPartida accion, ConfiguracionPartidaDTO configuracionPartida) {
+        this.accion = accion;
+        this.configuracionPartida = configuracionPartida;
+    }
+    
+
     public TipoAccionPartida getAccion() {
         return accion;
     }
@@ -51,6 +58,11 @@ public class PeticionJugadaDTO {
     public int getIdJugador() {
         return idJugador;
     }
+
+    public ConfiguracionPartidaDTO getConfiguracionPartida() {
+        return configuracionPartida;
+    }
+    
 
     public void setIdJugador(int idJugador) {
         this.idJugador = idJugador;
@@ -78,6 +90,10 @@ public class PeticionJugadaDTO {
 
     public void setNuevoColor(TipoColor nuevoColor) {
         this.nuevoColor = nuevoColor;
+    }
+
+    public void setConfiguracionPartida(ConfiguracionPartidaDTO configuracionPartida) {
+        this.configuracionPartida = configuracionPartida;
     }
 
 }

@@ -5,6 +5,8 @@
 package MVC_Sala;
 
 import DTOs.JugadorResumenDTO;
+import MVC_ConfigurarPartida.IControlConfgPartida;
+import MVC_ConfigurarPartida.PantallaConfigurarPartida;
 
 
 /**
@@ -14,9 +16,11 @@ import DTOs.JugadorResumenDTO;
 public class ControladorSala {
 
     private final IControlModeloSala modelo;
+    private IControlConfgPartida controlConfigPartida;
 
-    public ControladorSala(IControlModeloSala modelo) {
+    public ControladorSala(IControlModeloSala modelo, IControlConfgPartida controlConfigPartida) {
         this.modelo = modelo;
+        this.controlConfigPartida=controlConfigPartida;
     }
 
     public boolean solicitarUnirsePartida() {
@@ -29,5 +33,9 @@ public class ControladorSala {
     
     public void actualizarPerfil(JugadorResumenDTO datos) {
         modelo.actualizarDatosJugador(datos);
+    }
+    
+    public void abrirConfigurarPartida() {
+        controlConfigPartida.mostrarPantallaConfigurarPartida();
     }
 }

@@ -34,7 +34,7 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
     private void initComponents() {
 
         panelFondo = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnCrearPartida = new javax.swing.JButton();
         btnUnirsePartida = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         panelLogo1 = new MVC_Sala.PanelLogo();
@@ -44,10 +44,15 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
         panelFondo.setBackground(new java.awt.Color(255, 255, 255));
         panelFondo.setForeground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setBackground(new java.awt.Color(255, 0, 0));
-        jButton1.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Crear Partida");
+        btnCrearPartida.setBackground(new java.awt.Color(255, 0, 0));
+        btnCrearPartida.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        btnCrearPartida.setForeground(new java.awt.Color(255, 255, 255));
+        btnCrearPartida.setText("Crear Partida");
+        btnCrearPartida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearPartidaActionPerformed(evt);
+            }
+        });
 
         btnUnirsePartida.setBackground(new java.awt.Color(0, 0, 255));
         btnUnirsePartida.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
@@ -76,7 +81,7 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
                         .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnUnirsePartida)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnCrearPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(373, 373, 373))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
                         .addComponent(jButton3)
@@ -91,7 +96,7 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
                 .addContainerGap()
                 .addComponent(panelLogo1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
-                .addComponent(jButton1)
+                .addComponent(btnCrearPartida)
                 .addGap(38, 38, 38)
                 .addComponent(btnUnirsePartida)
                 .addGap(49, 49, 49)
@@ -129,6 +134,11 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
         }
     }//GEN-LAST:event_btnUnirsePartidaActionPerformed
 
+    private void btnCrearPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPartidaActionPerformed
+        controlador.abrirConfigurarPartida();
+        this.dispose();     
+    }//GEN-LAST:event_btnCrearPartidaActionPerformed
+
     private void abrirSalaEspera() {
         SalaEspera sala = new SalaEspera();
         sala.setVisible(true);
@@ -136,8 +146,8 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCrearPartida;
     private javax.swing.JButton btnUnirsePartida;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JPanel panelFondo;
     private MVC_Sala.PanelLogo panelLogo1;
