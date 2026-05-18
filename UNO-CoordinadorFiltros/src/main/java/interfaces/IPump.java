@@ -10,7 +10,7 @@ import Plantilla.ContextoPipeline;
  *
  * @author Abraham Coronel
  */
-public interface IPump<T> {
+public interface IPump<T, O> {
 
     void procesar(ContextoPipeline<T> contexto) throws Exception;
 }

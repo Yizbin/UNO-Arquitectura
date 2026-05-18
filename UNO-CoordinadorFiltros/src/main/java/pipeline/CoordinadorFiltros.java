@@ -8,7 +8,6 @@ import Plantilla.ContextoPipeline;
 import Interfaces.IFiltro;
 import interfaces.IPump;
 import Interfaces.ISink;
-import java.util.ArrayList;
 
 /**
  * Coordina la ejecución secuencial de un conjunto de filtros dentro de un
@@ -28,28 +27,45 @@ import java.util.ArrayList;
  *
  * @author saula
  */
-public class CoordinadorFiltros<I, O> implements IPump<I> {
-
-    private final List<IFiltro<?, ?>> filtros;
-    private ISink<O> sink;
-
-    public CoordinadorFiltros() {
-        this.filtros = new ArrayList<>();
-    }
+public class CoordinadorFiltros<I, O> implements IPump<I, O> {
 
     /**
-     * Permite ir armando la cadena de filtros dinámicamente en el Ensamblador.
-     *
-     * @param filtro
+     * Lista de filtros que se ejecutarán en orden secuencial.
      */
-    public void agregarFiltro(IFiltro<?, ?> filtro) {
-        this.filtros.add(filtro);
-    }
+    private final List<IFiltro<?, ?>> filtros;
+    /**
+     * Destino final al que se enviará el contexto procesado una vez que todos
+     * los filtros se hayan ejecutado correctamente.
+     */
+    private final ISink<O> sink;
 
-    public void conectarDestino(ISink<O> sink) {
+    /**
+     * Construye una instancia del coordinador de filtros.
+     *
+     * @param filtros lista de filtros que conforman el pipeline de
+     * procesamiento
+     * @param sink destino final que recibirá el contexto resultante
+     */
+    public CoordinadorFiltros(List<IFiltro<?, ?>> filtros, ISink<O> sink) {
+        this.filtros = filtros;
         this.sink = sink;
     }
 
+    /**
+     * Ejecuta el pipeline completo sobre el contexto recibido.
+     *
+     * El contexto pasa por cada filtro en el orden definido en la lista
+     * {@code filtros}. Si en algún momento el contexto indica que el proceso
+     * debe detenerse, la ejecución termina inmediatamente.
+     *
+     * Si todos los filtros se ejecutan correctamente y el contexto final no
+     * está detenido, el resultado se envía al sink configurado.
+     *
+     * @param contexto contexto inicial que contiene la información de entrada
+     * para el pipeline
+     * @throws Exception si alguno de los filtros o el sink produce un error
+     * durante el procesamiento
+     */
     @Override
     public void procesar(ContextoPipeline<I> contexto) throws Exception {
 
@@ -67,9 +83,7 @@ public class CoordinadorFiltros<I, O> implements IPump<I> {
             return;
         }
 
-        if (sink != null) {
-            sink.enviar(castearContextoSalida(contextoActual));
-        }
+        sink.enviar(castearContextoSalida(contextoActual));
     }
 
     /**
