@@ -17,7 +17,7 @@
         </dependency>
     </dependencies>
     <properties>
-        <maven.compiler.release>24</maven.compiler.release>
+        <maven.compiler.release>23</maven.compiler.release>
         <exec.mainClass>org.itson.coordinadorfiltros.CoordinadorFiltros</exec.mainClass>
     </properties>
     <name>UNO-CoordinadorFiltros</name>
