@@ -7,6 +7,9 @@ package Interfaces;
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
+import DTOs.RespuestaFinalizacionDTO;
+import DTOs.ResultadoFinalizacionDTO;
+import DTOs.SolicitudFinalizacionDTO;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
@@ -61,6 +64,15 @@ public interface ISubDominio {
     public List<CartaDTO> obtenerManoJugador(int idJugador);
 
     public EstadoPartidaDTO obtenerEstadoPartida();
+
+    //finalizar partida
+    void solicitarFinalizacion(SolicitudFinalizacionDTO solicitud);
+
+    void responderFinalizacion(RespuestaFinalizacionDTO respuesta);
+
+    RespuestaFinalizacionDTO registrarRespuestaFinalizacion(RespuestaFinalizacionDTO respuestaDTO);
+
+    ResultadoFinalizacionDTO evaluarFinalizacion();
 
     // METODOS PARA LA SALA
     public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO);

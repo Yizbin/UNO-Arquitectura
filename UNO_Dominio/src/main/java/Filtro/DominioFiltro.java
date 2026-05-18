@@ -84,7 +84,18 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
 
                 subDominio.actualizarPerfilJugador(peticion.getJugadorActualizar());
             }
-            
+
+
+            case SOLICITAR_FINALIZACION -> {
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+                subDominio.solicitarFinalizacion(estado != null ? estado.getSolicitudFinalizacion() : null);
+            }
+            case RESPONDER_FINALIZACION -> {
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+                subDominio.responderFinalizacion(estado != null ? estado.getRespuestaFinalizacion() : null);
+            }
+
+
             default ->
                 throw new UnsupportedOperationException("Tipo de accion no reconocido: " + tipoAccion);
         }

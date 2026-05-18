@@ -20,6 +20,7 @@ public enum TipoColor {
     ROSA,
     CAFE,
     NEGRO,
+    BLANCO,
     GRIS,
     CIAN,
     MAGENTA,

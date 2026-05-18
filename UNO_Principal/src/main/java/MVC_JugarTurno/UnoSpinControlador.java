@@ -4,7 +4,6 @@
  */
 package MVC_JugarTurno;
 
-
 import DTOs.CartaDTO;
 import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
@@ -26,7 +25,7 @@ public class UnoSpinControlador {
         modelo.iniciarJuego(jugadores);
     }
 
-    public void robarCarta(){
+    public void robarCarta() {
         modelo.robarCarta();
     }
 
@@ -36,5 +35,13 @@ public class UnoSpinControlador {
 
     public void seleccionarColor(TipoColor color) {
         modelo.seleccionarColor(color);
+    }
+
+    public boolean solicitarFinalizacion(JugadorResumenDTO jugadorDTO) {
+        return modelo.solicitarFinalizacion(jugadorDTO);
+    }
+
+    public boolean responderFinalizacion(JugadorResumenDTO jugadorDTO, boolean acepta) {
+        return modelo.responderFinalizacion(jugadorDTO, acepta);
     }
 }

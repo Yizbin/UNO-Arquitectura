@@ -2,6 +2,8 @@ package MVC_JugarTurno;
 
 import DTOs.CartaDTO;
 import DTOs.JugadorResumenDTO;
+import DTOs.TablaPosicionesDTO;
+import Enums.EstadoFinalizacion;
 import Enums.TipoColor;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -22,6 +24,9 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     private final UnoSpinControlador control;
     private final IModeloVista modelo;
     private boolean pidiendoColor = false;
+    private String solicitudFinalizacionAtendida;
+    private EstadoFinalizacion ultimoResultadoFinalizacion;
+    private boolean tablaFinalMostrada;
 
     public PantallaTurno(IModeloVista modelo, UnoSpinControlador control) {
         this.control = control;
@@ -40,6 +45,8 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
                 control.robarCarta();
             }
         });
+
+       
 
     }
 
@@ -62,6 +69,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         panelInfoJugador3 = new MVC_JugarTurno.PanelInformacionJugador();
         panelNorte = new javax.swing.JPanel();
         panelInfoJugador2 = new MVC_JugarTurno.PanelInformacionJugador();
+        jButton1 = new javax.swing.JButton();
         panelEste = new javax.swing.JPanel();
         panelInfoJugador1 = new MVC_JugarTurno.PanelInformacionJugador();
         panelCentral = new javax.swing.JPanel();
@@ -104,7 +112,34 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         panelFondo.add(panelOeste, java.awt.BorderLayout.LINE_START);
 
         panelNorte.setBackground(new java.awt.Color(31, 84, 182));
-        panelNorte.add(panelInfoJugador2);
+
+        jButton1.setText("Finalizar Partida");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelNorteLayout = new javax.swing.GroupLayout(panelNorte);
+        panelNorte.setLayout(panelNorteLayout);
+        panelNorteLayout.setHorizontalGroup(
+            panelNorteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNorteLayout.createSequentialGroup()
+                .addGap(418, 418, 418)
+                .addComponent(panelInfoJugador2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 230, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(156, 156, 156))
+        );
+        panelNorteLayout.setVerticalGroup(
+            panelNorteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNorteLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(panelInfoJugador2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(panelNorteLayout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addComponent(jButton1))
+        );
 
         panelFondo.add(panelNorte, java.awt.BorderLayout.PAGE_START);
 
@@ -162,6 +197,16 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        EstadoPantallaTurnoDTO estado = modelo.getEstadoPantalla();
+        if (estado != null && estado.getJugadorLocal() != null
+                && PanelFinalizarPartida.mostrarDialogo(this)) {
+            control.solicitarFinalizacion(estado.getJugadorLocal());
+
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void configurarCarruselMano(int cartasVisibles) {
         int step = CARD_W - OVERLAP; // cuánto “avanza” cada carta
@@ -307,6 +352,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblRuleta;
     private javax.swing.JPanel panelCentral;
@@ -356,5 +402,66 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
             SwingUtilities.invokeLater(this::pedirColorUsuario);
         }
 
+        procesarFinalizacion(estadoPantalla);
+
     }
+
+    private void procesarFinalizacion(EstadoPantallaTurnoDTO estadoPantalla) {
+        if (estadoPantalla.getEstadoFinalizacion() == EstadoFinalizacion.EN_ESPERA_RESPUESTAS) {
+            ultimoResultadoFinalizacion = null;
+            tablaFinalMostrada = false;
+            pedirRespuestaFinalizacion(estadoPantalla);
+            return;
+        }
+
+        if (estadoPantalla.getEstadoFinalizacion() == EstadoFinalizacion.FINALIZADA
+                || estadoPantalla.getEstadoFinalizacion() == EstadoFinalizacion.CANCELADA) {
+            mostrarResultadoFinalizacion(estadoPantalla);
+        }
+    }
+
+    private void pedirRespuestaFinalizacion(EstadoPantallaTurnoDTO estadoPantalla) {
+        if (estadoPantalla.getSolicitudFinalizacion() == null
+                || estadoPantalla.getSolicitudFinalizacion().getJugador() == null
+                || estadoPantalla.getJugadorLocal() == null) {
+            return;
+        }
+
+        JugadorResumenDTO solicitante = estadoPantalla.getSolicitudFinalizacion().getJugador();
+        if (solicitante.getId() == modelo.getIdJugadorLocal()) {
+            return;
+        }
+
+        String claveSolicitud = solicitante.getId() + ":"
+                + String.valueOf(estadoPantalla.getSolicitudFinalizacion().getFecha());
+        if (claveSolicitud.equals(solicitudFinalizacionAtendida)) {
+            return;
+        }
+
+        solicitudFinalizacionAtendida = claveSolicitud;
+        String nombre = solicitante.getNombreUsuario() != null ? solicitante.getNombreUsuario() : "Otro jugador";
+        boolean acepta = PanelResponderFinalizacion.mostrarDialogo(this, nombre);
+        control.responderFinalizacion(estadoPantalla.getJugadorLocal(), acepta);
+    }
+
+    private void mostrarResultadoFinalizacion(EstadoPantallaTurnoDTO estadoPantalla) {
+        EstadoFinalizacion estado = estadoPantalla.getEstadoFinalizacion();
+        if (estado == EstadoFinalizacion.FINALIZADA && tablaFinalMostrada) {
+            return;
+        }
+
+        if (estado == EstadoFinalizacion.CANCELADA && estado == ultimoResultadoFinalizacion) {
+            return;
+        }
+
+        ultimoResultadoFinalizacion = estado;
+        if (estado == EstadoFinalizacion.CANCELADA) {
+            mostrarMensaje("La finalizacion de la partida fue cancelada.", "Finalizar partida", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        tablaFinalMostrada = true;
+        PanelTablaPosiciones.mostrarDialogo(this, estadoPantalla.getTablaPosiciones());
+    }
+
 }

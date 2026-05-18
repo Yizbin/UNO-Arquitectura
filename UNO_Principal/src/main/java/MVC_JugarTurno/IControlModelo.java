@@ -20,7 +20,11 @@ public interface IControlModelo {
     public void robarCarta();
 
     public void jugarCarta(CartaDTO carta);
-    
+
     public void seleccionarColor(TipoColor color);
+
+    boolean solicitarFinalizacion(JugadorResumenDTO jugadorDTO);
+
+    boolean responderFinalizacion(JugadorResumenDTO jugadorDTO, boolean acepta);
 
 }

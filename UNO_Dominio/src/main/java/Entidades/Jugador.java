@@ -34,6 +34,7 @@ public class Jugador {
     }
 
     public Jugador(int id) {
+        this();
         this.id = id;
         this.mano = new ArrayList<>();
         this.estadoSala = EstadoJugadorSala.ESPERANDO;

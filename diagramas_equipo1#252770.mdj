@@ -66881,6 +66881,117 @@
 																},
 																{
 																	"_type": "UMLSeqMessageView",
+																	"_id": "AAAAAAGeOa9XJsSbar0=",
+																	"_parent": {
+																		"$ref": "AAAAAAGeMzkeuGH7Qjo="
+																	},
+																	"model": {
+																		"$ref": "AAAAAAGeOa9XJsSa3lQ="
+																	},
+																	"subViews": [
+																		{
+																			"_type": "EdgeLabelView",
+																			"_id": "AAAAAAGeOa9XJsScYmM=",
+																			"_parent": {
+																				"$ref": "AAAAAAGeOa9XJsSbar0="
+																			},
+																			"model": {
+																				"$ref": "AAAAAAGeOa9XJsSa3lQ="
+																			},
+																			"font": "Arial;13;0",
+																			"left": 240,
+																			"top": 96,
+																			"width": 307.28369140625,
+																			"height": 13,
+																			"alpha": 0.13082737905567932,
+																			"distance": 76.6550715869472,
+																			"hostEdge": {
+																				"$ref": "AAAAAAGeOa9XJsSbar0="
+																			},
+																			"edgePosition": 1,
+																			"text": "1 : PeticionJugadaDTO(SOLICITAR_FINALIZACION)"
+																		},
+																		{
+																			"_type": "EdgeLabelView",
+																			"_id": "AAAAAAGeOa9XJsSdM9A=",
+																			"_parent": {
+																				"$ref": "AAAAAAGeOa9XJsSbar0="
+																			},
+																			"model": {
+																				"$ref": "AAAAAAGeOa9XJsSa3lQ="
+																			},
+																			"visible": false,
+																			"font": "Arial;13;0",
+																			"left": 317,
+																			"top": 81,
+																			"height": 13,
+																			"alpha": 1.5707963267948966,
+																			"distance": 25,
+																			"hostEdge": {
+																				"$ref": "AAAAAAGeOa9XJsSbar0="
+																			},
+																			"edgePosition": 1
+																		},
+																		{
+																			"_type": "EdgeLabelView",
+																			"_id": "AAAAAAGeOa9XJsSeXvU=",
+																			"_parent": {
+																				"$ref": "AAAAAAGeOa9XJsSbar0="
+																			},
+																			"model": {
+																				"$ref": "AAAAAAGeOa9XJsSa3lQ="
+																			},
+																			"visible": false,
+																			"font": "Arial;13;0",
+																			"left": 317,
+																			"top": 116,
+																			"height": 13,
+																			"alpha": -1.5707963267948966,
+																			"distance": 10,
+																			"hostEdge": {
+																				"$ref": "AAAAAAGeOa9XJsSbar0="
+																			},
+																			"edgePosition": 1
+																		},
+																		{
+																			"_type": "UMLActivationView",
+																			"_id": "AAAAAAGeOa9XJsSfBaU=",
+																			"_parent": {
+																				"$ref": "AAAAAAGeOa9XJsSbar0="
+																			},
+																			"model": {
+																				"$ref": "AAAAAAGeOa9XJsSa3lQ="
+																			},
+																			"font": "Arial;13;0",
+																			"left": 380,
+																			"top": 112,
+																			"width": 14,
+																			"height": 28
+																		}
+																	],
+																	"font": "Arial;13;0",
+																	"head": {
+																		"$ref": "AAAAAAGeM0yffmXrWr4="
+																	},
+																	"tail": {
+																		"$ref": "AAAAAAGeOa9XJsSZ68o="
+																	},
+																	"points": "255:112;380:112",
+																	"nameLabel": {
+																		"$ref": "AAAAAAGeOa9XJsScYmM="
+																	},
+																	"stereotypeLabel": {
+																		"$ref": "AAAAAAGeOa9XJsSdM9A="
+																	},
+																	"propertyLabel": {
+																		"$ref": "AAAAAAGeOa9XJsSeXvU="
+																	},
+																	"activation": {
+																		"$ref": "AAAAAAGeOa9XJsSfBaU="
+																	}
+																},
+																{
+																	"_type": "UMLSeqMessageView",
 																	"_id": "AAAAAAGeNDDGCWK/6no=",
 																	"_parent": {
 																		"$ref": "AAAAAAGeMzkeuGH7Qjo="
@@ -66909,7 +67020,7 @@
 																				"$ref": "AAAAAAGeNDDGCWK/6no="
 																			},
 																			"edgePosition": 1,
-																			"text": "1 : procesar(contexto : ContextoPipeline<I>):ContextoPipeline<O>"
+																			"text": "2 : procesar(contexto : ContextoPipeline<I>):ContextoPipeline<O>"
 																		},
 																		{
 																			"_type": "EdgeLabelView",
@@ -67020,7 +67131,7 @@
 																				"$ref": "AAAAAAGeNDDQAGLUx0Y="
 																			},
 																			"edgePosition": 1,
-																			"text": "2 : solicitarFinalizacion(solicitud: SolicitudFinalizacionDTO):void"
+																			"text": "3 : solicitarFinalizacion(solicitud: SolicitudFinalizacionDTO):void"
 																		},
 																		{
 																			"_type": "EdgeLabelView",
@@ -67131,7 +67242,7 @@
 																				"$ref": "AAAAAAGeNDDW+WLpEJY="
 																			},
 																			"edgePosition": 1,
-																			"text": "3 : solicitarFinalizacion(solicitud: SolicitudFinalizacionDTO):SolicitudFinalizacionDTO"
+																			"text": "4 : solicitarFinalizacion(solicitud: SolicitudFinalizacionDTO):SolicitudFinalizacionDTO"
 																		},
 																		{
 																			"_type": "EdgeLabelView",
@@ -67242,7 +67353,7 @@
 																				"$ref": "AAAAAAGeNDDm4WL+V0c="
 																			},
 																			"edgePosition": 1,
-																			"text": "4 : registrarRespuestaFinalizacion(respuesta: RespuestaFinalizacionDTO):RespuestaFinalizacionDTO"
+																			"text": "5 : registrarRespuestaFinalizacion(respuesta: RespuestaFinalizacionDTO):RespuestaFinalizacionDTO"
 																		},
 																		{
 																			"_type": "EdgeLabelView",
@@ -67353,7 +67464,7 @@
 																				"$ref": "AAAAAAGeNDD6mmMTbvg="
 																			},
 																			"edgePosition": 1,
-																			"text": "5 : RespuestaFinalizacionDTO"
+																			"text": "6 : RespuestaFinalizacionDTO"
 																		},
 																		{
 																			"_type": "EdgeLabelView",
@@ -67465,7 +67576,7 @@
 																				"$ref": "AAAAAAGeNDEdg2MoGDg="
 																			},
 																			"edgePosition": 1,
-																			"text": "6 : RespuestaFinalizacionDTO"
+																			"text": "7 : RespuestaFinalizacionDTO"
 																		},
 																		{
 																			"_type": "EdgeLabelView",
@@ -67592,7 +67703,7 @@
 																				"$ref": "AAAAAAGeOXRFSLX+czk="
 																			},
 																			"edgePosition": 1,
-																			"text": "7 : obtenerEstadoPartida():EstadoPartidaDTO"
+																			"text": "8 : obtenerEstadoPartida():EstadoPartidaDTO"
 																		},
 																		{
 																			"_type": "EdgeLabelView",
@@ -67703,7 +67814,7 @@
 																				"$ref": "AAAAAAGeOXgVPMIQY/8="
 																			},
 																			"edgePosition": 1,
-																			"text": "8 : obtenerEstadoPartidaDTO():EstadoPartidaDTO"
+																			"text": "9 : obtenerEstadoPartidaDTO():EstadoPartidaDTO"
 																		},
 																		{
 																			"_type": "EdgeLabelView",
@@ -67814,7 +67925,7 @@
 																				"$ref": "AAAAAAGeOXjRqcJMcfU="
 																			},
 																			"edgePosition": 1,
-																			"text": "9 : EstadoPartidaDTO"
+																			"text": "10 : EstadoPartidaDTO"
 																		},
 																		{
 																			"_type": "EdgeLabelView",
@@ -67926,7 +68037,7 @@
 																				"$ref": "AAAAAAGeOXjresJiHI0="
 																			},
 																			"edgePosition": 1,
-																			"text": "10 : EstadoPartidaDTO"
+																			"text": "11 : EstadoPartidaDTO"
 																		},
 																		{
 																			"_type": "EdgeLabelView",
@@ -68009,6 +68120,21 @@
 																	}
 																},
 																{
+																	"_type": "UMLEndpointView",
+																	"_id": "AAAAAAGeOa9XJsSZ68o=",
+																	"_parent": {
+																		"$ref": "AAAAAAGeMzkeuGH7Qjo="
+																	},
+																	"model": {
+																		"$ref": "AAAAAAGeOa9XJsSYlrc="
+																	},
+																	"font": "Arial;13;0",
+																	"left": 240,
+																	"top": 104.5,
+																	"width": 15,
+																	"height": 15
+																},
+																{
 																	"_type": "UMLSeqMessageView",
 																	"_id": "AAAAAAGeNDEu3GM93SU=",
 																	"_parent": {
@@ -68028,9 +68154,9 @@
 																				"$ref": "AAAAAAGeNDEu3GM87uQ="
 																			},
 																			"font": "Arial;13;0",
-																			"left": 422,
+																			"left": 387,
 																			"top": 508,
-																			"width": 176.06494140625,
+																			"width": 247.634765625,
 																			"height": 13,
 																			"alpha": 1.5707963267948966,
 																			"distance": 10,
@@ -68038,7 +68164,7 @@
 																				"$ref": "AAAAAAGeNDEu3GM93SU="
 																			},
 																			"edgePosition": 1,
-																			"text": "11 : EstadoPartidaDTO"
+																			"text": "12 : ContextoPipeline<EstadoPartidaDTO>"
 																		},
 																		{
 																			"_type": "EdgeLabelView",
@@ -68119,123 +68245,26 @@
 																	"activation": {
 																		"$ref": "AAAAAAGeNDEu3GNBcng="
 																	}
-																},
-																{
-																	"_type": "UMLSeqMessageView",
-																	"_id": "AAAAAAGeNDFarGNV8e0=",
-																	"_parent": {
-																		"$ref": "AAAAAAGeMzkeuGH7Qjo="
-																	},
-																	"model": {
-																		"$ref": "AAAAAAGeNDFarGNUme0="
-																	},
-																	"subViews": [
-																		{
-																			"_type": "EdgeLabelView",
-																			"_id": "AAAAAAGeNDFarWNWhVA=",
-																			"_parent": {
-																				"$ref": "AAAAAAGeNDFarGNV8e0="
-																			},
-																			"model": {
-																				"$ref": "AAAAAAGeNDFarGNUme0="
-																			},
-																			"font": "Arial;13;0",
-																			"left": 618,
-																			"top": 521,
-																			"width": 441.720703125,
-																			"height": 13,
-																			"alpha": 1.5707963267948966,
-																			"distance": 10,
-																			"hostEdge": {
-																				"$ref": "AAAAAAGeNDFarGNV8e0="
-																			},
-																			"edgePosition": 1,
-																			"text": "12 : enviarSolicitudFinalizacion(RespuestaDTO: RespuestaFinalizacionDTO)"
-																		},
-																		{
-																			"_type": "EdgeLabelView",
-																			"_id": "AAAAAAGeNDFarWNXEvo=",
-																			"_parent": {
-																				"$ref": "AAAAAAGeNDFarGNV8e0="
-																			},
-																			"model": {
-																				"$ref": "AAAAAAGeNDFarGNUme0="
-																			},
-																			"visible": false,
-																			"font": "Arial;13;0",
-																			"left": 838,
-																			"top": 506,
-																			"height": 13,
-																			"alpha": 1.5707963267948966,
-																			"distance": 25,
-																			"hostEdge": {
-																				"$ref": "AAAAAAGeNDFarGNV8e0="
-																			},
-																			"edgePosition": 1
-																		},
-																		{
-																			"_type": "EdgeLabelView",
-																			"_id": "AAAAAAGeNDFarWNY8fA=",
-																			"_parent": {
-																				"$ref": "AAAAAAGeNDFarGNV8e0="
-																			},
-																			"model": {
-																				"$ref": "AAAAAAGeNDFarGNUme0="
-																			},
-																			"visible": false,
-																			"font": "Arial;13;0",
-																			"left": 838,
-																			"top": 541,
-																			"height": 13,
-																			"alpha": -1.5707963267948966,
-																			"distance": 10,
-																			"hostEdge": {
-																				"$ref": "AAAAAAGeNDFarGNV8e0="
-																			},
-																			"edgePosition": 1
-																		},
-																		{
-																			"_type": "UMLActivationView",
-																			"_id": "AAAAAAGeNDFarWNZquc=",
-																			"_parent": {
-																				"$ref": "AAAAAAGeNDFarGNV8e0="
-																			},
-																			"model": {
-																				"$ref": "AAAAAAGeNDFarGNUme0="
-																			},
-																			"visible": false,
-																			"font": "Arial;13;0",
-																			"left": 1289,
-																			"top": 537,
-																			"width": 14,
-																			"height": 25
-																		}
-																	],
-																	"font": "Arial;13;0",
-																	"head": {
-																		"$ref": "AAAAAAGeNDFarGNTa00="
-																	},
-																	"tail": {
-																		"$ref": "AAAAAAGeM0yffmXrWr4="
-																	},
-																	"points": "388:537;1289:537",
-																	"nameLabel": {
-																		"$ref": "AAAAAAGeNDFarWNWhVA="
-																	},
-																	"stereotypeLabel": {
-																		"$ref": "AAAAAAGeNDFarWNXEvo="
-																	},
-																	"propertyLabel": {
-																		"$ref": "AAAAAAGeNDFarWNY8fA="
-																	},
-																	"activation": {
-																		"$ref": "AAAAAAGeNDFarWNZquc="
-																	}
 																}
 															]
 														}
 													],
 													"messages": [
+														{
+															"_type": "UMLMessage",
+															"_id": "AAAAAAGeOa9XJsSa3lQ=",
+															"_parent": {
+																"$ref": "AAAAAAGeMzkeuGH6pVM="
+															},
+															"name": "PeticionJugadaDTO",
+															"source": {
+																"$ref": "AAAAAAGeOa9XJsSYlrc="
+															},
+															"target": {
+																"$ref": "AAAAAAGeM0yffWXknvw="
+															},
+															"arguments": "SOLICITAR_FINALIZACION"
+														},
 														{
 															"_type": "UMLMessage",
 															"_id": "AAAAAAGeNDDGCWK+5O0=",
@@ -68404,7 +68433,7 @@
 															"_parent": {
 																"$ref": "AAAAAAGeMzkeuGH6pVM="
 															},
-															"name": "EstadoPartidaDTO",
+															"name": "ContextoPipeline<EstadoPartidaDTO>",
 															"source": {
 																"$ref": "AAAAAAGeM0zULWYD6eA="
 															},
@@ -68412,20 +68441,6 @@
 																"$ref": "AAAAAAGeM0yffWXknvw="
 															},
 															"messageSort": "reply"
-														},
-														{
-															"_type": "UMLMessage",
-															"_id": "AAAAAAGeNDFarGNUme0=",
-															"_parent": {
-																"$ref": "AAAAAAGeMzkeuGH6pVM="
-															},
-															"name": "enviarSolicitudFinalizacion(RespuestaDTO: RespuestaFinalizacionDTO)",
-															"source": {
-																"$ref": "AAAAAAGeM0yffWXknvw="
-															},
-															"target": {
-																"$ref": "AAAAAAGeNDFarGNSKyY="
-															}
 														}
 													],
 													"participants": [
@@ -68480,6 +68495,14 @@
 																"$ref": "AAAAAAGeMzkeuGH6pVM="
 															},
 															"name": "Endpoint1"
+														},
+														{
+															"_type": "UMLEndpoint",
+															"_id": "AAAAAAGeOa9XJsSYlrc=",
+															"_parent": {
+																"$ref": "AAAAAAGeMzkeuGH6pVM="
+															},
+															"name": "Endpoint2"
 														}
 													]
 												},
@@ -69051,7 +69074,7 @@
 																				"$ref": "AAAAAAGeNDQN2WOC5dY="
 																			},
 																			"edgePosition": 1,
-																			"text": "1 : RespuestaFinalizacionDTO"
+																			"text": "1 : PeticionJugadaDTO"
 																		},
 																		{
 																			"_type": "EdgeLabelView",
@@ -69687,21 +69710,6 @@
 																	"activation": {
 																		"$ref": "AAAAAAGeNDRlY2PwhpQ="
 																	}
-																},
-																{
-																	"_type": "UMLEndpointView",
-																	"_id": "AAAAAAGeNDS/FmRq4fQ=",
-																	"_parent": {
-																		"$ref": "AAAAAAGeMzk00WK6dYg="
-																	},
-																	"model": {
-																		"$ref": "AAAAAAGeNDS/FmRpA5s="
-																	},
-																	"font": "Arial;13;0",
-																	"left": 925,
-																	"top": 632.5,
-																	"width": 15,
-																	"height": 15
 																},
 																{
 																	"_type": "UMLSeqMessageView",
@@ -70594,118 +70602,6 @@
 																	"activation": {
 																		"$ref": "AAAAAAGeOYXBUsNh5gg="
 																	}
-																},
-																{
-																	"_type": "UMLSeqMessageView",
-																	"_id": "AAAAAAGeNDS/FmRsYgs=",
-																	"_parent": {
-																		"$ref": "AAAAAAGeMzk00WK6dYg="
-																	},
-																	"model": {
-																		"$ref": "AAAAAAGeNDS/FmRrMCI="
-																	},
-																	"subViews": [
-																		{
-																			"_type": "EdgeLabelView",
-																			"_id": "AAAAAAGeNDS/FmRtZsU=",
-																			"_parent": {
-																				"$ref": "AAAAAAGeNDS/FmRsYgs="
-																			},
-																			"model": {
-																				"$ref": "AAAAAAGeNDS/FmRrMCI="
-																			},
-																			"font": "Arial;13;0",
-																			"left": 445,
-																			"top": 624,
-																			"width": 183.294921875,
-																			"height": 13,
-																			"alpha": 1.5707963267948966,
-																			"distance": 10,
-																			"hostEdge": {
-																				"$ref": "AAAAAAGeNDS/FmRsYgs="
-																			},
-																			"edgePosition": 1,
-																			"text": "15 : RespuestaFinalizacionDTO"
-																		},
-																		{
-																			"_type": "EdgeLabelView",
-																			"_id": "AAAAAAGeNDS/FmRuNqQ=",
-																			"_parent": {
-																				"$ref": "AAAAAAGeNDS/FmRsYgs="
-																			},
-																			"model": {
-																				"$ref": "AAAAAAGeNDS/FmRrMCI="
-																			},
-																			"visible": false,
-																			"font": "Arial;13;0",
-																			"left": 536,
-																			"top": 609,
-																			"height": 13,
-																			"alpha": 1.5707963267948966,
-																			"distance": 25,
-																			"hostEdge": {
-																				"$ref": "AAAAAAGeNDS/FmRsYgs="
-																			},
-																			"edgePosition": 1
-																		},
-																		{
-																			"_type": "EdgeLabelView",
-																			"_id": "AAAAAAGeNDS/FmRvtKg=",
-																			"_parent": {
-																				"$ref": "AAAAAAGeNDS/FmRsYgs="
-																			},
-																			"model": {
-																				"$ref": "AAAAAAGeNDS/FmRrMCI="
-																			},
-																			"visible": false,
-																			"font": "Arial;13;0",
-																			"left": 536,
-																			"top": 644,
-																			"height": 13,
-																			"alpha": -1.5707963267948966,
-																			"distance": 10,
-																			"hostEdge": {
-																				"$ref": "AAAAAAGeNDS/FmRsYgs="
-																			},
-																			"edgePosition": 1
-																		},
-																		{
-																			"_type": "UMLActivationView",
-																			"_id": "AAAAAAGeNDS/FmRwaUc=",
-																			"_parent": {
-																				"$ref": "AAAAAAGeNDS/FmRsYgs="
-																			},
-																			"model": {
-																				"$ref": "AAAAAAGeNDS/FmRrMCI="
-																			},
-																			"visible": false,
-																			"font": "Arial;13;0",
-																			"left": 925,
-																			"top": 640,
-																			"width": 14,
-																			"height": 25
-																		}
-																	],
-																	"font": "Arial;13;0",
-																	"head": {
-																		"$ref": "AAAAAAGeNDS/FmRq4fQ="
-																	},
-																	"tail": {
-																		"$ref": "AAAAAAGeM1NJWGZ7yeg="
-																	},
-																	"points": "148:640;925:640",
-																	"nameLabel": {
-																		"$ref": "AAAAAAGeNDS/FmRtZsU="
-																	},
-																	"stereotypeLabel": {
-																		"$ref": "AAAAAAGeNDS/FmRuNqQ="
-																	},
-																	"propertyLabel": {
-																		"$ref": "AAAAAAGeNDS/FmRvtKg="
-																	},
-																	"activation": {
-																		"$ref": "AAAAAAGeNDS/FmRwaUc="
-																	}
 																}
 															]
 														}
@@ -70717,7 +70613,7 @@
 															"_parent": {
 																"$ref": "AAAAAAGeMzk00WK523U="
 															},
-															"name": "RespuestaFinalizacionDTO",
+															"name": "PeticionJugadaDTO",
 															"source": {
 																"$ref": "AAAAAAGeNDQN2GN/pmQ="
 															},
@@ -70936,20 +70832,6 @@
 																"$ref": "AAAAAAGeM1NJWGZ0LW4="
 															},
 															"messageSort": "reply"
-														},
-														{
-															"_type": "UMLMessage",
-															"_id": "AAAAAAGeNDS/FmRrMCI=",
-															"_parent": {
-																"$ref": "AAAAAAGeMzk00WK523U="
-															},
-															"name": "RespuestaFinalizacionDTO",
-															"source": {
-																"$ref": "AAAAAAGeM1NJWGZ0LW4="
-															},
-															"target": {
-																"$ref": "AAAAAAGeNDS/FmRpA5s="
-															}
 														}
 													],
 													"participants": [
@@ -71004,14 +70886,6 @@
 																"$ref": "AAAAAAGeMzk00WK523U="
 															},
 															"name": "Endpoint1"
-														},
-														{
-															"_type": "UMLEndpoint",
-															"_id": "AAAAAAGeNDS/FmRpA5s=",
-															"_parent": {
-																"$ref": "AAAAAAGeMzk00WK523U="
-															},
-															"name": "Endpoint2"
 														}
 													]
 												},

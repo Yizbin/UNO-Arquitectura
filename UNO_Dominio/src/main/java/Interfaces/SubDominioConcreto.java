@@ -3,6 +3,9 @@ package Interfaces;
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
+import DTOs.RespuestaFinalizacionDTO;
+import DTOs.ResultadoFinalizacionDTO;
+import DTOs.SolicitudFinalizacionDTO;
 import Entidades.Partida;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
@@ -18,7 +21,7 @@ import java.util.List;
  */
 public class SubDominioConcreto implements ISubDominio {
 
-    private final Partida partida;
+    private Partida partida;
 
     public SubDominioConcreto(Partida partida) {
         this.partida = partida;
@@ -102,7 +105,7 @@ public class SubDominioConcreto implements ISubDominio {
 
     @Override
     public EstadoPartidaDTO obtenerEstadoPartida() {
-        return this.partida.obtenerEstadoPartidaDTO();
+        return this.partida != null ? this.partida.obtenerEstadoPartidaDTO() : new EstadoPartidaDTO();
     }
 
     @Override
@@ -119,5 +122,28 @@ public class SubDominioConcreto implements ISubDominio {
     @Override
     public void gritarUno(int idJugador) {
         partida.gritarUno(idJugador);
+    }
+    
+    
+    //finalizar partida
+    @Override
+    public void solicitarFinalizacion(SolicitudFinalizacionDTO solicitud) {
+        partida.solicitarFinalizacion(solicitud);
+    }
+
+    @Override
+    public void responderFinalizacion(RespuestaFinalizacionDTO respuesta) {
+        registrarRespuestaFinalizacion(respuesta);
+        evaluarFinalizacion();
+    }
+
+    @Override
+    public RespuestaFinalizacionDTO registrarRespuestaFinalizacion(RespuestaFinalizacionDTO respuestaDTO) {
+        return partida.registrarRespuestaFinalizacion(respuestaDTO);
+    }
+
+    @Override
+    public ResultadoFinalizacionDTO evaluarFinalizacion() {
+        return partida.evaluarFinalizacion();
     }
 }
