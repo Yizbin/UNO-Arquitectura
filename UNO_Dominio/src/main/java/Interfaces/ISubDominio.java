@@ -8,6 +8,7 @@ import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.RespuestaFinalizacionDTO;
+import DTOs.ResultadoFinalizacionDTO;
 import DTOs.SolicitudFinalizacionDTO;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
@@ -64,6 +65,10 @@ public interface ISubDominio {
     void solicitarFinalizacion(SolicitudFinalizacionDTO solicitud);
 
     void responderFinalizacion(RespuestaFinalizacionDTO respuesta);
+
+    RespuestaFinalizacionDTO registrarRespuestaFinalizacion(RespuestaFinalizacionDTO respuestaDTO);
+
+    ResultadoFinalizacionDTO evaluarFinalizacion();
 
     // METODOS PARA LA SALA
     public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO);
