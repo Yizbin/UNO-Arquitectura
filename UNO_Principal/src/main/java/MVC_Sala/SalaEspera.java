@@ -29,24 +29,24 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
         btnListo.addActionListener(evt -> solicitarInicio());
     }
 
-    public void solicitarInicio() {
+    private void solicitarInicio() {
         JugadorResumenDTO jugadorLocal = modeloVista != null ? modeloVista.getJugadorLocal() : null;
         boolean respuesta = controlador != null && controlador.iniciarPartida(jugadorLocal);
         responderInicio(respuesta);
     }
 
-    public void responderInicio(boolean respuesta) {
+    private void responderInicio(boolean respuesta) {
         if (respuesta) {
             mostrarInicioPartida();
         }
     }
 
-    public void mostrarInicioPartida() {
+    private void mostrarInicioPartida() {
         btnListo.setEnabled(false);
         btnListo.setText("Confirmado");
     }
 
-    public void actualizarPanelJugadoresConfirmados(List<JugadorResumenDTO> jugadores) {
+    private void actualizarPanelJugadoresConfirmados(List<JugadorResumenDTO> jugadores) {
         refrescarPanelJugadores(jugadores);
     }
 
