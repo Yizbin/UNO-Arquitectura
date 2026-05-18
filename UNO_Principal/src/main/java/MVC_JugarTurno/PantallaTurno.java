@@ -26,6 +26,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     private boolean pidiendoColor = false;
     private String solicitudFinalizacionAtendida;
     private EstadoFinalizacion ultimoResultadoFinalizacion;
+    private boolean tablaFinalMostrada;
 
     public PantallaTurno(IModeloVista modelo, UnoSpinControlador control) {
         this.control = control;
@@ -407,6 +408,8 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
     private void procesarFinalizacion(EstadoPantallaTurnoDTO estadoPantalla) {
         if (estadoPantalla.getEstadoFinalizacion() == EstadoFinalizacion.EN_ESPERA_RESPUESTAS) {
+            ultimoResultadoFinalizacion = null;
+            tablaFinalMostrada = false;
             pedirRespuestaFinalizacion(estadoPantalla);
             return;
         }
@@ -443,7 +446,11 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
     private void mostrarResultadoFinalizacion(EstadoPantallaTurnoDTO estadoPantalla) {
         EstadoFinalizacion estado = estadoPantalla.getEstadoFinalizacion();
-        if (estado == ultimoResultadoFinalizacion) {
+        if (estado == EstadoFinalizacion.FINALIZADA && tablaFinalMostrada) {
+            return;
+        }
+
+        if (estado == EstadoFinalizacion.CANCELADA && estado == ultimoResultadoFinalizacion) {
             return;
         }
 
@@ -453,6 +460,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
             return;
         }
 
+        tablaFinalMostrada = true;
         PanelTablaPosiciones.mostrarDialogo(this, estadoPantalla.getTablaPosiciones());
     }
 
