@@ -132,7 +132,7 @@ public class Ensamblador {
             JugadorResumenDTO jugador = new JugadorResumenDTO(idJugador, "Jugador " + idJugador);
             EstadoPartidaDTO estado = new EstadoPartidaDTO();
             estado.setIdJugador(jugador.getId());
-            PeticionJugadaDTO peticion = new PeticionJugadaDTO(TipoAccionPartida.UNIRSE_PARTIDA, estado);
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(TipoAccionPartida.SOLICITAR_UNIRSE_PARTIDA, estado);
             pipelineSalida.procesar(new Plantilla.ContextoPipeline<>(peticion));
             System.out.println("Jugador local registrado en partida: " + idJugador);
         } catch (Exception e) {

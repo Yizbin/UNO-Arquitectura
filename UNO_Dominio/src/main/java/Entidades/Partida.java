@@ -50,13 +50,6 @@ public class Partida {
     private final Map<Integer, RespuestaFinalizacionDTO> respuestasFinalizacion;
 
     public Partida() {
-<<<<<<< HEAD
-        this(0);
-    }
-
-    public Partida(int idJugador) {
-=======
->>>>>>> main
         this.jugadores = List.of();
         this.solicitudesPendientes = new ArrayList<>();
         this.descarte = new Descarte();
@@ -92,13 +85,8 @@ public class Partida {
             throw new IllegalStateException("La partida ya alcanzo el numero maximo de jugadores.");
         }
 
-<<<<<<< HEAD
-        if (jugadores.contains(jugador)) {
-            return;
-=======
         if (jugadorYaEstaUnido(idJugadorSolicitante)) {
             throw new IllegalArgumentException("El jugador ya esta unido a la partida.");
->>>>>>> main
         }
 
         if (solicitudesPendientes.contains(idJugadorSolicitante)) {
