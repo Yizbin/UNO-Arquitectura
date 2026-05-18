@@ -20,4 +20,6 @@ public interface IModeloSalaVista {
     List<JugadorResumenDTO> getJugadoresConfirmados();
 
     boolean isPartidaListaParaIniciar();
+    
+    boolean isPartidaDisponible();
 }

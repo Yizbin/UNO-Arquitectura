@@ -34,6 +34,8 @@ public class Partida {
     private ConfiguracionPartida configuracion;
     private boolean disponible;
 
+    
+
     public Partida(List<Jugador> jugadores, Mazo mazo) {
         this.jugadores = List.copyOf(jugadores);
         this.mazo = mazo;
@@ -180,14 +182,19 @@ public class Partida {
         estadoDTO.setEsperandoColor(esperandoColor);
         estadoDTO.setRuletaActiva(false);
         estadoDTO.setPartidaListaParaIniciar(puedeIniciarPartida());
+        
 
         if (descarte != null && descarte.getTope() != null) {
             estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
-        }
-
+        }       
         return estadoDTO;
     }
     
+    public static Partida crearConConfiguracion(ConfiguracionPartida configuracion) {
+        Partida partida = new Partida(List.of(), null);
+        partida.configurarPartida(configuracion);
+        return partida;
+    }
 
     public void robarCarta(Jugador jugador) throws MazoVacioException, ValidarTurnoException {
         validarTurno(jugador);
@@ -353,19 +360,13 @@ public class Partida {
     }
     
     //ConfiguracionPartida
-    public void configurarPartida(ConfiguracionPartida configuracion, Mazo mazo) {
+    public void configurarPartida(ConfiguracionPartida configuracion) {
         if (configuracion == null) {
             throw new IllegalArgumentException("La configuración no puede ser nula.");
         }
-
-        if (mazo == null) {
-            throw new IllegalArgumentException("El mazo no puede ser nulo.");
-        }
-
         configuracion.validarConfiguracion();
 
         this.configuracion = configuracion;
-        this.mazo = mazo;
     }
     
     public void establecerDisponible() {

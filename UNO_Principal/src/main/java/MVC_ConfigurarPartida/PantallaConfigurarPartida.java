@@ -24,6 +24,7 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame implements ISu
         jsNumeroFin.setModel(new javax.swing.SpinnerNumberModel(9, 0, 9, 1));
         jsNumComodines.setModel(new javax.swing.SpinnerNumberModel(8, 0, 8, 1));
         
+        setLocationRelativeTo(null);
         this.modelo.agregarSuscriptor(this);
     }
 

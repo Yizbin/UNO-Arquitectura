@@ -132,16 +132,20 @@ public class SubDominioConcreto implements ISubDominio {
         partida.gritarUno(idJugador);
     }
 
-    @Override
+    
+      @Override
     public void configurarPartida(ConfiguracionPartidaDTO configuracionDTO) {
-         ConfiguracionPartida configuracionPartida = configuracionMapper.toEntity(configuracionDTO);
-         Mazo mazoConfigurado = mazoFactory.crear(configuracionPartida);
+        ConfiguracionPartida configuracionPartida = configuracionMapper.toEntity(configuracionDTO);
 
         if (partida == null) {
-            partida = Partida.desdeJugadoresDTO(List.of(), mazoConfigurado);
+            partida = Partida.crearConConfiguracion(configuracionPartida);
+        } else {
+            partida.configurarPartida(configuracionPartida);
         }
 
-        partida.configurarPartida(configuracionPartida, mazoConfigurado);
         partida.establecerDisponible();
+
+        System.out.println("[CONFIG] Configuración asignada a la partida.");
+        System.out.println("[CONFIG] Partida disponible: " + partida.isDisponible());
     }
 }

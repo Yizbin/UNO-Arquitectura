@@ -28,6 +28,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     private JugadorResumenDTO jugadorLocal;
     private boolean partidaListaParaIniciar;
 
+
     public ModeloSala() {
         this.suscriptores = new ArrayList<>();
         this.jugadoresEnSala = new ArrayList<>();
@@ -37,6 +38,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     public ModeloSala(IPump<PeticionJugadaDTO> coordinador) {
         this();
         this.coordinador = coordinador;
+        
     }
 
     public void conectarCoordinador(IPump<PeticionJugadaDTO> coordinador) {
@@ -177,6 +179,11 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
     @Override
     public boolean isPartidaListaParaIniciar() {
         return this.partidaListaParaIniciar;
+    }
+
+    @Override
+    public boolean isPartidaDisponible() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
