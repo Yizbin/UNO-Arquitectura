@@ -200,7 +200,8 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         EstadoPantallaTurnoDTO estado = modelo.getEstadoPantalla();
-        if (estado != null && estado.getJugadorLocal() != null) {
+        if (estado != null && estado.getJugadorLocal() != null
+                && PanelFinalizarPartida.mostrarDialogo(this)) {
             control.solicitarFinalizacion(estado.getJugadorLocal());
 
         }
@@ -436,12 +437,8 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
         solicitudFinalizacionAtendida = claveSolicitud;
         String nombre = solicitante.getNombreUsuario() != null ? solicitante.getNombreUsuario() : "Otro jugador";
-        int opcion = mostrarOpciones(
-                nombre + " solicito finalizar la partida. Aceptas?",
-                "Finalizar partida",
-                new Object[]{"Aceptar", "Rechazar"}
-        );
-        control.responderFinalizacion(estadoPantalla.getJugadorLocal(), opcion == 0);
+        boolean acepta = PanelResponderFinalizacion.mostrarDialogo(this, nombre);
+        control.responderFinalizacion(estadoPantalla.getJugadorLocal(), acepta);
     }
 
     private void mostrarResultadoFinalizacion(EstadoPantallaTurnoDTO estadoPantalla) {
@@ -456,22 +453,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
             return;
         }
 
-        TablaPosicionesDTO tabla = estadoPantalla.getTablaPosiciones();
-        StringBuilder mensaje = new StringBuilder("La partida finalizo.\n\nTabla de posiciones:");
-        if (tabla != null && tabla.getPosiciones() != null) {
-            int posicion = 1;
-            for (JugadorResumenDTO jugador : tabla.getPosiciones()) {
-                mensaje.append("\n")
-                        .append(posicion++)
-                        .append(". ")
-                        .append(jugador.getNombreUsuario())
-                        .append(" - ")
-                        .append(jugador.getPuntos())
-                        .append(" puntos");
-            }
-        }
-
-        mostrarMensaje(mensaje.toString(), "Finalizar partida", JOptionPane.INFORMATION_MESSAGE);
+        PanelTablaPosiciones.mostrarDialogo(this, estadoPantalla.getTablaPosiciones());
     }
 
 }
