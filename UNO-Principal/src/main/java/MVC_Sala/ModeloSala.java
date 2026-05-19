@@ -5,6 +5,7 @@
 package MVC_Sala;
 
 import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorEstadoSalaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.EstadoJugadorSala;
@@ -25,6 +26,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     private final List<ISuscriptorSala> suscriptores;
     private IPump<PeticionJugadaDTO, ?> coordinador;
     private List<JugadorResumenDTO> jugadoresEnSala;
+    private List<JugadorEstadoSalaDTO> estadosJugadoresSala;
     private JugadorResumenDTO jugadorLocal;
     private Map<TipoColor, TipoColor> coloresLocales;
     private boolean cambiarFrame = false;
@@ -131,30 +133,6 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     }
 
     @Override
-    public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {
-//        JugadorResumenDTO jugadorSolicitud = jugadorDTO != null ? jugadorDTO : jugadorLocal;
-//
-//        if (coordinador == null || jugadorSolicitud == null) {
-//            return false;
-//        }
-//
-//        jugadorSolicitud.setEstadoSala(EstadoJugadorSala.CONFIRMADO);
-//        this.jugadorLocal = jugadorSolicitud;
-//
-//        try {
-//            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
-//                    TipoAccionPartida.SOLICITAR_INICIO_PARTIDA,
-//                    jugadorSolicitud
-//            );
-//            enviarPeticion(peticion);
-//            return true;
-//        } catch (Exception e) {
-//            System.err.println("Error al solicitar inicio de partida: " + e.getMessage());
-//        }
-        return false;
-    }
-
-    @Override
     public void establecerJugadorLocal(JugadorResumenDTO datos) {
         if (datos == null) {
             return;
@@ -190,19 +168,6 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     }
 
     @Override
-    public List<JugadorResumenDTO> getJugadoresConfirmados() {
-        List<JugadorResumenDTO> jugadoresConfirmados = new ArrayList<>();
-
-        for (JugadorResumenDTO jugador : jugadoresEnSala) {
-            if (jugador.getEstadoSala() == EstadoJugadorSala.CONFIRMADO) {
-                jugadoresConfirmados.add(jugador);
-            }
-        }
-
-        return jugadoresConfirmados;
-    }
-
-    @Override
     public boolean isPartidaListaParaIniciar() {
         return this.partidaListaParaIniciar;
     }
@@ -230,4 +195,70 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         }
     }
 
+    private void setearJugadoresEsperando() {
+        List<JugadorEstadoSalaDTO> estadosActualizados = new ArrayList<>();
+
+        for (JugadorResumenDTO jugador : jugadoresEnSala) {
+            EstadoJugadorSala estadoActual = obtenerEstadoJugador(jugador.getId());
+
+            if (estadoActual == null) {
+                estadoActual = EstadoJugadorSala.ESPERANDO;
+            }
+
+            estadosActualizados.add(new JugadorEstadoSalaDTO(
+                    jugador.getId(),
+                    estadoActual
+            ));
+        }
+
+        this.estadosJugadoresSala = estadosActualizados;
+    }
+
+    private EstadoJugadorSala obtenerEstadoJugador(int idJugador) {
+        for (JugadorEstadoSalaDTO estadoJugador : estadosJugadoresSala) {
+            if (estadoJugador.getId() == idJugador) {
+                return estadoJugador.getEstadoSala();
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<JugadorEstadoSalaDTO> getEstadosJugadoresSala() {
+        return this.estadosJugadoresSala;
+    }
+
+    @Override
+    public boolean actualizarEstadoJugadorSala() {
+        JugadorResumenDTO jugadorLocal = this.jugadorLocal;
+        if (coordinador == null || jugadorLocal == null) {
+            return false;
+        }
+        try {
+            EstadoJugadorSala estadoActual = obtenerEstadoJugador(jugadorLocal.getId());
+            EstadoJugadorSala nuevoEstado = estadoActual
+                    == EstadoJugadorSala.CONFIRMADO
+                            ? EstadoJugadorSala.CANCELADO
+                            : EstadoJugadorSala.CONFIRMADO;
+            JugadorEstadoSalaDTO jugadorEstado = new JugadorEstadoSalaDTO(
+                    jugadorLocal.getId(),
+                    nuevoEstado
+            );
+            EstadoPartidaDTO estado = new EstadoPartidaDTO();
+            estado.setEstadosJugadoresSala(List.of(jugadorEstado));
+
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
+                    TipoAccionPartida.CAMBIAR_INICIO_PARTIDA,
+                    estado
+            );
+
+            enviarPeticion(peticion);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error al actualizar estado del jugador en sala: " + e.getMessage());
+        }
+
+        return false;
+    }
 }

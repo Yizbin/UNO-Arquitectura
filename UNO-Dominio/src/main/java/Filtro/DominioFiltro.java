@@ -5,6 +5,7 @@
 package Filtro;
 
 import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorEstadoSalaDTO;
 import DTOs.PeticionJugadaDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import Enums.TipoAccionPartida;
@@ -41,9 +42,9 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
         }
 
         switch (tipoAccion) {
-            
+
             case CONFIGURAR_PARTIDA -> {
-                 subDominio.configurarPartida(peticion.getConfiguracionPartida());
+                subDominio.configurarPartida(peticion.getConfiguracionPartida());
             }
             case SOLICITAR_UNIRSE_PARTIDA -> {
                 subDominio.solicitarUnion(peticion.getJugadorActualizar());
@@ -58,9 +59,19 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
                 subDominio.rechazarSolicitudUnion(estado.getIdJugador());
             }
-            case SOLICITAR_INICIO_PARTIDA -> {
-//                subDominio.confirmarInicioPartida(peticion.getJugador());
-            }           
+            case CAMBIAR_INICIO_PARTIDA -> {
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+
+                if (estado == null
+                        || estado.getEstadosJugadoresSala() == null
+                        || estado.getEstadosJugadoresSala().isEmpty()) {
+                    throw new IllegalStateException("No se recibio el estado del jugador que solicita iniciar partida.");
+                }
+
+                JugadorEstadoSalaDTO jugadorEstado = estado.getEstadosJugadoresSala().get(0);
+                subDominio.actualizarEstadoJugadorSala(jugadorEstado);
+            }
+
             case JUGAR_CARTA -> {
                 subDominio.jugarCarta(peticion.getEstadoPartida().getIdJugador(), peticion.getEstadoPartida().getCartaEnDescarte());
             }
@@ -88,7 +99,7 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
             case RECHAZAR_FINALIZACION -> {
                 subDominio.responderFinalizacion(crearRespuestaFinalizacion(peticion, false));
             }
-           
+
             default ->
                 throw new UnsupportedOperationException("Tipo de accion no reconocido: " + tipoAccion);
         }
