@@ -51,7 +51,10 @@ public class ControladorSala {
         if (controlConfigPartida == null) {
             throw new IllegalStateException("No se ha configurado el controlador de Configurar Partida.");
         }
-
         controlConfigPartida.mostrarPantallaConfigurarPartida();
+    }
+    
+    public void abrirMenu(){
+        
     }
 }
