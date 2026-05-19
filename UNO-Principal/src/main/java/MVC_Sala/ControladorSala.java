@@ -5,6 +5,8 @@
 package MVC_Sala;
 
 import DTOs.JugadorResumenDTO;
+import Enums.TipoColor;
+import java.util.Map;
 
 /**
  *
@@ -26,8 +28,8 @@ public class ControladorSala {
         return modelo.iniciarPartida(jugadorDTO);
     }
 
-    public void actualizarPerfil(JugadorResumenDTO datos) {
-        modelo.actualizarDatosJugador(datos);
+    void actualizarDatosJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores){
+        modelo.actualizarDatosJugador(datos, misColores);
     }
 
     public void abrirSalaEspera() {

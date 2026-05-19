@@ -9,10 +9,12 @@ import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.EstadoJugadorSala;
 import Enums.TipoAccionPartida;
+import Enums.TipoColor;
 import Plantilla.ContextoPipeline;
 import interfaces.IPump;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -24,6 +26,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     private IPump<PeticionJugadaDTO, ?> coordinador;
     private List<JugadorResumenDTO> jugadoresEnSala;
     private JugadorResumenDTO jugadorLocal;
+    private Map<TipoColor, TipoColor> coloresLocales;
     private boolean cambiarFrame = false;
     private boolean partidaListaParaIniciar;
 
@@ -205,13 +208,11 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     }
 
     @Override
-    public void actualizarDatosJugador(JugadorResumenDTO datos) {
+    public void actualizarDatosJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores) {
         if (datos == null) {
             return;
         }
-
         this.jugadorLocal = datos;
-
         if (coordinador == null) {
             return;
         }
@@ -222,7 +223,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
                     jugadorLocal,
                     null
             );
-
+            this.coloresLocales = misColores;
             enviarPeticion(peticion);
         } catch (Exception e) {
             System.err.println("Error al actualizar perfil: " + e.getMessage());
