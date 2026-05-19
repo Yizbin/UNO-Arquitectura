@@ -7,6 +7,7 @@ import DTOs.JugadorResumenDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
 import DTOs.ConfiguracionPartidaDTO;
+import DTOs.JugadorEstadoSalaDTO;
 import Entidades.ConfiguracionPartida;
 import Mappers.ConfiguracionMapper;
 import Entidades.Partida;
@@ -54,16 +55,6 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO) {
-        return this.partida.confirmarInicioPartida(jugadorDTO);
-    }
-
-    @Override
-    public List<JugadorResumenDTO> obtenerJugadoresConfirmados() {
-        return this.partida.obtenerJugadoresConfirmados();
-    }
-
-    @Override
     public boolean puedeIniciarPartida() {
         return this.partida.puedeIniciarPartida();
     }
@@ -101,11 +92,6 @@ public class SubDominioConcreto implements ISubDominio {
     @Override
     public List<CartaDTO> obtenerManoJugador(int idJugador) {
         return partida.obtenerManoJugadorDTO(idJugador);
-    }
-
-    @Override
-    public EstadoPartidaDTO obtenerEstadoPartida() {
-        return this.partida != null ? this.partida.obtenerEstadoPartidaDTO() : new EstadoPartidaDTO();
     }
 
     @Override
@@ -148,20 +134,35 @@ public class SubDominioConcreto implements ISubDominio {
 
     @Override
     public void configurarPartida(ConfiguracionPartidaDTO configuracionDTO) {
-        ConfiguracionPartida configuracionPartida =
-        configuracionMapper.toEntity(configuracionDTO);
+        ConfiguracionPartida configuracionPartida
+                = configuracionMapper.toEntity(configuracionDTO);
 
-         if (partida == null) {
-             partida = Partida.crearConConfiguracion(configuracionPartida);
-         } else {
-             partida.configurarPartida(configuracionPartida);
-         }
+        if (partida == null) {
+            partida = Partida.crearConConfiguracion(configuracionPartida);
+        } else {
+            partida.configurarPartida(configuracionPartida);
+        }
 
-         partida.establecerDisponible();
+        partida.establecerDisponible();
 
-         System.out.println("[CONFIG] Partida creada: " + (partida != null));
-         System.out.println("[CONFIG] Configuración asignada: " + (partida.getConfiguracion() != null));
-         System.out.println("[CONFIG] Partida disponible: " + partida.isDisponible());
-         System.out.println("[CONFIG] Mazo creado en configurar partida: " + (partida.getMazo() != null));
+        System.out.println("[CONFIG] Partida creada: " + (partida != null));
+        System.out.println("[CONFIG] Configuración asignada: " + (partida.getConfiguracion() != null));
+        System.out.println("[CONFIG] Partida disponible: " + partida.isDisponible());
+        System.out.println("[CONFIG] Mazo creado en configurar partida: " + (partida.getMazo() != null));
+    }
+
+    @Override
+    public EstadoPartidaDTO obtenerEstadoPartida() {
+        return this.partida.obtenerEstadoPartidaDTO();
+    }
+
+    @Override
+    public boolean actualizarEstadoJugadorSala(JugadorEstadoSalaDTO jugadorEstadoDTO) {
+        return this.partida.actualizarEstadoJugadorSala(jugadorEstadoDTO);
+    }
+
+    @Override
+    public List<JugadorEstadoSalaDTO> obtenerEstadosJugadoresSala() {
+        return this.partida.obtenerEstadosJugadoresSala();
     }
 }

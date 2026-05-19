@@ -24,11 +24,11 @@ public class ControladorSala {
         return modelo.solicitarUnirsePartida();
     }
 
-    public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {
-        return modelo.iniciarPartida(jugadorDTO);
+    public boolean actualizarEstadoJugadorSala() {
+        return modelo.actualizarEstadoJugadorSala();
     }
 
-    void actualizarDatosJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores){
+    void actualizarDatosJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores) {
         modelo.actualizarDatosJugador(datos, misColores);
     }
 

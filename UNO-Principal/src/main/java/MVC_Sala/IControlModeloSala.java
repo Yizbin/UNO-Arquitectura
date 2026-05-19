@@ -20,7 +20,8 @@ public interface IControlModeloSala {
 
     void actualizarDatosJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores);
 
-    boolean iniciarPartida(JugadorResumenDTO jugadorDTO);
 
     void establecerJugadorLocal(JugadorResumenDTO datos);
+    
+    boolean actualizarEstadoJugadorSala();
 }

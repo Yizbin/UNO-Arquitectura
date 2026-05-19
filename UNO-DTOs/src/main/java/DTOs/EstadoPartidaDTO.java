@@ -32,7 +32,13 @@ public class EstadoPartidaDTO {
     private EstadoFinalizacion estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
     private ResultadoFinalizacionDTO resultadoFinalizacion;
 
+    private List<JugadorEstadoSalaDTO> estadosJugadoresSala;
+
     public EstadoPartidaDTO() {
+    }
+
+    public EstadoPartidaDTO(List<JugadorEstadoSalaDTO> estadosJugadoresSala) {
+        this.estadosJugadoresSala = estadosJugadoresSala;
     }
 
     public EstadoPartidaDTO(int idJugador, List<JugadorResumenDTO> jugadores, List<CartaDTO> manoJugadorActual, CartaDTO cartaEnDescarte, EstadoRetoSpin estadoReto, boolean ruletaActiva, List<CartaDTO> mazo, boolean puedeRobar, boolean puedeDecirUno, TipoColor colorSeleccionado, String mensajeEstado) {
@@ -151,6 +157,14 @@ public class EstadoPartidaDTO {
 
     public void setMazo(List<CartaDTO> mazo) {
         this.mazo = mazo;
+    }
+
+    public List<JugadorEstadoSalaDTO> getEstadosJugadoresSala() {
+        return estadosJugadoresSala;
+    }
+
+    public void setEstadosJugadoresSala(List<JugadorEstadoSalaDTO> estadosJugadoresSala) {
+        this.estadosJugadoresSala = estadosJugadoresSala;
     }
 
 }
