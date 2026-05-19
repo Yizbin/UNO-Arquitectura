@@ -17,7 +17,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Window;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
@@ -67,12 +66,6 @@ public class PanelTablaPosiciones extends javax.swing.JPanel {
         if (jugadores != null) {
             this.jugadores.addAll(jugadores);
         }
-
-        this.jugadores.sort(
-                Comparator.comparingInt(JugadorResumenDTO::getPuntos).reversed()
-                        .thenComparingInt(JugadorResumenDTO::getCantidadDeCartas)
-                        .thenComparing(JugadorResumenDTO::getNombreUsuario, Comparator.nullsLast(String::compareToIgnoreCase))
-        );
 
         repaint();
     }

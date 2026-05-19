@@ -31,11 +31,11 @@ public class ControladorSala {
         return modelo.solicitarUnirsePartida();
     }
 
-    public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {
-        return modelo.iniciarPartida(jugadorDTO);
+    public boolean actualizarEstadoJugadorSala() {
+        return modelo.actualizarEstadoJugadorSala();
     }
 
-    void actualizarDatosJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores){
+    void actualizarDatosJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores) {
         modelo.actualizarDatosJugador(datos, misColores);
     }
 
@@ -46,12 +46,15 @@ public class ControladorSala {
     public void establecerJugadorLocal(JugadorResumenDTO datos) {
         modelo.establecerJugadorLocal(datos);
     }
-    
+
     public void abrirConfigurarPartida() {
         if (controlConfigPartida == null) {
             throw new IllegalStateException("No se ha configurado el controlador de Configurar Partida.");
         }
-
         controlConfigPartida.mostrarPantallaConfigurarPartida();
+    }
+
+    public void abrirMenu() {
+
     }
 }

@@ -33,93 +33,56 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelFondo = new javax.swing.JPanel();
         btnCrearPartida = new javax.swing.JButton();
         btnUnirsePartida = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        panelLogo1 = new MVC_Sala.PanelLogo();
+        lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        panelFondo.setBackground(new java.awt.Color(255, 255, 255));
-        panelFondo.setForeground(new java.awt.Color(255, 255, 255));
+        setMinimumSize(new java.awt.Dimension(930, 755));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnCrearPartida.setBackground(new java.awt.Color(255, 0, 0));
         btnCrearPartida.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
         btnCrearPartida.setForeground(new java.awt.Color(255, 255, 255));
-        btnCrearPartida.setText("Crear Partida");
+        btnCrearPartida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MenuCrearPartida.png"))); // NOI18N
+        btnCrearPartida.setBorderPainted(false);
+        btnCrearPartida.setContentAreaFilled(false);
         btnCrearPartida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearPartidaActionPerformed(evt);
             }
         });
+        getContentPane().add(btnCrearPartida, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, -1, -1));
 
         btnUnirsePartida.setBackground(new java.awt.Color(0, 0, 255));
         btnUnirsePartida.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
         btnUnirsePartida.setForeground(new java.awt.Color(255, 255, 255));
-        btnUnirsePartida.setText("Unirse Partida");
+        btnUnirsePartida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MenuUnirsePartida.png"))); // NOI18N
+        btnUnirsePartida.setBorderPainted(false);
+        btnUnirsePartida.setContentAreaFilled(false);
         btnUnirsePartida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUnirsePartidaActionPerformed(evt);
             }
         });
+        getContentPane().add(btnUnirsePartida, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 390, -1, -1));
 
         jButton3.setBackground(new java.awt.Color(0, 255, 0));
         jButton3.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Salir");
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MenuSalir.png"))); // NOI18N
+        jButton3.setBorderPainted(false);
+        jButton3.setContentAreaFilled(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 470, -1, 70));
 
-        panelLogo1.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout panelFondoLayout = new javax.swing.GroupLayout(panelFondo);
-        panelFondo.setLayout(panelFondoLayout);
-        panelFondoLayout.setHorizontalGroup(
-            panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelFondoLayout.createSequentialGroup()
-                .addContainerGap(243, Short.MAX_VALUE)
-                .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
-                        .addGroup(panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnUnirsePartida)
-                            .addComponent(btnCrearPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(373, 373, 373))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addGap(404, 404, 404))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFondoLayout.createSequentialGroup()
-                        .addComponent(panelLogo1, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(188, 188, 188))))
-        );
-        panelFondoLayout.setVerticalGroup(
-            panelFondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelFondoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelLogo1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(btnCrearPartida)
-                .addGap(38, 38, 38)
-                .addComponent(btnUnirsePartida)
-                .addGap(49, 49, 49)
-                .addComponent(jButton3)
-                .addContainerGap(138, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fondoMenu.png"))); // NOI18N
+        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 930, 730));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -141,6 +104,10 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
         }
     }//GEN-LAST:event_btnCrearPartidaActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     private void abrirSalaEspera() {
         SalaEspera sala = new SalaEspera();
         sala.setVisible(true);
@@ -151,8 +118,7 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
     private javax.swing.JButton btnCrearPartida;
     private javax.swing.JButton btnUnirsePartida;
     private javax.swing.JButton jButton3;
-    private javax.swing.JPanel panelFondo;
-    private MVC_Sala.PanelLogo panelLogo1;
+    private javax.swing.JLabel lblFondo;
     // End of variables declaration//GEN-END:variables
 
     @Override

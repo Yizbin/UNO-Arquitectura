@@ -5,6 +5,7 @@
 package MVC_Sala;
 
 import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorEstadoSalaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.EstadoJugadorSala;
@@ -25,6 +26,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     private final List<ISuscriptorSala> suscriptores;
     private IPump<PeticionJugadaDTO, ?> coordinador;
     private List<JugadorResumenDTO> jugadoresEnSala;
+    private List<JugadorEstadoSalaDTO> estadosJugadoresSala;
     private JugadorResumenDTO jugadorLocal;
     private Map<TipoColor, TipoColor> coloresLocales;
     private boolean cambiarFrame = false;
@@ -77,7 +79,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
                     null
             );
 
-            enviarPeticion(peticion);
+            enviarPeticionSegura(peticion, "Error al solicitar union");
             return true;
         } catch (Exception e) {
             System.err.println("Error al unirse: " + e.getMessage());
@@ -86,6 +88,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         return false;
     }
 
+    @Override
     public boolean aceptarSolicitudUnion(int idJugadorSolicitante) {
         if (coordinador == null || jugadorLocal == null) {
             return false;
@@ -100,7 +103,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
                     estado
             );
 
-            enviarPeticion(peticion);
+            enviarPeticionSegura(peticion, "Error al aceptar union");
             return true;
         } catch (Exception e) {
             System.err.println("Error al aceptar solicitud: " + e.getMessage());
@@ -108,6 +111,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         }
     }
 
+    @Override
     public boolean rechazarSolicitudUnion(int idJugadorSolicitante) {
         if (coordinador == null || jugadorLocal == null) {
             return false;
@@ -122,7 +126,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
                     estado
             );
 
-            enviarPeticion(peticion);
+            enviarPeticionSegura(peticion, "Error al rechazar la union");
             return true;
         } catch (Exception e) {
             System.err.println("Error al rechazar solicitud: " + e.getMessage());
@@ -130,9 +134,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         }
     }
 
-    @Override
     public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {
-        validarCondicionInicio();
 
         if (coordinador == null || !partidaListaParaIniciar) {
             return false;
@@ -157,6 +159,52 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         return false;
     }
 
+    public void agregarSolicitudUnion(JugadorResumenDTO jugador) {
+        if (jugador == null) {
+            return;
+        }
+
+        if (!contieneJugador(jugador.getId())) {
+            jugadoresEnSala.add(jugador);
+        }
+
+        setearJugadoresEsperando();
+        notificar();
+    }
+
+    public void registrarUnionAceptada(JugadorResumenDTO jugador) {
+        if (jugador == null) {
+            return;
+        }
+
+        if (!contieneJugador(jugador.getId())) {
+            jugadoresEnSala.add(jugador);
+        }
+
+        setearJugadoresEsperando();
+        notificar();
+    }
+
+    public void registrarUnionRechazada(JugadorResumenDTO jugador) {
+        if (jugador == null) {
+            return;
+        }
+
+        jugadoresEnSala.removeIf(j -> j.getId() == jugador.getId());
+        setearJugadoresEsperando();
+        notificar();
+    }
+
+    private boolean contieneJugador(int idJugador) {
+        for (JugadorResumenDTO jugador : jugadoresEnSala) {
+            if (jugador.getId() == idJugador) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
     @Override
     public void establecerJugadorLocal(JugadorResumenDTO datos) {
         if (datos == null) {
@@ -169,6 +217,16 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     private void enviarPeticion(PeticionJugadaDTO peticion) throws Exception {
         ContextoPipeline<PeticionJugadaDTO> contexto = new ContextoPipeline<>(peticion);
         coordinador.procesar(contexto);
+    }
+
+    private boolean enviarPeticionSegura(PeticionJugadaDTO peticion, String mensajeError) {
+        try {
+            enviarPeticion(peticion);
+            return true;
+        } catch (Exception e) {
+            System.err.println(mensajeError + ": " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
@@ -190,19 +248,6 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     @Override
     public JugadorResumenDTO getJugadorLocal() {
         return this.jugadorLocal;
-    }
-
-    @Override
-    public List<JugadorResumenDTO> getJugadoresConfirmados() {
-        List<JugadorResumenDTO> jugadoresConfirmados = new ArrayList<>();
-
-        for (JugadorResumenDTO jugador : jugadoresEnSala) {
-            if (jugador.getEstadoSala() == EstadoJugadorSala.CONFIRMADO) {
-                jugadoresConfirmados.add(jugador);
-            }
-        }
-
-        return jugadoresConfirmados;
     }
 
     @Override
@@ -232,13 +277,76 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
             System.err.println("Error al actualizar perfil: " + e.getMessage());
         }
     }
+    
+    public void validarCondicionInicio(EstadoPartidaDTO estadoPartidaDTO){
+        
+    }
 
-    public void validarCondicionInicio() {
-        int totalJugadores = jugadoresEnSala != null ? jugadoresEnSala.size() : 0;
-        int totalConfirmados = getJugadoresConfirmados().size();
-        this.partidaListaParaIniciar = totalJugadores == 4
-                || (totalJugadores >= 2 && totalConfirmados == totalJugadores);
-        notificar();
+    private void setearJugadoresEsperando() {
+        List<JugadorEstadoSalaDTO> estadosActualizados = new ArrayList<>();
+
+        for (JugadorResumenDTO jugador : jugadoresEnSala) {
+            EstadoJugadorSala estadoActual = obtenerEstadoJugador(jugador.getId());
+
+            if (estadoActual == null) {
+                estadoActual = EstadoJugadorSala.ESPERANDO;
+            }
+
+            estadosActualizados.add(new JugadorEstadoSalaDTO(
+                    jugador.getId(),
+                    estadoActual
+            ));
+        }
+
+        this.estadosJugadoresSala = estadosActualizados;
+    }
+
+    private EstadoJugadorSala obtenerEstadoJugador(int idJugador) {
+        for (JugadorEstadoSalaDTO estadoJugador : estadosJugadoresSala) {
+            if (estadoJugador.getId() == idJugador) {
+                return estadoJugador.getEstadoSala();
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<JugadorEstadoSalaDTO> getEstadosJugadoresSala() {
+        return this.estadosJugadoresSala;
+    }
+
+    @Override
+    public boolean actualizarEstadoJugadorSala() {
+        JugadorResumenDTO jugadorLocal = this.jugadorLocal;
+        if (coordinador == null || jugadorLocal == null) {
+            return false;
+        }
+        try {
+            EstadoJugadorSala estadoActual = obtenerEstadoJugador(jugadorLocal.getId());
+            EstadoJugadorSala nuevoEstado = estadoActual
+                    == EstadoJugadorSala.CONFIRMADO
+                            ? EstadoJugadorSala.CANCELADO
+                            : EstadoJugadorSala.CONFIRMADO;
+            JugadorEstadoSalaDTO jugadorEstado = new JugadorEstadoSalaDTO(
+                    jugadorLocal.getId(),
+                    nuevoEstado
+            );
+            EstadoPartidaDTO estado = new EstadoPartidaDTO();
+            estado.setEstadosJugadoresSala(List.of(jugadorEstado));
+
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
+                    TipoAccionPartida.CAMBIAR_INICIO_PARTIDA,
+                    estado
+            );
+
+            enviarPeticion(peticion);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error al actualizar estado del jugador en sala: " + e.getMessage());
+        }
+
+        return false;
     }
 
 }

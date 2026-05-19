@@ -2,6 +2,7 @@ package Entidades;
 
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorEstadoSalaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
@@ -69,7 +70,11 @@ public class Partida {
      */
     private final Map<Integer, RespuestaFinalizacionDTO> respuestasFinalizacion;
     
+    /**
+     * 
+     */
     private final JugadorMapper jugadorMapper;
+
 
     /**
      *
@@ -242,6 +247,7 @@ public class Partida {
         }
 
         Carta cartaJugada = this.getJugadorActual().jugarCarta(cartaAJugar);
+        this.getJugadorActual().sumarPuntos(cartaJugada.getPuntuacion());
         this.descarte.apilarCarta(cartaJugada);
 
         if (cartaJugada instanceof CartaNumero) {
@@ -349,12 +355,12 @@ public class Partida {
         }
 
         estadoDTO.setJugadores(jugadoresDTO);
-
         if (descarte != null && descarte.getTope() != null) {
             estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
         }
 
         estadoDTO.setRuletaActiva(false);
+
         estadoDTO.setEstadoFinalizacion(estadoFinalizacion);
         estadoDTO.setResultadoFinalizacion(resultadoFinalizacion);
 
@@ -700,8 +706,36 @@ public class Partida {
                 jugadoresConfirmados.add(mapper.toDTO(jugador));
             }
         }
-
         return jugadoresConfirmados;
+    }
+
+    // METODOS PARA LA SALA
+    public boolean actualizarEstadoJugadorSala(JugadorEstadoSalaDTO jugadorEstadoDTO) {
+        if (jugadorEstadoDTO == null) {
+            return false;
+        }
+
+        for (Jugador jugador : jugadores) {
+            if (jugador.getId() == jugadorEstadoDTO.getId()) {
+                jugador.setEstadoSala(jugadorEstadoDTO.getEstadoSala());
+                return puedeIniciarPartida();
+            }
+        }
+
+        return false;
+    }
+
+    public List<JugadorEstadoSalaDTO> obtenerEstadosJugadoresSala() {
+        List<JugadorEstadoSalaDTO> estados = new ArrayList<>();
+
+        for (Jugador jugador : jugadores) {
+            estados.add(new JugadorEstadoSalaDTO(
+                    jugador.getId(),
+                    jugador.getEstadoSala()
+            ));
+
+        }
+        return estados;
     }
 
     /**
@@ -710,15 +744,12 @@ public class Partida {
      */
     public boolean puedeIniciarPartida() {
         int totalJugadores = jugadores.size();
-
         if (totalJugadores == 4) {
             return true;
         }
-
-        if (totalJugadores >= 2 && totalJugadores <= 3) {
+        if (totalJugadores == 2 || totalJugadores == 3) {
             return todosLosJugadoresConfirmados();
         }
-
         return false;
     }
 
@@ -732,7 +763,6 @@ public class Partida {
                 return false;
             }
         }
-
         return true;
     }
 
@@ -759,10 +789,6 @@ public class Partida {
         configuracion.validarConfiguracion();
         this.configuracion = configuracion;
     }
-
-    /**
-     *
-     */
     public void establecerDisponible() {
         if (this.configuracion == null) {
             throw new IllegalStateException("No se puede establecer disponible una partida sin configuración.");

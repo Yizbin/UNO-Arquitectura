@@ -6,6 +6,8 @@ import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
+import DTOs.ConfiguracionPartidaDTO;
+import DTOs.JugadorEstadoSalaDTO;
 import Entidades.ConfiguracionPartida;
 import Entidades.Partida;
 import Enums.AccionesPosibles;
@@ -56,12 +58,10 @@ public class SubDominioConcreto implements ISubDominio {
         partida.rechazarSolicitudUnion(idJugadorSolicitante);
     }
 
-    @Override
     public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO) {
         return partida.confirmarInicioPartida(jugadorDTO);
     }
 
-    @Override
     public List<JugadorResumenDTO> obtenerJugadoresConfirmados() {
         return partida.obtenerJugadoresConfirmados();
     }
@@ -158,5 +158,16 @@ public class SubDominioConcreto implements ISubDominio {
         System.out.println("[CONFIG] Configuración asignada: " + (partida.getConfiguracion() != null));
         System.out.println("[CONFIG] Partida disponible: " + partida.isDisponible());
         System.out.println("[CONFIG] Mazo creado en configurar partida: " + (partida.getMazo() != null));
+
+    }
+
+    @Override
+    public boolean actualizarEstadoJugadorSala(JugadorEstadoSalaDTO jugadorEstadoDTO) {
+        return this.partida.actualizarEstadoJugadorSala(jugadorEstadoDTO);
+    }
+
+    @Override
+    public List<JugadorEstadoSalaDTO> obtenerEstadosJugadoresSala() {
+        return this.partida.obtenerEstadosJugadoresSala();
     }
 }

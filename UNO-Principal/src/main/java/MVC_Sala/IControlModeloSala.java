@@ -15,12 +15,16 @@ import java.util.Map;
 public interface IControlModeloSala {
 
     boolean solicitarUnirsePartida();
+    
+    boolean aceptarSolicitudUnion(int idJugadorSolicitante);
+    
+    boolean rechazarSolicitudUnion(int idJugadorSolicitante);
 
     void abrirSalaEspera();
 
     void actualizarDatosJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores);
 
-    boolean iniciarPartida(JugadorResumenDTO jugadorDTO);
-
     void establecerJugadorLocal(JugadorResumenDTO datos);
+
+    boolean actualizarEstadoJugadorSala();
 }

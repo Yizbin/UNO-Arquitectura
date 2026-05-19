@@ -41,9 +41,9 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
         }
 
         switch (tipoAccion) {
-            
+
             case CONFIGURAR_PARTIDA -> {
-                 subDominio.configurarPartida(peticion.getConfiguracionPartida());
+                subDominio.configurarPartida(peticion.getConfiguracionPartida());
             }
             case SOLICITAR_UNIRSE_PARTIDA -> {
                 subDominio.solicitarUnion(peticion.getJugadorActualizar());
@@ -65,6 +65,7 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
                 }
                 subDominio.prepararJuego(estado.getJugadores());
             }
+
             case JUGAR_CARTA -> {
                 subDominio.jugarCarta(peticion.getEstadoPartida().getIdJugador(), peticion.getEstadoPartida().getCartaEnDescarte());
             }
@@ -92,7 +93,7 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
             case RECHAZAR_FINALIZACION -> {
                 subDominio.responderFinalizacion(crearRespuestaFinalizacion(peticion, false));
             }
-           
+
             default ->
                 throw new UnsupportedOperationException("Tipo de accion no reconocido: " + tipoAccion);
         }
