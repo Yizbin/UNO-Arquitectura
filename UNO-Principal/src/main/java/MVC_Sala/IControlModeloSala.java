@@ -15,6 +15,10 @@ import java.util.Map;
 public interface IControlModeloSala {
 
     boolean solicitarUnirsePartida();
+    
+    boolean aceptarSolicitudUnion(int idJugadorSolicitante);
+    
+    boolean rechazarSolicitudUnion(int idJugadorSolicitante);
 
     void abrirSalaEspera();
 

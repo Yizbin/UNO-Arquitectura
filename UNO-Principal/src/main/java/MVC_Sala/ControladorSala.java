@@ -46,15 +46,15 @@ public class ControladorSala {
     public void establecerJugadorLocal(JugadorResumenDTO datos) {
         modelo.establecerJugadorLocal(datos);
     }
-    
+
     public void abrirConfigurarPartida() {
         if (controlConfigPartida == null) {
             throw new IllegalStateException("No se ha configurado el controlador de Configurar Partida.");
         }
         controlConfigPartida.mostrarPantallaConfigurarPartida();
     }
-    
-    public void abrirMenu(){
-        
+
+    public void abrirMenu() {
+
     }
 }

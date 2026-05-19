@@ -79,7 +79,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
                     null
             );
 
-            enviarPeticion(peticion);
+            enviarPeticionSegura(peticion, "Error al solicitar union");
             return true;
         } catch (Exception e) {
             System.err.println("Error al unirse: " + e.getMessage());
@@ -88,6 +88,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         return false;
     }
 
+    @Override
     public boolean aceptarSolicitudUnion(int idJugadorSolicitante) {
         if (coordinador == null || jugadorLocal == null) {
             return false;
@@ -102,7 +103,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
                     estado
             );
 
-            enviarPeticion(peticion);
+            enviarPeticionSegura(peticion, "Error al aceptar union");
             return true;
         } catch (Exception e) {
             System.err.println("Error al aceptar solicitud: " + e.getMessage());
@@ -110,6 +111,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         }
     }
 
+    @Override
     public boolean rechazarSolicitudUnion(int idJugadorSolicitante) {
         if (coordinador == null || jugadorLocal == null) {
             return false;
@@ -124,12 +126,57 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
                     estado
             );
 
-            enviarPeticion(peticion);
+            enviarPeticionSegura(peticion, "Error al rechazar la union");
             return true;
         } catch (Exception e) {
             System.err.println("Error al rechazar solicitud: " + e.getMessage());
             return false;
         }
+    }
+
+    public void agregarSolicitudUnion(JugadorResumenDTO jugador) {
+        if (jugador == null) {
+            return;
+        }
+
+        if (!contieneJugador(jugador.getId())) {
+            jugadoresEnSala.add(jugador);
+        }
+
+        setearJugadoresEsperando();
+        notificar();
+    }
+
+    public void registrarUnionAceptada(JugadorResumenDTO jugador) {
+        if (jugador == null) {
+            return;
+        }
+
+        if (!contieneJugador(jugador.getId())) {
+            jugadoresEnSala.add(jugador);
+        }
+
+        setearJugadoresEsperando();
+        notificar();
+    }
+
+    public void registrarUnionRechazada(JugadorResumenDTO jugador) {
+        if (jugador == null) {
+            return;
+        }
+
+        jugadoresEnSala.removeIf(j -> j.getId() == jugador.getId());
+        setearJugadoresEsperando();
+        notificar();
+    }
+
+    private boolean contieneJugador(int idJugador) {
+        for (JugadorResumenDTO jugador : jugadoresEnSala) {
+            if (jugador.getId() == idJugador) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -144,6 +191,16 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     private void enviarPeticion(PeticionJugadaDTO peticion) throws Exception {
         ContextoPipeline<PeticionJugadaDTO> contexto = new ContextoPipeline<>(peticion);
         coordinador.procesar(contexto);
+    }
+
+    private boolean enviarPeticionSegura(PeticionJugadaDTO peticion, String mensajeError) {
+        try {
+            enviarPeticion(peticion);
+            return true;
+        } catch (Exception e) {
+            System.err.println(mensajeError + ": " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
@@ -261,4 +318,5 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
         return false;
     }
+
 }
