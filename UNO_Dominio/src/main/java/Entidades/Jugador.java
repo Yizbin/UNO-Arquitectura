@@ -5,12 +5,9 @@
 package Entidades;
 
 import Enums.EstadoJugadorSala;
-import Enums.TipoColor;
 import Excepciones.ValidarManoException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -27,7 +24,6 @@ public class Jugador {
     private boolean dijoUno;
     private boolean aceptado;
     private EstadoJugadorSala estadoSala;
-    private Map<TipoColor, TipoColor> preferenciasColor = new HashMap<>();
 
     public Jugador() {
         this.mano = new ArrayList<>();
@@ -109,12 +105,9 @@ public class Jugador {
         return mano.isEmpty();
     }
 
-    public void actualizarPerfil(String usuario, String avatar, Map<TipoColor, TipoColor> nuevasPreferencias) {
+    public void actualizarPerfil(String usuario, String avatar) {
         this.usuario = usuario;
         this.avatar = avatar;
-        if (nuevasPreferencias != null) {
-            this.preferenciasColor = nuevasPreferencias;
-        }
     }
 
     public String getUsuario() {
@@ -171,14 +164,6 @@ public class Jugador {
 
     public void setEstadoSala(EstadoJugadorSala estadoSala) {
         this.estadoSala = estadoSala != null ? estadoSala : EstadoJugadorSala.ESPERANDO;
-    }
-
-    public Map<TipoColor, TipoColor> getPreferenciasColor() {
-        return preferenciasColor;
-    }
-
-    public void setPreferenciasColor(Map<TipoColor, TipoColor> preferenciasColor) {
-        this.preferenciasColor = preferenciasColor;
     }
 
     public boolean isAceptado() {

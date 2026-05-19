@@ -25,7 +25,6 @@ public class JugadorMapper {
         dto.setNombreUsuario(entity.getUsuario());
         dto.setRutaAvatar(entity.getAvatar());
         dto.setEstadoSala(entity.getEstadoSala());
-        dto.setPreferenciasColor(entity.getPreferenciasColor());
 
         return dto;
     }
@@ -46,7 +45,6 @@ public class JugadorMapper {
         }
         Jugador jugador = new Jugador(dto.getId(), dto.getNombreUsuario(), dto.getRutaAvatar());
         jugador.setEstadoSala(dto.getEstadoSala());
-        jugador.setPreferenciasColor(dto.getPreferenciasColor());
 
         return jugador;
     }
