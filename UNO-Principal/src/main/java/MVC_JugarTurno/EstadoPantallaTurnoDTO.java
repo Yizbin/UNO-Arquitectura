@@ -6,7 +6,10 @@ import DTOs.ResultadoFinalizacionDTO;
 import DTOs.SolicitudFinalizacionDTO;
 import DTOs.TablaPosicionesDTO;
 import Enums.EstadoFinalizacion;
+import Enums.TipoColor;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Snapshot de presentacion para la pantalla de turno.
@@ -27,7 +30,13 @@ public class EstadoPantallaTurnoDTO {
     private SolicitudFinalizacionDTO solicitudFinalizacion;
     private ResultadoFinalizacionDTO resultadoFinalizacion;
     private TablaPosicionesDTO tablaPosiciones;
+    
+    private Map<TipoColor, TipoColor> preferenciasColor = new HashMap<>();
 
+    public EstadoPantallaTurnoDTO() {
+
+    }
+    
     public JugadorResumenDTO getJugadorLocal() {
         return jugadorLocal;
     }
@@ -123,4 +132,14 @@ public class EstadoPantallaTurnoDTO {
     public void setTablaPosiciones(TablaPosicionesDTO tablaPosiciones) {
         this.tablaPosiciones = tablaPosiciones;
     }
+
+    public Map<TipoColor, TipoColor> getPreferenciasColor() {
+        return preferenciasColor;
+    }
+
+    public void setPreferenciasColor(Map<TipoColor, TipoColor> preferenciasColor) {
+        this.preferenciasColor = preferenciasColor;
+    }
+    
+    
 }

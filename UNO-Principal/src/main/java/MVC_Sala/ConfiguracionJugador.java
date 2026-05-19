@@ -26,6 +26,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -50,6 +52,7 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     private JButton avatarSeleccionado = null;
     private PanelCartaMano cartaSeleccionada = null;
     private TipoColor colorBaseSeleccionado = null;
+    private final Map<TipoColor, TipoColor> misColores = new HashMap<>();
     private final JugadorResumenDTO jugador = new JugadorResumenDTO();
     private final CartaDTO c1 = new CartaDTO();
     private final CartaDTO c2 = new CartaDTO();
@@ -62,6 +65,10 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         this.control = control;
         this.modelo = modelo;
         this.modelo.suscribir(this);
+        misColores.put(TipoColor.ROJO, TipoColor.ROJO);
+        misColores.put(TipoColor.AZUL, TipoColor.AZUL);
+        misColores.put(TipoColor.VERDE, TipoColor.VERDE);
+        misColores.put(TipoColor.AMARILLO, TipoColor.AMARILLO);
         acciones();
     }
 
@@ -232,13 +239,12 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
             }
         }
     }
-    
 
     private void cargarCartas() {
-        c1.setColor(jugador.getPreferenciasColor().getOrDefault(TipoColor.ROJO, TipoColor.ROJO));
-        c2.setColor(jugador.getPreferenciasColor().getOrDefault(TipoColor.AZUL, TipoColor.AZUL));
-        c3.setColor(jugador.getPreferenciasColor().getOrDefault(TipoColor.VERDE, TipoColor.VERDE));
-        c4.setColor(jugador.getPreferenciasColor().getOrDefault(TipoColor.AMARILLO, TipoColor.AMARILLO));
+        c1.setColor(misColores.get(TipoColor.ROJO));
+        c2.setColor(misColores.get(TipoColor.AZUL));
+        c3.setColor(misColores.get(TipoColor.VERDE));
+        c4.setColor(misColores.get(TipoColor.AMARILLO));
 
         //agregar las cartas donde se eligen los colores
         PanelCartaMano carta1 = new PanelCartaMano();
@@ -351,7 +357,7 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     private void seleccionarColor(BotonRedondeado boton, Color colorSeleccionado) {
         Color colorCambiado = traducirColor(cartaSeleccionada.carta.getColor());
         TipoColor nuevoColor = traducirTipoColor(colorSeleccionado);
-        jugador.getPreferenciasColor().put(colorBaseSeleccionado, nuevoColor);
+        misColores.put(colorBaseSeleccionado, nuevoColor);
         boton.setBackground(colorCambiado);
         cargarConfiguración();
     }
