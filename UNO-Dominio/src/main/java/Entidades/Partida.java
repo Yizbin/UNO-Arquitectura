@@ -24,43 +24,75 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- *
- * @author Abraham Coronel
- */
 public class Partida {
 
+    /**
+     * Lista de los jugadores registrados en la partida
+     */
     private List<Jugador> jugadores;
+    /**
+     * Clase que gestiona los turnos de lo sjugadores
+     */
+    private Turno turno;
+    /**
+     * Mazo de la partida (contiene la lista de cartas),
+     */
     private Mazo mazo;
+    /**
+     * Descarte de la partida, cuenta con validaciones de la jugada
+     */
     private Descarte descarte;
+    /**
+     * Ruleta con la que cuenta la partida
+     */
     private Ruleta ruleta;
-    private int indiceTurnoActual;
-    private boolean sentidoHorario;
-    private TipoColor colorActual;
-    private boolean esperandoColor;
+    /**
+     * Configuracion con la que contara la partida
+     */
     private ConfiguracionPartida configuracion;
+    /**
+     *
+     */
     private boolean disponible;
+    /**
+     *
+     */
     private EstadoFinalizacion estadoFinalizacion;
+    /**
+     *
+     */
     private ResultadoFinalizacionDTO resultadoFinalizacion;
+    /**
+     *
+     */
     private TablaPosicionesDTO tablaPosiciones;
+    /**
+     *
+     */
     private final Map<Integer, RespuestaFinalizacionDTO> respuestasFinalizacion;
     
+    private final JugadorMapper jugadorMapper;
 
+    /**
+     *
+     */
     public Partida() {
         this.jugadores = List.of();
+        this.turno = new Turno(0, this.jugadores);
         this.descarte = new Descarte();
         this.ruleta = new Ruleta();
-        this.indiceTurnoActual = 0;
-        this.sentidoHorario = true;
-        this.colorActual = TipoColor.NINGUNO;
-        this.esperandoColor = false;
         this.configuracion = null;
         this.disponible = false;
         this.estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
         this.respuestasFinalizacion = new HashMap<>();
-        
+        this.jugadorMapper = new JugadorMapper();
+
     }
 
+    /**
+     *
+     * @param jugadorSolicitanteDTO
+     */
     public void solicitarUnion(JugadorResumenDTO jugadorSolicitanteDTO) {
         if (jugadorSolicitanteDTO == null) {
             throw new IllegalArgumentException("El jugador solicitante no puede ser nulo.");
@@ -84,8 +116,13 @@ public class Partida {
         List<Jugador> jugadoresActualizados = new ArrayList<>(jugadores);
         jugadoresActualizados.add(jugadorSolicitante);
         this.jugadores = List.copyOf(jugadoresActualizados);
+        this.turno.setJugadores(this.jugadores);
     }
 
+    /**
+     *
+     * @param idJugadorSolicitante
+     */
     public void aceptarSolicitudUnion(int idJugadorSolicitante) {
         if (estaIniciada()) {
             throw new IllegalStateException("No se puede aceptar jugadores en una partida iniciada.");
@@ -100,6 +137,10 @@ public class Partida {
         jugador.setAceptado(true);
     }
 
+    /**
+     *
+     * @param idJugadorSolicitante
+     */
     public void rechazarSolicitudUnion(int idJugadorSolicitante) {
         if (estaIniciada()) {
             throw new IllegalStateException("No se puede responder solicitudes en una partida iniciada.");
@@ -114,8 +155,14 @@ public class Partida {
         List<Jugador> jugadoresActualizados = new ArrayList<>(jugadores);
         jugadoresActualizados.remove(jugador);
         this.jugadores = List.copyOf(jugadoresActualizados);
+        this.turno.setJugadores(this.jugadores);
     }
 
+    /**
+     *
+     * @param idJugador
+     * @return
+     */
     private boolean jugadorYaEstaUnido(int idJugador) {
         for (Jugador jugador : jugadores) {
             if (jugador.getId() == idJugador) {
@@ -126,17 +173,31 @@ public class Partida {
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
     private boolean estaIniciada() {
         return mazo != null;
     }
 
+    /**
+     *
+     * @param jugadoresDTO
+     */
     public void cargarJugadoresDesdeDTO(List<JugadorResumenDTO> jugadoresDTO) {
         this.jugadores = List.copyOf(new JugadorMapper().toEntityList(jugadoresDTO));
+        this.turno = new Turno(0, this.jugadores);
     }
 
+    /**
+     *
+     * @throws MazoVacioException
+     */
     public void iniciarPartida() throws MazoVacioException {
 
         this.mazo = MazoFactory.crear();
+        this.turno = new Turno(0, this.jugadores);
 
         for (int i = 0; i < 7; i++) {
             for (Jugador jugador : jugadores) {
@@ -146,46 +207,47 @@ public class Partida {
 
         Carta primeraCarta = mazo.sacarCarta();
         descarte.apilarCarta(primeraCarta);
-
-        switch (primeraCarta) {
-            case CartaNumero cartaNumero ->
-                this.colorActual = cartaNumero.getColor();
-            case CartaAccion cartaAccion ->
-                this.colorActual = cartaAccion.getColor();
-            default ->
-                this.colorActual = TipoColor.NINGUNO;
-        }
     }
 
+    /**
+     *
+     * @param jugador
+     * @param cartaAJugar
+     * @throws ValidarManoException
+     * @throws ValidarTurnoException
+     * @throws JugadaValidaException
+     * @throws MazoVacioException
+     */
     private void aplicarJugadaDeCarta(Jugador jugador, Carta cartaAJugar)
             throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException {
         validarTurno(jugador);
 
-        Carta cartaEnTope = this.descarte.getTope();
-        if (!cartaAJugar.esJugableSobre(cartaEnTope, this.colorActual)) {
+        if (!descarte.puedeApilar(cartaAJugar)) {
             throw new JugadaValidaException("Jugada invalida. La carta no coincide en color o simbolo.");
         }
 
         Carta cartaJugada = this.getJugadorActual().jugarCarta(cartaAJugar);
         this.descarte.apilarCarta(cartaJugada);
 
-        if (cartaJugada instanceof CartaNumero cartaNumero) {
-            this.colorActual = cartaNumero.getColor();
+        if (cartaJugada instanceof CartaNumero) {
             avanzarTurno();
             return;
         }
 
         if (cartaJugada instanceof CartaAccion cartaAccion) {
-            this.colorActual = cartaAccion.getColor();
             aplicarEfectoAccion(cartaAccion);
-            return;
-        }
-
-        if (cartaJugada instanceof CartaComodin) {
-            this.esperandoColor = true;
         }
     }
 
+    /**
+     *
+     * @param idJugador
+     * @param cartaAJugarDTO
+     * @throws ValidarManoException
+     * @throws ValidarTurnoException
+     * @throws JugadaValidaException
+     * @throws MazoVacioException
+     */
     public void procesarJugadaCarta(int idJugador, CartaDTO cartaAJugarDTO)
             throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException {
         Jugador jugador = obtenerJugadorPorId(idJugador);
@@ -198,16 +260,30 @@ public class Partida {
         aplicarJugadaDeCarta(jugador, cartaAJugar);
     }
 
+    /**
+     * Regresa el jugador en turno en una dto
+     * @return
+     */
     public JugadorResumenDTO obtenerJugadorActualDTO() {
-        JugadorResumenDTO dto = new JugadorMapper().toDTO(getJugadorActual());
+        Jugador jugadorActual= getJugadorActual();
+        JugadorResumenDTO dto = jugadorMapper.toDTO(jugadorActual);
         dto.setEnTurno(true);
         return dto;
     }
 
+    /**
+     *
+     * @return
+     */
     public CartaDTO obtenerCartaEnTopeDTO() {
         return new CartaMapper().toDTO(descarte.getTope());
     }
 
+    /**
+     *
+     * @param idJugador
+     * @return
+     */
     public List<CartaDTO> obtenerManoJugadorDTO(int idJugador) {
         return new CartaMapper().toDTOList(obtenerJugadorPorId(idJugador).getMano());
     }
@@ -238,11 +314,14 @@ public class Partida {
 //
 //        return estadoDTO;
 //    }
-    
+    /**
+     *
+     * @return
+     */
     public EstadoPartidaDTO obtenerEstadoPartidaDTO() {
         EstadoPartidaDTO estadoDTO = new EstadoPartidaDTO();
 
-        List<JugadorResumenDTO> jugadoresDTO = jugadores != null? new JugadorMapper().toDTOList(jugadores): List.of();
+        List<JugadorResumenDTO> jugadoresDTO = jugadores != null ? new JugadorMapper().toDTOList(jugadores) : List.of();
 
         if (jugadores != null && !jugadores.isEmpty()) {
             int idJugadorActual = getJugadorActual().getId();
@@ -265,8 +344,13 @@ public class Partida {
         estadoDTO.setResultadoFinalizacion(resultadoFinalizacion);
 
         return estadoDTO;
-}
+    }
 
+    /**
+     *
+     * @param jugador
+     * @return
+     */
     public ResultadoFinalizacionDTO solicitarFinalizacion(JugadorResumenDTO jugador) {
         if (jugador == null) {
             throw new IllegalArgumentException("La solicitud de finalizacion debe incluir un jugador.");
@@ -290,6 +374,11 @@ public class Partida {
         return resultadoFinalizacion;
     }
 
+    /**
+     *
+     * @param respuestaDTO
+     * @return
+     */
     public RespuestaFinalizacionDTO registrarRespuestaFinalizacion(RespuestaFinalizacionDTO respuestaDTO) {
         if (estadoFinalizacion != EstadoFinalizacion.EN_ESPERA_RESPUESTAS) {
             return respuestaDTO;
@@ -303,6 +392,10 @@ public class Partida {
         return respuestaDTO;
     }
 
+    /**
+     *
+     * @return
+     */
     public ResultadoFinalizacionDTO evaluarFinalizacion() {
         if (estadoFinalizacion != EstadoFinalizacion.EN_ESPERA_RESPUESTAS) {
             return resultadoFinalizacion;
@@ -336,6 +429,10 @@ public class Partida {
         return resultadoFinalizacion;
     }
 
+    /**
+     *
+     * @return
+     */
     private EstadoFinalizacion determinarEstadoFinalizacion() {
         if (!todosAceptaronFinalizacion()) {
             return EstadoFinalizacion.CANCELADA;
@@ -348,11 +445,19 @@ public class Partida {
         return EstadoFinalizacion.EN_ESPERA_RESPUESTAS;
     }
 
+    /**
+     *
+     * @return
+     */
     private boolean todosRespondieronFinalizacion() {
         int totalJugadores = jugadores != null ? jugadores.size() : 0;
         return totalJugadores > 0 && respuestasFinalizacion.size() >= totalJugadores;
     }
 
+    /**
+     *
+     * @return
+     */
     private boolean todosAceptaronFinalizacion() {
         for (RespuestaFinalizacionDTO respuesta : respuestasFinalizacion.values()) {
             if (!Boolean.TRUE.equals(respuesta.getAcepta())) {
@@ -362,6 +467,10 @@ public class Partida {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     private TablaPosicionesDTO calcularTablaPosiciones() {
         List<JugadorResumenDTO> posiciones = new JugadorMapper().toDTOList(jugadores);
         posiciones.sort(
@@ -372,21 +481,42 @@ public class Partida {
         return new TablaPosicionesDTO(posiciones);
     }
 
+    /**
+     *
+     * @param jugador
+     * @return
+     */
     private String obtenerNombreJugador(JugadorResumenDTO jugador) {
         return jugador.getNombreUsuario() != null && !jugador.getNombreUsuario().isBlank()
                 ? jugador.getNombreUsuario()
                 : "Jugador " + jugador.getId();
     }
 
+    /**
+     *
+     * @param jugador
+     * @throws MazoVacioException
+     * @throws ValidarTurnoException
+     */
     public void robarCarta(Jugador jugador) throws MazoVacioException, ValidarTurnoException {
         validarTurno(jugador);
         this.getJugadorActual().robarCarta(obtenerCartaDelMazo());
     }
 
+    /**
+     *
+     * @param idJugador
+     * @throws MazoVacioException
+     * @throws ValidarTurnoException
+     */
     public void robarCarta(int idJugador) throws MazoVacioException, ValidarTurnoException {
         robarCarta(obtenerJugadorPorId(idJugador));
     }
 
+    /**
+     *
+     * @param jugador
+     */
     public void gritarUno(Jugador jugador) {
         for (Jugador j : jugadores) {
             if (j.equals(jugador)) {
@@ -396,26 +526,41 @@ public class Partida {
         }
     }
 
+    /**
+     *
+     * @param idJugador
+     */
     public void gritarUno(int idJugador) {
         gritarUno(obtenerJugadorPorId(idJugador));
     }
 
+    /**
+     *
+     * @return
+     */
     public Jugador getJugadorActual() {
-        return jugadores.get(indiceTurnoActual);
+        return turno.obtenerJugadorActual();
     }
 
+    /**
+     *
+     */
     public void avanzarTurno() {
-        if (sentidoHorario) {
-            indiceTurnoActual = (indiceTurnoActual + 1) % jugadores.size();
-        } else {
-            indiceTurnoActual = (indiceTurnoActual - 1 + jugadores.size()) % jugadores.size();
-        }
+        turno.avanzar();
     }
 
+    /**
+     *
+     */
     public void invertirSentido() {
-        this.sentidoHorario = !this.sentidoHorario;
+        turno.invertirSentido();
     }
 
+    /**
+     *
+     * @param jugador
+     * @throws MazoVacioException
+     */
     public void penalizarJugador(Jugador jugador) throws MazoVacioException {
         if (jugador.esVulnerableAlCastigo()) {
             jugador.robarCarta(obtenerCartaDelMazo());
@@ -423,15 +568,25 @@ public class Partida {
         }
     }
 
+    /**
+     *
+     * @param jugador
+     * @param cantidad
+     * @throws MazoVacioException
+     */
     public void aplicarCastigo(Jugador jugador, int cantidad) throws MazoVacioException {
         for (int i = 0; i < cantidad; i++) {
             jugador.robarCarta(obtenerCartaDelMazo());
         }
     }
 
+    /**
+     *
+     * @param nuevoColor
+     * @throws MazoVacioException
+     */
     public void procesarColorComodin(TipoColor nuevoColor) throws MazoVacioException {
-        this.colorActual = nuevoColor;
-        this.esperandoColor = false;
+        this.descarte.elegirColor(nuevoColor);
 
         Carta tope = this.descarte.getTope();
         if (tope instanceof CartaComodin cartaComodin && cartaComodin.getTipoComodin() == Comodines.TOMA_CUATRO) {
@@ -441,12 +596,20 @@ public class Partida {
         avanzarTurno();
     }
 
+    /**
+     *
+     * @param jugador
+     * @throws ValidarTurnoException
+     */
     private void validarTurno(Jugador jugador) throws ValidarTurnoException {
-        if (!jugador.equals(this.getJugadorActual())) {
-            throw new ValidarTurnoException("No es el turno de este jugador.");
-        }
+        turno.validarTurno(jugador);
     }
 
+    /**
+     *
+     * @param idJugador
+     * @return
+     */
     private Jugador obtenerJugadorPorId(int idJugador) {
         for (Jugador jugador : jugadores) {
             if (jugador.getId() == idJugador) {
@@ -456,6 +619,10 @@ public class Partida {
         throw new IllegalArgumentException("Jugador no encontrado con ID: " + idJugador);
     }
 
+    /**
+     *
+     * @return @throws MazoVacioException
+     */
     private Carta obtenerCartaDelMazo() throws MazoVacioException {
         if (mazo.estaVacio()) {
             mazo.rellenar(descarte.vaciarParaRellenarMazo());
@@ -463,29 +630,46 @@ public class Partida {
         return mazo.sacarCarta();
     }
 
+    /**
+     *
+     * @param carta
+     * @throws MazoVacioException
+     */
     private void aplicarEfectoAccion(CartaAccion carta) throws MazoVacioException {
         switch (carta.getTipoAccion()) {
-            case REVERSA -> {
-                invertirSentido();
-                avanzarTurno();
-            }
-            case SALTA -> {
-                avanzarTurno();
-                avanzarTurno();
-            }
-            case TOMA_DOS -> {
-                avanzarTurno();
-                aplicarCastigo(getJugadorActual(), 2);
-                avanzarTurno();
-            }
+            case REVERSA -> aplicarReversa();
+            case SALTA -> aplicarSalto();
+            case TOMA_DOS -> aplicarTomaDos();
         }
     }
 
-    // METODOS PARA LA SALA
+    private void aplicarReversa() {
+        turno.aplicarReversa();
+    }
+
+    private void aplicarSalto() {
+        turno.aplicarSalto();
+    }
+
+    private void aplicarTomaDos() throws MazoVacioException {
+        Jugador jugadorCastigado = turno.avanzarYObtenerJugadorActual();
+        aplicarCastigo(jugadorCastigado, 2);
+        turno.avanzar();
+    }
+
+    /**
+     *
+     * @param jugadorDTO
+     */
     public void solicitarInicioPartida(JugadorResumenDTO jugadorDTO) {
         confirmarInicioPartida(jugadorDTO);
     }
 
+    /**
+     *
+     * @param jugadorDTO
+     * @return
+     */
     public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO) {
         if (jugadorDTO == null) {
             return false;
@@ -504,6 +688,10 @@ public class Partida {
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<JugadorResumenDTO> obtenerJugadoresConfirmados() {
         List<JugadorResumenDTO> jugadoresConfirmados = new ArrayList<>();
         JugadorMapper mapper = new JugadorMapper();
@@ -517,6 +705,10 @@ public class Partida {
         return jugadoresConfirmados;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean puedeIniciarPartida() {
         int totalJugadores = jugadores.size();
 
@@ -531,6 +723,10 @@ public class Partida {
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
     private boolean todosLosJugadoresConfirmados() {
         for (Jugador jugador : jugadores) {
             if (jugador.getEstadoSala() != EstadoJugadorSala.CONFIRMADO) {
@@ -540,120 +736,127 @@ public class Partida {
 
         return true;
     }
-    
+
+    /**
+     *
+     * @param configuracion
+     * @return
+     */
     public static Partida crearConConfiguracion(ConfiguracionPartida configuracion) {
         Partida partida = new Partida();
         partida.configurarPartida(configuracion);
         return partida;
     }
-    
+
+    /**
+     *
+     * @param configuracion
+     */
     public void configurarPartida(ConfiguracionPartida configuracion) {
-    if (configuracion == null) {
-        throw new IllegalArgumentException("La configuración no puede ser nula.");
+        if (configuracion == null) {
+            throw new IllegalArgumentException("La configuración no puede ser nula.");
+        }
+
+        configuracion.validarConfiguracion();
+        this.configuracion = configuracion;
     }
 
-    configuracion.validarConfiguracion();
-    this.configuracion = configuracion;
-}
-
+    /**
+     *
+     */
     public void establecerDisponible() {
         if (this.configuracion == null) {
             throw new IllegalStateException("No se puede establecer disponible una partida sin configuración.");
-    }
+        }
         this.disponible = true;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Jugador> getJugadores() {
         return List.copyOf(jugadores);
     }
 
+    /**
+     *
+     * @param jugadores
+     */
     public void setJugadores(List<Jugador> jugadores) {
         this.jugadores = List.copyOf(jugadores);
+        this.turno = new Turno(0, this.jugadores);
     }
 
+    /**
+     *
+     * @return
+     */
     public Mazo getMazo() {
         return mazo;
     }
 
+    /**
+     *
+     * @param mazo
+     */
     public void setMazo(Mazo mazo) {
         this.mazo = mazo;
     }
 
+    /**
+     *
+     * @return
+     */
     public Descarte getDescarte() {
         return descarte;
     }
 
+    /**
+     *
+     * @param descarte
+     */
     public void setDescarte(Descarte descarte) {
         this.descarte = descarte;
     }
 
+    /**
+     *
+     * @return
+     */
     public Ruleta getRuleta() {
         return ruleta;
     }
 
+    /**
+     *
+     * @param ruleta
+     */
     public void setRuleta(Ruleta ruleta) {
         this.ruleta = ruleta;
     }
 
-    public int getIndiceTurnoActual() {
-        return indiceTurnoActual;
-    }
-
-    public void setIndiceTurnoActual(int indiceTurnoActual) {
-        this.indiceTurnoActual = indiceTurnoActual;
-    }
-
-    public boolean isSentidoHorario() {
-        return sentidoHorario;
-    }
-
-    public void setSentidoHorario(boolean sentidoHorario) {
-        this.sentidoHorario = sentidoHorario;
-    }
-
     public TipoColor getColorActual() {
-        return colorActual;
+        return descarte.getColorActual();
     }
 
     public void setColorActual(TipoColor colorActual) {
-        this.colorActual = colorActual;
-        this.esperandoColor = false;
-    }
-
-    public boolean isEsperandoColor() {
-        return esperandoColor;
-    }
-
-    public void setEsperandoColor(boolean esperandoColor) {
-        this.esperandoColor = esperandoColor;
+        this.descarte.setColorActual(colorActual);
     }
     
+    /**
+     *
+     * @return
+     */
     public ConfiguracionPartida getConfiguracion() {
         return configuracion;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isDisponible() {
         return disponible;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(jugadores, indiceTurnoActual, sentidoHorario, colorActual, esperandoColor);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        final Partida other = (Partida) obj;
-        return indiceTurnoActual == other.indiceTurnoActual
-                && sentidoHorario == other.sentidoHorario
-                && esperandoColor == other.esperandoColor
-                && Objects.equals(jugadores, other.jugadores)
-                && Objects.equals(colorActual, other.colorActual);
     }
 }
