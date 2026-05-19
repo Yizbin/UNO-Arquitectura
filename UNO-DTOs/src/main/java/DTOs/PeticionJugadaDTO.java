@@ -15,6 +15,7 @@ public class PeticionJugadaDTO {
     private TipoAccionPartida accion;
     private JugadorResumenDTO jugadorActualizar;
     private EstadoPartidaDTO estadoPartida;
+    private ConfiguracionPartidaDTO configuracionPartida;
 
     public PeticionJugadaDTO() {
     }
@@ -54,6 +55,11 @@ public class PeticionJugadaDTO {
         this.jugadorActualizar = jugadorActualizar;
     }
     
-    
+    public ConfiguracionPartidaDTO getConfiguracionPartida() {
+        return configuracionPartida;
+    }
 
+    public void setConfiguracionPartida(ConfiguracionPartidaDTO configuracionPartida) {
+        this.configuracionPartida = configuracionPartida;
+    }
 }

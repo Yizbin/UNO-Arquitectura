@@ -36,7 +36,7 @@ public class FabricaJugadorMVC {
             int posY) {
 
         modelo.setIdJugadorLocal(idJugador);
-        modelo.conectarDestino(pipelineSalida);
+//        modelo.conectarDestino(pipelineSalida);
 
         UnoSpinControlador controlador = new UnoSpinControlador(modelo);
         PantallaTurno vista = new PantallaTurno(modelo, controlador);

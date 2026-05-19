@@ -1,10 +1,14 @@
 package Interfaces;
 
 import DTOs.CartaDTO;
+import DTOs.ConfiguracionPartidaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
+import DTOs.ConfiguracionPartidaDTO;
+import Entidades.ConfiguracionPartida;
+import Mappers.ConfiguracionMapper;
 import Entidades.Partida;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
@@ -21,9 +25,11 @@ import java.util.List;
 public class SubDominioConcreto implements ISubDominio {
 
     private Partida partida;
+    private final ConfiguracionMapper configuracionMapper;
 
     public SubDominioConcreto(Partida partida) {
         this.partida = partida;
+        this.configuracionMapper = new ConfiguracionMapper();
     }
 
     @Override
@@ -138,5 +144,24 @@ public class SubDominioConcreto implements ISubDominio {
     @Override
     public ResultadoFinalizacionDTO evaluarFinalizacion() {
         return partida.evaluarFinalizacion();
+    }
+
+    @Override
+    public void configurarPartida(ConfiguracionPartidaDTO configuracionDTO) {
+        ConfiguracionPartida configuracionPartida =
+        configuracionMapper.toEntity(configuracionDTO);
+
+         if (partida == null) {
+             partida = Partida.crearConConfiguracion(configuracionPartida);
+         } else {
+             partida.configurarPartida(configuracionPartida);
+         }
+
+         partida.establecerDisponible();
+
+         System.out.println("[CONFIG] Partida creada: " + (partida != null));
+         System.out.println("[CONFIG] Configuración asignada: " + (partida.getConfiguracion() != null));
+         System.out.println("[CONFIG] Partida disponible: " + partida.isDisponible());
+         System.out.println("[CONFIG] Mazo creado en configurar partida: " + (partida.getMazo() != null));
     }
 }

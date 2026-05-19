@@ -9,6 +9,7 @@ import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
+import DTOs.ConfiguracionPartidaDTO;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
@@ -24,6 +25,8 @@ import java.util.List;
 public interface ISubDominio {
 
     public void prepararJuego(List<JugadorResumenDTO> jugadoresDTO) throws MazoVacioException;
+    
+    public void configurarPartida(ConfiguracionPartidaDTO configuracionDTO);
 
     void solicitarUnion(JugadorResumenDTO jugadorSolicitante);
 
@@ -78,4 +81,6 @@ public interface ISubDominio {
 
     public boolean puedeIniciarPartida();
 
+    //Metodos configuarar partida
+    
 }

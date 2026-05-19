@@ -38,10 +38,13 @@ public class Partida {
     private boolean sentidoHorario;
     private TipoColor colorActual;
     private boolean esperandoColor;
+    private ConfiguracionPartida configuracion;
+    private boolean disponible;
     private EstadoFinalizacion estadoFinalizacion;
     private ResultadoFinalizacionDTO resultadoFinalizacion;
     private TablaPosicionesDTO tablaPosiciones;
     private final Map<Integer, RespuestaFinalizacionDTO> respuestasFinalizacion;
+    
 
     public Partida() {
         this.jugadores = List.of();
@@ -51,8 +54,11 @@ public class Partida {
         this.sentidoHorario = true;
         this.colorActual = TipoColor.NINGUNO;
         this.esperandoColor = false;
+        this.configuracion = null;
+        this.disponible = false;
         this.estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
         this.respuestasFinalizacion = new HashMap<>();
+        
     }
 
     public void solicitarUnion(JugadorResumenDTO jugadorSolicitanteDTO) {
@@ -206,11 +212,39 @@ public class Partida {
         return new CartaMapper().toDTOList(obtenerJugadorPorId(idJugador).getMano());
     }
 
+//    public EstadoPartidaDTO obtenerEstadoPartidaDTO() {
+//        EstadoPartidaDTO estadoDTO = new EstadoPartidaDTO();
+//        List<JugadorResumenDTO> jugadoresDTO = new JugadorMapper().toDTOList(jugadores);
+//
+//        if (!jugadores.isEmpty()) {
+//            int idJugadorActual = getJugadorActual().getId();
+//
+//            for (JugadorResumenDTO jugadorDTO : jugadoresDTO) {
+//                jugadorDTO.setEnTurno(jugadorDTO.getId() == idJugadorActual);
+//            }
+//
+//            estadoDTO.setIdJugador(idJugadorActual);
+//        }
+//
+//        estadoDTO.setJugadores(jugadoresDTO);
+//        if (descarte != null && descarte.getTope() != null) {
+//            estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
+//        }
+//
+//        estadoDTO.setRuletaActiva(false);
+//
+//        estadoDTO.setEstadoFinalizacion(estadoFinalizacion);
+//        estadoDTO.setResultadoFinalizacion(resultadoFinalizacion);
+//
+//        return estadoDTO;
+//    }
+    
     public EstadoPartidaDTO obtenerEstadoPartidaDTO() {
         EstadoPartidaDTO estadoDTO = new EstadoPartidaDTO();
-        List<JugadorResumenDTO> jugadoresDTO = new JugadorMapper().toDTOList(jugadores);
 
-        if (!jugadores.isEmpty()) {
+        List<JugadorResumenDTO> jugadoresDTO = jugadores != null? new JugadorMapper().toDTOList(jugadores): List.of();
+
+        if (jugadores != null && !jugadores.isEmpty()) {
             int idJugadorActual = getJugadorActual().getId();
 
             for (JugadorResumenDTO jugadorDTO : jugadoresDTO) {
@@ -221,17 +255,17 @@ public class Partida {
         }
 
         estadoDTO.setJugadores(jugadoresDTO);
+
         if (descarte != null && descarte.getTope() != null) {
             estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
         }
 
         estadoDTO.setRuletaActiva(false);
-
         estadoDTO.setEstadoFinalizacion(estadoFinalizacion);
         estadoDTO.setResultadoFinalizacion(resultadoFinalizacion);
 
         return estadoDTO;
-    }
+}
 
     public ResultadoFinalizacionDTO solicitarFinalizacion(JugadorResumenDTO jugador) {
         if (jugador == null) {
@@ -506,6 +540,28 @@ public class Partida {
 
         return true;
     }
+    
+    public static Partida crearConConfiguracion(ConfiguracionPartida configuracion) {
+        Partida partida = new Partida();
+        partida.configurarPartida(configuracion);
+        return partida;
+    }
+    
+    public void configurarPartida(ConfiguracionPartida configuracion) {
+    if (configuracion == null) {
+        throw new IllegalArgumentException("La configuración no puede ser nula.");
+    }
+
+    configuracion.validarConfiguracion();
+    this.configuracion = configuracion;
+}
+
+    public void establecerDisponible() {
+        if (this.configuracion == null) {
+            throw new IllegalStateException("No se puede establecer disponible una partida sin configuración.");
+    }
+        this.disponible = true;
+    }
 
     public List<Jugador> getJugadores() {
         return List.copyOf(jugadores);
@@ -570,6 +626,14 @@ public class Partida {
 
     public void setEsperandoColor(boolean esperandoColor) {
         this.esperandoColor = esperandoColor;
+    }
+    
+    public ConfiguracionPartida getConfiguracion() {
+        return configuracion;
+    }
+
+    public boolean isDisponible() {
+        return disponible;
     }
 
     @Override
