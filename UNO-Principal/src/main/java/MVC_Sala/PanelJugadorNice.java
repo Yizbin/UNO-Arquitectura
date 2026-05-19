@@ -4,17 +4,75 @@
  */
 package MVC_Sala;
 
+import java.awt.Color;
+import Enums.EstadoJugadorSala;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
 /**
  *
  * @author angel
  */
 public class PanelJugadorNice extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PanelJugadorNice
-     */
+    private JLabel lblAvatar;
+    private JLabel lblNombre;
+    private JLabel lblEstado;
+
     public PanelJugadorNice() {
         initComponents();
+        configurarEstiloPanel();
+    }
+
+    public PanelJugadorNice(String nombre, Icon avatar, EstadoJugadorSala estadoSala) {
+        this();
+        setDatosJugador(nombre, avatar);
+        setEstado(estadoSala);
+    }
+
+    private void configurarEstiloPanel() {
+        setBackground(Color.WHITE);
+
+        setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(0, 102, 255)),
+                BorderFactory.createEmptyBorder(0, 0, 0, 12)
+        ));
+
+        setPreferredSize(new Dimension(500, 58));
+        setMinimumSize(new Dimension(420, 58));
+        setMaximumSize(new Dimension(520, 58));
+    }
+
+    public void setDatosJugador(String nombre, Icon avatar) {
+        lblNombre.setText(nombre != null && !nombre.isBlank() ? nombre : "Jugador");
+
+        if (avatar != null) {
+            lblAvatar.setIcon(avatar);
+            lblAvatar.setText("");
+        } else {
+            lblAvatar.setIcon(null);
+            lblAvatar.setText("?");
+        }
+    }
+
+    public void setEstado(EstadoJugadorSala estadoSala) {
+        if (estadoSala == EstadoJugadorSala.CONFIRMADO) {
+            lblEstado.setText("✓");
+            lblEstado.setForeground(new Color(0, 170, 0));
+        } else if (estadoSala == EstadoJugadorSala.CANCELADO) {
+            lblEstado.setText("×");
+            lblEstado.setForeground(new Color(220, 40, 40));
+        } else {
+            lblEstado.setText("...");
+            lblEstado.setForeground(Color.GRAY);
+        }
     }
 
     /**
