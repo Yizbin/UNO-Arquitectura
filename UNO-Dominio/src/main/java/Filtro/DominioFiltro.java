@@ -5,9 +5,11 @@
 package Filtro;
 
 import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorEstadoSalaDTO;
 import DTOs.PeticionJugadaDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import Enums.TipoAccionPartida;
+import static Enums.TipoAccionPartida.CONFIGURAR_PARTIDA;
 import Interfaces.IFiltro;
 import Interfaces.ISubDominio;
 import Plantilla.ContextoPipeline;
@@ -41,6 +43,9 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
 
         switch (tipoAccion) {
 
+            case CONFIGURAR_PARTIDA -> {
+                subDominio.configurarPartida(peticion.getConfiguracionPartida());
+            }
             case SOLICITAR_UNIRSE_PARTIDA -> {
                 subDominio.solicitarUnion(peticion.getJugadorActualizar());
             }
@@ -54,9 +59,19 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
                 subDominio.rechazarSolicitudUnion(estado.getIdJugador());
             }
-            case SOLICITAR_INICIO_PARTIDA -> {
-//                subDominio.confirmarInicioPartida(peticion.getJugador());
+            case CAMBIAR_INICIO_PARTIDA -> {
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+
+                if (estado == null
+                        || estado.getEstadosJugadoresSala() == null
+                        || estado.getEstadosJugadoresSala().isEmpty()) {
+                    throw new IllegalStateException("No se recibio el estado del jugador que solicita iniciar partida.");
+                }
+
+                JugadorEstadoSalaDTO jugadorEstado = estado.getEstadosJugadoresSala().get(0);
+                subDominio.actualizarEstadoJugadorSala(jugadorEstado);
             }
+
             case JUGAR_CARTA -> {
                 subDominio.jugarCarta(peticion.getEstadoPartida().getIdJugador(), peticion.getEstadoPartida().getCartaEnDescarte());
             }

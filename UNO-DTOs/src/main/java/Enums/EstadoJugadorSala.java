@@ -10,5 +10,6 @@ package Enums;
  */
 public enum EstadoJugadorSala {
     ESPERANDO,
+    CANCELADO,
     CONFIRMADO
 }

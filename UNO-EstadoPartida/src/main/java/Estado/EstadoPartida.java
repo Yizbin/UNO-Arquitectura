@@ -7,6 +7,7 @@ package Estado;
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
+import DTOs.ResultadoFinalizacionDTO;
 import Enums.EstadoFinalizacion;
 import Enums.EstadoRetoSpin;
 import Enums.TipoColor;
@@ -35,6 +36,7 @@ public class EstadoPartida implements IFiltro<EstadoPartidaDTO, EstadoPartidaDTO
     private String mensajeEstado;
 
     private EstadoFinalizacion estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
+    private ResultadoFinalizacionDTO resultadoFinalizacion;
 
     @Override
     public ContextoPipeline<EstadoPartidaDTO> procesar(ContextoPipeline<EstadoPartidaDTO> contexto) {
@@ -66,6 +68,7 @@ public class EstadoPartida implements IFiltro<EstadoPartidaDTO, EstadoPartidaDTO
 
         this.mensajeEstado = estadoRecibido.getMensajeEstado();
         this.estadoFinalizacion = estadoRecibido.getEstadoFinalizacion();
+        this.resultadoFinalizacion = estadoRecibido.getResultadoFinalizacion();
     }
 
     private EstadoPartidaDTO crearDTOActual() {
@@ -85,6 +88,7 @@ public class EstadoPartida implements IFiltro<EstadoPartidaDTO, EstadoPartidaDTO
 
         dto.setMensajeEstado(this.mensajeEstado);
         dto.setEstadoFinalizacion(this.estadoFinalizacion);
+        dto.setResultadoFinalizacion(this.resultadoFinalizacion);
 
         return dto;
     }

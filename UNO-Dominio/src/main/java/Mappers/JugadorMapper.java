@@ -20,11 +20,13 @@ public class JugadorMapper {
         if (entity == null) {
             return null;
         }
+
         JugadorResumenDTO dto = new JugadorResumenDTO();
         dto.setId(entity.getId());
         dto.setNombreUsuario(entity.getUsuario());
         dto.setRutaAvatar(entity.getAvatar());
-        dto.setEstadoSala(entity.getEstadoSala());
+        dto.setCantidadDeCartas(entity.getMano() != null ? entity.getMano().size() : 0);
+        dto.setPuntos(entity.getPuntos());
 
         return dto;
     }
@@ -43,8 +45,14 @@ public class JugadorMapper {
         if (dto == null) {
             return null;
         }
-        Jugador jugador = new Jugador(dto.getId(), dto.getNombreUsuario(), dto.getRutaAvatar());
-        jugador.setEstadoSala(dto.getEstadoSala());
+
+        Jugador jugador = new Jugador(
+                dto.getId(),
+                dto.getNombreUsuario(),
+                dto.getRutaAvatar()
+        );
+
+        jugador.setPuntos(dto.getPuntos());
 
         return jugador;
     }

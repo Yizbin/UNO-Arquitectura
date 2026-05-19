@@ -4,10 +4,20 @@
  */
 package MVC_ConfigurarPartida;
 
+import DTOs.ConfiguracionPartidaDTO;
+
 /**
  *
  * @author Pride Factor Black
  */
 public interface IModeloConfgPartida {
-    
+    void configurarPartida(ConfiguracionPartidaDTO dto);
+
+    boolean isConfiguracionExitosa();
+
+    String getMensajeError();
+
+    void agregarSuscriptor(ISuscriptor suscriptor);
+
+    void notificar();
 }

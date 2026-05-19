@@ -2,6 +2,7 @@ package Entidades;
 
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorEstadoSalaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
@@ -38,6 +39,8 @@ public class Partida {
     private boolean sentidoHorario;
     private TipoColor colorActual;
     private boolean esperandoColor;
+    private ConfiguracionPartida configuracion;
+    private boolean disponible;
     private EstadoFinalizacion estadoFinalizacion;
     private ResultadoFinalizacionDTO resultadoFinalizacion;
     private TablaPosicionesDTO tablaPosiciones;
@@ -51,8 +54,11 @@ public class Partida {
         this.sentidoHorario = true;
         this.colorActual = TipoColor.NINGUNO;
         this.esperandoColor = false;
+        this.configuracion = null;
+        this.disponible = false;
         this.estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
         this.respuestasFinalizacion = new HashMap<>();
+
     }
 
     public void solicitarUnion(JugadorResumenDTO jugadorSolicitanteDTO) {
@@ -161,6 +167,7 @@ public class Partida {
         }
 
         Carta cartaJugada = this.getJugadorActual().jugarCarta(cartaAJugar);
+        this.getJugadorActual().sumarPuntos(cartaJugada.getPuntuacion());
         this.descarte.apilarCarta(cartaJugada);
 
         if (cartaJugada instanceof CartaNumero cartaNumero) {
@@ -448,21 +455,14 @@ public class Partida {
     }
 
     // METODOS PARA LA SALA
-    public void solicitarInicioPartida(JugadorResumenDTO jugadorDTO) {
-        confirmarInicioPartida(jugadorDTO);
-    }
-
-    public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO) {
-        if (jugadorDTO == null) {
+    public boolean actualizarEstadoJugadorSala(JugadorEstadoSalaDTO jugadorEstadoDTO) {
+        if (jugadorEstadoDTO == null) {
             return false;
         }
 
         for (Jugador jugador : jugadores) {
-            boolean mismoId = jugador.getId() == jugadorDTO.getId();
-            boolean mismoNombre = Objects.equals(jugador.getUsuario(), jugadorDTO.getNombreUsuario());
-
-            if (mismoId || mismoNombre) {
-                jugador.setEstadoSala(EstadoJugadorSala.CONFIRMADO);
+            if (jugador.getId() == jugadorEstadoDTO.getId()) {
+                jugador.setEstadoSala(jugadorEstadoDTO.getEstadoSala());
                 return puedeIniciarPartida();
             }
         }
@@ -470,30 +470,26 @@ public class Partida {
         return false;
     }
 
-    public List<JugadorResumenDTO> obtenerJugadoresConfirmados() {
-        List<JugadorResumenDTO> jugadoresConfirmados = new ArrayList<>();
-        JugadorMapper mapper = new JugadorMapper();
+    public List<JugadorEstadoSalaDTO> obtenerEstadosJugadoresSala() {
+        List<JugadorEstadoSalaDTO> estados = new ArrayList<>();
 
         for (Jugador jugador : jugadores) {
-            if (jugador.getEstadoSala() == EstadoJugadorSala.CONFIRMADO) {
-                jugadoresConfirmados.add(mapper.toDTO(jugador));
-            }
+            estados.add(new JugadorEstadoSalaDTO(
+                    jugador.getId(),
+                    jugador.getEstadoSala()
+            ));
         }
-
-        return jugadoresConfirmados;
+        return estados;
     }
 
     public boolean puedeIniciarPartida() {
         int totalJugadores = jugadores.size();
-
         if (totalJugadores == 4) {
             return true;
         }
-
-        if (totalJugadores >= 2 && totalJugadores <= 3) {
+        if (totalJugadores == 2 || totalJugadores == 3) {
             return todosLosJugadoresConfirmados();
         }
-
         return false;
     }
 
@@ -503,8 +499,29 @@ public class Partida {
                 return false;
             }
         }
-
         return true;
+    }
+
+    public static Partida crearConConfiguracion(ConfiguracionPartida configuracion) {
+        Partida partida = new Partida();
+        partida.configurarPartida(configuracion);
+        return partida;
+    }
+
+    public void configurarPartida(ConfiguracionPartida configuracion) {
+        if (configuracion == null) {
+            throw new IllegalArgumentException("La configuración no puede ser nula.");
+        }
+
+        configuracion.validarConfiguracion();
+        this.configuracion = configuracion;
+    }
+
+    public void establecerDisponible() {
+        if (this.configuracion == null) {
+            throw new IllegalStateException("No se puede establecer disponible una partida sin configuración.");
+        }
+        this.disponible = true;
     }
 
     public List<Jugador> getJugadores() {
@@ -570,6 +587,14 @@ public class Partida {
 
     public void setEsperandoColor(boolean esperandoColor) {
         this.esperandoColor = esperandoColor;
+    }
+
+    public ConfiguracionPartida getConfiguracion() {
+        return configuracion;
+    }
+
+    public boolean isDisponible() {
+        return disponible;
     }
 
     @Override

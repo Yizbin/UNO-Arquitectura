@@ -30,9 +30,9 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
     }
 
     private void solicitarInicio() {
-        JugadorResumenDTO jugadorLocal = modeloVista != null ? modeloVista.getJugadorLocal() : null;
-        boolean respuesta = controlador != null && controlador.iniciarPartida(jugadorLocal);
-        responderInicio(respuesta);
+//        JugadorResumenDTO jugadorLocal = modeloVista != null ? modeloVista.getJugadorLocal() : null;
+//        boolean respuesta = controlador != null && controlador.iniciarPartida(jugadorLocal);
+//        responderInicio(respuesta);
     }
 
     private void responderInicio(boolean respuesta) {
@@ -51,24 +51,24 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
     }
 
     private void refrescarPanelJugadores(List<JugadorResumenDTO> jugadores) {
-        PanelListaJugadores.removeAll();
-
-        for (JugadorResumenDTO jugador : jugadores) {
-            ImageIcon imagen = new ImageIcon(jugador.getRutaAvatar());
-            ImageIcon avatar = UtilidadesGraficas.hacerAvatarCircular(imagen.getImage(), 60);
-
-            PanelJugador tarjeta = new PanelJugador(
-                    jugador.getNombreUsuario(),
-                    avatar,
-                    jugador.getEstadoSala()
-            );
-
-            PanelListaJugadores.add(tarjeta);
-            PanelListaJugadores.add(Box.createVerticalStrut(12));
-        }
-
-        PanelListaJugadores.revalidate();
-        PanelListaJugadores.repaint();
+//        PanelListaJugadores.removeAll();
+//
+//        for (JugadorResumenDTO jugador : jugadores) {
+//            ImageIcon imagen = new ImageIcon(jugador.getRutaAvatar());
+//            ImageIcon avatar = UtilidadesGraficas.hacerAvatarCircular(imagen.getImage(), 60);
+//
+//            PanelJugador tarjeta = new PanelJugador(
+//                    jugador.getNombreUsuario(),
+//                    avatar,
+//                    jugador.getEstadoSala()
+//            );
+//
+//            PanelListaJugadores.add(tarjeta);
+//            PanelListaJugadores.add(Box.createVerticalStrut(12));
+//        }
+//
+//        PanelListaJugadores.revalidate();
+//        PanelListaJugadores.repaint();
     }
 
     /**

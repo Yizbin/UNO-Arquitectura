@@ -4,6 +4,7 @@
  */
 package MVC_Sala;
 
+import DTOs.JugadorEstadoSalaDTO;
 import DTOs.JugadorResumenDTO;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface IModeloSalaVista {
     
     JugadorResumenDTO getJugadorLocal();
 
-    List<JugadorResumenDTO> getJugadoresConfirmados();
+    List<JugadorEstadoSalaDTO> getEstadosJugadoresSala();
 
     boolean isPartidaListaParaIniciar();
 

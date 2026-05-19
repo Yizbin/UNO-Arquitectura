@@ -9,5 +9,7 @@ package MVC_ConfigurarPartida;
  * @author Pride Factor Black
  */
 public interface IControlConfgPartida {
-    
+    void mostrarPantallaConfigurarPartida();
+
+    void procesarConfiguracion(int numeroInicio, int numeroFin, int numComodines);
 }

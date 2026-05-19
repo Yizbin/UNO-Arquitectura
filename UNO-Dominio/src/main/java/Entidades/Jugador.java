@@ -27,7 +27,6 @@ public class Jugador {
 
     public Jugador() {
         this.mano = new ArrayList<>();
-        this.estadoSala = EstadoJugadorSala.ESPERANDO;
         this.aceptado = false;
     }
 
@@ -43,7 +42,6 @@ public class Jugador {
         this.mano = new ArrayList<>();
         this.puntos = 0;
         this.dijoUno = false;
-        this.estadoSala = EstadoJugadorSala.ESPERANDO;
         this.aceptado = false;
     }
 
@@ -138,6 +136,10 @@ public class Jugador {
         return puntos;
     }
 
+    public void sumarPuntos(int puntos) {
+        this.puntos += puntos;
+    }
+
     public void setPuntos(int puntos) {
         this.puntos = puntos;
     }
@@ -158,20 +160,20 @@ public class Jugador {
         this.id = id;
     }
 
-    public EstadoJugadorSala getEstadoSala() {
-        return estadoSala;
-    }
-
-    public void setEstadoSala(EstadoJugadorSala estadoSala) {
-        this.estadoSala = estadoSala != null ? estadoSala : EstadoJugadorSala.ESPERANDO;
-    }
-
     public boolean isAceptado() {
         return aceptado;
     }
 
     public void setAceptado(boolean aceptado) {
         this.aceptado = aceptado;
+    }
+
+    public EstadoJugadorSala getEstadoSala() {
+        return estadoSala;
+    }
+
+    public void setEstadoSala(EstadoJugadorSala estadoSala) {
+        this.estadoSala = estadoSala;
     }
 
     @Override

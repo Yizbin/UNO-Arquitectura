@@ -8,13 +8,29 @@ package MVC_ConfigurarPartida;
  *
  * @author Pride Factor Black
  */
-public class PantallaConfigurarPartida extends javax.swing.JFrame {
-
+public class PantallaConfigurarPartida extends javax.swing.JFrame implements ISuscriptor{
+    private IControlConfgPartida controlador;
+    private IModeloConfgPartida modelo;
     /**
      * Creates new form PantallaConfigurarPartida
      */
-    public PantallaConfigurarPartida() {
+    public PantallaConfigurarPartida(IControlConfgPartida controlador, IModeloConfgPartida modelo) {
+        this.controlador = controlador;
+        this.modelo = modelo;
         initComponents();
+        
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jsNumeroInicio.setModel(new javax.swing.SpinnerNumberModel(0, 0, 9, 1));
+        jsNumeroFin.setModel(new javax.swing.SpinnerNumberModel(9, 0, 9, 1));
+        jsNumComodines.setModel(new javax.swing.SpinnerNumberModel(8, 0, 8, 1));
+
+        this.modelo.agregarSuscriptor(this);
+    }
+    
+    public PantallaConfigurarPartida() {
+       initComponents();
+       setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -34,6 +50,9 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame {
         lbltextoRN2 = new javax.swing.JLabel();
         lbltextoRN1 = new javax.swing.JLabel();
         lblnumeros = new javax.swing.JLabel();
+        jsNumeroFin = new javax.swing.JSpinner();
+        jsNumeroInicio = new javax.swing.JSpinner();
+        jsNumComodines = new javax.swing.JSpinner();
         lnltextoNC1 = new javax.swing.JLabel();
         lblNumCartas = new javax.swing.JLabel();
         lblNumComodines = new javax.swing.JLabel();
@@ -67,11 +86,11 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame {
 
         lbltextoRN3.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         lbltextoRN3.setText("Hasta");
-        getContentPane().add(lbltextoRN3, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 370, -1, -1));
+        getContentPane().add(lbltextoRN3, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 370, -1, -1));
 
         lbltextoRN2.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         lbltextoRN2.setText("Desde");
-        getContentPane().add(lbltextoRN2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 370, -1, 20));
+        getContentPane().add(lbltextoRN2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 370, -1, 20));
 
         lbltextoRN1.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         lbltextoRN1.setText("Rango de numeros");
@@ -79,6 +98,9 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame {
 
         lblnumeros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/numeros.png"))); // NOI18N
         getContentPane().add(lblnumeros, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 440, -1, -1));
+        getContentPane().add(jsNumeroFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 370, 60, -1));
+        getContentPane().add(jsNumeroInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 370, 60, -1));
+        getContentPane().add(jsNumComodines, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 442, 70, 30));
 
         lnltextoNC1.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
         lnltextoNC1.setText("Numero de comodines");
@@ -102,47 +124,29 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        // TODO add your handling code here:
+        if (controlador == null) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "La pantalla no tiene controlador asignado.",
+                "Error",
+                javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        int numeroInicio = (Integer) jsNumeroInicio.getValue();
+        int numeroFin = (Integer) jsNumeroFin.getValue();
+        int numComodines = (Integer) jsNumComodines.getValue();
+
+        controlador.procesarConfiguracion(numeroInicio, numeroFin, numComodines);
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PantallaConfigurarPartida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PantallaConfigurarPartida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PantallaConfigurarPartida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PantallaConfigurarPartida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PantallaConfigurarPartida().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton jButton1;
+    private javax.swing.JSpinner jsNumComodines;
+    private javax.swing.JSpinner jsNumeroFin;
+    private javax.swing.JSpinner jsNumeroInicio;
     private javax.swing.JLabel lbl9;
     private javax.swing.JLabel lblNumCartas;
     private javax.swing.JLabel lblNumComodines;
@@ -155,4 +159,24 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame {
     private javax.swing.JLabel lnl0;
     private javax.swing.JLabel lnltextoNC1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(IModeloConfgPartida modelo) {
+        if (modelo.isConfiguracionExitosa()) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "Partida configurada correctamente."
+        );
+
+        this.dispose();
+
+    } else {
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                modelo.getMensajeError(),
+                "Error",
+                javax.swing.JOptionPane.ERROR_MESSAGE
+        );
+    }
+    }
 }
