@@ -68,10 +68,6 @@ public class Descarte {
         return colorActual;
     }
 
-    public void setColorActual(TipoColor colorActual) {
-        this.colorActual = colorActual != null ? colorActual : TipoColor.NINGUNO;
-    }
-
     public Stack<Carta> getHistorial() {
         return (Stack<Carta>) historial.clone();
     }

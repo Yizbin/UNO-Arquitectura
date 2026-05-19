@@ -58,9 +58,13 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
                 subDominio.rechazarSolicitudUnion(estado.getIdJugador());
             }
-            case SOLICITAR_INICIO_PARTIDA -> {
-//                subDominio.confirmarInicioPartida(peticion.getJugador());
-            }           
+            case INICIAR_PARTIDA -> {
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+                if (estado == null || estado.getJugadores() == null) {
+                    throw new IllegalStateException("La peticion de inicio debe incluir los jugadores de la partida.");
+                }
+                subDominio.prepararJuego(estado.getJugadores());
+            }
             case JUGAR_CARTA -> {
                 subDominio.jugarCarta(peticion.getEstadoPartida().getIdJugador(), peticion.getEstadoPartida().getCartaEnDescarte());
             }

@@ -132,25 +132,28 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
     @Override
     public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {
-//        JugadorResumenDTO jugadorSolicitud = jugadorDTO != null ? jugadorDTO : jugadorLocal;
-//
-//        if (coordinador == null || jugadorSolicitud == null) {
-//            return false;
-//        }
-//
-//        jugadorSolicitud.setEstadoSala(EstadoJugadorSala.CONFIRMADO);
-//        this.jugadorLocal = jugadorSolicitud;
-//
-//        try {
-//            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
-//                    TipoAccionPartida.SOLICITAR_INICIO_PARTIDA,
-//                    jugadorSolicitud
-//            );
-//            enviarPeticion(peticion);
-//            return true;
-//        } catch (Exception e) {
-//            System.err.println("Error al solicitar inicio de partida: " + e.getMessage());
-//        }
+        validarCondicionInicio();
+
+        if (coordinador == null || !partidaListaParaIniciar) {
+            return false;
+        }
+
+        try {
+            EstadoPartidaDTO estado = new EstadoPartidaDTO();
+            estado.setJugadores(jugadoresEnSala);
+
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
+                    TipoAccionPartida.INICIAR_PARTIDA,
+                    estado
+            );
+            enviarPeticion(peticion);
+
+            this.partidaListaParaIniciar = true;
+            notificar();
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error al solicitar inicio de partida: " + e.getMessage());
+        }
         return false;
     }
 
@@ -228,6 +231,14 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         } catch (Exception e) {
             System.err.println("Error al actualizar perfil: " + e.getMessage());
         }
+    }
+
+    public void validarCondicionInicio() {
+        int totalJugadores = jugadoresEnSala != null ? jugadoresEnSala.size() : 0;
+        int totalConfirmados = getJugadoresConfirmados().size();
+        this.partidaListaParaIniciar = totalJugadores == 4
+                || (totalJugadores >= 2 && totalConfirmados == totalJugadores);
+        notificar();
     }
 
 }

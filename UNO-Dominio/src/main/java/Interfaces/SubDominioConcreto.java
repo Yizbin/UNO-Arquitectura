@@ -6,9 +6,7 @@ import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
-import DTOs.ConfiguracionPartidaDTO;
 import Entidades.ConfiguracionPartida;
-import Mappers.ConfiguracionMapper;
 import Entidades.Partida;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
@@ -16,6 +14,7 @@ import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
 import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
+import Mappers.ConfiguracionMapper;
 import java.util.List;
 
 /**
@@ -24,18 +23,17 @@ import java.util.List;
  */
 public class SubDominioConcreto implements ISubDominio {
 
-    private Partida partida;
-    private ConfiguracionMapper configuracionMapper;
+    private final Partida partida;
+    private final ConfiguracionMapper configuracionMapper;
 
     public SubDominioConcreto() {
-        this(null);
+        this(new Partida());
     }
- 
+
     public SubDominioConcreto(Partida partida) {
-        this.partida = partida;
+        this.partida = partida != null ? partida : new Partida();
         this.configuracionMapper = new ConfiguracionMapper();
     }
-    
 
     @Override
     public void prepararJuego(List<JugadorResumenDTO> jugadoresDTO) throws MazoVacioException {
@@ -45,37 +43,37 @@ public class SubDominioConcreto implements ISubDominio {
 
     @Override
     public void solicitarUnion(JugadorResumenDTO jugadorSolicitante) {
-        this.partida.solicitarUnion(jugadorSolicitante);
+        partida.solicitarUnion(jugadorSolicitante);
     }
 
     @Override
     public void aceptarSolicitudUnion(int idJugadorSolicitante) {
-        this.partida.aceptarSolicitudUnion(idJugadorSolicitante);
+        partida.aceptarSolicitudUnion(idJugadorSolicitante);
     }
 
     @Override
     public void rechazarSolicitudUnion(int idJugadorSolicitante) {
-        this.partida.rechazarSolicitudUnion(idJugadorSolicitante);
+        partida.rechazarSolicitudUnion(idJugadorSolicitante);
     }
 
     @Override
     public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO) {
-        return this.partida.confirmarInicioPartida(jugadorDTO);
+        return partida.confirmarInicioPartida(jugadorDTO);
     }
 
     @Override
     public List<JugadorResumenDTO> obtenerJugadoresConfirmados() {
-        return this.partida.obtenerJugadoresConfirmados();
+        return partida.obtenerJugadoresConfirmados();
     }
 
     @Override
     public boolean puedeIniciarPartida() {
-        return this.partida.puedeIniciarPartida();
+        return partida.puedeIniciarPartida();
     }
 
     @Override
     public void elegirColorComodin(TipoColor nuevoColor) throws MazoVacioException {
-        this.partida.procesarColorComodin(nuevoColor);
+        partida.procesarColorComodin(nuevoColor);
     }
 
     @Override
@@ -100,7 +98,7 @@ public class SubDominioConcreto implements ISubDominio {
 
     @Override
     public TipoColor obtenerColorActual() {
-        return this.partida.getColorActual();
+        return partida.getColorActual();
     }
 
     @Override
@@ -110,7 +108,7 @@ public class SubDominioConcreto implements ISubDominio {
 
     @Override
     public EstadoPartidaDTO obtenerEstadoPartida() {
-        return this.partida != null ? this.partida.obtenerEstadoPartidaDTO() : new EstadoPartidaDTO();
+        return partida.obtenerEstadoPartidaDTO();
     }
 
     @Override
@@ -129,7 +127,6 @@ public class SubDominioConcreto implements ISubDominio {
         partida.gritarUno(idJugador);
     }
 
-    //finalizar partida
     @Override
     public void solicitarFinalizacion(JugadorResumenDTO jugador) {
         partida.solicitarFinalizacion(jugador);
@@ -153,20 +150,13 @@ public class SubDominioConcreto implements ISubDominio {
 
     @Override
     public void configurarPartida(ConfiguracionPartidaDTO configuracionDTO) {
-        ConfiguracionPartida configuracionPartida =
-        configuracionMapper.toEntity(configuracionDTO);
+        ConfiguracionPartida configuracionPartida = configuracionMapper.toEntity(configuracionDTO);
+        partida.configurarPartida(configuracionPartida);
+        partida.establecerDisponible();
 
-         if (partida == null) {
-             partida = Partida.crearConConfiguracion(configuracionPartida);
-         } else {
-             partida.configurarPartida(configuracionPartida);
-         }
-
-         partida.establecerDisponible();
-
-         System.out.println("[CONFIG] Partida creada: " + (partida != null));
-         System.out.println("[CONFIG] Configuración asignada: " + (partida.getConfiguracion() != null));
-         System.out.println("[CONFIG] Partida disponible: " + partida.isDisponible());
-         System.out.println("[CONFIG] Mazo creado en configurar partida: " + (partida.getMazo() != null));
+        System.out.println("[CONFIG] Partida creada: " + (partida != null));
+        System.out.println("[CONFIG] Configuración asignada: " + (partida.getConfiguracion() != null));
+        System.out.println("[CONFIG] Partida disponible: " + partida.isDisponible());
+        System.out.println("[CONFIG] Mazo creado en configurar partida: " + (partida.getMazo() != null));
     }
 }

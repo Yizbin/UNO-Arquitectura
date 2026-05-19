@@ -57,7 +57,9 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
     public void iniciarJuego(List<JugadorResumenDTO> jugadores) {
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
         peticion.setAccion(TipoAccionPartida.INICIAR_PARTIDA);
-        peticion.setEstadoPartida(crearEstadoPeticion());
+        EstadoPartidaDTO estadoPeticion = crearEstadoPeticion();
+        estadoPeticion.setJugadores(jugadores);
+        peticion.setEstadoPartida(estadoPeticion);
         realizarAccionJugador(peticion);
     }
 

@@ -22,7 +22,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class Partida {
 
@@ -195,6 +194,9 @@ public class Partida {
      * @throws MazoVacioException
      */
     public void iniciarPartida() throws MazoVacioException {
+        if (estaIniciada()) {
+            throw new IllegalStateException("La partida ya fue iniciada.");
+        }
 
         this.mazo = MazoFactory.crear();
         this.turno = new Turno(0, this.jugadores);
@@ -660,14 +662,6 @@ public class Partida {
     /**
      *
      * @param jugadorDTO
-     */
-    public void solicitarInicioPartida(JugadorResumenDTO jugadorDTO) {
-        confirmarInicioPartida(jugadorDTO);
-    }
-
-    /**
-     *
-     * @param jugadorDTO
      * @return
      */
     public boolean confirmarInicioPartida(JugadorResumenDTO jugadorDTO) {
@@ -675,17 +669,9 @@ public class Partida {
             return false;
         }
 
-        for (Jugador jugador : jugadores) {
-            boolean mismoId = jugador.getId() == jugadorDTO.getId();
-            boolean mismoNombre = Objects.equals(jugador.getUsuario(), jugadorDTO.getNombreUsuario());
-
-            if (mismoId || mismoNombre) {
-                jugador.setEstadoSala(EstadoJugadorSala.CONFIRMADO);
-                return puedeIniciarPartida();
-            }
-        }
-
-        return false;
+        Jugador jugador = obtenerJugadorPorId(jugadorDTO.getId());
+        jugador.confirmarInicioPartida();
+        return puedeIniciarPartida();
     }
 
     /**
@@ -697,7 +683,7 @@ public class Partida {
         JugadorMapper mapper = new JugadorMapper();
 
         for (Jugador jugador : jugadores) {
-            if (jugador.getEstadoSala() == EstadoJugadorSala.CONFIRMADO) {
+            if (jugador.estaConfirmadoParaIniciar()) {
                 jugadoresConfirmados.add(mapper.toDTO(jugador));
             }
         }
@@ -729,7 +715,7 @@ public class Partida {
      */
     private boolean todosLosJugadoresConfirmados() {
         for (Jugador jugador : jugadores) {
-            if (jugador.getEstadoSala() != EstadoJugadorSala.CONFIRMADO) {
+            if (!jugador.estaConfirmadoParaIniciar()) {
                 return false;
             }
         }
@@ -817,7 +803,7 @@ public class Partida {
      * @param descarte
      */
     public void setDescarte(Descarte descarte) {
-        this.descarte = descarte;
+        this.descarte = descarte != null ? descarte : new Descarte();
     }
 
     /**
@@ -838,10 +824,6 @@ public class Partida {
 
     public TipoColor getColorActual() {
         return descarte.getColorActual();
-    }
-
-    public void setColorActual(TipoColor colorActual) {
-        this.descarte.setColorActual(colorActual);
     }
     
     /**

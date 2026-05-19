@@ -10,11 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- *
- * @author Abraham Coronel
- */
+
 public class Jugador {
+
+    private static final int ID_ANFITRION = 1;
 
     private int id;
     private String usuario;
@@ -53,34 +52,18 @@ public class Jugador {
     }
 
     public Carta jugarCarta(Carta cartaCopia) throws ValidarManoException {
-        Carta cartaReal = null;
+        if (cartaCopia == null) {
+            throw new ValidarManoException("La carta a jugar no puede ser nula.");
+        }
 
-        for (Carta c : this.mano) {
-
-            if (c instanceof CartaNumero cn && cartaCopia instanceof CartaNumero cnCopia) {
-                if (cn.getColor() == cnCopia.getColor() && cn.getNumero() == cnCopia.getNumero()) {
-                    cartaReal = c;
-                    break;
-                }
-            } else if (c instanceof CartaAccion ca && cartaCopia instanceof CartaAccion caCopia) {
-                if (ca.getColor() == caCopia.getColor() && ca.getTipoAccion() == caCopia.getTipoAccion()) {
-                    cartaReal = c;
-                    break;
-                }
-            } else if (c instanceof CartaComodin cc && cartaCopia instanceof CartaComodin ccCopia) {
-                if (cc.getTipoComodin() == ccCopia.getTipoComodin()) {
-                    cartaReal = c;
-                    break;
-                }
+        for (Carta carta : this.mano) {
+            if (carta.equals(cartaCopia)) {
+                this.mano.remove(carta);
+                return carta;
             }
         }
 
-        if (cartaReal == null) {
-            throw new ValidarManoException("El jugador no tiene esa carta en la mano.");
-        }
-
-        this.mano.remove(cartaReal);
-        return cartaReal;
+        throw new ValidarManoException("El jugador no tiene esa carta en la mano.");
     }
 
     //Para cuando queda una carta nomas
@@ -103,6 +86,18 @@ public class Jugador {
     //Solo comprueba si el jugador no tiene cartas y gano
     public boolean haGanado() {
         return mano.isEmpty();
+    }
+
+    public boolean esAnfitrion() {
+        return id == ID_ANFITRION;
+    }
+
+    public void confirmarInicioPartida() {
+        this.estadoSala = EstadoJugadorSala.CONFIRMADO;
+    }
+
+    public boolean estaConfirmadoParaIniciar() {
+        return this.estadoSala == EstadoJugadorSala.CONFIRMADO;
     }
 
     public void actualizarPerfil(String usuario, String avatar) {
