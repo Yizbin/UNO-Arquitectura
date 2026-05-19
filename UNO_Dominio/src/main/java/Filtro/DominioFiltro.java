@@ -6,6 +6,7 @@ package Filtro;
 
 import DTOs.EstadoPartidaDTO;
 import DTOs.PeticionJugadaDTO;
+import DTOs.RespuestaFinalizacionDTO;
 import Enums.TipoAccionPartida;
 import Interfaces.IFiltro;
 import Interfaces.ISubDominio;
@@ -75,12 +76,13 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
                 subDominio.terminarTurno();
             }
             case SOLICITAR_FINALIZACION -> {
-                EstadoPartidaDTO estado = peticion.getEstadoPartida();
-                subDominio.solicitarFinalizacion(estado != null ? estado.getSolicitudFinalizacion() : null);
+                subDominio.solicitarFinalizacion(peticion.getJugadorActualizar());
             }
-            case RESPONDER_FINALIZACION -> {
-                EstadoPartidaDTO estado = peticion.getEstadoPartida();
-                subDominio.responderFinalizacion(estado != null ? estado.getRespuestaFinalizacion() : null);
+            case ACEPTAR_FINALIZACION -> {
+                subDominio.responderFinalizacion(crearRespuestaFinalizacion(peticion, true));
+            }
+            case RECHAZAR_FINALIZACION -> {
+                subDominio.responderFinalizacion(crearRespuestaFinalizacion(peticion, false));
             }
 
             default ->
@@ -89,6 +91,13 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
 
         EstadoPartidaDTO estado = subDominio.obtenerEstadoPartida();
         return new ContextoPipeline<>(estado);
+    }
+
+    private RespuestaFinalizacionDTO crearRespuestaFinalizacion(PeticionJugadaDTO peticion, boolean acepta) {
+        RespuestaFinalizacionDTO respuesta = new RespuestaFinalizacionDTO();
+        respuesta.setJugador(peticion.getJugadorActualizar());
+        respuesta.setAcepta(acepta);
+        return respuesta;
     }
 
 }

@@ -8,8 +8,6 @@ import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
-import DTOs.RespuestaFinalizacionDTO;
-import DTOs.SolicitudFinalizacionDTO;
 import DTOs.TablaPosicionesDTO;
 import Enums.EstadoFinalizacion;
 import Enums.TipoAccionPartida;
@@ -18,7 +16,6 @@ import interfaces.IPump;
 import Interfaces.ISink;
 import Plantilla.ContextoPipeline;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.swing.SwingUtilities;
 
@@ -115,9 +112,10 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         vista.setTurnoLocal(estadoActual.getIdJugador() == this.idJugadorLocal);
         vista.setEsperandoColor(estadoActual.isEsperandoColor());
         vista.setEstadoFinalizacion(estadoActual.getEstadoFinalizacion());
-        vista.setSolicitudFinalizacion(estadoActual.getSolicitudFinalizacion());
         vista.setResultadoFinalizacion(estadoActual.getResultadoFinalizacion());
-        vista.setTablaPosiciones(estadoActual.getTablaPosiciones());
+        vista.setTablaPosiciones(estadoActual.getResultadoFinalizacion() != null
+                ? estadoActual.getResultadoFinalizacion().getTablaPosiciones()
+                : null);
 
         List<JugadorResumenDTO> jugadores = estadoActual.getJugadores() != null
                 ? estadoActual.getJugadores()
@@ -159,7 +157,9 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
 
     @Override
     public TablaPosicionesDTO getTablaPosiciones() {
-        return estadoActual != null ? estadoActual.getTablaPosiciones() : null;
+        return estadoActual != null && estadoActual.getResultadoFinalizacion() != null
+                ? estadoActual.getResultadoFinalizacion().getTablaPosiciones()
+                : null;
     }
 
     public void suscribir(ISuscriptor suscriptor) {
@@ -190,15 +190,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
 
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
         peticion.setAccion(TipoAccionPartida.SOLICITAR_FINALIZACION);
-
-        SolicitudFinalizacionDTO solicitud = new SolicitudFinalizacionDTO();
-        solicitud.setJugador(solicitante);
-        solicitud.setFecha(new Date());
-        solicitud.setMensaje("El jugador " + solicitante.getNombreUsuario() + " solicita finalizar la partida.");
-
-        EstadoPartidaDTO estadoPeticion = crearEstadoPeticion();
-        estadoPeticion.setSolicitudFinalizacion(solicitud);
-        peticion.setEstadoPartida(estadoPeticion);
+        peticion.setJugadorActualizar(solicitante);
 
         System.out.println("Enviando solicitud de finalizacion del jugador " + solicitante.getId());
         realizarAccionJugador(peticion);
@@ -215,16 +207,10 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         }
 
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
-        peticion.setAccion(TipoAccionPartida.RESPONDER_FINALIZACION);
-
-        RespuestaFinalizacionDTO respuesta = new RespuestaFinalizacionDTO();
-        respuesta.setJugador(jugador);
-        respuesta.setFecha(new Date());
-        respuesta.setAcepta(acepta);
-
-        EstadoPartidaDTO estadoPeticion = crearEstadoPeticion();
-        estadoPeticion.setRespuestaFinalizacion(respuesta);
-        peticion.setEstadoPartida(estadoPeticion);
+        peticion.setAccion(acepta
+                ? TipoAccionPartida.ACEPTAR_FINALIZACION
+                : TipoAccionPartida.RECHAZAR_FINALIZACION);
+        peticion.setJugadorActualizar(jugador);
 
         System.out.println("Enviando respuesta de finalizacion del jugador " + jugador.getId() + ": " + acepta);
         realizarAccionJugador(peticion);

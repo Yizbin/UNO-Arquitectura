@@ -421,19 +421,19 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     }
 
     private void pedirRespuestaFinalizacion(EstadoPantallaTurnoDTO estadoPantalla) {
-        if (estadoPantalla.getSolicitudFinalizacion() == null
-                || estadoPantalla.getSolicitudFinalizacion().getJugador() == null
+        if (estadoPantalla.getResultadoFinalizacion() == null
+                || estadoPantalla.getResultadoFinalizacion().getJugadorSolicitante() == null
                 || estadoPantalla.getJugadorLocal() == null) {
             return;
         }
 
-        JugadorResumenDTO solicitante = estadoPantalla.getSolicitudFinalizacion().getJugador();
+        JugadorResumenDTO solicitante = estadoPantalla.getResultadoFinalizacion().getJugadorSolicitante();
         if (solicitante.getId() == modelo.getIdJugadorLocal()) {
             return;
         }
 
         String claveSolicitud = solicitante.getId() + ":"
-                + String.valueOf(estadoPantalla.getSolicitudFinalizacion().getFecha());
+                + String.valueOf(estadoPantalla.getResultadoFinalizacion().getMensaje());
         if (claveSolicitud.equals(solicitudFinalizacionAtendida)) {
             return;
         }

@@ -23,6 +23,7 @@ public class EstadoPartidaDTO {
     private boolean ruletaActiva;
     private List<CartaDTO> mazo;
 
+    private boolean esperandoColor;
     private boolean puedeRobar;
     private boolean puedeDecirUno;
     private TipoColor colorSeleccionado;
@@ -30,6 +31,7 @@ public class EstadoPartidaDTO {
     private String mensajeEstado;
 
     private EstadoFinalizacion estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
+    private ResultadoFinalizacionDTO resultadoFinalizacion;
 
     public EstadoPartidaDTO() {
     }
@@ -100,6 +102,14 @@ public class EstadoPartidaDTO {
         return puedeRobar;
     }
 
+    public boolean isEsperandoColor() {
+        return esperandoColor;
+    }
+
+    public void setEsperandoColor(boolean esperandoColor) {
+        this.esperandoColor = esperandoColor;
+    }
+
     public void setPuedeRobar(boolean puedeRobar) {
         this.puedeRobar = puedeRobar;
     }
@@ -134,6 +144,14 @@ public class EstadoPartidaDTO {
 
     public void setEstadoFinalizacion(EstadoFinalizacion estadoFinalizacion) {
         this.estadoFinalizacion = estadoFinalizacion != null ? estadoFinalizacion : EstadoFinalizacion.SIN_SOLICITUD;
+    }
+
+    public ResultadoFinalizacionDTO getResultadoFinalizacion() {
+        return resultadoFinalizacion;
+    }
+
+    public void setResultadoFinalizacion(ResultadoFinalizacionDTO resultadoFinalizacion) {
+        this.resultadoFinalizacion = resultadoFinalizacion;
     }
 
     public List<CartaDTO> getMazo() {

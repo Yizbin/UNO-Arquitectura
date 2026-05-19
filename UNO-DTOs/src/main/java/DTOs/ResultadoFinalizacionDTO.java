@@ -14,11 +14,17 @@ public class ResultadoFinalizacionDTO {
     private EstadoFinalizacion estado;
     private TablaPosicionesDTO tablaPosicones;
     private String mensaje;
+    private JugadorResumenDTO jugadorSolicitante;
 
     public ResultadoFinalizacionDTO(EstadoFinalizacion estado, TablaPosicionesDTO tablaPosicones, String mensaje) {
         this.estado = estado;
         this.tablaPosicones = tablaPosicones;
         this.mensaje = mensaje;
+    }
+
+    public ResultadoFinalizacionDTO(EstadoFinalizacion estado, TablaPosicionesDTO tablaPosicones, String mensaje, JugadorResumenDTO jugadorSolicitante) {
+        this(estado, tablaPosicones, mensaje);
+        this.jugadorSolicitante = jugadorSolicitante;
     }
 
     public ResultadoFinalizacionDTO() {
@@ -54,6 +60,14 @@ public class ResultadoFinalizacionDTO {
 
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
+    }
+
+    public JugadorResumenDTO getJugadorSolicitante() {
+        return jugadorSolicitante;
+    }
+
+    public void setJugadorSolicitante(JugadorResumenDTO jugadorSolicitante) {
+        this.jugadorSolicitante = jugadorSolicitante;
     }
     
     

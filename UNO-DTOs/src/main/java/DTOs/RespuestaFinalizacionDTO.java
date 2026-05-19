@@ -4,20 +4,16 @@
  */
 package DTOs;
 
-import java.util.Date;
-
 /**
  *
  * @author adell
  */
 public class RespuestaFinalizacionDTO {
     private JugadorResumenDTO jugador;
-    private Date fecha;
     private Boolean acepta;
 
-    public RespuestaFinalizacionDTO(JugadorResumenDTO jugador, Date fecha, Boolean acepta) {
+    public RespuestaFinalizacionDTO(JugadorResumenDTO jugador, Boolean acepta) {
         this.jugador = jugador;
-        this.fecha = fecha;
         this.acepta = acepta;
     }
 
@@ -31,14 +27,6 @@ public class RespuestaFinalizacionDTO {
 
     public void setJugador(JugadorResumenDTO jugador) {
         this.jugador = jugador;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
     }
 
     public Boolean getAcepta() {
