@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
 public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPartidaDTO> {
 
     private final List<ISuscriptor> suscriptores = new ArrayList<>();
-    private IPump<?, ?> coordinador;
+    private IPump<PeticionJugadaDTO, ?> coordinador;
     private EstadoPartidaDTO estadoActual;
     private int idJugadorLocal;
     private String mensajePendiente;

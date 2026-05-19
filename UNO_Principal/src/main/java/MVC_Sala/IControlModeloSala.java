@@ -13,10 +13,12 @@ import DTOs.JugadorResumenDTO;
 public interface IControlModeloSala {
 
     boolean solicitarUnirsePartida();
-    
+
     void abrirSalaEspera();
-    
+
+    void actualizarDatosJugador(JugadorResumenDTO datos);
+
     boolean iniciarPartida(JugadorResumenDTO jugadorDTO);
-    
+
     void establecerJugadorLocal(JugadorResumenDTO datos);
 }

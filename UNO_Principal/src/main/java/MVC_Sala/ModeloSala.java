@@ -204,4 +204,29 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         return this.partidaListaParaIniciar;
     }
 
+    @Override
+    public void actualizarDatosJugador(JugadorResumenDTO datos) {
+        if (datos == null) {
+            return;
+        }
+
+        this.jugadorLocal = datos;
+
+        if (coordinador == null) {
+            return;
+        }
+
+        try {
+            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
+                    TipoAccionPartida.ACTUALIZAR_PERFIL,
+                    jugadorLocal,
+                    null
+            );
+
+            enviarPeticion(peticion);
+        } catch (Exception e) {
+            System.err.println("Error al actualizar perfil: " + e.getMessage());
+        }
+    }
+
 }
