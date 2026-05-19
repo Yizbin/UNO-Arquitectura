@@ -15,11 +15,11 @@ import java.util.List;
  *
  * @author Abraham Coronel
  */
-public class Control implements IFiltro<byte[], List<PaqueteRedDTO>> {
+public class Broadcast implements IFiltro<byte[], List<PaqueteRedDTO>> {
 
     private final List<ConexionJugadorDTO> listaJugadores;
 
-    public Control() {
+    public Broadcast() {
         this.listaJugadores = new ArrayList<>();
     }
 
@@ -33,7 +33,7 @@ public class Control implements IFiltro<byte[], List<PaqueteRedDTO>> {
         
         if (payloadBytes == null) {
             ContextoPipeline<List<PaqueteRedDTO>> ctxError = new ContextoPipeline<>(null);
-            ctxError.detenerConError("El mensaje llegó nulo al filtro de Control.");
+            ctxError.detenerConError("El mensaje llego nulo al filtro de Control.");
             return ctxError;
         }
 

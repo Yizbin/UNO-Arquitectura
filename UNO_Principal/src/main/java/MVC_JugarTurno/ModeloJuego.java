@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
 public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPartidaDTO> {
 
     private final List<ISuscriptor> suscriptores = new ArrayList<>();
-    private IPump<PeticionJugadaDTO, byte[]> coordinador;
+    private IPump<?, ?> coordinador;
     private EstadoPartidaDTO estadoActual;
     private int idJugadorLocal;
     private String mensajePendiente;
@@ -38,7 +38,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         this.idJugadorLocal = idJugadorLocal;
     }
 
-    public void conectarDestino(IPump<PeticionJugadaDTO, byte[]> coordinador) {
+    public void conectarDestino(IPump<PeticionJugadaDTO, ?> coordinador) {
         this.coordinador = coordinador;
     }
 

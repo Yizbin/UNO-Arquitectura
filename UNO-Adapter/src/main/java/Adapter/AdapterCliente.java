@@ -18,7 +18,7 @@ public class AdapterCliente implements ISink<byte[]> {
     private final int puerto;
     private final IConexionSalida conexionSalida;
 
-    public AdapterCliente(String ip, int puerto, IConexionSalida conexionSalida) {
+    public AdapterCliente(String ip, int puerto,IConexionSalida conexionSalida) {
         this.ip = ip;
         this.puerto = puerto;
         this.conexionSalida = conexionSalida;

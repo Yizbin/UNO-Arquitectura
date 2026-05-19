@@ -9,21 +9,19 @@ import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.EstadoJugadorSala;
 import Enums.TipoAccionPartida;
-import Interfaces.ISink;
 import Plantilla.ContextoPipeline;
 import interfaces.IPump;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.SwingUtilities;
 
 /**
  *
  * @author Abraham Coronel
  */
-public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<EstadoPartidaDTO> {
+public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
     private final List<ISuscriptorSala> suscriptores;
-    private IPump<PeticionJugadaDTO, byte[]> coordinador;
+    private IPump<PeticionJugadaDTO, ?> coordinador;
     private List<JugadorResumenDTO> jugadoresEnSala;
     private JugadorResumenDTO jugadorLocal;
     private boolean cambiarFrame = false;
@@ -35,12 +33,12 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         this.partidaListaParaIniciar = false;
     }
 
-    public ModeloSala(IPump<PeticionJugadaDTO, byte[]> coordinador) {
+    public ModeloSala(IPump<PeticionJugadaDTO, ?> coordinador) {
         this();
         this.coordinador = coordinador;
     }
 
-    public void conectarCoordinador(IPump<PeticionJugadaDTO, byte[]> coordinador) {
+    public void conectarCoordinador(IPump<PeticionJugadaDTO, ?> coordinador) {
         this.coordinador = coordinador;
     }
 
@@ -70,12 +68,10 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         }
 
         try {
-            EstadoPartidaDTO estado = new EstadoPartidaDTO();
-            estado.setIdJugador(jugadorLocal.getId());
-
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
                     TipoAccionPartida.SOLICITAR_UNIRSE_PARTIDA,
-                    estado
+                    jugadorLocal,
+                    null
             );
 
             enviarPeticion(peticion);
@@ -152,7 +148,6 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
 //        } catch (Exception e) {
 //            System.err.println("Error al solicitar inicio de partida: " + e.getMessage());
 //        }
-
         return false;
     }
 
@@ -165,51 +160,9 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista, ISink<E
         this.jugadorLocal = datos;
     }
 
-    @Override
-    public void actualizarDatosJugador(JugadorResumenDTO datos) {
-        if (datos == null) {
-            return;
-        }
-
-        this.jugadorLocal = datos;
-
-        if (coordinador == null) {
-            return;
-        }
-
-        try {
-            PeticionJugadaDTO peticion = new PeticionJugadaDTO(
-                    TipoAccionPartida.ACTUALIZAR_PERFIL,
-                    jugadorLocal,
-                    null
-            );
-
-            enviarPeticion(peticion);
-        } catch (Exception e) {
-            System.err.println("Error al actualizar perfil: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public void enviar(ContextoPipeline<EstadoPartidaDTO> contexto) throws Exception {
-        if (contexto == null || contexto.estaDetenido()) {
-            return;
-        }
-
-        EstadoPartidaDTO estado = contexto.getMensaje();
-        if (estado == null) {
-            return;
-        }
-
-        this.jugadoresEnSala = estado.getJugadores() != null
-                ? estado.getJugadores()
-                : List.of();
-
-        SwingUtilities.invokeLater(this::notificar);
-    }
-
     private void enviarPeticion(PeticionJugadaDTO peticion) throws Exception {
-        coordinador.procesar(new ContextoPipeline<>(peticion));
+        ContextoPipeline<PeticionJugadaDTO> contexto = new ContextoPipeline<>(peticion);
+        coordinador.procesar(contexto);
     }
 
     @Override
