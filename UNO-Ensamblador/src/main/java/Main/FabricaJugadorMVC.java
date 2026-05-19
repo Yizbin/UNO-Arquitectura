@@ -4,13 +4,11 @@
  */
 package Main;
 
-import DTOs.EstadoPartidaDTO;
 import DTOs.PeticionJugadaDTO;
 import interfaces.IPump;
 import MVC_JugarTurno.ModeloJuego;
 import MVC_JugarTurno.PantallaTurno;
 import MVC_JugarTurno.UnoSpinControlador;
-import pipeline.CoordinadorFiltros;
 
 /**
  *
@@ -30,7 +28,7 @@ public class FabricaJugadorMVC {
      * @return Instancia de la vista (JFrame) configurada.
      */
     public static PantallaTurno crearEntornoJugador(
-            IPump<PeticionJugadaDTO, byte[]> pipelineSalida,
+            IPump<PeticionJugadaDTO, ?> pipelineSalida,
             ModeloJuego modelo,
             int idJugador,
             String tituloVista,
