@@ -221,8 +221,6 @@ public class Partida {
         }
 
         estadoDTO.setJugadores(jugadoresDTO);
-        estadoDTO.setEsperandoColor(esperandoColor);
-
         if (descarte != null && descarte.getTope() != null) {
             estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
         }

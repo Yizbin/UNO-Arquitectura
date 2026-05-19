@@ -23,7 +23,6 @@ public class EstadoPartidaDTO {
     private boolean ruletaActiva;
     private List<CartaDTO> mazo;
 
-    private boolean esperandoColor;
     private boolean puedeRobar;
     private boolean puedeDecirUno;
     private TipoColor colorSeleccionado;
@@ -100,14 +99,6 @@ public class EstadoPartidaDTO {
 
     public boolean isPuedeRobar() {
         return puedeRobar;
-    }
-
-    public boolean isEsperandoColor() {
-        return esperandoColor;
-    }
-
-    public void setEsperandoColor(boolean esperandoColor) {
-        this.esperandoColor = esperandoColor;
     }
 
     public void setPuedeRobar(boolean puedeRobar) {

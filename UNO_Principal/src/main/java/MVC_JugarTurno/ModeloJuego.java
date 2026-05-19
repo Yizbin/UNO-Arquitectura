@@ -9,6 +9,7 @@ import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import DTOs.TablaPosicionesDTO;
+import DTOs.TipoCartaDTO;
 import Enums.EstadoFinalizacion;
 import Enums.TipoAccionPartida;
 import Enums.TipoColor;
@@ -30,6 +31,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
     private EstadoPartidaDTO estadoActual;
     private int idJugadorLocal;
     private String mensajePendiente;
+    private boolean esperandoColor;
 
     public void setIdJugadorLocal(int idJugadorLocal) {
         this.idJugadorLocal = idJugadorLocal;
@@ -74,6 +76,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         EstadoPartidaDTO estadoPeticion = crearEstadoPeticion();
         estadoPeticion.setCartaEnDescarte(carta);
         peticion.setEstadoPartida(estadoPeticion);
+        this.esperandoColor = carta != null && carta.getTipoCarta() == TipoCartaDTO.COMODIN;
         realizarAccionJugador(peticion);
     }
 
@@ -84,6 +87,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         EstadoPartidaDTO estadoPeticion = crearEstadoPeticion();
         estadoPeticion.setColorSeleccionado(color);
         peticion.setEstadoPartida(estadoPeticion);
+        this.esperandoColor = false;
         realizarAccionJugador(peticion);
     }
 
@@ -110,7 +114,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         vista.setCartaEnDescarte(estadoActual.getCartaEnDescarte());
         vista.setManoLocal(estadoActual.getManoJugadorActual() != null ? estadoActual.getManoJugadorActual() : List.of());
         vista.setTurnoLocal(estadoActual.getIdJugador() == this.idJugadorLocal);
-        vista.setEsperandoColor(estadoActual.isEsperandoColor());
+        vista.setEsperandoColor(esperandoColor);
         vista.setEstadoFinalizacion(estadoActual.getEstadoFinalizacion());
         vista.setResultadoFinalizacion(estadoActual.getResultadoFinalizacion());
         vista.setTablaPosiciones(estadoActual.getResultadoFinalizacion() != null
