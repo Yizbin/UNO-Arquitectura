@@ -8,9 +8,10 @@ package MVC_Sala;
  *
  * @author angel
  */
-public class SalaEsperaNice extends javax.swing.JFrame {
+public class SalaEsperaNice extends javax.swing.JFrame implements ISuscriptorSala {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SalaEsperaNice.class.getName());
+    private IModeloSalaVista modeloVista;
+    private ControladorSala controlador;
 
     /**
      * Creates new form SalaEsperaNice
@@ -28,21 +29,52 @@ public class SalaEsperaNice extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        btnAtras = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        btnConfirmar = new javax.swing.JButton();
+        lblFondo = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnAtras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/btnAtrasLobby.png"))); // NOI18N
+        btnAtras.setBorder(null);
+        btnAtras.setBorderPainted(false);
+        btnAtras.setContentAreaFilled(false);
+        btnAtras.addActionListener(this::btnAtrasActionPerformed);
+        getContentPane().add(btnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 660, -1, -1));
+
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/btnCancelarLobby.png"))); // NOI18N
+        btnCancelar.setBorder(null);
+        btnCancelar.setBorderPainted(false);
+        btnCancelar.setContentAreaFilled(false);
+        btnCancelar.addActionListener(this::btnCancelarActionPerformed);
+        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 660, 210, 70));
+
+        btnConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/btnComenzarLobby.png"))); // NOI18N
+        btnConfirmar.setBorder(null);
+        btnConfirmar.setBorderPainted(false);
+        btnConfirmar.setContentAreaFilled(false);
+        btnConfirmar.addActionListener(this::btnConfirmarActionPerformed);
+        getContentPane().add(btnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 660, 200, 70));
+
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/SalaEspera.png"))); // NOI18N
+        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAtrasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -61,7 +93,7 @@ public class SalaEsperaNice extends javax.swing.JFrame {
                 }
             }
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+           
         }
         //</editor-fold>
 
@@ -69,6 +101,15 @@ public class SalaEsperaNice extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new SalaEsperaNice().setVisible(true));
     }
 
+    @Override
+    public void update(IModeloSalaVista modeloVista) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtras;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnConfirmar;
+    private javax.swing.JLabel lblFondo;
     // End of variables declaration//GEN-END:variables
 }
