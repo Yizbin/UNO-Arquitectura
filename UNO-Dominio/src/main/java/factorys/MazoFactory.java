@@ -10,7 +10,6 @@ import Enums.Acciones;
 import Enums.Comodines;
 import Enums.TipoColor;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 /**
@@ -52,8 +51,6 @@ public class MazoFactory {
             lista.add(new CartaComodin(Comodines.CAMBIO_COLOR));
             lista.add(new CartaComodin(Comodines.TOMA_CUATRO));
         }
-
-        Collections.shuffle(lista);
 
         Stack<Carta> stack = new Stack<>();
         stack.addAll(lista);

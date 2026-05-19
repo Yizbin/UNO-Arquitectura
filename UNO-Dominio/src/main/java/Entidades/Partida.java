@@ -16,7 +16,6 @@ import Excepciones.ValidarManoException;
 import Excepciones.ValidarTurnoException;
 import Mappers.CartaMapper;
 import Mappers.JugadorMapper;
-import factorys.MazoFactory;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -198,15 +197,29 @@ public class Partida {
             throw new IllegalStateException("La partida ya fue iniciada.");
         }
 
-        this.mazo = MazoFactory.crear();
-        this.turno = new Turno(0, this.jugadores);
+        crearMazo();
+        inicializarTurno();
+        repartirCartasIniciales();
+        colocarPrimeraCarta();
+    }
 
+    private void crearMazo() {
+        this.mazo = Mazo.crear();
+    }
+
+    private void inicializarTurno() {
+        this.turno = new Turno(0, this.jugadores);
+    }
+
+    private void repartirCartasIniciales() throws MazoVacioException {
         for (int i = 0; i < 7; i++) {
             for (Jugador jugador : jugadores) {
                 jugador.robarCarta(mazo.sacarCarta());
             }
         }
+    }
 
+    private void colocarPrimeraCarta() throws MazoVacioException {
         Carta primeraCarta = mazo.sacarCarta();
         descarte.apilarCarta(primeraCarta);
     }

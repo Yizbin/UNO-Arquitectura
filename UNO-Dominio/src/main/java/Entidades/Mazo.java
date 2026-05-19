@@ -5,6 +5,7 @@
 package Entidades;
 
 import Excepciones.MazoVacioException;
+import factorys.MazoFactory;
 import java.util.Collections;
 import java.util.Stack;
 
@@ -23,6 +24,10 @@ public class Mazo {
     public Mazo(Stack<Carta> cartas) {
         this.cartas = cartas;
         mezclar();
+    }
+
+    public static Mazo crear() {
+        return MazoFactory.crear();
     }
 
     //Mezcla la pila de manera aleatoria
