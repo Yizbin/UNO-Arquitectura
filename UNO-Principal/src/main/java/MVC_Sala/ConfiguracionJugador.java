@@ -440,7 +440,7 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         siguiente.addActionListener(e -> {
             if (txtField != null) {
                 jugador.setNombreUsuario(txtField.getText());
-                control.actualizarPerfil(jugador);
+                control.actualizarDatosJugador(jugador, misColores);
                 control.abrirSalaEspera();
             } else {
                 try {
