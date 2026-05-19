@@ -5,7 +5,6 @@ import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
-import DTOs.SolicitudFinalizacionDTO;
 import Entidades.Partida;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
@@ -121,8 +120,8 @@ public class SubDominioConcreto implements ISubDominio {
 
     //finalizar partida
     @Override
-    public void solicitarFinalizacion(SolicitudFinalizacionDTO solicitud) {
-        partida.solicitarFinalizacion(solicitud);
+    public void solicitarFinalizacion(JugadorResumenDTO jugador) {
+        partida.solicitarFinalizacion(jugador);
     }
 
     @Override

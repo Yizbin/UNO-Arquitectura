@@ -4,7 +4,6 @@
  */
 package DTOs;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,11 +12,9 @@ import java.util.List;
  */
 public class TablaPosicionesDTO {
     private List<JugadorResumenDTO> posiciones;
-    private Date fechaGeneracion;
 
-    public TablaPosicionesDTO(List<JugadorResumenDTO> posiciones, Date fechaGeneracion) {
+    public TablaPosicionesDTO(List<JugadorResumenDTO> posiciones) {
         this.posiciones = posiciones;
-        this.fechaGeneracion = fechaGeneracion;
     }
 
     public TablaPosicionesDTO() {
@@ -31,12 +28,4 @@ public class TablaPosicionesDTO {
         this.posiciones = posiciones;
     }
 
-    public Date getFechaGeneracion() {
-        return fechaGeneracion;
-    }
-
-    public void setFechaGeneracion(Date fechaGeneracion) {
-        this.fechaGeneracion = fechaGeneracion;
-    }
-    
 }

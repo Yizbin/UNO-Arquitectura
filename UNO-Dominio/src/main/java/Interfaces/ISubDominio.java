@@ -9,7 +9,6 @@ import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
-import DTOs.SolicitudFinalizacionDTO;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
@@ -64,7 +63,7 @@ public interface ISubDominio {
     public EstadoPartidaDTO obtenerEstadoPartida();
 
     //finalizar partida
-    void solicitarFinalizacion(SolicitudFinalizacionDTO solicitud);
+    void solicitarFinalizacion(JugadorResumenDTO jugador);
 
     void responderFinalizacion(RespuestaFinalizacionDTO respuesta);
 

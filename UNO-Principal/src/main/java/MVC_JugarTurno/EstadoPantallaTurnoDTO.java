@@ -3,7 +3,6 @@ package MVC_JugarTurno;
 import DTOs.CartaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.ResultadoFinalizacionDTO;
-import DTOs.SolicitudFinalizacionDTO;
 import DTOs.TablaPosicionesDTO;
 import Enums.EstadoFinalizacion;
 import Enums.TipoColor;
@@ -27,7 +26,6 @@ public class EstadoPantallaTurnoDTO {
     private boolean esperandoColor;
     private boolean turnoLocal;
     private EstadoFinalizacion estadoFinalizacion;
-    private SolicitudFinalizacionDTO solicitudFinalizacion;
     private ResultadoFinalizacionDTO resultadoFinalizacion;
     private TablaPosicionesDTO tablaPosiciones;
     
@@ -107,14 +105,6 @@ public class EstadoPantallaTurnoDTO {
 
     public void setEstadoFinalizacion(EstadoFinalizacion estadoFinalizacion) {
         this.estadoFinalizacion = estadoFinalizacion;
-    }
-
-    public SolicitudFinalizacionDTO getSolicitudFinalizacion() {
-        return solicitudFinalizacion;
-    }
-
-    public void setSolicitudFinalizacion(SolicitudFinalizacionDTO solicitudFinalizacion) {
-        this.solicitudFinalizacion = solicitudFinalizacion;
     }
 
     public ResultadoFinalizacionDTO getResultadoFinalizacion() {

@@ -5,7 +5,6 @@ import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
-import DTOs.SolicitudFinalizacionDTO;
 import DTOs.TablaPosicionesDTO;
 import Enums.Comodines;
 import Enums.EstadoFinalizacion;
@@ -20,7 +19,6 @@ import Mappers.JugadorMapper;
 import factorys.MazoFactory;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +39,6 @@ public class Partida {
     private TipoColor colorActual;
     private boolean esperandoColor;
     private EstadoFinalizacion estadoFinalizacion;
-    private SolicitudFinalizacionDTO solicitudFinalizacion;
     private ResultadoFinalizacionDTO resultadoFinalizacion;
     private TablaPosicionesDTO tablaPosiciones;
     private final Map<Integer, RespuestaFinalizacionDTO> respuestasFinalizacion;
@@ -224,7 +221,6 @@ public class Partida {
         }
 
         estadoDTO.setJugadores(jugadoresDTO);
-
         if (descarte != null && descarte.getTope() != null) {
             estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
         }
@@ -232,28 +228,32 @@ public class Partida {
         estadoDTO.setRuletaActiva(false);
 
         estadoDTO.setEstadoFinalizacion(estadoFinalizacion);
+        estadoDTO.setResultadoFinalizacion(resultadoFinalizacion);
 
         return estadoDTO;
     }
 
-    public SolicitudFinalizacionDTO solicitarFinalizacion(SolicitudFinalizacionDTO solicitud) {
-        if (solicitud == null || solicitud.getJugador() == null) {
+    public ResultadoFinalizacionDTO solicitarFinalizacion(JugadorResumenDTO jugador) {
+        if (jugador == null) {
             throw new IllegalArgumentException("La solicitud de finalizacion debe incluir un jugador.");
         }
 
-        this.solicitudFinalizacion = solicitud;
         this.estadoFinalizacion = EstadoFinalizacion.EN_ESPERA_RESPUESTAS;
-        this.resultadoFinalizacion = null;
+        this.resultadoFinalizacion = new ResultadoFinalizacionDTO(
+                estadoFinalizacion,
+                null,
+                "El jugador " + obtenerNombreJugador(jugador) + " solicita finalizar la partida.",
+                jugador
+        );
         this.tablaPosiciones = null;
         this.respuestasFinalizacion.clear();
 
         RespuestaFinalizacionDTO respuestaSolicitante = new RespuestaFinalizacionDTO();
-        respuestaSolicitante.setJugador(solicitud.getJugador());
-        respuestaSolicitante.setFecha(new Date());
+        respuestaSolicitante.setJugador(jugador);
         respuestaSolicitante.setAcepta(Boolean.TRUE);
         registrarRespuestaFinalizacion(respuestaSolicitante);
 
-        return solicitud;
+        return resultadoFinalizacion;
     }
 
     public RespuestaFinalizacionDTO registrarRespuestaFinalizacion(RespuestaFinalizacionDTO respuestaDTO) {
@@ -281,7 +281,8 @@ public class Partida {
             resultadoFinalizacion = new ResultadoFinalizacionDTO(
                     estadoFinalizacion,
                     null,
-                    "La finalizacion fue cancelada porque un jugador rechazo la solicitud."
+                    "La finalizacion fue cancelada porque un jugador rechazo la solicitud.",
+                    resultadoFinalizacion != null ? resultadoFinalizacion.getJugadorSolicitante() : null
             );
             return resultadoFinalizacion;
         }
@@ -292,7 +293,8 @@ public class Partida {
             resultadoFinalizacion = new ResultadoFinalizacionDTO(
                     estadoFinalizacion,
                     tablaPosiciones,
-                    "La partida finalizo por acuerdo de todos los jugadores."
+                    "La partida finalizo por acuerdo de todos los jugadores.",
+                    resultadoFinalizacion != null ? resultadoFinalizacion.getJugadorSolicitante() : null
             );
             return resultadoFinalizacion;
         }
@@ -333,7 +335,13 @@ public class Partida {
                         .thenComparingInt(JugadorResumenDTO::getCantidadDeCartas)
                         .thenComparing(JugadorResumenDTO::getNombreUsuario, Comparator.nullsLast(String::compareToIgnoreCase))
         );
-        return new TablaPosicionesDTO(posiciones, new Date());
+        return new TablaPosicionesDTO(posiciones);
+    }
+
+    private String obtenerNombreJugador(JugadorResumenDTO jugador) {
+        return jugador.getNombreUsuario() != null && !jugador.getNombreUsuario().isBlank()
+                ? jugador.getNombreUsuario()
+                : "Jugador " + jugador.getId();
     }
 
     public void robarCarta(Jugador jugador) throws MazoVacioException, ValidarTurnoException {
