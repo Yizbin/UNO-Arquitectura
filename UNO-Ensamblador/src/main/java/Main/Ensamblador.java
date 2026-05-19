@@ -88,5 +88,10 @@ public class Ensamblador {
 //        });
 //        
 //        ReceptorFactory.iniciarConexion(puertoServidor + 1, pipelineEntrada);
+    
+    
+    
+    
+    
     }
 }

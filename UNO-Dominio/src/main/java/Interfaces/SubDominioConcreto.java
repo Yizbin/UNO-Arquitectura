@@ -25,12 +25,17 @@ import java.util.List;
 public class SubDominioConcreto implements ISubDominio {
 
     private Partida partida;
-    private final ConfiguracionMapper configuracionMapper;
+    private ConfiguracionMapper configuracionMapper;
 
+    public SubDominioConcreto() {
+        this(null);
+    }
+ 
     public SubDominioConcreto(Partida partida) {
         this.partida = partida;
         this.configuracionMapper = new ConfiguracionMapper();
     }
+    
 
     @Override
     public void prepararJuego(List<JugadorResumenDTO> jugadoresDTO) throws MazoVacioException {

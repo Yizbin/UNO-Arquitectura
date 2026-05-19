@@ -7,6 +7,7 @@ package MVC_Sala;
 import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
 import java.util.Map;
+import MVC_ConfigurarPartida.IControlConfgPartida;
 
 /**
  *
@@ -15,9 +16,15 @@ import java.util.Map;
 public class ControladorSala {
 
     private final IControlModeloSala modelo;
+    private final IControlConfgPartida controlConfigPartida;
 
     public ControladorSala(IControlModeloSala modelo) {
+        this(modelo, null);
+    }
+
+    public ControladorSala(IControlModeloSala modelo, IControlConfgPartida controlConfigPartida) {
         this.modelo = modelo;
+        this.controlConfigPartida = controlConfigPartida;
     }
 
     public boolean solicitarUnirsePartida() {
@@ -38,5 +45,13 @@ public class ControladorSala {
 
     public void establecerJugadorLocal(JugadorResumenDTO datos) {
         modelo.establecerJugadorLocal(datos);
+    }
+    
+    public void abrirConfigurarPartida() {
+        if (controlConfigPartida == null) {
+            throw new IllegalStateException("No se ha configurado el controlador de Configurar Partida.");
+        }
+
+        controlConfigPartida.mostrarPantallaConfigurarPartida();
     }
 }
