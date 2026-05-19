@@ -167,6 +167,7 @@ public class Partida {
         }
 
         Carta cartaJugada = this.getJugadorActual().jugarCarta(cartaAJugar);
+        this.getJugadorActual().sumarPuntos(cartaJugada.getPuntuacion());
         this.descarte.apilarCarta(cartaJugada);
 
         if (cartaJugada instanceof CartaNumero cartaNumero) {
