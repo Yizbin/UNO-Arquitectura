@@ -60,12 +60,17 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
 
     @Override
     public void iniciarJuego(List<JugadorResumenDTO> jugadores, JugadorResumenDTO jugadorSolicitante) {
+        EstadoPartidaDTO estadoPeticion = crearEstadoPeticion();
+        estadoPeticion.setJugadores(jugadores);
+        iniciarJuego(estadoPeticion, jugadorSolicitante);
+    }
+
+    @Override
+    public void iniciarJuego(EstadoPartidaDTO estadoPartida, JugadorResumenDTO jugadorSolicitante) {
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
         peticion.setAccion(TipoAccionPartida.INICIAR_PARTIDA);
         peticion.setJugadorActualizar(jugadorSolicitante);
-        EstadoPartidaDTO estadoPeticion = crearEstadoPeticion();
-        estadoPeticion.setJugadores(jugadores);
-        peticion.setEstadoPartida(estadoPeticion);
+        peticion.setEstadoPartida(estadoPartida);
         realizarAccionJugador(peticion);
     }
 

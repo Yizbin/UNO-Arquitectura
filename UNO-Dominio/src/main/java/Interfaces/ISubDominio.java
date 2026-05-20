@@ -27,6 +27,8 @@ public interface ISubDominio {
 
     public void prepararJuego(List<JugadorResumenDTO> jugadoresDTO, JugadorResumenDTO jugadorSolicitante) throws MazoVacioException;
 
+    public void prepararJuego(EstadoPartidaDTO estadoPartidaDTO, JugadorResumenDTO jugadorSolicitante) throws MazoVacioException;
+
     public void configurarPartida(ConfiguracionPartidaDTO configuracionDTO);
 
     public void cargarPartida(EstadoPartidaDTO estadoPartidaDTO);

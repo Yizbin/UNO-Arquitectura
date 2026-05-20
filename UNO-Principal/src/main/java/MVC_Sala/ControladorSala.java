@@ -70,7 +70,7 @@ public class ControladorSala {
             return false;
         }
 
-        controlJuego.iniciarPartida(modeloVista.getJugadoresEnSala(), jugadorLocal);
+        controlJuego.iniciarPartida(modelo.crearEstadoInicioPartida(), jugadorLocal);
         return true;
     }
 

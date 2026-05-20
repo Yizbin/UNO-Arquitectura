@@ -20,6 +20,8 @@ public interface IControlModelo {
 
     public void iniciarJuego(List<JugadorResumenDTO> jugadores, JugadorResumenDTO jugadorSolicitante);
 
+    public void iniciarJuego(EstadoPartidaDTO estadoPartida, JugadorResumenDTO jugadorSolicitante);
+
     public void cargarPartida(EstadoPartidaDTO estadoPartidaDTO);
 
     public void robarCarta();

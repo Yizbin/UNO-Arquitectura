@@ -162,6 +162,14 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         return false;
     }
 
+    @Override
+    public EstadoPartidaDTO crearEstadoInicioPartida() {
+        EstadoPartidaDTO estado = new EstadoPartidaDTO();
+        estado.setJugadores(jugadoresEnSala);
+        estado.setEstadosJugadoresSala(estadosJugadoresSala);
+        return estado;
+    }
+
     public void agregarSolicitudUnion(JugadorResumenDTO jugador) {
         if (jugador == null) {
             return;

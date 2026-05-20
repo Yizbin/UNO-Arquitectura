@@ -24,6 +24,8 @@ public interface IControlModeloSala {
 
     boolean iniciarPartida(JugadorResumenDTO jugadorDTO);
 
+    EstadoPartidaDTO crearEstadoInicioPartida();
+
     void abrirSalaEspera();
 
     void registrarJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores);

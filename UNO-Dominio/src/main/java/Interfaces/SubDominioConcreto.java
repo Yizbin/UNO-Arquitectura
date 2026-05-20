@@ -47,6 +47,19 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
+    public void prepararJuego(EstadoPartidaDTO estadoPartidaDTO, JugadorResumenDTO jugadorSolicitante) throws MazoVacioException {
+        if (estadoPartidaDTO == null) {
+            throw new IllegalStateException("La peticion de inicio debe incluir el estado de la partida.");
+        }
+        if (jugadorSolicitante == null) {
+            throw new IllegalStateException("La peticion de inicio debe incluir el jugador solicitante.");
+        }
+
+        partida.cargarPartidaDesdeDTO(estadoPartidaDTO);
+        partida.iniciarPartida(jugadorSolicitante.getId());
+    }
+
+    @Override
     public void solicitarUnion(int idJugadorSolicitante) {
         partida.solicitarUnion(idJugadorSolicitante);
     }

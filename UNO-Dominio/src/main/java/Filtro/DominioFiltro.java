@@ -75,7 +75,7 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, PeticionJugadaD
                 if (estado == null || estado.getJugadores() == null) {
                     throw new IllegalStateException("La peticion de inicio debe incluir los jugadores de la partida.");
                 }
-                subDominio.prepararJuego(estado.getJugadores(), peticion.getJugadorActualizar());
+                subDominio.prepararJuego(estado, peticion.getJugadorActualizar());
             }
             case CARGAR_PARTIDA -> {
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
