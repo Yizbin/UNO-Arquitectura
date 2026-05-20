@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 public class Partida {
 
@@ -193,13 +194,52 @@ public class Partida {
         this.turno = new Turno(0, this.jugadores);
     }
 
+    public void cargarPartidaDesdeDTO(EstadoPartidaDTO estadoDTO) {
+        if (estadoDTO == null) {
+            throw new IllegalArgumentException("El estado de partida no puede ser nulo.");
+        }
+
+        if (estadoDTO.getJugadores() != null) {
+            cargarJugadoresDesdeDTO(estadoDTO.getJugadores());
+        }
+
+        if (estadoDTO.getEstadosJugadoresSala() != null) {
+            for (JugadorEstadoSalaDTO estadoJugador : estadoDTO.getEstadosJugadoresSala()) {
+                actualizarEstadoJugadorSala(estadoJugador);
+            }
+        }
+
+        if (estadoDTO.getCartaEnDescarte() != null) {
+            this.descarte.setTope(new CartaMapper().toEntity(estadoDTO.getCartaEnDescarte()));
+        }
+
+        if (estadoDTO.getMazo() != null) {
+            Stack<Carta> cartasMazo = new Stack<>();
+            cartasMazo.addAll(new CartaMapper().toEntityList(estadoDTO.getMazo()));
+            this.mazo = new Mazo();
+            this.mazo.setCartas(cartasMazo);
+        }
+    }
+
     /**
      *
      * @throws MazoVacioException
      */
     public void iniciarPartida() throws MazoVacioException {
+        iniciarPartida(1);
+    }
+
+    public void iniciarPartida(int idJugadorSolicitante) throws MazoVacioException {
+        if (idJugadorSolicitante != 1) {
+            throw new IllegalStateException("Solo el anfitrion puede iniciar la partida.");
+        }
+
         if (estaIniciada()) {
             throw new IllegalStateException("La partida ya fue iniciada.");
+        }
+
+        if (!puedeIniciarPartida()) {
+            throw new IllegalStateException("La partida aun no cumple las condiciones para iniciar.");
         }
 
         crearMazo();
@@ -360,6 +400,8 @@ public class Partida {
         }
 
         estadoDTO.setRuletaActiva(false);
+        estadoDTO.setInicioPermitido(puedeIniciarPartida());
+        estadoDTO.setEstadosJugadoresSala(obtenerEstadosJugadoresSala());
 
         estadoDTO.setEstadoFinalizacion(estadoFinalizacion);
         estadoDTO.setResultadoFinalizacion(resultadoFinalizacion);

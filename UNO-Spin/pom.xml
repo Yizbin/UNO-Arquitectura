@@ -20,6 +20,8 @@
         <module>../UNO-Dominio</module>
         <module>../UNO-Principal</module>
         <module>../UNO-AdapterSolicitarUnionJugador</module>
+        <module>../UNO-AdapterIniciarPartida</module>
+        <module>../UNO-AdapterCargarPartida</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

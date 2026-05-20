@@ -16,6 +16,7 @@ import interfaces.IPump;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -35,6 +36,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     public ModeloSala() {
         this.suscriptores = new ArrayList<>();
         this.jugadoresEnSala = new ArrayList<>();
+        this.estadosJugadoresSala = new ArrayList<>();
         this.partidaListaParaIniciar = false;
     }
 
@@ -134,9 +136,10 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         }
     }
 
+    @Override
     public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {
 
-        if (coordinador == null || !partidaListaParaIniciar) {
+        if (coordinador == null || !partidaListaParaIniciar || jugadorDTO == null || jugadorDTO.getId() != 1) {
             return false;
         }
 
@@ -146,6 +149,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
                     TipoAccionPartida.INICIAR_PARTIDA,
+                    jugadorDTO,
                     estado
             );
             enviarPeticion(peticion);
@@ -277,9 +281,22 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
             System.err.println("Error al actualizar perfil: " + e.getMessage());
         }
     }
-    
-    public void validarCondicionInicio(EstadoPartidaDTO estadoPartidaDTO){
-        
+    @Override
+    public void validarCondicionInicio(EstadoPartidaDTO estadoPartidaDTO) {
+        if (estadoPartidaDTO == null) {
+            return;
+        }
+
+        if (estadoPartidaDTO.getJugadores() != null) {
+            this.jugadoresEnSala = estadoPartidaDTO.getJugadores();
+        }
+
+        if (estadoPartidaDTO.getEstadosJugadoresSala() != null) {
+            this.estadosJugadoresSala = estadoPartidaDTO.getEstadosJugadoresSala();
+        }
+
+        this.partidaListaParaIniciar = estadoPartidaDTO.isInicioPermitido();
+        SwingUtilities.invokeLater(this::notificar);
     }
 
     private void setearJugadoresEsperando() {

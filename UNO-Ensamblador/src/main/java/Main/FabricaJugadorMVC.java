@@ -34,9 +34,26 @@ public class FabricaJugadorMVC {
             String tituloVista,
             int posX,
             int posY) {
+        return crearEntornoJugadorCompleto(
+                pipelineSalida,
+                modelo,
+                idJugador,
+                tituloVista,
+                posX,
+                posY
+        ).getVista();
+    }
+
+    public static EntornoJugadorMVC crearEntornoJugadorCompleto(
+            IPump<PeticionJugadaDTO, ?> pipelineSalida,
+            ModeloJuego modelo,
+            int idJugador,
+            String tituloVista,
+            int posX,
+            int posY) {
 
         modelo.setIdJugadorLocal(idJugador);
-//        modelo.conectarDestino(pipelineSalida);
+        modelo.conectarDestino(pipelineSalida);
 
         UnoSpinControlador controlador = new UnoSpinControlador(modelo);
         PantallaTurno vista = new PantallaTurno(modelo, controlador);
@@ -45,6 +62,6 @@ public class FabricaJugadorMVC {
         vista.setTitle(tituloVista);
         vista.setLocation(posX, posY);
 
-        return vista;
+        return new EntornoJugadorMVC(modelo, controlador, vista);
     }
 }

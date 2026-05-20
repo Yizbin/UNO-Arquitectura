@@ -4,6 +4,7 @@
  */
 package MVC_JugarTurno;
 
+import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
 import DTOs.CartaDTO;
@@ -16,6 +17,10 @@ import java.util.List;
 public interface IControlModelo {
 
     public void iniciarJuego(List<JugadorResumenDTO> jugadores);
+
+    public void iniciarJuego(List<JugadorResumenDTO> jugadores, JugadorResumenDTO jugadorSolicitante);
+
+    public void cargarPartida(EstadoPartidaDTO estadoPartidaDTO);
 
     public void robarCarta();
 

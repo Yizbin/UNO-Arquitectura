@@ -18,6 +18,7 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
 
     private IModeloSalaVista modeloVista;
     private ControladorSala controlador;
+    private boolean inicioNotificado;
 
     public SalaEspera() {
         initComponents();
@@ -30,9 +31,8 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
     }
 
     private void solicitarInicio() {
-//        JugadorResumenDTO jugadorLocal = modeloVista != null ? modeloVista.getJugadorLocal() : null;
-//        boolean respuesta = controlador != null && controlador.iniciarPartida(jugadorLocal);
-//        responderInicio(respuesta);
+        boolean respuesta = controlador != null && controlador.actualizarEstadoJugadorSala();
+        responderInicio(respuesta);
     }
 
     private void responderInicio(boolean respuesta) {
@@ -176,8 +176,10 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
         this.modeloVista = modeloVista;
         actualizarPanelJugadoresConfirmados(modeloVista.getJugadoresEnSala());
 
-        if (modeloVista.isPartidaListaParaIniciar()) {
-            mostrarInicioPartida();
+        if (modeloVista.isPartidaListaParaIniciar() && !inicioNotificado) {
+            inicioNotificado = true;
+            boolean respuesta = controlador != null && controlador.notificarInicio();
+            responderInicio(respuesta);
         }
     }
 }

@@ -38,9 +38,13 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public void prepararJuego(List<JugadorResumenDTO> jugadoresDTO) throws MazoVacioException {
+    public void prepararJuego(List<JugadorResumenDTO> jugadoresDTO, JugadorResumenDTO jugadorSolicitante) throws MazoVacioException {
+        if (jugadorSolicitante == null) {
+            throw new IllegalStateException("La peticion de inicio debe incluir el jugador solicitante.");
+        }
+
         partida.cargarJugadoresDesdeDTO(jugadoresDTO);
-        partida.iniciarPartida();
+        partida.iniciarPartida(jugadorSolicitante.getId());
     }
 
     @Override
@@ -159,6 +163,11 @@ public class SubDominioConcreto implements ISubDominio {
         System.out.println("[CONFIG] Partida disponible: " + partida.isDisponible());
         System.out.println("[CONFIG] Mazo creado en configurar partida: " + (partida.getMazo() != null));
 
+    }
+
+    @Override
+    public void cargarPartida(EstadoPartidaDTO estadoPartidaDTO) {
+        partida.cargarPartidaDesdeDTO(estadoPartidaDTO);
     }
 
     @Override

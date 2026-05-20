@@ -17,7 +17,7 @@ public class ControlConfgPartida implements IControlConfgPartida{
 
     @Override
     public void mostrarPantallaConfigurarPartida() {
-        PantallaConfigurarPartida pantalla = new PantallaConfigurarPartida();
+        PantallaConfigurarPartida pantalla = new PantallaConfigurarPartida(this, modelo);
         pantalla.setVisible(true);
     }
 

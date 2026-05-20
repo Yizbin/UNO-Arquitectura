@@ -109,7 +109,8 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void abrirSalaEspera() {
-        SalaEspera sala = new SalaEspera();
+        SalaEspera sala = new SalaEspera(controlador);
+        controlador.suscribirVista(sala);
         sala.setVisible(true);
         this.dispose();
     }

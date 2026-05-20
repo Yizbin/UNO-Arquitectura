@@ -25,6 +25,10 @@ public class UnoSpinControlador {
         modelo.iniciarJuego(jugadores);
     }
 
+    public void iniciarPartida(List<JugadorResumenDTO> jugadores, JugadorResumenDTO jugadorSolicitante) {
+        modelo.iniciarJuego(jugadores, jugadorSolicitante);
+    }
+
     public void robarCarta() {
         modelo.robarCarta();
     }

@@ -6,6 +6,7 @@ package Estado;
 
 import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorEstadoSalaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.ResultadoFinalizacionDTO;
 import Enums.EstadoFinalizacion;
@@ -32,6 +33,8 @@ public class EstadoPartida implements IFiltro<EstadoPartidaDTO, EstadoPartidaDTO
     private boolean puedeRobar;
     private boolean puedeDecirUno;
     private TipoColor colorSeleccionado;
+    private boolean inicioPermitido;
+    private List<JugadorEstadoSalaDTO> estadosJugadoresSala;
 
     private String mensajeEstado;
 
@@ -65,6 +68,8 @@ public class EstadoPartida implements IFiltro<EstadoPartidaDTO, EstadoPartidaDTO
         this.puedeRobar = estadoRecibido.isPuedeRobar();
         this.puedeDecirUno = estadoRecibido.isPuedeDecirUno();
         this.colorSeleccionado = estadoRecibido.getColorSeleccionado();
+        this.inicioPermitido = estadoRecibido.isInicioPermitido();
+        this.estadosJugadoresSala = estadoRecibido.getEstadosJugadoresSala();
 
         this.mensajeEstado = estadoRecibido.getMensajeEstado();
         this.estadoFinalizacion = estadoRecibido.getEstadoFinalizacion();
@@ -85,6 +90,8 @@ public class EstadoPartida implements IFiltro<EstadoPartidaDTO, EstadoPartidaDTO
         dto.setPuedeRobar(this.puedeRobar);
         dto.setPuedeDecirUno(this.puedeDecirUno);
         dto.setColorSeleccionado(this.colorSeleccionado);
+        dto.setInicioPermitido(this.inicioPermitido);
+        dto.setEstadosJugadoresSala(this.estadosJugadoresSala);
 
         dto.setMensajeEstado(this.mensajeEstado);
         dto.setEstadoFinalizacion(this.estadoFinalizacion);

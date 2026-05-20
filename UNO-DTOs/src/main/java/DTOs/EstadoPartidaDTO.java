@@ -27,6 +27,8 @@ public class EstadoPartidaDTO {
     private boolean puedeDecirUno;
     private TipoColor colorSeleccionado;
 
+    private boolean inicioPermitido;
+
     private String mensajeEstado;
 
     private EstadoFinalizacion estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
@@ -41,7 +43,7 @@ public class EstadoPartidaDTO {
         this.estadosJugadoresSala = estadosJugadoresSala;
     }
 
-    public EstadoPartidaDTO(int idJugador, List<JugadorResumenDTO> jugadores, List<CartaDTO> manoJugadorActual, CartaDTO cartaEnDescarte, EstadoRetoSpin estadoReto, boolean ruletaActiva, List<CartaDTO> mazo, boolean puedeRobar, boolean puedeDecirUno, TipoColor colorSeleccionado, String mensajeEstado) {
+    public EstadoPartidaDTO(int idJugador, List<JugadorResumenDTO> jugadores, List<CartaDTO> manoJugadorActual, CartaDTO cartaEnDescarte, EstadoRetoSpin estadoReto, boolean ruletaActiva, List<CartaDTO> mazo, boolean puedeRobar, boolean puedeDecirUno, TipoColor colorSeleccionado, String mensajeEstado, boolean inicioPermitido) {
         this.idJugador = idJugador;
         this.jugadores = jugadores;
         this.manoJugadorActual = manoJugadorActual;
@@ -53,6 +55,15 @@ public class EstadoPartidaDTO {
         this.puedeDecirUno = puedeDecirUno;
         this.colorSeleccionado = colorSeleccionado;
         this.mensajeEstado = mensajeEstado;
+        this.inicioPermitido = inicioPermitido;
+    }
+
+    public boolean isInicioPermitido() {
+        return inicioPermitido;
+    }
+
+    public void setInicioPermitido(boolean inicioPermitido) {
+        this.inicioPermitido = inicioPermitido;
     }
 
     public int getIdJugador() {

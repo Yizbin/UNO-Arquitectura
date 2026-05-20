@@ -55,12 +55,28 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
 
     @Override
     public void iniciarJuego(List<JugadorResumenDTO> jugadores) {
+        iniciarJuego(jugadores, obtenerJugadorSolicitante(jugadores));
+    }
+
+    @Override
+    public void iniciarJuego(List<JugadorResumenDTO> jugadores, JugadorResumenDTO jugadorSolicitante) {
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
         peticion.setAccion(TipoAccionPartida.INICIAR_PARTIDA);
+        peticion.setJugadorActualizar(jugadorSolicitante);
         EstadoPartidaDTO estadoPeticion = crearEstadoPeticion();
         estadoPeticion.setJugadores(jugadores);
         peticion.setEstadoPartida(estadoPeticion);
         realizarAccionJugador(peticion);
+    }
+
+    @Override
+    public void cargarPartida(EstadoPartidaDTO estadoPartidaDTO) {
+        if (estadoPartidaDTO == null) {
+            return;
+        }
+
+        this.estadoActual = estadoPartidaDTO;
+        SwingUtilities.invokeLater(this::notificar);
     }
 
     @Override
@@ -96,8 +112,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
     @Override
     public void enviar(ContextoPipeline<EstadoPartidaDTO> contexto) {
         if (contexto != null && !contexto.estaDetenido()) {
-            this.estadoActual = contexto.getMensaje();
-            SwingUtilities.invokeLater(this::notificar);
+            cargarPartida(contexto.getMensaje());
         }
     }
 
@@ -240,5 +255,19 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
             }
         }
         return null;
+    }
+
+    private JugadorResumenDTO obtenerJugadorSolicitante(List<JugadorResumenDTO> jugadores) {
+        if (jugadores != null) {
+            for (JugadorResumenDTO jugador : jugadores) {
+                if (jugador.getId() == idJugadorLocal) {
+                    return jugador;
+                }
+            }
+        }
+
+        JugadorResumenDTO jugador = new JugadorResumenDTO();
+        jugador.setId(idJugadorLocal);
+        return jugador;
     }
 }

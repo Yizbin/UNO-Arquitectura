@@ -8,12 +8,12 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>UNO_Principal</artifactId>
+            <artifactId>UNO-Principal</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>UNO_Dominio</artifactId>
+            <artifactId>UNO-Dominio</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>UNO-Control</artifactId>
+            <artifactId>UNO-Broadcast</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -65,7 +65,17 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>UNO-Adapter</artifactId>
+            <artifactId>UNO-AdapterConexionSalida</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>UNO-AdapterIniciarPartida</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>UNO-AdapterCargarPartida</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
