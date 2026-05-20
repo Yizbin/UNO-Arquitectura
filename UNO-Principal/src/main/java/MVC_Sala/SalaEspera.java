@@ -22,12 +22,13 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
     private final ControladorSala controlador;
     private boolean inicioNotificado;
 
-
-    public SalaEspera(ControladorSala controlador) {
-        this.controlador = controlador;
-        controlador.solicitarUnirsePartida();
+    public SalaEspera(ControladorSala controlador, IModeloSalaVista modeloVista) {
         initComponents();
+        this.controlador = controlador;
+        this.modeloVista = modeloVista;
+        this.modeloVista.suscribir(this);
         btnListo.addActionListener(evt -> solicitarInicio());
+        update(modeloVista);
     }
 
     private void solicitarInicio() {
@@ -53,8 +54,19 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
     private void refrescarPanelJugadores(List<JugadorResumenDTO> jugadores) {
         PanelListaJugadores.removeAll();
 
+        if (jugadores == null || jugadores.isEmpty()) {
+            PanelListaJugadores.revalidate();
+            PanelListaJugadores.repaint();
+            return;
+        }
+
         for (JugadorResumenDTO jugador : jugadores) {
+            if (jugador == null) {
+                continue;
+            }
+
             ImageIcon avatar = crearAvatar(jugador);
+
             PanelJugador tarjeta = new PanelJugador(
                     jugador.getNombreUsuario(),
                     avatar,
@@ -95,6 +107,42 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
         }
 
         return EstadoJugadorSala.ESPERANDO;
+    }
+
+    private void actualizarEstadoBotonListo(IModeloSalaVista modeloVista) {
+        JugadorResumenDTO jugadorLocal = modeloVista.getJugadorLocal();
+
+        if (jugadorLocal == null) {
+            btnListo.setEnabled(false);
+            return;
+        }
+
+        EstadoJugadorSala estado = obtenerEstadoJugador(jugadorLocal.getId());
+
+        if (estado == EstadoJugadorSala.CONFIRMADO) {
+            btnListo.setEnabled(false);
+            btnListo.setText("Confirmado");
+        } else {
+            btnListo.setEnabled(true);
+            btnListo.setText("Listo!");
+        }
+    }
+
+    private void intentarNotificarInicio(IModeloSalaVista modeloVista) {
+        if (!modeloVista.isPartidaListaParaIniciar() || inicioNotificado) {
+            return;
+        }
+
+        JugadorResumenDTO jugadorLocal = modeloVista.getJugadorLocal();
+
+        if (jugadorLocal == null || jugadorLocal.getId() != 1) {
+            return;
+        }
+
+        inicioNotificado = true;
+
+        boolean respuesta = controlador != null && controlador.notificarInicio(modeloVista);
+        responderInicio(respuesta);
     }
 
     /**
@@ -199,13 +247,28 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
 
     @Override
     public void update(IModeloSalaVista modeloVista) {
-        this.modeloVista = modeloVista;
-        actualizarPanelJugadoresConfirmados(modeloVista.getJugadoresEnSala());
-
-        if (modeloVista.isPartidaListaParaIniciar() && !inicioNotificado) {
-            inicioNotificado = true;
-            boolean respuesta = controlador != null && controlador.notificarInicio();
-            responderInicio(respuesta);
+        if (modeloVista == null) {
+            return;
         }
+
+        if (!javax.swing.SwingUtilities.isEventDispatchThread()) {
+            javax.swing.SwingUtilities.invokeLater(() -> update(modeloVista));
+            return;
+        }
+
+        this.modeloVista = modeloVista;
+
+        List<JugadorResumenDTO> jugadores = modeloVista.getJugadoresEnSala();
+
+        if (jugadores == null) {
+            PanelListaJugadores.removeAll();
+            PanelListaJugadores.revalidate();
+            PanelListaJugadores.repaint();
+            return;
+        }
+
+        actualizarPanelJugadoresConfirmados(jugadores);
+        actualizarEstadoBotonListo(modeloVista);
+        intentarNotificarInicio(modeloVista);
     }
 }

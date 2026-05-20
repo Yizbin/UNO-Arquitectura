@@ -14,11 +14,14 @@ import Interfaces.SubDominioConcreto;
 import MVC_ConfigurarPartida.ControlConfgPartida;
 import MVC_ConfigurarPartida.ModeloConfgPartida;
 import MVC_JugarTurno.ModeloJuego;
+import MVC_Sala.ConfiguracionJugador;
 import MVC_Sala.ControladorSala;
 import MVC_Sala.MenuPrincipal;
 import MVC_Sala.ModeloSala;
+import MVC_Sala.OrigenRegistro;
 import Serializador.Serializador;
 import java.awt.EventQueue;
+import java.io.IOException;
 import java.util.List;
 import javax.swing.SwingUtilities;
 import pipeline.CoordinadorFiltros;
@@ -42,10 +45,10 @@ public class Ensamblador {
         dispatcher.preConectar(ipServidor, puertoServidor);
 
         ISink<byte[]> adapterSalida = new AdapterCliente(ipServidor, puertoServidor, dispatcher);
+
         CoordinadorFiltros<PeticionJugadaDTO, byte[]> pipelineSalida
                 = new CoordinadorFiltros<>(
                         List.of(
-                                new DominioFiltro(subDominio),
                                 new Serializador<PeticionJugadaDTO>()
                         ),
                         adapterSalida
@@ -62,31 +65,58 @@ public class Ensamblador {
                 100,
                 100
         );
+
         entornoJuego.getVista().setVisible(false);
 
-        ISink<PeticionJugadaDTO> adapterEntradaPartida = new AdapterEntradaPartida(modeloSala, modeloJuego);
+        ISink<PeticionJugadaDTO> adapterEntradaPartida
+                = new AdapterEntradaPartida(modeloSala, modeloJuego);
+
         CoordinadorFiltros<byte[], PeticionJugadaDTO> pipelineEntradaPartida
                 = new CoordinadorFiltros<>(
                         List.of(
-                                new Deserializador<>(PeticionJugadaDTO.class),
-                                new DominioFiltro(subDominio)
+                                new Deserializador<>(PeticionJugadaDTO.class)
                         ),
                         adapterEntradaPartida
                 );
 
-        ModeloConfgPartida modeloConfigPartida = new ModeloConfgPartida(pipelineSalida);
-        ControlConfgPartida controlConfigPartida = new ControlConfgPartida(modeloConfigPartida);
-        ControladorSala controladorSala = new ControladorSala(
-                modeloSala,
-                controlConfigPartida,
-                entornoJuego.getControlador()
-        );
-        controlConfigPartida.setAccionConfiguracionExitosa(controladorSala::mostrarConfiguracionJugador);
+        ModeloConfgPartida modeloConfigPartida
+                = new ModeloConfgPartida(pipelineSalida);
+
+        ControlConfgPartida controlConfigPartida
+                = new ControlConfgPartida(modeloConfigPartida);
+
+        ControladorSala controladorSala
+                = new ControladorSala(
+                        modeloSala,
+                        controlConfigPartida,
+                        entornoJuego.getControlador()
+                );
+
+        controlConfigPartida.setAccionConfiguracionExitosa(() -> {
+            try {
+                ConfiguracionJugador registro = new ConfiguracionJugador(
+                        controladorSala,
+                        modeloSala,
+                        OrigenRegistro.CREAR_PARTIDA
+                );
+
+                registro.setVisible(true);
+            } catch (IOException ex) {
+                throw new IllegalStateException(
+                        "No se pudo abrir el registro del jugador anfitrion.",
+                        ex
+                );
+            }
+        });
 
         System.out.println("Se conecto al servidor");
 
         EventQueue.invokeLater(() -> {
-            MenuPrincipal ventanaMenu = new MenuPrincipal(controladorSala);
+            MenuPrincipal ventanaMenu = new MenuPrincipal(
+                    controladorSala,
+                    modeloSala
+            );
+
             ventanaMenu.setVisible(true);
         });
 

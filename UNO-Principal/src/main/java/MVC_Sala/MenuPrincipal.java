@@ -4,6 +4,7 @@
  */
 package MVC_Sala;
 
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,9 +14,11 @@ import javax.swing.JOptionPane;
 public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala {
 
     private final ControladorSala controlador;
+    private final IModeloSalaVista modeloVista;
 
-    public MenuPrincipal(ControladorSala controlador) {
+    public MenuPrincipal(ControladorSala controlador, IModeloSalaVista modeloVista) {
         this.controlador = controlador;
+        this.modeloVista = modeloVista;
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -35,7 +38,7 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
 
         btnCrearPartida = new javax.swing.JButton();
         btnUnirsePartida = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -68,33 +71,42 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
         });
         getContentPane().add(btnUnirsePartida, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 390, -1, -1));
 
-        jButton3.setBackground(new java.awt.Color(0, 255, 0));
-        jButton3.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MenuSalir.png"))); // NOI18N
-        jButton3.setBorderPainted(false);
-        jButton3.setContentAreaFilled(false);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setBackground(new java.awt.Color(0, 255, 0));
+        btnSalir.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        btnSalir.setForeground(new java.awt.Color(255, 255, 255));
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MenuSalir.png"))); // NOI18N
+        btnSalir.setBorderPainted(false);
+        btnSalir.setContentAreaFilled(false);
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 470, -1, 70));
-
-        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fondo.png"))); // NOI18N
+        getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 470, -1, 70));
         getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 930, 730));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUnirsePartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnirsePartidaActionPerformed
-        if (controlador != null) {
-            if (controlador.solicitarUnirsePartida()) {
-                abrirSalaEspera();
-            } else {
-                mostrarMensaje("No se pudo conectar con el servidor.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+
+        try {
+            ConfiguracionJugador registro = new ConfiguracionJugador(
+                    controlador,
+                    modeloVista,
+                    OrigenRegistro.UNIRSE_PARTIDA
+            );
+
+            registro.setVisible(true);
+            this.dispose();
+        } catch (IOException ex) {
+            mostrarMensaje(
+                    "No se pudo abrir el registro del jugador.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
+
     }//GEN-LAST:event_btnUnirsePartidaActionPerformed
 
     private void btnCrearPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPartidaActionPerformed
@@ -104,19 +116,15 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
         }
     }//GEN-LAST:event_btnCrearPartidaActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
 
-    private void abrirSalaEspera() {
-        controlador.mostrarSalaEspera();
-        this.dispose();
-    }
+    }//GEN-LAST:event_btnSalirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearPartida;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnUnirsePartida;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel lblFondo;
     // End of variables declaration//GEN-END:variables
 
