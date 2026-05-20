@@ -15,10 +15,18 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame implements ISu
      * Creates new form PantallaConfigurarPartida
      */
     public PantallaConfigurarPartida(IControlConfgPartida controlador, IModeloConfgPartida modelo) {
+        if (controlador == null) {
+        throw new IllegalArgumentException("El controlador es requerido.");
+    }
+        if (modelo == null) {
+            throw new IllegalArgumentException("El modelo es requerido.");
+        }
+
         this.controlador = controlador;
         this.modelo = modelo;
+
         initComponents();
-        
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jsNumeroInicio.setModel(new javax.swing.SpinnerNumberModel(0, 0, 9, 1));
@@ -66,6 +74,11 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame implements ISu
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/CUCP_btnAtras.png"))); // NOI18N
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 530, -1, -1));
 
         btnSiguiente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/CUCP_btnSiguiente.png"))); // NOI18N
@@ -139,6 +152,10 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame implements ISu
 
         controlador.procesarConfiguracion(numeroInicio, numeroFin, numComodines);
     }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
