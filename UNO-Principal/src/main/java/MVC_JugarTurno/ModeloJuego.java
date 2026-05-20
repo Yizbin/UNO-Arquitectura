@@ -223,16 +223,6 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         return true;
     }
 
-    @Override
-    public void cerrarPartidaTerminada() {
-        PeticionJugadaDTO peticion = new PeticionJugadaDTO();
-        peticion.setAccion(TipoAccionPartida.LIMPIAR_PARTIDA);
-        realizarAccionJugador(peticion);
-        this.estadoActual = null;
-        this.esperandoColor = false;
-        this.mensajePendiente = null;
-    }
-
     private EstadoPartidaDTO crearEstadoPeticion() {
         EstadoPartidaDTO estadoPeticion = new EstadoPartidaDTO();
         estadoPeticion.setIdJugador(idJugadorLocal);

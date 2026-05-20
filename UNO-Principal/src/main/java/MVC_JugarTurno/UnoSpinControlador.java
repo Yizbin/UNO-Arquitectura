@@ -44,8 +44,4 @@ public class UnoSpinControlador {
     public boolean responderFinalizacion(JugadorResumenDTO jugadorDTO, boolean acepta) {
         return modelo.responderFinalizacion(jugadorDTO, acepta);
     }
-
-    public void cerrarPartidaTerminada() {
-        modelo.cerrarPartidaTerminada();
-    }
 }

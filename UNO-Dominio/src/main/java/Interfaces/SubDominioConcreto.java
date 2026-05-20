@@ -148,11 +148,6 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public void limpiarPartidaTerminada() {
-        partida.limpiarDominioPartida();
-    }
-
-    @Override
     public void configurarPartida(ConfiguracionPartidaDTO configuracionDTO) {
         ConfiguracionPartida configuracionPartida = configuracionMapper.toEntity(configuracionDTO);
         partida.configurarPartida(configuracionPartida);

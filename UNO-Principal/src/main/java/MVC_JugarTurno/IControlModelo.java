@@ -27,6 +27,4 @@ public interface IControlModelo {
 
     boolean responderFinalizacion(JugadorResumenDTO jugadorDTO, boolean acepta);
 
-    void cerrarPartidaTerminada();
-
 }

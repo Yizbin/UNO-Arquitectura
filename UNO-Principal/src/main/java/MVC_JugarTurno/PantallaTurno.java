@@ -27,7 +27,6 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     private String solicitudFinalizacionAtendida;
     private EstadoFinalizacion ultimoResultadoFinalizacion;
     private boolean tablaFinalMostrada;
-    private Runnable accionVolverMenu;
 
     public PantallaTurno(IModeloVista modelo, UnoSpinControlador control) {
         this.control = control;
@@ -49,10 +48,6 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
        
 
-    }
-
-    public void setAccionVolverMenu(Runnable accionVolverMenu) {
-        this.accionVolverMenu = accionVolverMenu;
     }
 
     /**
@@ -467,15 +462,12 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
         tablaFinalMostrada = true;
         PanelTablaPosiciones.mostrarDialogo(this, estadoPantalla.getTablaPosiciones());
-        control.cerrarPartidaTerminada();
-        volverAlMenuPrincipal();
+        cerrarPrograma();
     }
 
-    private void volverAlMenuPrincipal() {
+    private void cerrarPrograma() {
         dispose();
-        if (accionVolverMenu != null) {
-            accionVolverMenu.run();
-        }
+        System.exit(0);
     }
 
 }
