@@ -131,7 +131,7 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame implements ISu
         getContentPane().add(lblTexto, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 300, 310, -1));
 
         lbl_fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PantallaConfigurarPartida.png"))); // NOI18N
-        getContentPane().add(lbl_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        getContentPane().add(lbl_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

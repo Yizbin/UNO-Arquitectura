@@ -39,7 +39,7 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
         btnCrearPartida = new javax.swing.JButton();
         btnUnirsePartida = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
-        lblFondo = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(930, 755));
@@ -83,7 +83,9 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
             }
         });
         getContentPane().add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 470, -1, 70));
-        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 930, 730));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fondoMenu.png"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 930, 730));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -125,7 +127,7 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
     private javax.swing.JButton btnCrearPartida;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnUnirsePartida;
-    private javax.swing.JLabel lblFondo;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 
     @Override
