@@ -17,7 +17,7 @@ import Plantilla.ContextoPipeline;
  *
  * @author Abraham Coronel
  */
-public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDTO> {
+public class DominioFiltro implements IFiltro<PeticionJugadaDTO, PeticionJugadaDTO> {
 
     private final ISubDominio subDominio;
 
@@ -26,7 +26,7 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
     }
 
     @Override
-    public ContextoPipeline<EstadoPartidaDTO> procesar(ContextoPipeline<PeticionJugadaDTO> contexto) throws Exception {
+    public ContextoPipeline<PeticionJugadaDTO> procesar(ContextoPipeline<PeticionJugadaDTO> contexto) throws Exception {
 
         PeticionJugadaDTO peticion = contexto.getMensaje();
 
@@ -112,8 +112,35 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
                 throw new UnsupportedOperationException("Tipo de accion no reconocido: " + tipoAccion);
         }
 
-        EstadoPartidaDTO estado = subDominio.obtenerEstadoPartida();
-        return new ContextoPipeline<>(estado);
+        return new ContextoPipeline<>(crearRespuesta(peticion));
+    }
+
+    private PeticionJugadaDTO crearRespuesta(PeticionJugadaDTO peticion) {
+        PeticionJugadaDTO respuesta = new PeticionJugadaDTO();
+        respuesta.setAccion(obtenerAccionRespuesta(peticion.getAccion()));
+        respuesta.setJugadorActualizar(peticion.getJugadorActualizar());
+        respuesta.setConfiguracionPartida(peticion.getConfiguracionPartida());
+        respuesta.setEstadoPartida(subDominio.obtenerEstadoPartida());
+        return respuesta;
+    }
+
+    private TipoAccionPartida obtenerAccionRespuesta(TipoAccionPartida accionOriginal) {
+        return esAccionDeJuego(accionOriginal)
+                ? TipoAccionPartida.CARGAR_PARTIDA
+                : accionOriginal;
+    }
+
+    private boolean esAccionDeJuego(TipoAccionPartida accion) {
+        return accion == TipoAccionPartida.INICIAR_PARTIDA
+                || accion == TipoAccionPartida.JUGAR_CARTA
+                || accion == TipoAccionPartida.ROBAR_CARTA
+                || accion == TipoAccionPartida.ELEGIR_COLOR
+                || accion == TipoAccionPartida.TIRAR_RULETA
+                || accion == TipoAccionPartida.GRITAR_UNO
+                || accion == TipoAccionPartida.TERMINAR_TURNO
+                || accion == TipoAccionPartida.SOLICITAR_FINALIZACION
+                || accion == TipoAccionPartida.ACEPTAR_FINALIZACION
+                || accion == TipoAccionPartida.RECHAZAR_FINALIZACION;
     }
 
     private RespuestaFinalizacionDTO crearRespuestaFinalizacion(PeticionJugadaDTO peticion, boolean acepta) {

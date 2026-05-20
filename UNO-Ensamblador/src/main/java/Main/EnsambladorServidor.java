@@ -5,16 +5,18 @@
 package Main;
 
 import Adapter.AdapterServidor;
-import Conexiones.Control;
+import Conexiones.Broadcast;
 import DTOs.ConexionJugadorDTO;
-import DTOs.EstadoPartidaDTO;
 import DTOs.PaqueteRedDTO;
+import DTOs.PeticionJugadaDTO;
 import Deserializador.Deserializador;
-import Estado.EstadoPartida;
+import Entidades.Partida;
 import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
+import Filtro.DominioFiltro;
 import Interfaces.IConexionSalida;
 import Interfaces.ISink;
+import Interfaces.SubDominioConcreto;
 import Serializador.Serializador;
 import java.util.HashSet;
 import java.util.List;
@@ -40,21 +42,23 @@ public class EnsambladorServidor {
         ISink<List<PaqueteRedDTO>> adapterSink =
                 new AdapterServidor(dispatcher);
 
-        Control filtroControlServidor = new Control();
+        Broadcast filtroBroadcastServidor = new Broadcast();
+        SubDominioConcreto subDominio = new SubDominioConcreto(new Partida());
 
         CoordinadorFiltros<byte[], List<PaqueteRedDTO>> pipelineServidor =
                 new CoordinadorFiltros<>(
                         List.of(
-                                new Deserializador<>(EstadoPartidaDTO.class),
-                                new EstadoPartida(),
-                                new Serializador<EstadoPartidaDTO>(),
-                                filtroControlServidor
+                                new Deserializador<>(PeticionJugadaDTO.class),
+                                new DominioFiltro(subDominio),
+                                new Serializador<PeticionJugadaDTO>(),
+                                filtroBroadcastServidor
                         ),
                         adapterSink
                 );
 
         int[] idJugadorActual = {1};
-        int puertoRespuestaCliente = puertoEscucha + 1;
+        int puertoInicioPartidaCliente = puertoEscucha + 1;
+        int puertoCargarPartidaCliente = puertoEscucha + 2;
         Set<String> ipsConectadas = new HashSet<>();
 
         ReceptorFactory.iniciarConexion(
@@ -63,11 +67,12 @@ public class EnsambladorServidor {
                 (String ipCliente) -> {
                     if (ipsConectadas.add(ipCliente)) {
                         int id = idJugadorActual[0]++;
-                        filtroControlServidor.registrarJugador(
+                        filtroBroadcastServidor.registrarJugador(
                                 new ConexionJugadorDTO(
                                         id,
                                         ipCliente,
-                                        puertoRespuestaCliente
+                                        puertoInicioPartidaCliente,
+                                        puertoCargarPartidaCliente
                                 )
                         );
 
@@ -75,7 +80,8 @@ public class EnsambladorServidor {
                         System.out.println(">>> NUEVO JUGADOR CONECTADO Y REGISTRADO <<<");
                         System.out.println("    Jugador ID: " + id);
                         System.out.println("    IP Origen: " + ipCliente);
-                        System.out.println("    Puerto Asignado: " + puertoRespuestaCliente);
+                        System.out.println("    Puerto Inicio Partida: " + puertoInicioPartidaCliente);
+                        System.out.println("    Puerto Cargar Partida: " + puertoCargarPartidaCliente);
                         System.out.println("==================================================");
                     }
                 }

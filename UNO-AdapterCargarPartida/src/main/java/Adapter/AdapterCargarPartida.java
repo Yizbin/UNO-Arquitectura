@@ -1,6 +1,7 @@
 package Adapter;
 
-import DTOs.EstadoPartidaDTO;
+import DTOs.PeticionJugadaDTO;
+import Enums.TipoAccionPartida;
 import Interfaces.ISink;
 import MVC_JugarTurno.IControlModelo;
 import Plantilla.ContextoPipeline;
@@ -9,7 +10,7 @@ import Plantilla.ContextoPipeline;
  *
  * @author saula
  */
-public class AdapterCargarPartida implements ISink<EstadoPartidaDTO> {
+public class AdapterCargarPartida implements ISink<PeticionJugadaDTO> {
 
     private final IControlModelo modeloJuego;
 
@@ -21,11 +22,20 @@ public class AdapterCargarPartida implements ISink<EstadoPartidaDTO> {
     }
 
     @Override
-    public void enviar(ContextoPipeline<EstadoPartidaDTO> contexto) {
+    public void enviar(ContextoPipeline<PeticionJugadaDTO> contexto) {
         if (contexto == null || contexto.estaDetenido()) {
             return;
         }
 
-        modeloJuego.cargarPartida(contexto.getMensaje());
+        PeticionJugadaDTO peticion = contexto.getMensaje();
+        if (peticion == null) {
+            return;
+        }
+
+        if (peticion.getAccion() != TipoAccionPartida.CARGAR_PARTIDA) {
+            return;
+        }
+
+        modeloJuego.cargarPartida(peticion.getEstadoPartida());
     }
 }

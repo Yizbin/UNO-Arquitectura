@@ -4,6 +4,8 @@
  */
 package DTOs;
 
+import java.util.List;
+
 
 /**
  *
@@ -17,6 +19,16 @@ public class JugadorResumenDTO {
     private int cantidadDeCartas;
     private int puntos;
     private boolean enTurno;
+    private List<CartaDTO> mano;
+
+    public List<CartaDTO> getMano() {
+        return mano;
+    }
+
+    public void setMano(List<CartaDTO> mano) {
+        this.mano = mano;
+    }
+    
 
     public JugadorResumenDTO() {
 

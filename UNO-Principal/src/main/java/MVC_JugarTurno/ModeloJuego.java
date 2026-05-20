@@ -129,7 +129,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
 
         EstadoPantallaTurnoDTO vista = new EstadoPantallaTurnoDTO();
         vista.setCartaEnDescarte(estadoActual.getCartaEnDescarte());
-        vista.setManoLocal(estadoActual.getManoJugadorActual() != null ? estadoActual.getManoJugadorActual() : List.of());
+        vista.setManoLocal(obtenerManoJugadorActual(estadoActual.getJugadores()));
         vista.setTurnoLocal(estadoActual.getIdJugador() == this.idJugadorLocal);
         vista.setEsperandoColor(esperandoColor);
         vista.setEstadoFinalizacion(estadoActual.getEstadoFinalizacion());
@@ -269,5 +269,19 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         JugadorResumenDTO jugador = new JugadorResumenDTO();
         jugador.setId(idJugadorLocal);
         return jugador;
+    }
+
+    private List<CartaDTO> obtenerManoJugadorActual(List<JugadorResumenDTO> jugadores) {
+        if (jugadores == null || jugadores.isEmpty()) {
+            return List.of();
+        }
+
+        for (JugadorResumenDTO jugador : jugadores) {
+            if (jugador.getId() == this.idJugadorLocal) {
+                return jugador.getMano() != null ? jugador.getMano() : List.of();
+            }
+        }
+
+        return List.of();
     }
 }

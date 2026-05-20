@@ -17,7 +17,6 @@ public class EstadoPartidaDTO {
 
     private int idJugador;
     private List<JugadorResumenDTO> jugadores;
-    private List<CartaDTO> manoJugadorActual;
     private CartaDTO cartaEnDescarte;
     private EstadoRetoSpin estadoReto;
     private boolean ruletaActiva;
@@ -43,10 +42,9 @@ public class EstadoPartidaDTO {
         this.estadosJugadoresSala = estadosJugadoresSala;
     }
 
-    public EstadoPartidaDTO(int idJugador, List<JugadorResumenDTO> jugadores, List<CartaDTO> manoJugadorActual, CartaDTO cartaEnDescarte, EstadoRetoSpin estadoReto, boolean ruletaActiva, List<CartaDTO> mazo, boolean puedeRobar, boolean puedeDecirUno, TipoColor colorSeleccionado, String mensajeEstado, boolean inicioPermitido) {
+    public EstadoPartidaDTO(int idJugador, List<JugadorResumenDTO> jugadores, CartaDTO cartaEnDescarte, EstadoRetoSpin estadoReto, boolean ruletaActiva, List<CartaDTO> mazo, boolean puedeRobar, boolean puedeDecirUno, TipoColor colorSeleccionado, String mensajeEstado, boolean inicioPermitido) {
         this.idJugador = idJugador;
         this.jugadores = jugadores;
-        this.manoJugadorActual = manoJugadorActual;
         this.cartaEnDescarte = cartaEnDescarte;
         this.estadoReto = estadoReto;
         this.ruletaActiva = ruletaActiva;
@@ -80,14 +78,6 @@ public class EstadoPartidaDTO {
 
     public void setJugadores(List<JugadorResumenDTO> jugadores) {
         this.jugadores = jugadores;
-    }
-
-    public List<CartaDTO> getManoJugadorActual() {
-        return manoJugadorActual;
-    }
-
-    public void setManoJugadorActual(List<CartaDTO> manoJugadorActual) {
-        this.manoJugadorActual = manoJugadorActual;
     }
 
     public CartaDTO getCartaEnDescarte() {

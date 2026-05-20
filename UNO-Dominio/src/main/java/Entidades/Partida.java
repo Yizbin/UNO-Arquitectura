@@ -200,7 +200,8 @@ public class Partida {
         }
 
         if (estadoDTO.getJugadores() != null) {
-            cargarJugadoresDesdeDTO(estadoDTO.getJugadores());
+            this.jugadores = List.copyOf(jugadorMapper.toEntityList(estadoDTO.getJugadores()));
+            this.turno.setJugadores(this.jugadores);
         }
 
         if (estadoDTO.getEstadosJugadoresSala() != null) {
@@ -349,32 +350,6 @@ public class Partida {
         return new CartaMapper().toDTOList(obtenerJugadorPorId(idJugador).getMano());
     }
 
-//    public EstadoPartidaDTO obtenerEstadoPartidaDTO() {
-//        EstadoPartidaDTO estadoDTO = new EstadoPartidaDTO();
-//        List<JugadorResumenDTO> jugadoresDTO = new JugadorMapper().toDTOList(jugadores);
-//
-//        if (!jugadores.isEmpty()) {
-//            int idJugadorActual = getJugadorActual().getId();
-//
-//            for (JugadorResumenDTO jugadorDTO : jugadoresDTO) {
-//                jugadorDTO.setEnTurno(jugadorDTO.getId() == idJugadorActual);
-//            }
-//
-//            estadoDTO.setIdJugador(idJugadorActual);
-//        }
-//
-//        estadoDTO.setJugadores(jugadoresDTO);
-//        if (descarte != null && descarte.getTope() != null) {
-//            estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
-//        }
-//
-//        estadoDTO.setRuletaActiva(false);
-//
-//        estadoDTO.setEstadoFinalizacion(estadoFinalizacion);
-//        estadoDTO.setResultadoFinalizacion(resultadoFinalizacion);
-//
-//        return estadoDTO;
-//    }
     /**
      *
      * @return
@@ -382,19 +357,22 @@ public class Partida {
     public EstadoPartidaDTO obtenerEstadoPartidaDTO() {
         EstadoPartidaDTO estadoDTO = new EstadoPartidaDTO();
 
-        List<JugadorResumenDTO> jugadoresDTO = jugadores != null ? new JugadorMapper().toDTOList(jugadores) : List.of();
+        List<JugadorResumenDTO> jugadoresDTO
+                = jugadores != null ? jugadorMapper.toDTOList(jugadores) : List.of();
 
         if (jugadores != null && !jugadores.isEmpty()) {
             int idJugadorActual = getJugadorActual().getId();
 
             for (JugadorResumenDTO jugadorDTO : jugadoresDTO) {
                 jugadorDTO.setEnTurno(jugadorDTO.getId() == idJugadorActual);
+                jugadorDTO.setMano(obtenerManoJugadorDTO(jugadorDTO.getId()));
             }
 
             estadoDTO.setIdJugador(idJugadorActual);
         }
 
         estadoDTO.setJugadores(jugadoresDTO);
+
         if (descarte != null && descarte.getTope() != null) {
             estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
         }
@@ -922,4 +900,6 @@ public class Partida {
     public boolean isDisponible() {
         return disponible;
     }
+    
+    
 }

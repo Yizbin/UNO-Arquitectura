@@ -3,7 +3,6 @@ package Main;
 import Adapter.AdapterCliente;
 import Adapter.AdapterCargarPartida;
 import Adapter.AdapterIniciarPartida;
-import DTOs.EstadoPartidaDTO;
 import DTOs.PeticionJugadaDTO;
 import Deserializador.Deserializador;
 import Entidades.Partida;
@@ -27,7 +26,7 @@ import pipeline.CoordinadorFiltros;
 
 public class Ensamblador {
 
-    private static final String IP_SERVIDOR = "192.168.1.72";
+    private static final String IP_SERVIDOR = "192.168.1.71";
     private static final int PUERTO_SERVIDOR = 5000;
     private static final int DESPLAZAMIENTO_PUERTO_INICIO_PARTIDA = 1;
     private static final int DESPLAZAMIENTO_PUERTO_CARGAR_PARTIDA = 2;
@@ -49,7 +48,7 @@ public class Ensamblador {
                 = new CoordinadorFiltros<>(
                         List.of(
                                 new DominioFiltro(subDominio),
-                                new Serializador<EstadoPartidaDTO>()
+                                new Serializador<PeticionJugadaDTO>()
                         ),
                         adapterSalida
                 );
@@ -67,15 +66,18 @@ public class Ensamblador {
         );
         entornoJuego.getVista().setVisible(false);
 
-        ISink<EstadoPartidaDTO> adapterIniciarPartida = new AdapterIniciarPartida(modeloSala);
-        CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntradaIniciarPartida
+        ISink<PeticionJugadaDTO> adapterIniciarPartida = new AdapterIniciarPartida(modeloSala);
+        CoordinadorFiltros<byte[], PeticionJugadaDTO> pipelineEntradaIniciarPartida
                 = new CoordinadorFiltros<>(
-                        List.of(new Deserializador<>(EstadoPartidaDTO.class)),
+                        List.of(
+                                new Deserializador<>(PeticionJugadaDTO.class),
+                                new DominioFiltro(subDominio)
+                        ),
                         adapterIniciarPartida
                 );
 
-        ISink<EstadoPartidaDTO> adapterCargarPartida = new AdapterCargarPartida(modeloJuego);
-        CoordinadorFiltros<byte[], EstadoPartidaDTO> pipelineEntradaCargarPartida
+        ISink<PeticionJugadaDTO> adapterCargarPartida = new AdapterCargarPartida(modeloJuego);
+        CoordinadorFiltros<byte[], PeticionJugadaDTO> pipelineEntradaCargarPartida
                 = new CoordinadorFiltros<>(
                         List.of(
                                 new Deserializador<>(PeticionJugadaDTO.class),
