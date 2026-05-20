@@ -922,12 +922,44 @@ public class Partida {
 
         Jugador jugadorExistente = jugadoresRegistrados.get(jugadorDTO.getId());
         if (jugadorExistente != null) {
-            jugadorExistente.actualizarPerfil(jugadorDTO.getNombreUsuario(), jugadorDTO.getRutaAvatar());
+            jugadorExistente.actualizarPerfil(
+                    jugadorDTO.getNombreUsuario(),
+                    jugadorDTO.getRutaAvatar()
+            );
+            actualizarJugadorEnSala(jugadorExistente);
             return;
         }
 
         Jugador nuevoJugador = this.jugadorMapper.toEntity(jugadorDTO);
         nuevoJugador.setAceptado(false);
+        nuevoJugador.setEstadoSala(EstadoJugadorSala.ESPERANDO);
         jugadoresRegistrados.put(nuevoJugador.getId(), nuevoJugador);
+
+        if (jugadores.isEmpty()) {
+            List<Jugador> jugadoresActualizados = new ArrayList<>(jugadores);
+            jugadoresActualizados.add(nuevoJugador);
+
+            this.jugadores = List.copyOf(jugadoresActualizados);
+            this.turno.setJugadores(this.jugadores);
+        }
     }
+
+    private void actualizarJugadorEnSala(Jugador jugadorActualizado) {
+        if (!jugadorYaEstaUnido(jugadorActualizado.getId())) {
+            return;
+        }
+
+        List<Jugador> jugadoresActualizados = new ArrayList<>(jugadores);
+
+        for (int i = 0; i < jugadoresActualizados.size(); i++) {
+            if (jugadoresActualizados.get(i).getId() == jugadorActualizado.getId()) {
+                jugadoresActualizados.set(i, jugadorActualizado);
+                break;
+            }
+        }
+
+        this.jugadores = List.copyOf(jugadoresActualizados);
+        this.turno.setJugadores(this.jugadores);
+    }
+
 }

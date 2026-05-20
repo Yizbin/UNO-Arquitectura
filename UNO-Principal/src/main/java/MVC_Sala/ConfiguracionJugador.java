@@ -360,10 +360,16 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     };
 
     private void seleccionarColor(BotonRedondeado boton, Color colorSeleccionado) {
-        Color colorCambiado = traducirColor(cartaSeleccionada.carta.getColor());
+        if (cartaSeleccionada == null || colorSeleccionado == null) {
+            return;
+        }
         TipoColor nuevoColor = traducirTipoColor(colorSeleccionado);
+
+        if (cartaSeleccionada.carta != null) {
+            cartaSeleccionada.carta.setColor(nuevoColor);
+        }
+
         misColores.put(colorBaseSeleccionado, nuevoColor);
-        boton.setBackground(colorCambiado);
         cargarConfiguración();
     }
 
@@ -439,7 +445,7 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
             throw new AssertionError("Color no reconocido: " + color);
         }
     }
-    
+
     private int generarId() {
         return idJugadorLocal;
     }

@@ -32,6 +32,10 @@ public class PanelCartaMano extends javax.swing.JPanel {
         repaint();
     }
 
+    public CartaDTO getCarta() {
+        return carta;
+    }
+
     public void mostrarDorso() {
         this.carta = null;
         this.esDorso = true;
