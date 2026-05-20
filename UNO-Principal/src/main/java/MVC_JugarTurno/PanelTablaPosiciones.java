@@ -29,7 +29,7 @@ public class PanelTablaPosiciones extends javax.swing.JPanel {
 
     private List<JugadorResumenDTO> jugadores = new ArrayList<>();
     private javax.swing.JButton btnVolverMenu;
-    private Runnable accionVolverMenu;
+    private Runnable accionCerrar;
     private final Color[] coloresBarras = {
         new Color(199, 82, 222),
         new Color(58, 157, 226),
@@ -54,7 +54,7 @@ public class PanelTablaPosiciones extends javax.swing.JPanel {
         Window owner = parent != null ? SwingUtilities.getWindowAncestor(parent) : null;
         JDialog dialogo = new JDialog(owner, "Tabla de posiciones", Dialog.ModalityType.APPLICATION_MODAL);
         dialogo.setContentPane(panel);
-        panel.setAccionVolverMenu(dialogo::dispose);
+        panel.setAccionCerrar(dialogo::dispose);
         dialogo.pack();
         dialogo.setResizable(false);
         dialogo.setLocationRelativeTo(parent);
@@ -63,21 +63,21 @@ public class PanelTablaPosiciones extends javax.swing.JPanel {
 
     private void configurarBotonVolverMenu() {
         setLayout(null);
-        btnVolverMenu = new javax.swing.JButton("Volver al menu principal");
+        btnVolverMenu = new javax.swing.JButton("Cerrar juego");
         btnVolverMenu.setFocusPainted(false);
         btnVolverMenu.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
         btnVolverMenu.setBackground(Color.WHITE);
         btnVolverMenu.setForeground(Color.BLACK);
         btnVolverMenu.addActionListener(e -> {
-            if (accionVolverMenu != null) {
-                accionVolverMenu.run();
+            if (accionCerrar != null) {
+                accionCerrar.run();
             }
         });
         add(btnVolverMenu);
     }
 
-    public void setAccionVolverMenu(Runnable accionVolverMenu) {
-        this.accionVolverMenu = accionVolverMenu;
+    public void setAccionCerrar(Runnable accionCerrar) {
+        this.accionCerrar = accionCerrar;
     }
 
     @Override
