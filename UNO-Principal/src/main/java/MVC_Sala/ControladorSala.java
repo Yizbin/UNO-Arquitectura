@@ -5,6 +5,7 @@
 package MVC_Sala;
 
 import DTOs.JugadorResumenDTO;
+import Enums.EstadoJugadorSala;
 import Enums.TipoColor;
 import MVC_ConfigurarPartida.ControlConfgPartida;
 import MVC_JugarTurno.UnoSpinControlador;
@@ -40,6 +41,10 @@ public class ControladorSala {
 
     public boolean actualizarEstadoJugadorSala() {
         return modelo.actualizarEstadoJugadorSala();
+    }
+
+    public EstadoJugadorSala obtenerEstadoJugador(int idJugador) {
+        return modelo.obtenerEstadoJugador(idJugador);
     }
 
     public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {

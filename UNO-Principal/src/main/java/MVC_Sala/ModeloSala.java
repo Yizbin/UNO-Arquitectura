@@ -361,9 +361,10 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         this.estadosJugadoresSala = estadosActualizados;
     }
 
-    private EstadoJugadorSala obtenerEstadoJugador(int idJugador) {
+    @Override
+    public EstadoJugadorSala obtenerEstadoJugador(int idJugador) {
         if (estadosJugadoresSala == null) {
-            return null;
+            return EstadoJugadorSala.ESPERANDO;
         }
 
         for (JugadorEstadoSalaDTO estadoJugador : estadosJugadoresSala) {
@@ -372,7 +373,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
             }
         }
 
-        return null;
+        return EstadoJugadorSala.ESPERANDO;
     }
 
     @Override

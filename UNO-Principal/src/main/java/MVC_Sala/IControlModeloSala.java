@@ -6,6 +6,7 @@ package MVC_Sala;
 
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
+import Enums.EstadoJugadorSala;
 import Enums.TipoColor;
 import java.util.Map;
 
@@ -30,6 +31,8 @@ public interface IControlModeloSala {
     void establecerJugadorLocal(JugadorResumenDTO datos);
 
     boolean actualizarEstadoJugadorSala();
+
+    EstadoJugadorSala obtenerEstadoJugador(int idJugador);
 
     void validarCondicionInicio(EstadoPartidaDTO estadoPartidaDTO);
 }

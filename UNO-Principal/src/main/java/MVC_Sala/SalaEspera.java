@@ -5,7 +5,6 @@
 package MVC_Sala;
 
 import DTOs.JugadorResumenDTO;
-import DTOs.JugadorEstadoSalaDTO;
 import Enums.EstadoJugadorSala;
 import MVC_Utilidades.UtilidadesGraficas;
 import java.awt.BorderLayout;
@@ -101,17 +100,11 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
     }
 
     private EstadoJugadorSala obtenerEstadoJugador(int idJugador) {
-        if (modeloVista == null || modeloVista.getEstadosJugadoresSala() == null) {
+        if (controlador == null) {
             return EstadoJugadorSala.ESPERANDO;
         }
 
-        for (JugadorEstadoSalaDTO estado : modeloVista.getEstadosJugadoresSala()) {
-            if (estado.getId() == idJugador) {
-                return estado.getEstadoSala();
-            }
-        }
-
-        return EstadoJugadorSala.ESPERANDO;
+        return controlador.obtenerEstadoJugador(idJugador);
     }
 
     private void actualizarEstadoBotonListo(IModeloSalaVista modeloVista) {
