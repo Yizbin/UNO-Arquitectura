@@ -26,6 +26,10 @@ import java.util.Stack;
 
 public class Partida {
 
+    private static final int MINIMO_JUGADORES_PARA_INICIAR = 2;
+    private static final int MAXIMO_JUGADORES_PARTIDA = 4;
+    private static final int ID_ANFITRION = 1;
+
     /**
      * Lista de los jugadores registrados en la partida
      */
@@ -236,7 +240,7 @@ public class Partida {
     }
 
     public void iniciarPartida(int idJugadorSolicitante) throws MazoVacioException {
-        if (idJugadorSolicitante != 1) {
+        if (idJugadorSolicitante != ID_ANFITRION) {
             throw new IllegalStateException("Solo el anfitrion puede iniciar la partida.");
         }
 
@@ -774,12 +778,19 @@ public class Partida {
      */
     public boolean puedeIniciarPartida() {
         int totalJugadores = jugadores.size();
-        if (totalJugadores == 4) {
+
+        if (totalJugadores < MINIMO_JUGADORES_PARA_INICIAR) {
+            return false;
+        }
+
+        if (totalJugadores == MAXIMO_JUGADORES_PARTIDA) {
             return true;
         }
-        if (totalJugadores == 2 || totalJugadores == 3) {
+
+        if (totalJugadores < MAXIMO_JUGADORES_PARTIDA) {
             return todosLosJugadoresConfirmados();
         }
+
         return false;
     }
 
@@ -938,12 +949,13 @@ public class Partida {
         }
 
         Jugador nuevoJugador = this.jugadorMapper.toEntity(jugadorDTO);
-        nuevoJugador.setAceptado(nuevoJugador.getId() == 1);
+        boolean esAnfitrion = nuevoJugador.getId() == ID_ANFITRION;
+        nuevoJugador.setAceptado(esAnfitrion);
         nuevoJugador.setEstadoSala(EstadoJugadorSala.ESPERANDO);
 
         jugadoresRegistrados.put(nuevoJugador.getId(), nuevoJugador);
 
-        if (nuevoJugador.getId() == 1 && jugadores.isEmpty()) {
+        if (esAnfitrion && jugadores.isEmpty()) {
             List<Jugador> jugadoresActualizados = new ArrayList<>(jugadores);
             jugadoresActualizados.add(nuevoJugador);
 

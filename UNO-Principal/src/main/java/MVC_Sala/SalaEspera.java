@@ -260,7 +260,6 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelBotones;
     private javax.swing.JPanel PanelEspera;
