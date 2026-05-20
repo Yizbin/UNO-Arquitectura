@@ -8,9 +8,13 @@ import DTOs.JugadorResumenDTO;
 import DTOs.JugadorEstadoSalaDTO;
 import Enums.EstadoJugadorSala;
 import MVC_Utilidades.UtilidadesGraficas;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.util.List;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 /**
  *
@@ -143,6 +147,35 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
 
         boolean respuesta = controlador != null && controlador.notificarInicio(modeloVista);
         responderInicio(respuesta);
+    }
+
+    private JPanel crearFilaJugador(JugadorResumenDTO jugador, PanelJugador tarjeta) {
+        JPanel fila = new JPanel(new BorderLayout());
+        fila.setOpaque(false);
+
+        fila.add(tarjeta, BorderLayout.CENTER);
+
+        if (modeloVista.puedeResponderSolicitudUnion(jugador.getId())) {
+            fila.add(crearPanelAccionesUnion(jugador), BorderLayout.EAST);
+        }
+
+        return fila;
+    }
+
+    private JPanel crearPanelAccionesUnion(JugadorResumenDTO jugador) {
+        JPanel panelAcciones = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 20));
+        panelAcciones.setOpaque(false);
+
+        JButton btnAceptar = new JButton("Aceptar");
+        JButton btnRechazar = new JButton("Rechazar");
+
+        btnAceptar.addActionListener(e -> controlador.aceptarSolicitudUnion(jugador.getId()));
+        btnRechazar.addActionListener(e -> controlador.rechazarSolicitudUnion(jugador.getId()));
+
+        panelAcciones.add(btnAceptar);
+        panelAcciones.add(btnRechazar);
+
+        return panelAcciones;
     }
 
     /**
