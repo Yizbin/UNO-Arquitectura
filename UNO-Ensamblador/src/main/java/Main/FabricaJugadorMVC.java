@@ -4,7 +4,8 @@
  */
 package Main;
 
-import Interfaces.ISubDominio;
+import DTOs.PeticionJugadaDTO;
+import interfaces.IPump;
 import MVC_JugarTurno.ModeloJuego;
 import MVC_JugarTurno.PantallaTurno;
 import MVC_JugarTurno.UnoSpinControlador;
@@ -15,18 +16,52 @@ import MVC_JugarTurno.UnoSpinControlador;
  */
 public class FabricaJugadorMVC {
 
-    public static PantallaTurno crearEntornoJugador(ISubDominio subDominio, int idJugador, String tituloVista, int posX, int posY) {
-        ModeloJuego modelo = new ModeloJuego(subDominio);
+    /**
+     * Crea el entorno MVC y lo conecta a la tubería de salida.
+     *
+     * @param pipelineSalida
+     * @param pipelineEntrada
+     * @param idJugador ID asignado al jugador local.
+     * @param tituloVista Título de la ventana.
+     * @param posX Posición X inicial.
+     * @param posY Posición Y inicial.
+     * @return Instancia de la vista (JFrame) configurada.
+     */
+    public static PantallaTurno crearEntornoJugador(
+            IPump<PeticionJugadaDTO, ?> pipelineSalida,
+            ModeloJuego modelo,
+            int idJugador,
+            String tituloVista,
+            int posX,
+            int posY) {
+        return crearEntornoJugadorCompleto(
+                pipelineSalida,
+                modelo,
+                idJugador,
+                tituloVista,
+                posX,
+                posY
+        ).getVista();
+    }
+
+    public static EntornoJugadorMVC crearEntornoJugadorCompleto(
+            IPump<PeticionJugadaDTO, ?> pipelineSalida,
+            ModeloJuego modelo,
+            int idJugador,
+            String tituloVista,
+            int posX,
+            int posY) {
+
         modelo.setIdJugadorLocal(idJugador);
+        modelo.conectarDestino(pipelineSalida);
 
         UnoSpinControlador controlador = new UnoSpinControlador(modelo);
-
         PantallaTurno vista = new PantallaTurno(modelo, controlador);
-        modelo.agregarSuscriptor(vista);
+        modelo.suscribir(vista);
 
         vista.setTitle(tituloVista);
         vista.setLocation(posX, posY);
 
-        return vista;
+        return new EntornoJugadorMVC(modelo, controlador, vista);
     }
 }

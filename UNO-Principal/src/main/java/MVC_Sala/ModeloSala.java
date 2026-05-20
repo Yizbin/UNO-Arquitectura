@@ -278,7 +278,6 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
                     jugadorLocal,
                     null
             );
-
             enviarPeticion(peticion);
         } catch (Exception e) {
             System.err.println("Error al actualizar perfil: " + e.getMessage());
