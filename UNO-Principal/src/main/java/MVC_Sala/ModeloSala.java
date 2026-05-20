@@ -16,6 +16,7 @@ import interfaces.IPump;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import javax.swing.SwingUtilities;
 
 /**
@@ -33,8 +34,6 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     private boolean cambiarFrame = false;
     private boolean partidaListaParaIniciar;
 
-    private static int siguienteIdInvitado = 2;
-
     public ModeloSala() {
         this.suscriptores = new ArrayList<>();
         this.jugadoresEnSala = new ArrayList<>();
@@ -49,10 +48,6 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
     public void conectarCoordinador(IPump<PeticionJugadaDTO, ?> coordinador) {
         this.coordinador = coordinador;
-    }
-
-    private int generarIdInvitado() {
-        return siguienteIdInvitado++;
     }
 
     @Override
@@ -415,6 +410,10 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         }
 
         return false;
+    }
+
+    private int generarIdInvitado() {
+        return Math.abs(UUID.randomUUID().hashCode());
     }
 
 }
