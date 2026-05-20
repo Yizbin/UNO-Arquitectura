@@ -54,11 +54,10 @@ public class EnsambladorServidor {
                                 filtroBroadcastServidor
                         ),
                         adapterSink
-                );
+        );
 
         int[] idJugadorActual = {1};
-        int puertoInicioPartidaCliente = puertoEscucha + 1;
-        int puertoCargarPartidaCliente = puertoEscucha + 2;
+        int puertoCliente = puertoEscucha + 1;
         Set<String> ipsConectadas = new HashSet<>();
 
         ReceptorFactory.iniciarConexion(
@@ -71,8 +70,7 @@ public class EnsambladorServidor {
                                 new ConexionJugadorDTO(
                                         id,
                                         ipCliente,
-                                        puertoInicioPartidaCliente,
-                                        puertoCargarPartidaCliente
+                                        puertoCliente
                                 )
                         );
 
@@ -80,8 +78,7 @@ public class EnsambladorServidor {
                         System.out.println(">>> NUEVO JUGADOR CONECTADO Y REGISTRADO <<<");
                         System.out.println("    Jugador ID: " + id);
                         System.out.println("    IP Origen: " + ipCliente);
-                        System.out.println("    Puerto Inicio Partida: " + puertoInicioPartidaCliente);
-                        System.out.println("    Puerto Cargar Partida: " + puertoCargarPartidaCliente);
+                        System.out.println("    Puerto Cliente: " + puertoCliente);
                         System.out.println("==================================================");
                     }
                 }

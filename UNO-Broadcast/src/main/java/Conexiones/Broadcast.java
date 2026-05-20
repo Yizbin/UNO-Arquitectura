@@ -40,11 +40,7 @@ public class Broadcast implements IFiltro<byte[], List<PaqueteRedDTO>> {
         List<PaqueteRedDTO> paquetesDeSalida = new ArrayList<>();
 
         for (ConexionJugadorDTO jugador : listaJugadores) {
-            paquetesDeSalida.add(crearPaquete(jugador.getIp(), jugador.getPuertoInicioPartida(), payloadBytes));
-
-            if (jugador.getPuertoCargarPartida() != jugador.getPuertoInicioPartida()) {
-                paquetesDeSalida.add(crearPaquete(jugador.getIp(), jugador.getPuertoCargarPartida(), payloadBytes));
-            }
+            paquetesDeSalida.add(crearPaquete(jugador.getIp(), jugador.getPuerto(), payloadBytes));
         }
 
         return new ContextoPipeline<>(paquetesDeSalida);

@@ -1,8 +1,7 @@
 package Main;
 
 import Adapter.AdapterCliente;
-import Adapter.AdapterCargarPartida;
-import Adapter.AdapterIniciarPartida;
+import Adapter.AdapterEntradaPartida;
 import DTOs.PeticionJugadaDTO;
 import Deserializador.Deserializador;
 import Entidades.Partida;
@@ -28,8 +27,7 @@ public class Ensamblador {
 
     private static final String IP_SERVIDOR = "192.168.1.71";
     private static final int PUERTO_SERVIDOR = 5000;
-    private static final int DESPLAZAMIENTO_PUERTO_INICIO_PARTIDA = 1;
-    private static final int DESPLAZAMIENTO_PUERTO_CARGAR_PARTIDA = 2;
+    private static final int DESPLAZAMIENTO_PUERTO_CLIENTE = 1;
     private static final int ID_JUGADOR_ANFITRION = 1;
 
     public static void main(String[] args) {
@@ -66,24 +64,14 @@ public class Ensamblador {
         );
         entornoJuego.getVista().setVisible(false);
 
-        ISink<PeticionJugadaDTO> adapterIniciarPartida = new AdapterIniciarPartida(modeloSala);
-        CoordinadorFiltros<byte[], PeticionJugadaDTO> pipelineEntradaIniciarPartida
+        ISink<PeticionJugadaDTO> adapterEntradaPartida = new AdapterEntradaPartida(modeloSala, modeloJuego);
+        CoordinadorFiltros<byte[], PeticionJugadaDTO> pipelineEntradaPartida
                 = new CoordinadorFiltros<>(
                         List.of(
                                 new Deserializador<>(PeticionJugadaDTO.class),
                                 new DominioFiltro(subDominio)
                         ),
-                        adapterIniciarPartida
-                );
-
-        ISink<PeticionJugadaDTO> adapterCargarPartida = new AdapterCargarPartida(modeloJuego);
-        CoordinadorFiltros<byte[], PeticionJugadaDTO> pipelineEntradaCargarPartida
-                = new CoordinadorFiltros<>(
-                        List.of(
-                                new Deserializador<>(PeticionJugadaDTO.class),
-                                new DominioFiltro(subDominio)
-                        ),
-                        adapterCargarPartida
+                        adapterEntradaPartida
                 );
 
         ModeloConfgPartida modeloConfigPartida = new ModeloConfgPartida(pipelineSalida);
@@ -102,12 +90,8 @@ public class Ensamblador {
         });
 
         ReceptorFactory.iniciarConexion(
-                puertoServidor + DESPLAZAMIENTO_PUERTO_INICIO_PARTIDA,
-                pipelineEntradaIniciarPartida
-        );
-        ReceptorFactory.iniciarConexion(
-                puertoServidor + DESPLAZAMIENTO_PUERTO_CARGAR_PARTIDA,
-                pipelineEntradaCargarPartida
+                puertoServidor + DESPLAZAMIENTO_PUERTO_CLIENTE,
+                pipelineEntradaPartida
         );
     }
 }

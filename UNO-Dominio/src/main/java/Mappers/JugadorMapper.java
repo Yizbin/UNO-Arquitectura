@@ -6,8 +6,8 @@ package Mappers;
 
 import DTOs.JugadorResumenDTO;
 import Entidades.Jugador;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -53,6 +53,9 @@ public class JugadorMapper {
         );
 
         jugador.setPuntos(dto.getPuntos());
+        if (dto.getMano() != null) {
+            jugador.setMano(new CartaMapper().toEntityList(dto.getMano()));
+        }
 
         return jugador;
     }
