@@ -13,7 +13,7 @@ import Enums.TipoAccionPartida;
 public class PeticionJugadaDTO {
 
     private TipoAccionPartida accion;
-    private JugadorResumenDTO jugadorActualizar;
+    private JugadorResumenDTO jugadorLocal;
     private EstadoPartidaDTO estadoPartida;
     private ConfiguracionPartidaDTO configuracionPartida;
 
@@ -25,9 +25,9 @@ public class PeticionJugadaDTO {
         this.estadoPartida = estadoPartida;
     }
 
-    public PeticionJugadaDTO(TipoAccionPartida accion, JugadorResumenDTO jugadorActualizar, EstadoPartidaDTO estadoPartida) {
+    public PeticionJugadaDTO(TipoAccionPartida accion, JugadorResumenDTO jugadorLocal, EstadoPartidaDTO estadoPartida) {
         this.accion = accion;
-        this.jugadorActualizar = jugadorActualizar;
+        this.jugadorLocal = jugadorLocal;
         this.estadoPartida = estadoPartida;
     }
 
@@ -47,12 +47,20 @@ public class PeticionJugadaDTO {
         this.estadoPartida = estadoPartida;
     }
 
+    public JugadorResumenDTO getJugadorLocal() {
+        return jugadorLocal;
+    }
+
+    public void setJugadorLocal(JugadorResumenDTO jugadorLocal) {
+        this.jugadorLocal = jugadorLocal;
+    }
+
     public JugadorResumenDTO getJugadorActualizar() {
-        return jugadorActualizar;
+        return jugadorLocal;
     }
 
     public void setJugadorActualizar(JugadorResumenDTO jugadorActualizar) {
-        this.jugadorActualizar = jugadorActualizar;
+        this.jugadorLocal = jugadorActualizar;
     }
     
     public ConfiguracionPartidaDTO getConfiguracionPartida() {

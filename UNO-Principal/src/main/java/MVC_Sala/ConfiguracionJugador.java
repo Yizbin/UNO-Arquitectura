@@ -434,13 +434,18 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
             throw new AssertionError("Color no reconocido: " + color);
         }
     }
+    
+    private int generarId() {
+        return Math.abs(java.util.UUID.randomUUID().hashCode());
+    }
 
     private void acciones() {
 
         siguiente.addActionListener(e -> {
             if (txtField != null) {
+                jugador.setId(generarId());
                 jugador.setNombreUsuario(txtField.getText());
-                control.actualizarDatosJugador(jugador, misColores);
+                control.registrarJugador(jugador, misColores);
                 control.abrirSalaEspera();
             } else {
                 try {

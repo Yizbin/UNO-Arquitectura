@@ -462,6 +462,12 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
         tablaFinalMostrada = true;
         PanelTablaPosiciones.mostrarDialogo(this, estadoPantalla.getTablaPosiciones());
+        cerrarPrograma();
+    }
+
+    private void cerrarPrograma() {
+        dispose();
+        System.exit(0);
     }
 
 }

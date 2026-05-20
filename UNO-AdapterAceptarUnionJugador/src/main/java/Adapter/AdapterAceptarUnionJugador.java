@@ -15,12 +15,16 @@ import java.util.List;
  *
  * @author Abraham Coronel
  */
-public class AdapterSolicitarUnionJugador implements ISink<EstadoPartidaDTO> {
+public class AdapterAceptarUnionJugador implements ISink<EstadoPartidaDTO> {
 
     private final ModeloSala modeloSala;
 
-    public AdapterSolicitarUnionJugador(ModeloSala modeloSala) {
+    public AdapterAceptarUnionJugador(ModeloSala modeloSala) {
         this.modeloSala = modeloSala;
+    }
+
+    public AdapterAceptarUnionJugador(ModeloSala modeloSala, int idJugadorLocal) {
+        this(modeloSala);
     }
 
     @Override
@@ -35,22 +39,22 @@ public class AdapterSolicitarUnionJugador implements ISink<EstadoPartidaDTO> {
             return;
         }
 
-        agregarSolicitudesUnion(estado.getJugadores());
+        aceptarUniones(estado.getJugadores());
     }
 
-    private void agregarSolicitudesUnion(List<JugadorResumenDTO> jugadores) {
+    private void aceptarUniones(List<JugadorResumenDTO> jugadores) {
         if (jugadores == null) {
             return;
         }
 
         for (JugadorResumenDTO jugador : jugadores) {
-            if (jugador != null && !jugador.isAceptado()) {
-                agregarSolicitudUnion(jugador);
+            if (jugador != null && jugador.isAceptado()) {
+                aceptarUnion(jugador);
             }
         }
     }
 
-    public void agregarSolicitudUnion(JugadorResumenDTO jugador) {
-        modeloSala.agregarSolicitudUnion(jugador);
+    public void aceptarUnion(JugadorResumenDTO jugador) {
+        modeloSala.registrarUnionAceptada(jugador);
     }
 }

@@ -370,7 +370,7 @@
 									"font": "Arial;13;0",
 									"left": 620.5,
 									"top": 421,
-									"width": 98.1435546875,
+									"width": 97,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGd57WW2P8UBsM="
@@ -3445,9 +3445,9 @@
 																		"$ref": "AAAAAAGd57p3RRGjHVs="
 																	},
 																	"font": "Arial;13;0",
-																	"left": 32.72998046875,
+																	"left": 30.55908203125,
 																	"top": 13,
-																	"width": 124.29345703125,
+																	"width": 110.44287109375,
 																	"height": 13,
 																	"text": "Diagrama_Secuencia"
 																},
@@ -3460,7 +3460,7 @@
 																	"font": "Arial;13;1",
 																	"left": 13,
 																	"top": 13,
-																	"width": 13.72998046875,
+																	"width": 11.55908203125,
 																	"height": 13,
 																	"text": "sd"
 																}
@@ -6321,7 +6321,7 @@
 													"top": 269,
 													"width": 393.9580078125,
 													"height": 13,
-													"text": "+soliciarUnirsePartida(): boolean",
+													"text": "+soliciarUnirsePartida(idJugador: int): boolean",
 													"horizontalAlignment": 0
 												},
 												{
@@ -6389,7 +6389,7 @@
 													"top": 329,
 													"width": 393.9580078125,
 													"height": 13,
-													"text": "+aceptarSolitudUnion(jugador: JugadorResumenDTO): boolean",
+													"text": "+aceptarSolitudUnion(idJugador: int): boolean",
 													"horizontalAlignment": 0
 												},
 												{
@@ -6406,7 +6406,7 @@
 													"top": 344,
 													"width": 393.9580078125,
 													"height": 13,
-													"text": "+rechazarSolitudUnion(jugador: JugadorResumenDTO): boolean",
+													"text": "+rechazarSolitudUnion(idJugador: int): boolean",
 													"horizontalAlignment": 0
 												}
 											],
@@ -6671,7 +6671,7 @@
 													"top": 386,
 													"width": 411.76318359375,
 													"height": 13,
-													"text": "+soliciarUnirsePartida(): boolean",
+													"text": "+soliciarUnirsePartida(idJugador: int): boolean",
 													"horizontalAlignment": 0
 												},
 												{
@@ -6807,7 +6807,7 @@
 													"top": 506,
 													"width": 411.76318359375,
 													"height": 13,
-													"text": "+aceptarSolitudUnion(jugador: JugadorResumenDTO): boolean",
+													"text": "+aceptarSolitudUnion(idJugador: int): boolean",
 													"horizontalAlignment": 0
 												},
 												{
@@ -6824,7 +6824,7 @@
 													"top": 521,
 													"width": 411.76318359375,
 													"height": 13,
-													"text": "+rechazarSolitudUnion(jugador: JugadorResumenDTO): boolean",
+													"text": "+rechazarSolitudUnion(idJugador: int): boolean",
 													"horizontalAlignment": 0
 												},
 												{
@@ -7037,7 +7037,7 @@
 													"top": 85,
 													"width": 393.9580078125,
 													"height": 13,
-													"text": "~soliciarUnirsePartida(): boolean",
+													"text": "~soliciarUnirsePartida(idJugador: int): boolean",
 													"horizontalAlignment": 0
 												},
 												{
@@ -7071,7 +7071,7 @@
 													"top": 115,
 													"width": 393.9580078125,
 													"height": 13,
-													"text": "~aceptarSolitudUnion(jugador: JugadorResumenDTO): boolean",
+													"text": "~aceptarSolitudUnion(idJugador: int): boolean",
 													"horizontalAlignment": 0
 												},
 												{
@@ -7088,7 +7088,7 @@
 													"top": 130,
 													"width": 393.9580078125,
 													"height": 13,
-													"text": "~rechazarSolitudUnion(jugador: JugadorResumenDTO): boolean",
+													"text": "~rechazarSolitudUnion(idJugador: int): boolean",
 													"horizontalAlignment": 0
 												},
 												{
@@ -10140,6 +10140,15 @@
 											},
 											"type": "boolean",
 											"direction": "return"
+										},
+										{
+											"_type": "UMLParameter",
+											"_id": "AAAAAAGeQ7EjKwGZ2HU=",
+											"_parent": {
+												"$ref": "AAAAAAGd8XGakE5vO88="
+											},
+											"name": "idJugador",
+											"type": "int"
 										}
 									]
 								},
@@ -10236,10 +10245,8 @@
 											"_parent": {
 												"$ref": "AAAAAAGePv3K4opUN7U="
 											},
-											"name": "jugador",
-											"type": {
-												"$ref": "AAAAAAGeHtAfkc2m6Js="
-											}
+											"name": "idJugador",
+											"type": "int"
 										},
 										{
 											"_type": "UMLParameter",
@@ -10266,10 +10273,8 @@
 											"_parent": {
 												"$ref": "AAAAAAGePv4UJ5+D5B4="
 											},
-											"name": "jugador",
-											"type": {
-												"$ref": "AAAAAAGeHtAfkc2m6Js="
-											}
+											"name": "idJugador",
+											"type": "int"
 										},
 										{
 											"_type": "UMLParameter",
@@ -10380,6 +10385,15 @@
 											},
 											"type": "boolean",
 											"direction": "return"
+										},
+										{
+											"_type": "UMLParameter",
+											"_id": "AAAAAAGeQ7HW0h1XMCI=",
+											"_parent": {
+												"$ref": "AAAAAAGd8XiwZ6JcWuM="
+											},
+											"name": "idJugador",
+											"type": "int"
 										}
 									]
 								},
@@ -10582,10 +10596,8 @@
 											"_parent": {
 												"$ref": "AAAAAAGeOb722gXoRNc="
 											},
-											"name": "jugador",
-											"type": {
-												"$ref": "AAAAAAGeHtAfkc2m6Js="
-											}
+											"name": "idJugador",
+											"type": "int"
 										},
 										{
 											"_type": "UMLParameter",
@@ -10612,10 +10624,8 @@
 											"_parent": {
 												"$ref": "AAAAAAGeOb+icAcpnJs="
 											},
-											"name": "jugador",
-											"type": {
-												"$ref": "AAAAAAGeHtAfkc2m6Js="
-											}
+											"name": "idJugador",
+											"type": "int"
 										},
 										{
 											"_type": "UMLParameter",
@@ -10674,6 +10684,15 @@
 											},
 											"type": "boolean",
 											"direction": "return"
+										},
+										{
+											"_type": "UMLParameter",
+											"_id": "AAAAAAGeQ7GTMhGyBJA=",
+											"_parent": {
+												"$ref": "AAAAAAGd8WqZSEC9x7s="
+											},
+											"name": "idJugador",
+											"type": "int"
 										}
 									]
 								},
@@ -10712,10 +10731,8 @@
 											"_parent": {
 												"$ref": "AAAAAAGePsvdGtYVWrA="
 											},
-											"name": "jugador",
-											"type": {
-												"$ref": "AAAAAAGeHtAfkc2m6Js="
-											}
+											"name": "idJugador",
+											"type": "int"
 										},
 										{
 											"_type": "UMLParameter",
@@ -10743,10 +10760,8 @@
 											"_parent": {
 												"$ref": "AAAAAAGePswC9tgQMCc="
 											},
-											"name": "jugador",
-											"type": {
-												"$ref": "AAAAAAGeHtAfkc2m6Js="
-											}
+											"name": "idJugador",
+											"type": "int"
 										},
 										{
 											"_type": "UMLParameter",
@@ -11707,9 +11722,9 @@
 																		"$ref": "AAAAAAGePy2/oNjOZ38="
 																	},
 																	"font": "Arial;13;0",
-																	"left": 427,
+																	"left": 388,
 																	"top": 152,
-																	"width": 195.8125,
+																	"width": 273.86328125,
 																	"height": 13,
 																	"alpha": 1.5707963267948966,
 																	"distance": 10,
@@ -11717,7 +11732,7 @@
 																		"$ref": "AAAAAAGePy2/oNjPIMg="
 																	},
 																	"edgePosition": 1,
-																	"text": "2 : soliciarUnirsePartida():boolean"
+																	"text": "2 : soliciarUnirsePartida(idJugador: int):boolean"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -11818,9 +11833,9 @@
 																		"$ref": "AAAAAAGePy3q9tjk5Go="
 																	},
 																	"font": "Arial;13;0",
-																	"left": 870,
+																	"left": 831,
 																	"top": 176,
-																	"width": 195.8125,
+																	"width": 273.86328125,
 																	"height": 13,
 																	"alpha": 1.5707963267948966,
 																	"distance": 10,
@@ -11828,7 +11843,7 @@
 																		"$ref": "AAAAAAGePy3q9tjlxMw="
 																	},
 																	"edgePosition": 1,
-																	"text": "3 : soliciarUnirsePartida():boolean"
+																	"text": "3 : soliciarUnirsePartida(idJugador: int):boolean"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -13145,7 +13160,7 @@
 																		"$ref": "AAAAAAGePzoPntufy2I="
 																	},
 																	"edgePosition": 1,
-																	"text": "4 : aceptarSolitudUnion(jugador: JugadorResumenDTO):boolean"
+																	"text": "4 : aceptarSolitudUnion(idJugador: int):boolean"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -13256,7 +13271,7 @@
 																		"$ref": "AAAAAAGePzpJ2tu2n5k="
 																	},
 																	"edgePosition": 1,
-																	"text": "5 : aceptarSolitudUnion(jugador: JugadorResumenDTO):boolean"
+																	"text": "5 : aceptarSolitudUnion(idJugador: int):boolean"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -13382,7 +13397,7 @@
 																		"$ref": "AAAAAAGePzwhMtw7Mfk="
 																	},
 																	"edgePosition": 1,
-																	"text": "6 : enviarPeticion(PeticionJugadorDTO)"
+																	"text": "6 : enviarPeticion(PeticionJugadaDTO)"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -13560,7 +13575,7 @@
 													"target": {
 														"$ref": "AAAAAAGePzwhMtw4ZM4="
 													},
-													"arguments": "PeticionJugadorDTO"
+													"arguments": "PeticionJugadaDTO"
 												}
 											],
 											"participants": [
@@ -14024,7 +14039,7 @@
 																		"$ref": "AAAAAAGePz62Dt0mXLc="
 																	},
 																	"edgePosition": 1,
-																	"text": "1 : PeticionJugadaDTO"
+																	"text": "1 : EstadoPartidaDTO"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -14448,7 +14463,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGePzz6q9xZq/c="
 													},
-													"name": "PeticionJugadaDTO",
+													"name": "EstadoPartidaDTO",
 													"source": {
 														"$ref": "AAAAAAGePz62Dt0jL4U="
 													},
@@ -15392,7 +15407,7 @@
 																		"$ref": "AAAAAAGeP0l3Qd7kfTY="
 																	},
 																	"edgePosition": 1,
-																	"text": "3 : SolicitudUnionDTO"
+																	"text": "3 : EstadoPartidaDTO"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -15976,7 +15991,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeP0RtLt3EblI="
 													},
-													"name": "SolicitudUnionDTO",
+													"name": "EstadoPartidaDTO",
 													"source": {
 														"$ref": "AAAAAAGeP0Yhyt5Fy3Y="
 													},
@@ -16846,7 +16861,7 @@
 																		"$ref": "AAAAAAGeP1Glw+BZgtk="
 																	},
 																	"edgePosition": 1,
-																	"text": "3 : PeticionJugadaDTO"
+																	"text": "3 : EstadoPartida"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -17547,7 +17562,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeP08sp99aSuA="
 													},
-													"name": "PeticionJugadaDTO",
+													"name": "EstadoPartida",
 													"source": {
 														"$ref": "AAAAAAGeP1ATyt/fRus="
 													},
@@ -18650,7 +18665,7 @@
 																		"$ref": "AAAAAAGeP2CfxuPHVrU="
 																	},
 																	"edgePosition": 1,
-																	"text": "3 : PeticionJugadaDTO"
+																	"text": "3 : EstadoPartidaDTO"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -18873,7 +18888,7 @@
 																		"$ref": "AAAAAAGeP2EfZ+PzSuU="
 																	},
 																	"edgePosition": 1,
-																	"text": "5 : PeticionJugadaDTO"
+																	"text": "5 : EstadoPartidaDTO"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -19096,7 +19111,7 @@
 																		"$ref": "AAAAAAGeP2GZYeQhL+E="
 																	},
 																	"edgePosition": 1,
-																	"text": "7 : SolicitudUnionDTO"
+																	"text": "7 : EstadoPartidaDTO"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -19457,7 +19472,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeP1Rr7eFgMjY="
 													},
-													"name": "PeticionJugadaDTO",
+													"name": "EstadoPartidaDTO",
 													"source": {
 														"$ref": "AAAAAAGeP1dzieHqTrc="
 													},
@@ -19489,7 +19504,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeP1Rr7eFgMjY="
 													},
-													"name": "PeticionJugadaDTO",
+													"name": "EstadoPartidaDTO",
 													"source": {
 														"$ref": "AAAAAAGeP1pNwOLpmQk="
 													},
@@ -19521,7 +19536,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeP1Rr7eFgMjY="
 													},
-													"name": "SolicitudUnionDTO",
+													"name": "EstadoPartidaDTO",
 													"source": {
 														"$ref": "AAAAAAGeP1qeMOMKoUU="
 													},
@@ -20615,7 +20630,7 @@
 																		"$ref": "AAAAAAGeP2i8a+X8Uas="
 																	},
 																	"edgePosition": 1,
-																	"text": "3 : PeticionJugadorDTO"
+																	"text": "3 : EstadoPartidaDTO"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -20838,7 +20853,7 @@
 																		"$ref": "AAAAAAGeP2k0YuYpqzs="
 																	},
 																	"edgePosition": 1,
-																	"text": "5 : PeticionJugadaDTO"
+																	"text": "5 : EstadoPartidaDTO"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -21061,7 +21076,7 @@
 																		"$ref": "AAAAAAGeP2mV3+ZXvyE="
 																	},
 																	"edgePosition": 1,
-																	"text": "7 : PeticionJugadaDTO"
+																	"text": "7 : EstadoPartidaDTO"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -21422,7 +21437,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeP2NjaORpFoA="
 													},
-													"name": "PeticionJugadorDTO",
+													"name": "EstadoPartidaDTO",
 													"source": {
 														"$ref": "AAAAAAGeP2RkXOTqPqk="
 													},
@@ -21454,7 +21469,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeP2NjaORpFoA="
 													},
-													"name": "PeticionJugadaDTO",
+													"name": "EstadoPartidaDTO",
 													"source": {
 														"$ref": "AAAAAAGeP2S7v+UMiYg="
 													},
@@ -21486,7 +21501,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeP2NjaORpFoA="
 													},
-													"name": "PeticionJugadaDTO",
+													"name": "EstadoPartidaDTO",
 													"source": {
 														"$ref": "AAAAAAGeP2Txu+UtVcA="
 													},
@@ -22353,7 +22368,7 @@
 																		"$ref": "AAAAAAGeP2460OeqSCE="
 																	},
 																	"edgePosition": 1,
-																	"text": "2 : solicitarUnion(jugador: JugadorResumenDTO):void"
+																	"text": "2 : solicitarUnion(idJugador: int):void"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -22464,7 +22479,7 @@
 																		"$ref": "AAAAAAGeP3PG0ie4x74="
 																	},
 																	"edgePosition": 1,
-																	"text": "3 : solicitarUnion(jugador: JugadorResumenDTO):void"
+																	"text": "3 : solicitarUnion(idJugador: int):void"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -22798,7 +22813,7 @@
 																		"$ref": "AAAAAAGeP3SlIif9uKU="
 																	},
 																	"edgePosition": 1,
-																	"text": "6 : JugadorResumenDTO"
+																	"text": "6 : EstadoPartidaDTO"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -22910,7 +22925,7 @@
 																		"$ref": "AAAAAAGeP3TR9igTldI="
 																	},
 																	"edgePosition": 1,
-																	"text": "7 : JugadorResumenDTO"
+																	"text": "7 : EstadoPartidaDTO"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -23209,7 +23224,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeP2rGd+aglKk="
 													},
-													"name": "JugadorResumenDTO",
+													"name": "EstadoPartidaDTO",
 													"source": {
 														"$ref": "AAAAAAGeP2znN+dExr8="
 													},
@@ -23224,7 +23239,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeP2rGd+aglKk="
 													},
-													"name": "JugadorResumenDTO",
+													"name": "EstadoPartidaDTO",
 													"source": {
 														"$ref": "AAAAAAGeP2yTEOcj1mY="
 													},
@@ -24497,7 +24512,7 @@
 																		"$ref": "AAAAAAGeP3gtlCmG/A4="
 																	},
 																	"edgePosition": 1,
-																	"text": "6 : SolicitudUnionDTO"
+																	"text": "6 : EstadoPartidaDTO"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -24609,7 +24624,7 @@
 																		"$ref": "AAAAAAGeP3haaSmcbvY="
 																	},
 																	"edgePosition": 1,
-																	"text": "7 : SolicitudUnionDTO"
+																	"text": "7 : EstadoPartidaDTO"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -24908,7 +24923,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeP3Ummygq/O4="
 													},
-													"name": "SolicitudUnionDTO",
+													"name": "EstadoPartidaDTO",
 													"source": {
 														"$ref": "AAAAAAGeP3XwwyjL0BY="
 													},
@@ -24923,7 +24938,7 @@
 													"_parent": {
 														"$ref": "AAAAAAGeP3Ummygq/O4="
 													},
-													"name": "SolicitudUnionDTO",
+													"name": "EstadoPartidaDTO",
 													"source": {
 														"$ref": "AAAAAAGeP3W25Siq2eg="
 													},
@@ -25251,7 +25266,7 @@
 													"top": 435,
 													"width": 404.837890625,
 													"height": 13,
-													"text": "+solicitarUnion(jugador: JugadorResumenDTO): void",
+													"text": "+solicitarUnion(idJugador: int): void",
 													"horizontalAlignment": 0
 												},
 												{
@@ -25379,7 +25394,7 @@
 													"visible": false,
 													"font": "Arial;13;0",
 													"left": 48,
-													"top": 408,
+													"top": 456,
 													"width": 64.32080078125,
 													"height": 13,
 													"text": "«interface»"
@@ -25392,7 +25407,7 @@
 													},
 													"font": "Arial;13;1",
 													"left": 637,
-													"top": 511,
+													"top": 535,
 													"width": 81.158203125,
 													"height": 13,
 													"text": "ISubDominio"
@@ -25406,7 +25421,7 @@
 													"visible": false,
 													"font": "Arial;13;0",
 													"left": 48,
-													"top": 408,
+													"top": 456,
 													"width": 78.736328125,
 													"height": 13,
 													"text": "(from Diseño)"
@@ -25420,14 +25435,14 @@
 													"visible": false,
 													"font": "Arial;13;0",
 													"left": 48,
-													"top": 408,
+													"top": 456,
 													"height": 13,
 													"horizontalAlignment": 1
 												}
 											],
 											"font": "Arial;13;0",
 											"left": 632,
-											"top": 504,
+											"top": 528,
 											"width": 91.158203125,
 											"height": 25,
 											"stereotypeLabel": {
@@ -25455,7 +25470,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": 24,
-											"top": 204,
+											"top": 228,
 											"width": 10,
 											"height": 10
 										},
@@ -25471,7 +25486,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": 24,
-											"top": 204,
+											"top": 228,
 											"width": 10,
 											"height": 10
 										},
@@ -25487,7 +25502,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": 24,
-											"top": 204,
+											"top": 228,
 											"width": 10,
 											"height": 10
 										},
@@ -25503,7 +25518,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": 24,
-											"top": 204,
+											"top": 228,
 											"width": 10,
 											"height": 10
 										}
@@ -25511,7 +25526,7 @@
 									"font": "Arial;13;0",
 									"containerChangeable": true,
 									"left": 632,
-									"top": 480,
+									"top": 504,
 									"width": 90.158203125,
 									"height": 49,
 									"stereotypeDisplay": "icon",
@@ -25880,7 +25895,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": 659,
-											"top": 535,
+											"top": 547,
 											"height": 13,
 											"alpha": 1.5707963267948966,
 											"distance": 15,
@@ -25901,7 +25916,7 @@
 											"visible": null,
 											"font": "Arial;13;0",
 											"left": 644,
-											"top": 534,
+											"top": 546,
 											"height": 13,
 											"alpha": 1.5707963267948966,
 											"distance": 30,
@@ -25922,7 +25937,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": 688,
-											"top": 538,
+											"top": 550,
 											"height": 13,
 											"alpha": -1.5707963267948966,
 											"distance": 15,
@@ -25940,7 +25955,7 @@
 										"$ref": "AAAAAAGd+lLSNWy5MOw="
 									},
 									"lineStyle": 1,
-									"points": "673:583;676.6842105263158:504",
+									"points": "673:583;676.3684210526316:528",
 									"showVisibility": true,
 									"nameLabel": {
 										"$ref": "AAAAAAGd+lMJomzmioA="
@@ -26817,7 +26832,7 @@
 													"top": 187,
 													"width": 306.7666015625,
 													"height": 13,
-													"text": "+solicitarUnion(jugador: JugadorResumenDTO): void",
+													"text": "+solicitarUnion(idJugador: int): void",
 													"horizontalAlignment": 0
 												},
 												{
@@ -27463,10 +27478,8 @@
 											"_parent": {
 												"$ref": "AAAAAAGeP27uPue/ZDo="
 											},
-											"name": "jugador",
-											"type": {
-												"$ref": "AAAAAAGeHtAfkc2m6Js="
-											}
+											"name": "idJugador",
+											"type": "int"
 										},
 										{
 											"_type": "UMLParameter",
@@ -27833,10 +27846,8 @@
 											"_parent": {
 												"$ref": "AAAAAAGeBL5rK9Ezsls="
 											},
-											"name": "jugador",
-											"type": {
-												"$ref": "AAAAAAGeHtAfkc2m6Js="
-											}
+											"name": "idJugador",
+											"type": "int"
 										},
 										{
 											"_type": "UMLParameter",
@@ -62803,7 +62814,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 644,
-									"width": 79.380859375,
+									"width": 72.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGd57Zw9wbEuY8="
@@ -62991,7 +63002,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 708,
-									"width": 79.380859375,
+									"width": 72.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGd57Zw9wbO51k="
@@ -63179,7 +63190,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 764,
-									"width": 79.380859375,
+									"width": 72.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGd57Zw9wbY/0M="
@@ -63367,7 +63378,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 820,
-									"width": 92.013671875,
+									"width": 83.685546875,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGd57Zw9wbievo="
@@ -63555,7 +63566,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 876,
-									"width": 79.380859375,
+									"width": 72.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGd57Zw9wbsw7A="
@@ -63669,7 +63680,7 @@
 									"visible": false,
 									"font": "Arial;12;0",
 									"containerExtending": true,
-									"left": 347,
+									"left": 343,
 									"top": 634,
 									"height": 12,
 									"alpha": 1.5707963267948966,
@@ -63691,7 +63702,7 @@
 									"visible": null,
 									"font": "Arial;12;0",
 									"containerExtending": true,
-									"left": 347,
+									"left": 343,
 									"top": 619,
 									"height": 12,
 									"alpha": 1.5707963267948966,
@@ -63713,7 +63724,7 @@
 									"visible": false,
 									"font": "Arial;12;0",
 									"containerExtending": true,
-									"left": 347,
+									"left": 343,
 									"top": 664,
 									"height": 12,
 									"alpha": -1.5707963267948966,
@@ -64483,7 +64494,7 @@
 									"containerExtending": true,
 									"left": 740,
 									"top": 60,
-									"width": 120.396484375,
+									"width": 113.427734375,
 									"height": 22
 								},
 								{
@@ -64640,7 +64651,7 @@
 									"containerExtending": true,
 									"left": 740,
 									"top": 96,
-									"width": 79.380859375,
+									"width": 72.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGd57Zw+AcfjDU="
@@ -64828,7 +64839,7 @@
 									"containerExtending": true,
 									"left": 740,
 									"top": 148,
-									"width": 79.380859375,
+									"width": 72.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGd57Zw+AcpAEI="

@@ -70,12 +70,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>UNO-AdapterIniciarPartida</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>UNO-AdapterCargarPartida</artifactId>
+            <artifactId>UNO-AdapterEntradaPartida</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

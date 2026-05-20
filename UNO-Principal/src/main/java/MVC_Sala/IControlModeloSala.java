@@ -25,7 +25,7 @@ public interface IControlModeloSala {
 
     void abrirSalaEspera();
 
-    void actualizarDatosJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores);
+    void registrarJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores);
 
     void establecerJugadorLocal(JugadorResumenDTO datos);
 

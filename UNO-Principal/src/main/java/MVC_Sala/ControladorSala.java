@@ -6,9 +6,9 @@ package MVC_Sala;
 
 import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
-import java.util.Map;
 import MVC_ConfigurarPartida.IControlConfgPartida;
 import MVC_JugarTurno.UnoSpinControlador;
+import java.util.Map;
 
 /**
  *
@@ -73,7 +73,11 @@ public class ControladorSala {
     }
 
     void actualizarDatosJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores) {
-        modelo.actualizarDatosJugador(datos, misColores);
+        //modelo.actualizarDatosJugador(datos, misColores);
+    }
+    
+    void registrarJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores) {
+        modelo.registrarJugador(datos, misColores);
     }
 
     public void abrirSalaEspera() {

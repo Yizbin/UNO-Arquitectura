@@ -4,6 +4,8 @@
  */
 package MVC_ConfigurarPartida;
 import DTOs.ConfiguracionPartidaDTO;
+import java.util.Objects;
+
 /**
  *
  * @author Pride Factor Black
@@ -12,7 +14,10 @@ public class ControlConfgPartida implements IControlConfgPartida{
     private final IModeloConfgPartida modelo;
 
     public ControlConfgPartida(IModeloConfgPartida modelo) {
-        this.modelo = modelo;
+        this.modelo = Objects.requireNonNull(
+                modelo,
+                "El modelo de configuracion de partida es requerido."
+        );
     }
 
     @Override
@@ -21,9 +26,12 @@ public class ControlConfgPartida implements IControlConfgPartida{
         pantalla.setVisible(true);
     }
 
+
     @Override
     public void procesarConfiguracion(int numeroInicio, int numeroFin, int numComodines) {
         ConfiguracionPartidaDTO dto = new ConfiguracionPartidaDTO(numeroInicio, numeroFin, numComodines);
         modelo.configurarPartida(dto);
     }
+
+    
 }

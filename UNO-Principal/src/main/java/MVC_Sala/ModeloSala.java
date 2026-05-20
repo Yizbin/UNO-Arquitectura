@@ -28,7 +28,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     private IPump<PeticionJugadaDTO, ?> coordinador;
     private List<JugadorResumenDTO> jugadoresEnSala;
     private List<JugadorEstadoSalaDTO> estadosJugadoresSala;
-    private JugadorResumenDTO jugadorLocal;
+    private static JugadorResumenDTO jugadorLocal = new JugadorResumenDTO();
     private Map<TipoColor, TipoColor> coloresLocales;
     private boolean cambiarFrame = false;
     private boolean partidaListaParaIniciar;
@@ -75,10 +75,12 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         }
 
         try {
+            EstadoPartidaDTO estado = new EstadoPartidaDTO();
+            estado.setIdJugador(jugadorLocal.getId());
+
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
                     TipoAccionPartida.SOLICITAR_UNIRSE_PARTIDA,
-                    jugadorLocal,
-                    null
+                    estado
             );
 
             enviarPeticionSegura(peticion, "Error al solicitar union");
@@ -260,7 +262,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     }
 
     @Override
-    public void actualizarDatosJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores) {
+    public void registrarJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores) {
         if (datos == null) {
             return;
         }
@@ -271,7 +273,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
         try {
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
-                    TipoAccionPartida.ACTUALIZAR_PERFIL,
+                    TipoAccionPartida.REGISTRAR_JUGADOR,
                     jugadorLocal,
                     null
             );
@@ -319,6 +321,10 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     }
 
     private EstadoJugadorSala obtenerEstadoJugador(int idJugador) {
+        if (estadosJugadoresSala == null) {
+            return null;
+        }
+
         for (JugadorEstadoSalaDTO estadoJugador : estadosJugadoresSala) {
             if (estadoJugador.getId() == idJugador) {
                 return estadoJugador.getEstadoSala();
