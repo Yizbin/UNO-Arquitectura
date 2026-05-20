@@ -4,7 +4,6 @@
  */
 package DTOs;
 
-
 /**
  *
  * @author Abraham Coronel
@@ -17,9 +16,9 @@ public class JugadorResumenDTO {
     private int cantidadDeCartas;
     private int puntos;
     private boolean enTurno;
+    private boolean aceptado;
 
     public JugadorResumenDTO() {
-
     }
 
     public JugadorResumenDTO(int id, String nombreUsuario) {
@@ -81,6 +80,14 @@ public class JugadorResumenDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isAceptado() {
+        return aceptado;
+    }
+
+    public void setAceptado(boolean aceptado) {
+        this.aceptado = aceptado;
     }
 
 }

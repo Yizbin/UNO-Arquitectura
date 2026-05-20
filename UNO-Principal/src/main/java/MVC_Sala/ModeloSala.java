@@ -35,6 +35,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     public ModeloSala() {
         this.suscriptores = new ArrayList<>();
         this.jugadoresEnSala = new ArrayList<>();
+        this.estadosJugadoresSala = new ArrayList<>();
         this.partidaListaParaIniciar = false;
     }
 
@@ -73,10 +74,12 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         }
 
         try {
+            EstadoPartidaDTO estado = new EstadoPartidaDTO();
+            estado.setIdJugador(jugadorLocal.getId());
+
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
                     TipoAccionPartida.SOLICITAR_UNIRSE_PARTIDA,
-                    jugadorLocal,
-                    null
+                    estado
             );
 
             enviarPeticionSegura(peticion, "Error al solicitar union");
@@ -302,6 +305,10 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     }
 
     private EstadoJugadorSala obtenerEstadoJugador(int idJugador) {
+        if (estadosJugadoresSala == null) {
+            return null;
+        }
+
         for (JugadorEstadoSalaDTO estadoJugador : estadosJugadoresSala) {
             if (estadoJugador.getId() == idJugador) {
                 return estadoJugador.getEstadoSala();

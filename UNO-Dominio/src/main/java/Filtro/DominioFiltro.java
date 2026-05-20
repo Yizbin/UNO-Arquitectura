@@ -46,7 +46,11 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
                 subDominio.configurarPartida(peticion.getConfiguracionPartida());
             }
             case SOLICITAR_UNIRSE_PARTIDA -> {
-                subDominio.solicitarUnion(peticion.getJugadorLocal());
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+                if (estado == null) {
+                    throw new IllegalStateException("La solicitud de union debe incluir el id del jugador.");
+                }
+                subDominio.solicitarUnion(estado.getIdJugador());
             }
 
             case ACEPTAR_SOLICITUD_UNION -> {

@@ -54,6 +54,14 @@ public class PeticionJugadaDTO {
     public void setJugadorLocal(JugadorResumenDTO jugadorLocal) {
         this.jugadorLocal = jugadorLocal;
     }
+
+    public JugadorResumenDTO getJugadorActualizar() {
+        return jugadorLocal;
+    }
+
+    public void setJugadorActualizar(JugadorResumenDTO jugadorActualizar) {
+        this.jugadorLocal = jugadorActualizar;
+    }
     
     public ConfiguracionPartidaDTO getConfiguracionPartida() {
         return configuracionPartida;

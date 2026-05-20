@@ -27,6 +27,7 @@ public class JugadorMapper {
         dto.setRutaAvatar(entity.getAvatar());
         dto.setCantidadDeCartas(entity.getMano() != null ? entity.getMano().size() : 0);
         dto.setPuntos(entity.getPuntos());
+        dto.setAceptado(entity.isAceptado());
 
         return dto;
     }
@@ -53,6 +54,7 @@ public class JugadorMapper {
         );
 
         jugador.setPuntos(dto.getPuntos());
+        jugador.setAceptado(dto.isAceptado());
 
         return jugador;
     }

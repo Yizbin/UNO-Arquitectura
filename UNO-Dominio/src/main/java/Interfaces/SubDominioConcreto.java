@@ -43,8 +43,8 @@ public class SubDominioConcreto implements ISubDominio {
     }
 
     @Override
-    public void solicitarUnion(JugadorResumenDTO jugadorSolicitante) {
-        partida.solicitarUnion(jugadorSolicitante);
+    public void solicitarUnion(int idJugadorSolicitante) {
+        partida.solicitarUnion(idJugadorSolicitante);
     }
 
     @Override

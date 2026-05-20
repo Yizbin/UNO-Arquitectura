@@ -29,7 +29,7 @@ public interface ISubDominio {
 
     public void configurarPartida(ConfiguracionPartidaDTO configuracionDTO);
 
-    void solicitarUnion(JugadorResumenDTO jugadorSolicitante);
+    void solicitarUnion(int idJugadorSolicitante);
 
     void aceptarSolicitudUnion(int idJugadorSolicitante);
 
