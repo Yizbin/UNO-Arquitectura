@@ -43,7 +43,7 @@ import javax.swing.border.EmptyBorder;
 public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
 
     private final ControladorSala control;
-    private final IModeloSalaVista modelo;
+    private final IModeloSalaVista modeloVista;
     private final PanelImagenFondo panelFondo;
     private final int idJugadorLocal;
     private PanelAzul panelCentro;
@@ -60,17 +60,23 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     private final CartaDTO c3 = new CartaDTO();
     private final CartaDTO c4 = new CartaDTO();
 
-    public ConfiguracionJugador(ControladorSala control, IModeloSalaVista modelo) throws IOException {
-        this(control, modelo, 1);
-    }
+    private final OrigenRegistro origenRegistro;
 
-    public ConfiguracionJugador(ControladorSala control, IModeloSalaVista modelo, int idJugadorLocal) throws IOException {
+    public ConfiguracionJugador(
+            ControladorSala control,
+            IModeloSalaVista modeloVista,
+            OrigenRegistro origenRegistro
+    ) throws IOException {
         this.panelFondo = new PanelImagenFondo("/fondo.png");
-        this.idJugadorLocal = idJugadorLocal;
-        initComponents();
+        this.idJugadorLocal = origenRegistro == OrigenRegistro.CREAR_PARTIDA ? 1 : 0;
         this.control = control;
-        this.modelo = modelo;
-        this.modelo.suscribir(this);
+        this.modeloVista = modeloVista;
+        this.origenRegistro = origenRegistro;
+
+        initComponents();
+
+        this.modeloVista.suscribir(this);
+
         misColores.put(TipoColor.ROJO, TipoColor.ROJO);
         misColores.put(TipoColor.AZUL, TipoColor.AZUL);
         misColores.put(TipoColor.VERDE, TipoColor.VERDE);
@@ -446,35 +452,40 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         }
     }
 
-    private int generarId() {
-        return idJugadorLocal;
-    }
-
     private void acciones() {
-
         siguiente.addActionListener(e -> {
-            if (txtField != null) {
-                jugador.setId(generarId());
-                jugador.setNombreUsuario(txtField.getText());
+            if (txtField == null) {
+                return;
+            }
+
+            jugador.setNombreUsuario(txtField.getText());
+
+            if (origenRegistro == OrigenRegistro.CREAR_PARTIDA) {
+                jugador.setId(1);
                 control.registrarJugador(jugador, misColores);
-                dispose();
-                control.mostrarSalaEspera();
-            } else {
-                try {
-                    throw new Exception("El campo de texto no puede estar vacío");
-                } catch (Exception ex) {
-                    System.getLogger(ConfiguracionJugador.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-                }
+                abrirSalaEspera();
+                return;
+            }
+
+            control.registrarJugador(jugador, misColores);
+
+            if (control.solicitarUnirsePartida()) {
+                abrirSalaEspera();
             }
         });
+    }
 
+    private void abrirSalaEspera() {
+        SalaEspera sala = new SalaEspera(control, modeloVista);
+        sala.setVisible(true);
+        this.dispose();
     }
 
     @Override
     public void update(IModeloSalaVista modeloVista) {
         if (modeloVista.isCambiarFrame()) {
             this.dispose();
-            MenuPrincipal menu = new MenuPrincipal(control);
+            MenuPrincipal menu = new MenuPrincipal(control, modeloVista);
             menu.setVisible(true);
         }
     }
