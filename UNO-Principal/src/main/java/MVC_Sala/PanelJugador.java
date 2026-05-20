@@ -16,11 +16,11 @@ import javax.swing.Icon;
  */
 public class PanelJugador extends javax.swing.JPanel {
 
-    public PanelJugador(String nombre, Icon avatar, EstadoJugadorSala estadoSala) {
+    public PanelJugador(String nombre, Icon avatar, boolean aceptado, EstadoJugadorSala estadoSala) {
         initComponents();
         configurarEstiloPanel();
         setDatosJugador(nombre, avatar);
-        setEstado(estadoSala);
+        setEstado(aceptado, estadoSala);
     }
 
     private void configurarEstiloPanel() {
@@ -47,14 +47,21 @@ public class PanelJugador extends javax.swing.JPanel {
         }
     }
 
-    public void setEstado(EstadoJugadorSala estadoSala) {
-        if (estadoSala == EstadoJugadorSala.CONFIRMADO) {
-            lblEstado.setText("✔️ Confirmado");
-            lblEstado.setForeground(new Color(0, 153, 0));
-        } else {
-            lblEstado.setText("⏳ Esperando...");
+    public void setEstado(boolean aceptado, EstadoJugadorSala estadoSala) {
+        if (!aceptado) {
+            lblEstado.setText("Solicitud pendiente");
             lblEstado.setForeground(Color.GRAY);
+            return;
         }
+
+        if (estadoSala == EstadoJugadorSala.CONFIRMADO) {
+            lblEstado.setText("Confirmado");
+            lblEstado.setForeground(new Color(0, 153, 0));
+            return;
+        }
+
+        lblEstado.setText("Esperando...");
+        lblEstado.setForeground(Color.GRAY);
     }
 
     /**

@@ -143,7 +143,7 @@ public class Partida {
         }
 
         jugador.setAceptado(true);
-        jugador.setEstadoSala(EstadoJugadorSala.CONFIRMADO);
+        jugador.setEstadoSala(EstadoJugadorSala.ESPERANDO);
     }
 
     /**
@@ -916,32 +916,50 @@ public class Partida {
         if (jugadorDTO == null) {
             throw new IllegalArgumentException("El jugador no puede ser nulo");
         }
+
         if (estaIniciada()) {
             throw new IllegalStateException("No se pueden registrar jugadores cuando inicia el juego");
         }
 
+        if (jugadorDTO.getId() <= 0) {
+            jugadorDTO.setId(generarSiguienteIdJugador());
+        }
+
         Jugador jugadorExistente = jugadoresRegistrados.get(jugadorDTO.getId());
+
         if (jugadorExistente != null) {
             jugadorExistente.actualizarPerfil(
                     jugadorDTO.getNombreUsuario(),
                     jugadorDTO.getRutaAvatar()
             );
+
             actualizarJugadorEnSala(jugadorExistente);
             return;
         }
 
         Jugador nuevoJugador = this.jugadorMapper.toEntity(jugadorDTO);
-        nuevoJugador.setAceptado(false);
+        nuevoJugador.setAceptado(nuevoJugador.getId() == 1);
         nuevoJugador.setEstadoSala(EstadoJugadorSala.ESPERANDO);
+
         jugadoresRegistrados.put(nuevoJugador.getId(), nuevoJugador);
 
-        if (jugadores.isEmpty()) {
+        if (nuevoJugador.getId() == 1 && jugadores.isEmpty()) {
             List<Jugador> jugadoresActualizados = new ArrayList<>(jugadores);
             jugadoresActualizados.add(nuevoJugador);
 
             this.jugadores = List.copyOf(jugadoresActualizados);
             this.turno.setJugadores(this.jugadores);
         }
+    }
+
+    private int generarSiguienteIdJugador() {
+        for (int id = 2; id <= 4; id++) {
+            if (!jugadoresRegistrados.containsKey(id)) {
+                return id;
+            }
+        }
+
+        throw new IllegalStateException("La partida ya alcanzo el numero maximo de jugadores.");
     }
 
     private void actualizarJugadorEnSala(Jugador jugadorActualizado) {

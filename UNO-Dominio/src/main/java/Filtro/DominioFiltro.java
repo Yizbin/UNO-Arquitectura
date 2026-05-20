@@ -5,6 +5,7 @@
 package Filtro;
 
 import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import Enums.TipoAccionPartida;
@@ -99,10 +100,11 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, PeticionJugadaD
             case GRITAR_UNO -> {
                 subDominio.gritarUno(peticion.getEstadoPartida().getIdJugador());
             }
-            case REGISTRAR_JUGADOR ->{
+            case REGISTRAR_JUGADOR -> {
                 if (peticion.getJugadorLocal() == null) {
                     throw new IllegalStateException("El jugador no puede ser nulo");
                 }
+
                 subDominio.registrarJugador(peticion.getJugadorLocal());
             }
             case TERMINAR_TURNO -> {
@@ -127,10 +129,18 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, PeticionJugadaD
 
     private PeticionJugadaDTO crearRespuesta(PeticionJugadaDTO peticion) {
         PeticionJugadaDTO respuesta = new PeticionJugadaDTO();
+
         respuesta.setAccion(obtenerAccionRespuesta(peticion.getAccion()));
         respuesta.setJugadorActualizar(peticion.getJugadorActualizar());
         respuesta.setConfiguracionPartida(peticion.getConfiguracionPartida());
         respuesta.setEstadoPartida(subDominio.obtenerEstadoPartida());
+
+        if (peticion.getAccion() == TipoAccionPartida.REGISTRAR_JUGADOR
+                && peticion.getJugadorLocal() != null
+                && respuesta.getEstadoPartida() != null) {
+            respuesta.getEstadoPartida().setIdJugador(peticion.getJugadorLocal().getId());
+        }
+
         return respuesta;
     }
 

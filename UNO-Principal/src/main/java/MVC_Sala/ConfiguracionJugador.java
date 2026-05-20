@@ -45,7 +45,6 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     private final ControladorSala control;
     private final IModeloSalaVista modeloVista;
     private final PanelImagenFondo panelFondo;
-    private final int idJugadorLocal;
     private PanelAzul panelCentro;
     private CampoTextoRedondeado txtField;
     private BotonRedondeado siguiente;
@@ -61,6 +60,7 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     private final CartaDTO c4 = new CartaDTO();
 
     private final OrigenRegistro origenRegistro;
+    private boolean solicitudUnionEnviada;
 
     public ConfiguracionJugador(
             ControladorSala control,
@@ -68,7 +68,6 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
             OrigenRegistro origenRegistro
     ) throws IOException {
         this.panelFondo = new PanelImagenFondo("/fondo.png");
-        this.idJugadorLocal = origenRegistro == OrigenRegistro.CREAR_PARTIDA ? 1 : 0;
         this.control = control;
         this.modeloVista = modeloVista;
         this.origenRegistro = origenRegistro;
@@ -467,11 +466,11 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
                 return;
             }
 
+            jugador.setId(0);
             control.registrarJugador(jugador, misColores);
 
-            if (control.solicitarUnirsePartida()) {
-                abrirSalaEspera();
-            }
+            siguiente.setEnabled(false);
+            siguiente.setText("Registrando...");
         });
     }
 
@@ -483,11 +482,68 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
 
     @Override
     public void update(IModeloSalaVista modeloVista) {
+        if (modeloVista == null) {
+            return;
+        }
+
+        if (!javax.swing.SwingUtilities.isEventDispatchThread()) {
+            javax.swing.SwingUtilities.invokeLater(() -> update(modeloVista));
+            return;
+        }
+
+        if (origenRegistro == OrigenRegistro.UNIRSE_PARTIDA) {
+            if (!solicitudUnionEnviada && jugadorLocalYaTieneId(modeloVista)) {
+                solicitudUnionEnviada = control.solicitarUnirsePartida();
+
+                if (solicitudUnionEnviada) {
+                    siguiente.setText("Esperando...");
+                } else {
+                    siguiente.setEnabled(true);
+                    siguiente.setText("Siguiente");
+                }
+
+                return;
+            }
+
+            if (solicitudUnionEnviada && jugadorLocalFueAceptado(modeloVista)) {
+                modeloVista.desuscribir(this);
+                abrirSalaEspera();
+                return;
+            }
+        }
+
         if (modeloVista.isCambiarFrame()) {
+            modeloVista.desuscribir(this);
             this.dispose();
+
             MenuPrincipal menu = new MenuPrincipal(control, modeloVista);
             menu.setVisible(true);
         }
+    }
+
+    private boolean jugadorLocalYaTieneId(IModeloSalaVista modeloVista) {
+        return modeloVista.getJugadorLocal() != null
+                && modeloVista.getJugadorLocal().getId() > 0;
+    }
+
+    private boolean jugadorLocalFueAceptado(IModeloSalaVista modeloVista) {
+        if (modeloVista == null
+                || modeloVista.getJugadorLocal() == null
+                || modeloVista.getJugadoresEnSala() == null) {
+            return false;
+        }
+
+        int idJugadorLocal = modeloVista.getJugadorLocal().getId();
+
+        for (JugadorResumenDTO jugadorEnSala : modeloVista.getJugadoresEnSala()) {
+            if (jugadorEnSala != null
+                    && jugadorEnSala.getId() == idJugadorLocal
+                    && jugadorEnSala.isAceptado()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     static class CampoTextoRedondeado extends JTextField {

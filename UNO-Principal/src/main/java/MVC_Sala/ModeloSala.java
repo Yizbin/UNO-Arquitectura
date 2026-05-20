@@ -29,7 +29,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     private IPump<PeticionJugadaDTO, ?> coordinador;
     private List<JugadorResumenDTO> jugadoresEnSala;
     private List<JugadorEstadoSalaDTO> estadosJugadoresSala;
-    private static JugadorResumenDTO jugadorLocal = new JugadorResumenDTO();
+    private JugadorResumenDTO jugadorLocal = new JugadorResumenDTO();
     private Map<TipoColor, TipoColor> coloresLocales;
     private boolean cambiarFrame = false;
     private boolean partidaListaParaIniciar;
@@ -270,13 +270,11 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
         JugadorResumenDTO jugador = buscarJugadorEnSala(idJugador);
 
-        if (jugador == null || jugador.isAceptado()) {
+        if (jugador == null) {
             return false;
         }
 
-        EstadoJugadorSala estado = obtenerEstadoJugador(idJugador);
-
-        return estado == EstadoJugadorSala.ESPERANDO;
+        return !jugador.isAceptado();
     }
 
     private JugadorResumenDTO buscarJugadorEnSala(int idJugador) {
@@ -299,10 +297,6 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
             return;
         }
 
-        if (datos.getId() <= 0) {
-            datos.setId(generarIdInvitado());
-        }
-
         this.jugadorLocal = datos;
         this.coloresLocales = misColores;
 
@@ -319,7 +313,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
             enviarPeticion(peticion);
         } catch (Exception e) {
-            System.err.println("Error al actualizar perfil: " + e.getMessage());
+            System.err.println("Error al registrar jugador: " + e.getMessage());
         }
     }
 
@@ -327,6 +321,12 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     public void validarCondicionInicio(EstadoPartidaDTO estadoPartidaDTO) {
         if (estadoPartidaDTO == null) {
             return;
+        }
+
+        if (jugadorLocal != null
+                && jugadorLocal.getId() <= 0
+                && estadoPartidaDTO.getIdJugador() > 0) {
+            jugadorLocal.setId(estadoPartidaDTO.getIdJugador());
         }
 
         if (estadoPartidaDTO.getJugadores() != null) {
@@ -338,6 +338,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         }
 
         this.partidaListaParaIniciar = estadoPartidaDTO.isInicioPermitido();
+
         SwingUtilities.invokeLater(this::notificar);
     }
 
@@ -410,10 +411,6 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         }
 
         return false;
-    }
-
-    private int generarIdInvitado() {
-        return Math.abs(UUID.randomUUID().hashCode());
     }
 
 }

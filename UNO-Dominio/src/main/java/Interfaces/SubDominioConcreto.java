@@ -178,9 +178,9 @@ public class SubDominioConcreto implements ISubDominio {
     public List<JugadorEstadoSalaDTO> obtenerEstadosJugadoresSala() {
         return this.partida.obtenerEstadosJugadoresSala();
     }
-    
+
     @Override
-    public void registrarJugador(JugadorResumenDTO jugador){
+    public void registrarJugador(JugadorResumenDTO jugador) {
         this.partida.registrarJugador(jugador);
     }
 }

@@ -111,6 +111,11 @@ public class Ensamblador {
 
         System.out.println("Se conecto al servidor");
 
+        ReceptorFactory.iniciarConexion(
+                puertoServidor + DESPLAZAMIENTO_PUERTO_CLIENTE,
+                pipelineEntradaPartida
+        );
+
         EventQueue.invokeLater(() -> {
             MenuPrincipal ventanaMenu = new MenuPrincipal(
                     controladorSala,
@@ -119,10 +124,5 @@ public class Ensamblador {
 
             ventanaMenu.setVisible(true);
         });
-
-        ReceptorFactory.iniciarConexion(
-                puertoServidor + DESPLAZAMIENTO_PUERTO_CLIENTE,
-                pipelineEntradaPartida
-        );
     }
 }

@@ -74,6 +74,7 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
             PanelJugador tarjeta = new PanelJugador(
                     jugador.getNombreUsuario(),
                     avatar,
+                    jugador.isAceptado(),
                     obtenerEstadoJugador(jugador.getId())
             );
 
