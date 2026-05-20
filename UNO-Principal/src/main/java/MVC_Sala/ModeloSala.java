@@ -70,7 +70,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
     @Override
     public boolean solicitarUnirsePartida() {
-        if (coordinador == null || jugadorLocal == null || jugadorLocal.getId() <= 0) {
+        if (coordinador == null || jugadorLocal == null) {
             return false;
         }
 
@@ -83,11 +83,13 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
                     estado
             );
 
-            return enviarPeticionSegura(peticion, "Error al solicitar union");
+            enviarPeticionSegura(peticion, "Error al solicitar union");
+            return true;
         } catch (Exception e) {
             System.err.println("Error al unirse: " + e.getMessage());
-            return false;
         }
+
+        return false;
     }
 
     @Override
@@ -261,12 +263,15 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
     @Override
     public void registrarJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores) {
-        if (datos == null || datos.getId() <= 0) {
+        if (datos == null) {
             return;
         }
-
         this.jugadorLocal = datos;
-        this.coloresLocales = misColores;
+        if (!contieneJugador(datos.getId())) {
+            this.jugadoresEnSala.add(datos);
+        }
+        setearJugadoresEsperando();
+        notificar();
 
         if (coordinador == null) {
             return;
@@ -278,7 +283,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
                     jugadorLocal,
                     null
             );
-
+            this.coloresLocales = misColores;
             enviarPeticion(peticion);
         } catch (Exception e) {
             System.err.println("Error al actualizar perfil: " + e.getMessage());
