@@ -46,6 +46,14 @@ public class ControladorSala {
         return modelo.iniciarPartida(jugadorDTO);
     }
 
+    public boolean aceptarSolicitudUnion(int idJugadorSolicitante) {
+        return modelo.aceptarSolicitudUnion(idJugadorSolicitante);
+    }
+
+    public boolean rechazarSolicitudUnion(int idJugadorSolicitante) {
+        return modelo.rechazarSolicitudUnion(idJugadorSolicitante);
+    }
+
     public boolean notificarInicio(IModeloSalaVista modeloVista) {
         if (modeloVista == null || !modeloVista.isPartidaListaParaIniciar()) {
             return false;
@@ -80,7 +88,7 @@ public class ControladorSala {
     public void establecerJugadorLocal(JugadorResumenDTO datos) {
         modelo.establecerJugadorLocal(datos);
     }
-    
+
     public void abrirMenu() {
 
     }

@@ -29,5 +29,7 @@ public interface IModeloSalaVista {
     List<JugadorEstadoSalaDTO> getEstadosJugadoresSala();
 
     boolean isPartidaListaParaIniciar();
+    
+    boolean puedeResponderSolicitudUnion(int idJugador);
 
 }

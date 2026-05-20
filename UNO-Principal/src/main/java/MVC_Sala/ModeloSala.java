@@ -260,6 +260,41 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     }
 
     @Override
+    public boolean puedeResponderSolicitudUnion(int idJugador) {
+        if (jugadorLocal == null || jugadorLocal.getId() != 1) {
+            return false;
+        }
+
+        if (idJugador == jugadorLocal.getId()) {
+            return false;
+        }
+
+        JugadorResumenDTO jugador = buscarJugadorEnSala(idJugador);
+
+        if (jugador == null || jugador.isAceptado()) {
+            return false;
+        }
+
+        EstadoJugadorSala estado = obtenerEstadoJugador(idJugador);
+
+        return estado == EstadoJugadorSala.ESPERANDO;
+    }
+
+    private JugadorResumenDTO buscarJugadorEnSala(int idJugador) {
+        if (jugadoresEnSala == null) {
+            return null;
+        }
+
+        for (JugadorResumenDTO jugador : jugadoresEnSala) {
+            if (jugador != null && jugador.getId() == idJugador) {
+                return jugador;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public void registrarJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores) {
         if (datos == null || datos.getId() <= 0) {
             return;
