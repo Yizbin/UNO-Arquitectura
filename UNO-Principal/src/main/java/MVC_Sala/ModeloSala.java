@@ -70,6 +70,11 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
     @Override
     public boolean solicitarUnirsePartida() {
+
+        if (jugadoresEnSala.size() < 2) {
+            return true;
+        }
+
         if (coordinador == null || jugadorLocal == null) {
             return false;
         }
@@ -289,6 +294,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
             System.err.println("Error al actualizar perfil: " + e.getMessage());
         }
     }
+
     @Override
     public void validarCondicionInicio(EstadoPartidaDTO estadoPartidaDTO) {
         if (estadoPartidaDTO == null) {

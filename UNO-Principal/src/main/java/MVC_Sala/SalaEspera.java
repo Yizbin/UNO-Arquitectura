@@ -19,16 +19,14 @@ import javax.swing.ImageIcon;
 public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
 
     private IModeloSalaVista modeloVista;
-    private ControladorSala controlador;
+    private final ControladorSala controlador;
     private boolean inicioNotificado;
 
-    public SalaEspera() {
-        initComponents();
-    }
 
     public SalaEspera(ControladorSala controlador) {
-        this();
         this.controlador = controlador;
+        controlador.solicitarUnirsePartida();
+        initComponents();
         btnListo.addActionListener(evt -> solicitarInicio());
     }
 
