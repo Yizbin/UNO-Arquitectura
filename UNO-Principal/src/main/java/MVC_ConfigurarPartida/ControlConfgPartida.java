@@ -12,6 +12,7 @@ import java.util.Objects;
  */
 public class ControlConfgPartida implements IControlConfgPartida{
     private final IModeloConfgPartida modelo;
+    private Runnable accionConfiguracionExitosa;
 
     public ControlConfgPartida(IModeloConfgPartida modelo) {
         this.modelo = Objects.requireNonNull(
@@ -33,5 +34,14 @@ public class ControlConfgPartida implements IControlConfgPartida{
         modelo.configurarPartida(dto);
     }
 
-    
+    public void setAccionConfiguracionExitosa(Runnable accionConfiguracionExitosa) {
+        this.accionConfiguracionExitosa = accionConfiguracionExitosa;
+    }
+
+    @Override
+    public void notificarConfiguracionExitosa() {
+        if (accionConfiguracionExitosa != null) {
+            accionConfiguracionExitosa.run();
+        }
+    }
 }

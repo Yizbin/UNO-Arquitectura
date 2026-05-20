@@ -81,7 +81,7 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
         });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 470, -1, 70));
 
-        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fondoMenu.png"))); // NOI18N
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fondo.png"))); // NOI18N
         getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 930, 730));
 
         pack();
@@ -109,9 +109,7 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void abrirSalaEspera() {
-        SalaEspera sala = new SalaEspera(controlador);
-        controlador.suscribirVista(sala);
-        sala.setVisible(true);
+        controlador.mostrarSalaEspera();
         this.dispose();
     }
 

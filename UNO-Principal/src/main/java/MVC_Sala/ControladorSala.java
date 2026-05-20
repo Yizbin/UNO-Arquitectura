@@ -72,6 +72,12 @@ public class ControladorSala {
         }
     }
 
+    public void mostrarSalaEspera() {
+        SalaEspera sala = new SalaEspera(this);
+        suscribirVista(sala);
+        sala.setVisible(true);
+    }
+
     void actualizarDatosJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores) {
         //modelo.actualizarDatosJugador(datos, misColores);
     }

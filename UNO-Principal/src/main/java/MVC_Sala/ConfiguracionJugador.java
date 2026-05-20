@@ -45,6 +45,7 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     private final ControladorSala control;
     private final IModeloSalaVista modelo;
     private final PanelImagenFondo panelFondo;
+    private final int idJugadorLocal;
     private PanelAzul panelCentro;
     private CampoTextoRedondeado txtField;
     private BotonRedondeado siguiente;
@@ -60,7 +61,12 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     private final CartaDTO c4 = new CartaDTO();
 
     public ConfiguracionJugador(ControladorSala control, IModeloSalaVista modelo) throws IOException {
+        this(control, modelo, 1);
+    }
+
+    public ConfiguracionJugador(ControladorSala control, IModeloSalaVista modelo, int idJugadorLocal) throws IOException {
         this.panelFondo = new PanelImagenFondo("/fondo.png");
+        this.idJugadorLocal = idJugadorLocal;
         initComponents();
         this.control = control;
         this.modelo = modelo;
@@ -69,7 +75,6 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         misColores.put(TipoColor.AZUL, TipoColor.AZUL);
         misColores.put(TipoColor.VERDE, TipoColor.VERDE);
         misColores.put(TipoColor.AMARILLO, TipoColor.AMARILLO);
-        acciones();
     }
 
     private void initComponents() {
@@ -436,7 +441,7 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     }
     
     private int generarId() {
-        return Math.abs(java.util.UUID.randomUUID().hashCode());
+        return idJugadorLocal;
     }
 
     private void acciones() {
@@ -462,8 +467,8 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     public void update(IModeloSalaVista modeloVista) {
         if (modeloVista.isCambiarFrame()) {
             this.dispose();
-            SalaEspera sala = new SalaEspera();
-            sala.setVisible(true);
+            MenuPrincipal menu = new MenuPrincipal(control);
+            menu.setVisible(true);
         }
     }
 

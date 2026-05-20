@@ -50,6 +50,7 @@ public class AdapterEntradaPartida implements ISink<PeticionJugadaDTO> {
                 || accion == TipoAccionPartida.ACEPTAR_SOLICITUD_UNION
                 || accion == TipoAccionPartida.RECHAZAR_SOLICITUD_UNION
                 || accion == TipoAccionPartida.CAMBIAR_INICIO_PARTIDA
-                || accion == TipoAccionPartida.CONFIGURAR_PARTIDA;
+                || accion == TipoAccionPartida.CONFIGURAR_PARTIDA
+                || accion == TipoAccionPartida.REGISTRAR_JUGADOR;
     }
 }

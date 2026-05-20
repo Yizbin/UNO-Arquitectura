@@ -186,6 +186,7 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame implements ISu
         );
 
         this.dispose();
+        controlador.notificarConfiguracionExitosa();
 
     } else {
         javax.swing.JOptionPane.showMessageDialog(

@@ -81,6 +81,7 @@ public class Ensamblador {
                 controlConfigPartida,
                 entornoJuego.getControlador()
         );
+        controlConfigPartida.setAccionConfiguracionExitosa(controladorSala::mostrarSalaEspera);
 
         System.out.println("Se conecto al servidor");
 
