@@ -28,6 +28,8 @@ import javax.swing.SwingUtilities;
 public class PanelTablaPosiciones extends javax.swing.JPanel {
 
     private List<JugadorResumenDTO> jugadores = new ArrayList<>();
+    private javax.swing.JButton btnVolverMenu;
+    private Runnable accionVolverMenu;
     private final Color[] coloresBarras = {
         new Color(199, 82, 222),
         new Color(58, 157, 226),
@@ -42,6 +44,7 @@ public class PanelTablaPosiciones extends javax.swing.JPanel {
         initComponents();
         jLabel1.setVisible(false);
         setOpaque(false);
+        configurarBotonVolverMenu();
     }
 
     public static void mostrarDialogo(java.awt.Component parent, TablaPosicionesDTO tablaPosiciones) {
@@ -51,10 +54,40 @@ public class PanelTablaPosiciones extends javax.swing.JPanel {
         Window owner = parent != null ? SwingUtilities.getWindowAncestor(parent) : null;
         JDialog dialogo = new JDialog(owner, "Tabla de posiciones", Dialog.ModalityType.APPLICATION_MODAL);
         dialogo.setContentPane(panel);
+        panel.setAccionVolverMenu(dialogo::dispose);
         dialogo.pack();
         dialogo.setResizable(false);
         dialogo.setLocationRelativeTo(parent);
         dialogo.setVisible(true);
+    }
+
+    private void configurarBotonVolverMenu() {
+        setLayout(null);
+        btnVolverMenu = new javax.swing.JButton("Volver al menu principal");
+        btnVolverMenu.setFocusPainted(false);
+        btnVolverMenu.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
+        btnVolverMenu.setBackground(Color.WHITE);
+        btnVolverMenu.setForeground(Color.BLACK);
+        btnVolverMenu.addActionListener(e -> {
+            if (accionVolverMenu != null) {
+                accionVolverMenu.run();
+            }
+        });
+        add(btnVolverMenu);
+    }
+
+    public void setAccionVolverMenu(Runnable accionVolverMenu) {
+        this.accionVolverMenu = accionVolverMenu;
+    }
+
+    @Override
+    public void doLayout() {
+        super.doLayout();
+        if (btnVolverMenu != null) {
+            int ancho = 230;
+            int alto = 38;
+            btnVolverMenu.setBounds((getWidth() - ancho) / 2, getHeight() - alto - 24, ancho, alto);
+        }
     }
 
     public void setTablaPosiciones(TablaPosicionesDTO tablaPosiciones) {
@@ -82,7 +115,6 @@ public class PanelTablaPosiciones extends javax.swing.JPanel {
         int h = getHeight();
 
         pintarFondo(g2, w, h);
-        pintarFlechaRegreso(g2);
         pintarTitulo(g2, w);
         pintarBarras(g2, w, h);
 
@@ -98,20 +130,10 @@ public class PanelTablaPosiciones extends javax.swing.JPanel {
         g2.drawRoundRect(1, 1, w - 3, h - 3, 12, 12);
     }
 
-    private void pintarFlechaRegreso(Graphics2D g2) {
-        g2.setColor(Color.BLACK);
-        g2.setStroke(new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        int x = 38;
-        int y = 64;
-        g2.drawLine(x, y, x + 22, y);
-        g2.drawLine(x, y, x + 12, y - 12);
-        g2.drawLine(x, y, x + 12, y + 12);
-    }
-
     private void pintarTitulo(Graphics2D g2, int w) {
         g2.setFont(new Font("Trebuchet MS", Font.BOLD, 36));
         g2.setColor(Color.WHITE);
-        dibujarTextoCentrado(g2, "GANASTE!", w / 2, 82);
+        dibujarTextoCentrado(g2, "GANASTE!", w / 2, 86);
     }
 
     private void pintarBarras(Graphics2D g2, int w, int h) {
@@ -133,27 +155,29 @@ public class PanelTablaPosiciones extends javax.swing.JPanel {
         int separacion = Math.max(12, w / 45);
         int anchoTotal = cantidad * anchoBarra + (cantidad - 1) * separacion;
         int inicioX = (w - anchoTotal) / 2;
-        int baseY = h - 28;
-        int altoMaximo = Math.max(120, h - 210);
+        int baseY = h - 92;
+        int limiteSuperior = 155;
+        int altoMaximo = Math.max(90, baseY - limiteSuperior);
 
         for (int posicionVisual = 0; posicionVisual < cantidad; posicionVisual++) {
             int indiceJugador = ordenVisual.get(posicionVisual);
             JugadorResumenDTO jugador = jugadores.get(indiceJugador);
 
             int puntos = Math.max(0, jugador.getPuntos());
-            int alto = 70 + (maxPuntos > 0 ? puntos * altoMaximo / maxPuntos : 0);
+            int alto = 55 + (maxPuntos > 0 ? puntos * (altoMaximo - 55) / maxPuntos : 0);
             if (indiceJugador == 0) {
-                alto += 18;
+                alto += 8;
             }
+            alto = Math.min(alto, altoMaximo);
 
             int x = inicioX + posicionVisual * (anchoBarra + separacion);
             int y = baseY - alto;
 
             g2.setColor(coloresBarras[indiceJugador % coloresBarras.length]);
-            g2.fillRect(x, y, anchoBarra, alto);
+            g2.fillRoundRect(x, y, anchoBarra, alto, 18, 18);
 
-            pintarAvatar(g2, x + anchoBarra / 2, y - 48, indiceJugador);
-            pintarNombre(g2, jugador, x + anchoBarra / 2, y - 8);
+            pintarAvatar(g2, x + anchoBarra / 2, y - 42, indiceJugador);
+            pintarNombre(g2, jugador, x + anchoBarra / 2, y - 6);
             pintarPuntos(g2, puntos, x + anchoBarra / 2, y + 26);
         }
     }
