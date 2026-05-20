@@ -5,12 +5,12 @@
 package Interfaces;
 
 import DTOs.CartaDTO;
+import DTOs.ConfiguracionPartidaDTO;
 import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorEstadoSalaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
-import DTOs.ConfiguracionPartidaDTO;
-import DTOs.JugadorEstadoSalaDTO;
 import Enums.AccionesPosibles;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
@@ -83,4 +83,7 @@ public interface ISubDominio {
     public boolean puedeIniciarPartida();
 
     //Metodos configuarar partida
+    
+    //método para registrar los jugadores a la partida
+    void registrarJugador(JugadorResumenDTO jugador);
 }

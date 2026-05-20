@@ -3,11 +3,10 @@ package Interfaces;
 import DTOs.CartaDTO;
 import DTOs.ConfiguracionPartidaDTO;
 import DTOs.EstadoPartidaDTO;
+import DTOs.JugadorEstadoSalaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
-import DTOs.ConfiguracionPartidaDTO;
-import DTOs.JugadorEstadoSalaDTO;
 import Entidades.ConfiguracionPartida;
 import Entidades.Partida;
 import Enums.AccionesPosibles;
@@ -169,5 +168,10 @@ public class SubDominioConcreto implements ISubDominio {
     @Override
     public List<JugadorEstadoSalaDTO> obtenerEstadosJugadoresSala() {
         return this.partida.obtenerEstadosJugadoresSala();
+    }
+    
+    @Override
+    public void registrarJugador(JugadorResumenDTO jugador){
+        this.partida.registrarJugador(jugador);
     }
 }

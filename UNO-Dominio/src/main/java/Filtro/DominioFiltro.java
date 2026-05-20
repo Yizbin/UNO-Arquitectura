@@ -46,7 +46,7 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
                 subDominio.configurarPartida(peticion.getConfiguracionPartida());
             }
             case SOLICITAR_UNIRSE_PARTIDA -> {
-                subDominio.solicitarUnion(peticion.getJugadorActualizar());
+                subDominio.solicitarUnion(peticion.getJugadorLocal());
             }
 
             case ACEPTAR_SOLICITUD_UNION -> {
@@ -81,11 +81,17 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
             case GRITAR_UNO -> {
                 subDominio.gritarUno(peticion.getEstadoPartida().getIdJugador());
             }
+            case REGISTRAR_JUGADOR ->{
+                if (peticion.getJugadorLocal() == null) {
+                    throw new IllegalStateException("El jugador no puede ser nulo");
+                }
+                subDominio.registrarJugador(peticion.getJugadorLocal());
+            }
             case TERMINAR_TURNO -> {
                 subDominio.terminarTurno();
             }
             case SOLICITAR_FINALIZACION -> {
-                subDominio.solicitarFinalizacion(peticion.getJugadorActualizar());
+                subDominio.solicitarFinalizacion(peticion.getJugadorLocal());
             }
             case ACEPTAR_FINALIZACION -> {
                 subDominio.responderFinalizacion(crearRespuestaFinalizacion(peticion, true));
@@ -104,7 +110,7 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, EstadoPartidaDT
 
     private RespuestaFinalizacionDTO crearRespuestaFinalizacion(PeticionJugadaDTO peticion, boolean acepta) {
         RespuestaFinalizacionDTO respuesta = new RespuestaFinalizacionDTO();
-        respuesta.setJugador(peticion.getJugadorActualizar());
+        respuesta.setJugador(peticion.getJugadorLocal());
         respuesta.setAcepta(acepta);
         return respuesta;
     }

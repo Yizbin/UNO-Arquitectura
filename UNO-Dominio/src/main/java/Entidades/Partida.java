@@ -9,7 +9,6 @@ import DTOs.ResultadoFinalizacionDTO;
 import DTOs.TablaPosicionesDTO;
 import Enums.Comodines;
 import Enums.EstadoFinalizacion;
-import Enums.EstadoJugadorSala;
 import Enums.TipoColor;
 import Excepciones.JugadaValidaException;
 import Excepciones.MazoVacioException;
@@ -879,5 +878,26 @@ public class Partida {
      */
     public boolean isDisponible() {
         return disponible;
+    }
+    
+    public void registrarJugador(JugadorResumenDTO jugadorDTO) {
+        if (jugadorDTO == null) {
+            throw new IllegalArgumentException("El jugador no puede ser nulo");
+        }
+        if (estaIniciada()) {
+            throw new IllegalStateException("No se pueden registrar jugadores cuando inicia el juego");
+        }
+        if (jugadores.size() >= 4) {
+            throw new IllegalStateException("La partida ya esta llena");
+        }
+        if (jugadorYaEstaUnido(jugadorDTO.getId())) {
+            throw new IllegalArgumentException("El jugador con ID " + jugadorDTO.getId() + " ya esta en la partida");
+        }
+        Jugador nuevoJugador = this.jugadorMapper.toEntity(jugadorDTO);
+        nuevoJugador.setAceptado(false);
+        List<Jugador> jugadoresActualizados = new ArrayList<>(this.jugadores);
+        jugadoresActualizados.add(nuevoJugador);
+        this.jugadores = List.copyOf(jugadoresActualizados);
+        this.turno.setJugadores(this.jugadores);
     }
 }
