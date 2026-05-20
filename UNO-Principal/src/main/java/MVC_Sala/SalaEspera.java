@@ -77,7 +77,7 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
                     obtenerEstadoJugador(jugador.getId())
             );
 
-            PanelListaJugadores.add(tarjeta);
+            PanelListaJugadores.add(crearFilaJugador(jugador, tarjeta));
             PanelListaJugadores.add(Box.createVerticalStrut(12));
         }
 
@@ -152,10 +152,9 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
     private JPanel crearFilaJugador(JugadorResumenDTO jugador, PanelJugador tarjeta) {
         JPanel fila = new JPanel(new BorderLayout());
         fila.setOpaque(false);
-
         fila.add(tarjeta, BorderLayout.CENTER);
 
-        if (modeloVista.puedeResponderSolicitudUnion(jugador.getId())) {
+        if (modeloVista != null && modeloVista.puedeResponderSolicitudUnion(jugador.getId())) {
             fila.add(crearPanelAccionesUnion(jugador), BorderLayout.EAST);
         }
 

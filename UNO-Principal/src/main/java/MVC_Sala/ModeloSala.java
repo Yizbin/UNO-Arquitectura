@@ -33,6 +33,8 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     private boolean cambiarFrame = false;
     private boolean partidaListaParaIniciar;
 
+    private static int siguienteIdInvitado = 2;
+
     public ModeloSala() {
         this.suscriptores = new ArrayList<>();
         this.jugadoresEnSala = new ArrayList<>();
@@ -47,6 +49,10 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
     public void conectarCoordinador(IPump<PeticionJugadaDTO, ?> coordinador) {
         this.coordinador = coordinador;
+    }
+
+    private int generarIdInvitado() {
+        return siguienteIdInvitado++;
     }
 
     @Override
@@ -92,7 +98,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
     @Override
     public boolean aceptarSolicitudUnion(int idJugadorSolicitante) {
-        if (coordinador == null || jugadorLocal == null) {
+        if (coordinador == null || jugadorLocal == null || jugadorLocal.getId() != 1) {
             return false;
         }
 
@@ -105,8 +111,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
                     estado
             );
 
-            enviarPeticionSegura(peticion, "Error al aceptar union");
-            return true;
+            return enviarPeticionSegura(peticion, "Error al aceptar union");
         } catch (Exception e) {
             System.err.println("Error al aceptar solicitud: " + e.getMessage());
             return false;
@@ -115,7 +120,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
     @Override
     public boolean rechazarSolicitudUnion(int idJugadorSolicitante) {
-        if (coordinador == null || jugadorLocal == null) {
+        if (coordinador == null || jugadorLocal == null || jugadorLocal.getId() != 1) {
             return false;
         }
 
@@ -128,8 +133,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
                     estado
             );
 
-            enviarPeticionSegura(peticion, "Error al rechazar la union");
-            return true;
+            return enviarPeticionSegura(peticion, "Error al rechazar la union");
         } catch (Exception e) {
             System.err.println("Error al rechazar solicitud: " + e.getMessage());
             return false;
@@ -296,8 +300,12 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
     @Override
     public void registrarJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores) {
-        if (datos == null || datos.getId() <= 0) {
+        if (datos == null) {
             return;
+        }
+
+        if (datos.getId() <= 0) {
+            datos.setId(generarIdInvitado());
         }
 
         this.jugadorLocal = datos;
