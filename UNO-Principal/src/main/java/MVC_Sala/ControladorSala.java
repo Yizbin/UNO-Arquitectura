@@ -8,7 +8,9 @@ import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
 import MVC_ConfigurarPartida.IControlConfgPartida;
 import MVC_JugarTurno.UnoSpinControlador;
+import java.io.IOException;
 import java.util.Map;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -75,7 +77,27 @@ public class ControladorSala {
     public void mostrarSalaEspera() {
         SalaEspera sala = new SalaEspera(this);
         suscribirVista(sala);
+        if (modeloVista != null) {
+            sala.update(modeloVista);
+        }
         sala.setVisible(true);
+    }
+
+    public void mostrarConfiguracionJugador() {
+        if (modeloVista == null) {
+            throw new IllegalStateException("No se ha configurado el modelo de vista de sala.");
+        }
+
+        try {
+            new ConfiguracionJugador(this, modeloVista, 1);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "No se pudo abrir el registro del jugador: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     void actualizarDatosJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores) {

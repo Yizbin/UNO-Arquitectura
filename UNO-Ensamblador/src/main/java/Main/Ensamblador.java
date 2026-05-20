@@ -25,7 +25,7 @@ import pipeline.CoordinadorFiltros;
 
 public class Ensamblador {
 
-    private static final String IP_SERVIDOR = "192.168.1.71";
+    private static final String IP_SERVIDOR = "192.168.1.67";
     private static final int PUERTO_SERVIDOR = 5000;
     private static final int DESPLAZAMIENTO_PUERTO_CLIENTE = 1;
     private static final int ID_JUGADOR_ANFITRION = 1;
@@ -81,7 +81,7 @@ public class Ensamblador {
                 controlConfigPartida,
                 entornoJuego.getControlador()
         );
-        controlConfigPartida.setAccionConfiguracionExitosa(controladorSala::mostrarSalaEspera);
+        controlConfigPartida.setAccionConfiguracionExitosa(controladorSala::mostrarConfiguracionJugador);
 
         System.out.println("Se conecto al servidor");
 

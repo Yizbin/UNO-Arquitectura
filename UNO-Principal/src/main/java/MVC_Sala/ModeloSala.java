@@ -267,6 +267,12 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
             return;
         }
         this.jugadorLocal = datos;
+        if (!contieneJugador(datos.getId())) {
+            this.jugadoresEnSala.add(datos);
+        }
+        setearJugadoresEsperando();
+        notificar();
+
         if (coordinador == null) {
             return;
         }

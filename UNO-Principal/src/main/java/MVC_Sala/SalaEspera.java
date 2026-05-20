@@ -5,6 +5,8 @@
 package MVC_Sala;
 
 import DTOs.JugadorResumenDTO;
+import DTOs.JugadorEstadoSalaDTO;
+import Enums.EstadoJugadorSala;
 import MVC_Utilidades.UtilidadesGraficas;
 import java.util.List;
 import javax.swing.Box;
@@ -51,24 +53,50 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
     }
 
     private void refrescarPanelJugadores(List<JugadorResumenDTO> jugadores) {
-//        PanelListaJugadores.removeAll();
-//
-//        for (JugadorResumenDTO jugador : jugadores) {
-//            ImageIcon imagen = new ImageIcon(jugador.getRutaAvatar());
-//            ImageIcon avatar = UtilidadesGraficas.hacerAvatarCircular(imagen.getImage(), 60);
-//
-//            PanelJugador tarjeta = new PanelJugador(
-//                    jugador.getNombreUsuario(),
-//                    avatar,
-//                    jugador.getEstadoSala()
-//            );
-//
-//            PanelListaJugadores.add(tarjeta);
-//            PanelListaJugadores.add(Box.createVerticalStrut(12));
-//        }
-//
-//        PanelListaJugadores.revalidate();
-//        PanelListaJugadores.repaint();
+        PanelListaJugadores.removeAll();
+
+        for (JugadorResumenDTO jugador : jugadores) {
+            ImageIcon avatar = crearAvatar(jugador);
+            PanelJugador tarjeta = new PanelJugador(
+                    jugador.getNombreUsuario(),
+                    avatar,
+                    obtenerEstadoJugador(jugador.getId())
+            );
+
+            PanelListaJugadores.add(tarjeta);
+            PanelListaJugadores.add(Box.createVerticalStrut(12));
+        }
+
+        PanelListaJugadores.revalidate();
+        PanelListaJugadores.repaint();
+    }
+
+    private ImageIcon crearAvatar(JugadorResumenDTO jugador) {
+        if (jugador.getRutaAvatar() == null) {
+            return null;
+        }
+
+        java.net.URL recurso = getClass().getResource(jugador.getRutaAvatar());
+        if (recurso == null) {
+            return null;
+        }
+
+        ImageIcon imagen = new ImageIcon(recurso);
+        return UtilidadesGraficas.hacerAvatarCircular(imagen.getImage(), 60);
+    }
+
+    private EstadoJugadorSala obtenerEstadoJugador(int idJugador) {
+        if (modeloVista == null || modeloVista.getEstadosJugadoresSala() == null) {
+            return EstadoJugadorSala.ESPERANDO;
+        }
+
+        for (JugadorEstadoSalaDTO estado : modeloVista.getEstadosJugadoresSala()) {
+            if (estado.getId() == idJugador) {
+                return estado.getEstadoSala();
+            }
+        }
+
+        return EstadoJugadorSala.ESPERANDO;
     }
 
     /**
