@@ -457,6 +457,21 @@ public class Partida {
         return resultadoFinalizacion;
     }
 
+    public void limpiarDominioPartida() {
+        this.jugadores = List.of();
+        this.turno = new Turno(0, this.jugadores);
+        this.mazo = null;
+        this.descarte = new Descarte();
+        this.ruleta = new Ruleta();
+        this.configuracion = null;
+        this.disponible = false;
+        this.estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
+        this.resultadoFinalizacion = null;
+        this.tablaPosiciones = null;
+        this.respuestasFinalizacion.clear();
+        this.jugadoresRegistrados.clear();
+    }
+
     /**
      *
      * @return

@@ -75,6 +75,8 @@ public interface ISubDominio {
 
     ResultadoFinalizacionDTO evaluarFinalizacion();
 
+    void limpiarPartidaTerminada();
+
     // METODOS PARA LA SALA
     public boolean actualizarEstadoJugadorSala(JugadorEstadoSalaDTO jugadorEstadoDTO);
 
