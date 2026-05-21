@@ -28,7 +28,7 @@ import pipeline.CoordinadorFiltros;
 
 public class Ensamblador {
 
-    private static final String IP_SERVIDOR = "192.168.1.67";
+    private static final String IP_SERVIDOR = "192.168.1.71";
     private static final int PUERTO_SERVIDOR = 5000;
     private static final int DESPLAZAMIENTO_PUERTO_CLIENTE = 1;
     private static final int ID_JUGADOR_ANFITRION = 1;
@@ -42,7 +42,6 @@ public class Ensamblador {
         SubDominioConcreto subDominio = new SubDominioConcreto(partida);
 
         IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
-        dispatcher.preConectar(ipServidor, puertoServidor);
 
         ISink<byte[]> adapterSalida = new AdapterCliente(ipServidor, puertoServidor, dispatcher);
 
