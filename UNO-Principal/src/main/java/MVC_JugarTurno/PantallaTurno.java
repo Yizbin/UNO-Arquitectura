@@ -2,10 +2,11 @@ package MVC_JugarTurno;
 
 import DTOs.CartaDTO;
 import DTOs.JugadorResumenDTO;
-import DTOs.TablaPosicionesDTO;
 import Enums.EstadoFinalizacion;
 import Enums.TipoColor;
+import MVC_Utilidades.ColoresJugador;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
@@ -27,10 +28,15 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     private String solicitudFinalizacionAtendida;
     private EstadoFinalizacion ultimoResultadoFinalizacion;
     private boolean tablaFinalMostrada;
+    private Map<TipoColor, TipoColor> coloresLocales = new java.util.HashMap<>();
 
     public PantallaTurno(IModeloVista modelo, UnoSpinControlador control) {
         this.control = control;
         this.modelo = modelo;
+        Map<TipoColor, TipoColor> cargados = ColoresJugador.getColores();
+        if (cargados != null) {
+            this.coloresLocales = cargados;
+        }
         initComponents();
         configurarScroll();
         configurarPanelMano();
@@ -45,8 +51,6 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
                 control.robarCarta();
             }
         });
-
-       
 
     }
 
@@ -209,9 +213,9 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void configurarCarruselMano(int cartasVisibles) {
-        int step = CARD_W - OVERLAP; // cuánto “avanza” cada carta
+        int step = CARD_W - OVERLAP;
         int visibleW = PAD_L + CARD_W + (cartasVisibles - 1) * step + PAD_R;
-        int visibleH = CARD_H + 20; // un poquito extra por margen
+        int visibleH = CARD_H + 20;
 
         scrollMano.setPreferredSize(new java.awt.Dimension(visibleW, visibleH));
         scrollMano.setMinimumSize(new java.awt.Dimension(visibleW, visibleH));
@@ -289,22 +293,32 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     }
 
     private void pedirColorUsuario() {
-        TipoColor[] colores = {
+        TipoColor[] coloresBase = {
             TipoColor.ROJO, TipoColor.AZUL,
             TipoColor.VERDE, TipoColor.AMARILLO
         };
-        int seleccion = mostrarOpciones("Has jugado un comodin. Selecciona el nuevo color:", "Cambio de Color", colores);
+        String[] opcionesVisuales = new String[coloresBase.length];
+        for (int i = 0; i < coloresBase.length; i++) {
+            TipoColor colorLocal = this.coloresLocales.getOrDefault(coloresBase[i], coloresBase[i]);
+            opcionesVisuales[i] = colorLocal.toString();
+        }
+        int seleccion = mostrarOpciones("Has jugado un comodin. Selecciona el nuevo color:", "Cambio de Color", opcionesVisuales);
         if (seleccion >= 0) {
-            control.seleccionarColor(colores[seleccion]);
+            control.seleccionarColor(coloresBase[seleccion]);
         }
         pidiendoColor = false;
     }
 
     private List<PanelCartaMano> generarPanelesDeMano(List<CartaDTO> cartasDTO) {
         List<PanelCartaMano> paneles = new java.util.ArrayList<>();
-
+        if (cartasDTO == null || this.coloresLocales == null) {
+            return paneles;
+        }
         for (CartaDTO cartaDTO : cartasDTO) {
             PanelCartaMano panel = new PanelCartaMano();
+            if (cartaDTO.getColor() != null && this.coloresLocales.containsKey(cartaDTO.getColor())) {
+                cartaDTO.setColor(this.coloresLocales.get(cartaDTO.getColor()));
+            }
             panel.setCarta(cartaDTO);   //dibuja la carta real
             panel.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
@@ -323,11 +337,17 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     }
 
     private void actualizarCartaDescarte(EstadoPantallaTurnoDTO estadoPantalla) {
+        if (this.coloresLocales == null) {
+            this.coloresLocales = ColoresJugador.getColores();
+        }
         CartaDTO tope = estadoPantalla.getCartaEnDescarte();
         if (tope != null) {
             panelDescarte.removeAll();
             panelDescarte.setLayout(new java.awt.BorderLayout());
             PanelCartaMano cartaVisual = new PanelCartaMano();
+            if (tope.getColor() != null && this.coloresLocales.containsKey(tope.getColor())) {
+                tope.setColor(this.coloresLocales.get(tope.getColor()));
+            }
             cartaVisual.setCarta(tope);
             panelDescarte.add(cartaVisual, java.awt.BorderLayout.CENTER);
             panelDescarte.revalidate();

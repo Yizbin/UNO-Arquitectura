@@ -138,7 +138,6 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
         }
 
         inicioNotificado = true;
-
         boolean respuesta = controlador != null && controlador.notificarInicio(modeloVista);
         responderInicio(respuesta);
     }
@@ -194,7 +193,6 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
         PanelFondo.setLayout(new java.awt.BorderLayout());
 
         lblTitulo.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
-        lblTitulo.setForeground(new java.awt.Color(0, 0, 0));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("SALA ESPERA");
         lblTitulo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -206,10 +204,13 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
 
         PanelBotones.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnListo.setBackground(new java.awt.Color(255, 255, 255));
         btnListo.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
-        btnListo.setForeground(new java.awt.Color(0, 0, 0));
         btnListo.setText("Listo!");
+        btnListo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListoActionPerformed(evt);
+            }
+        });
 
         btnAtras.setBackground(new java.awt.Color(255, 0, 0));
         btnAtras.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
@@ -259,6 +260,10 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnListoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnListoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelBotones;

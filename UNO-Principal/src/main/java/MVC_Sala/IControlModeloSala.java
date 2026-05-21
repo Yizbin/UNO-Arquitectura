@@ -7,8 +7,6 @@ package MVC_Sala;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import Enums.EstadoJugadorSala;
-import Enums.TipoColor;
-import java.util.Map;
 
 /**
  *
@@ -28,7 +26,7 @@ public interface IControlModeloSala {
 
     void abrirSalaEspera();
 
-    void registrarJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores);
+    void registrarJugador(JugadorResumenDTO datos);
 
     void establecerJugadorLocal(JugadorResumenDTO datos);
 

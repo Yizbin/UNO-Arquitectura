@@ -6,7 +6,9 @@ package MVC_JugarTurno;
 import DTOs.CartaDTO;
 import DTOs.TipoCartaDTO;
 import Enums.TipoColor;
+import MVC_Utilidades.ColoresJugador;
 import java.awt.*;
+import java.util.Map;
 
 /**
  *
@@ -143,7 +145,12 @@ public class PanelCartaMano extends javax.swing.JPanel {
         if (c == null) {
             return new Color(50, 50, 50);
         }
-        return switch (c) {
+        Map<TipoColor, TipoColor> mapaPersonalizado = ColoresJugador.getColores();
+        
+        TipoColor colorFinal = (mapaPersonalizado != null && mapaPersonalizado.containsKey(c)) 
+                               ? mapaPersonalizado.get(c) 
+                               : c;
+        return switch (colorFinal) {
             case ROJO -> new Color(210, 40, 40);
             case AZUL -> new Color(30, 90, 200);
             case VERDE -> new Color(40, 160, 60);

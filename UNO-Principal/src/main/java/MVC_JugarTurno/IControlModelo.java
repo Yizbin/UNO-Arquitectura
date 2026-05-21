@@ -4,10 +4,10 @@
  */
 package MVC_JugarTurno;
 
+import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
-import DTOs.CartaDTO;
 import java.util.List;
 
 /**
@@ -35,5 +35,4 @@ public interface IControlModelo {
     boolean solicitarFinalizacion(JugadorResumenDTO jugadorDTO);
 
     boolean responderFinalizacion(JugadorResumenDTO jugadorDTO, boolean acepta);
-
 }
