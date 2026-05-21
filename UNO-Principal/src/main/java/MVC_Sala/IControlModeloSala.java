@@ -22,7 +22,7 @@ public interface IControlModeloSala {
     
     boolean rechazarSolicitudUnion(int idJugadorSolicitante);
 
-    boolean iniciarPartida(JugadorResumenDTO jugadorDTO);
+    boolean iniciarPartida(JugadorResumenDTO jugadorDTO, Map<TipoColor, TipoColor> coloresLocales);
 
     EstadoPartidaDTO crearEstadoInicioPartida();
 
@@ -37,4 +37,6 @@ public interface IControlModeloSala {
     EstadoJugadorSala obtenerEstadoJugador(int idJugador);
 
     void validarCondicionInicio(EstadoPartidaDTO estadoPartidaDTO);
+    
+    Map<TipoColor, TipoColor> getColoresLocales();
 }
