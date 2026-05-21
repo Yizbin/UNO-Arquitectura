@@ -53,7 +53,7 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     private JButton avatarSeleccionado = null;
     private PanelCartaMano cartaSeleccionada = null;
     private TipoColor colorBaseSeleccionado = null;
-    private final Map<TipoColor, TipoColor> misColores = new HashMap<>();
+    private Map<TipoColor, TipoColor> misColores = new HashMap<>();
     private final JugadorResumenDTO jugador = new JugadorResumenDTO();
     private final CartaDTO c1 = new CartaDTO();
     private final CartaDTO c2 = new CartaDTO();
@@ -76,11 +76,6 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         initComponents();
 
         this.modeloVista.suscribir(this);
-
-        misColores.put(TipoColor.ROJO, TipoColor.ROJO);
-        misColores.put(TipoColor.AZUL, TipoColor.AZUL);
-        misColores.put(TipoColor.VERDE, TipoColor.VERDE);
-        misColores.put(TipoColor.AMARILLO, TipoColor.AMARILLO);
     }
 
     private void initComponents() {
@@ -248,6 +243,19 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
                     }
                 }
             }
+        }
+    }
+
+    // Agrega esto a ConfiguracionJugador.java
+    private void asegurarColoresIniciales() {
+        if (misColores == null) {
+            misColores = new HashMap<>();
+        }
+        if (misColores.isEmpty()) {
+            misColores.put(TipoColor.ROJO, TipoColor.ROJO);
+            misColores.put(TipoColor.AZUL, TipoColor.AZUL);
+            misColores.put(TipoColor.VERDE, TipoColor.VERDE);
+            misColores.put(TipoColor.AMARILLO, TipoColor.AMARILLO);
         }
     }
 
@@ -457,21 +465,20 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
             if (txtField == null) {
                 return;
             }
-
             jugador.setNombreUsuario(txtField.getText());
-
+            asegurarColoresIniciales();
+            ColoresJugador.setColores(new HashMap<>(misColores));
             if (origenRegistro == OrigenRegistro.CREAR_PARTIDA) {
                 jugador.setId(1);
                 control.registrarJugador(jugador);
                 abrirSalaEspera();
-                return;
+            }else{
+                jugador.setId(0);
+                control.registrarJugador(jugador);
+                ColoresJugador.setColores(misColores);
+                siguiente.setEnabled(false);
+                siguiente.setText("Registrando...");
             }
-
-            jugador.setId(0);
-            control.registrarJugador(jugador);
-            ColoresJugador.setColores(misColores);
-            siguiente.setEnabled(false);
-            siguiente.setText("Registrando...");
         });
     }
 

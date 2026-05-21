@@ -5,7 +5,6 @@ import DTOs.JugadorResumenDTO;
 import Enums.EstadoFinalizacion;
 import Enums.TipoColor;
 import MVC_Utilidades.ColoresJugador;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -29,7 +28,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     private String solicitudFinalizacionAtendida;
     private EstadoFinalizacion ultimoResultadoFinalizacion;
     private boolean tablaFinalMostrada;
-    private Map<TipoColor, TipoColor> coloresLocales = new HashMap<>();
+    private Map<TipoColor, TipoColor> coloresLocales = new java.util.HashMap<>();
 
     public PantallaTurno(IModeloVista modelo, UnoSpinControlador control) {
         this.control = control;
@@ -339,7 +338,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
     private void actualizarCartaDescarte(EstadoPantallaTurnoDTO estadoPantalla) {
         if (this.coloresLocales == null) {
-            this.coloresLocales = new java.util.HashMap<>();
+            this.coloresLocales = ColoresJugador.getColores();
         }
         CartaDTO tope = estadoPantalla.getCartaEnDescarte();
         if (tope != null) {
