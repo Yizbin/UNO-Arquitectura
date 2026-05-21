@@ -14,25 +14,22 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame implements ISu
     /**
      * Creates new form PantallaConfigurarPartida
      */
-    public PantallaConfigurarPartida(IControlConfgPartida controlador, IModeloConfgPartida modelo) {
-        if (controlador == null) {
-        throw new IllegalArgumentException("El controlador es requerido.");
-    }
-        if (modelo == null) {
-            throw new IllegalArgumentException("El modelo es requerido.");
-        }
-
+    public PantallaConfigurarPartida(IControlConfgPartida controlador, IModeloConfgPartida modelo) {       
         this.controlador = controlador;
         this.modelo = modelo;
 
         initComponents();
-
+        
+        aplicarEfectoPresion(btnSiguiente);
+        aplicarEfectoPresion(btnAtras);
+        
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jsNumeroInicio.setModel(new javax.swing.SpinnerNumberModel(0, 0, 9, 1));
         jsNumeroFin.setModel(new javax.swing.SpinnerNumberModel(9, 0, 9, 1));
         jsNumComodines.setModel(new javax.swing.SpinnerNumberModel(8, 0, 8, 1));
-
+        
+        setLocationRelativeTo(null);
         this.modelo.agregarSuscriptor(this);
     }
     
@@ -40,7 +37,60 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame implements ISu
        initComponents();
        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
+    
+    private void aplicarEfectoPresion(javax.swing.JButton boton) {
+        if (boton == null) {
+            return;
+        }
+        java.awt.Cursor cursorNormal = boton.getCursor();
+        javax.swing.border.Border bordeNormal = boton.getBorder();
 
+        javax.swing.border.Border bordeHover
+                = javax.swing.BorderFactory.createLineBorder(new java.awt.Color(180, 180, 180), 1);
+
+        final int[] yOriginal = {0};
+        final boolean[] estaPresionado = {false};
+
+        boton.setFocusPainted(false);
+
+        boton.addMouseListener(new java.awt.event.MouseAdapter() {
+
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                boton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                boton.setBorder(bordeHover);
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                boton.setCursor(cursorNormal);
+                boton.setBorder(bordeNormal);
+
+                if (estaPresionado[0]) {
+                    boton.setLocation(boton.getX(), yOriginal[0]);
+                    estaPresionado[0] = false;
+                }
+            }
+
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                if (!estaPresionado[0]) {
+                    yOriginal[0] = boton.getY();
+                    boton.setLocation(boton.getX(), boton.getY() + 2);
+                    estaPresionado[0] = true;
+                }
+            }
+
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                if (estaPresionado[0]) {
+                    boton.setLocation(boton.getX(), yOriginal[0]);
+                    estaPresionado[0] = false;
+                }
+            }
+        });
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,7 +100,7 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame implements ISu
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        btnAtras = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
         lnl0 = new javax.swing.JLabel();
         lbl9 = new javax.swing.JLabel();
@@ -68,18 +118,17 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame implements ISu
         lbl_fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(930, 755));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/CUCP_btnAtras.png"))); // NOI18N
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAtras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/CUCP_btnAtras.png"))); // NOI18N
+        btnAtras.setBorderPainted(false);
+        btnAtras.setContentAreaFilled(false);
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAtrasActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 530, -1, -1));
+        getContentPane().add(btnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 530, -1, -1));
 
         btnSiguiente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/CUCP_btnSiguiente.png"))); // NOI18N
         btnSiguiente.setBorderPainted(false);
@@ -153,14 +202,18 @@ public class PantallaConfigurarPartida extends javax.swing.JFrame implements ISu
         controlador.procesarConfiguracion(numeroInicio, numeroFin, numComodines);
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+        this.dispose();
+
+        if (controlador != null) {
+            controlador.cancelarConfiguracion();
+        }
+    }//GEN-LAST:event_btnAtrasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnSiguiente;
-    private javax.swing.JButton jButton1;
     private javax.swing.JSpinner jsNumComodines;
     private javax.swing.JSpinner jsNumeroFin;
     private javax.swing.JSpinner jsNumeroInicio;
