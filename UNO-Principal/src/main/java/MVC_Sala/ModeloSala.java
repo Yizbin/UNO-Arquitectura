@@ -407,7 +407,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
                     nuevoEstado
             );
             EstadoPartidaDTO estado = new EstadoPartidaDTO();
-            estado.setIdJugador(jugadorLocal.getId());
+//            estado.setIdJugador(jugadorLocal.getId());
             estado.setEstadosJugadoresSala(List.of(jugadorEstado));
 
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
