@@ -20,11 +20,6 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
         this.controlador = controlador;
         this.modeloVista = modeloVista;
         initComponents();
-        
-        aplicarEfectoPresion(btnCrearPartida);
-        aplicarEfectoPresion(btnUnirsePartida);
-        aplicarEfectoPresion(btnSalir);
-        
         setLocationRelativeTo(null);
     }
 
@@ -49,59 +44,6 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
                     JOptionPane.ERROR_MESSAGE
             );
         }
-    }
-    
-    private void aplicarEfectoPresion(javax.swing.JButton boton) {
-        if (boton == null) {
-            return;
-        }
-        java.awt.Cursor cursorNormal = boton.getCursor();
-        javax.swing.border.Border bordeNormal = boton.getBorder();
-
-        javax.swing.border.Border bordeHover
-                = javax.swing.BorderFactory.createLineBorder(new java.awt.Color(180, 180, 180), 1);
-
-        final int[] yOriginal = {0};
-        final boolean[] estaPresionado = {false};
-
-        boton.setFocusPainted(false);
-
-        boton.addMouseListener(new java.awt.event.MouseAdapter() {
-
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                boton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-                boton.setBorder(bordeHover);
-            }
-
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                boton.setCursor(cursorNormal);
-                boton.setBorder(bordeNormal);
-
-                if (estaPresionado[0]) {
-                    boton.setLocation(boton.getX(), yOriginal[0]);
-                    estaPresionado[0] = false;
-                }
-            }
-
-            @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                if (!estaPresionado[0]) {
-                    yOriginal[0] = boton.getY();
-                    boton.setLocation(boton.getX(), boton.getY() + 2);
-                    estaPresionado[0] = true;
-                }
-            }
-
-            @Override
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                if (estaPresionado[0]) {
-                    boton.setLocation(boton.getX(), yOriginal[0]);
-                    estaPresionado[0] = false;
-                }
-            }
-        });
     }
 
     /**
