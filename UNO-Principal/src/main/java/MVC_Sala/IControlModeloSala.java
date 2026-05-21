@@ -32,6 +32,8 @@ public interface IControlModeloSala {
 
     void establecerJugadorLocal(JugadorResumenDTO datos);
 
+    JugadorResumenDTO getJugadorLocal();
+
     boolean actualizarEstadoJugadorSala();
 
     EstadoJugadorSala obtenerEstadoJugador(int idJugador);

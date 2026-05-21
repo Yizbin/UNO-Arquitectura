@@ -1,6 +1,7 @@
 package Adapter;
 
 import DTOs.PeticionJugadaDTO;
+import DTOs.JugadorResumenDTO;
 import Enums.TipoAccionPartida;
 import Interfaces.ISink;
 import MVC_JugarTurno.IControlModelo;
@@ -41,8 +42,18 @@ public class AdapterEntradaPartida implements ISink<PeticionJugadaDTO> {
         }
 
         if (esAccionDeSala(peticion.getAccion())) {
+            int idLocalAnterior = obtenerIdJugadorLocalSala();
             modeloSala.validarCondicionInicio(peticion.getEstadoPartida());
+            int idLocalActual = obtenerIdJugadorLocalSala();
+            if (idLocalAnterior <= 0 && idLocalActual > 0) {
+                modeloJuego.setIdJugadorLocal(idLocalActual);
+            }
         }
+    }
+
+    private int obtenerIdJugadorLocalSala() {
+        JugadorResumenDTO jugadorLocal = modeloSala.getJugadorLocal();
+        return jugadorLocal != null ? jugadorLocal.getId() : 0;
     }
 
     private boolean esAccionDeSala(TipoAccionPartida accion) {
