@@ -9,7 +9,6 @@ import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -17,7 +16,7 @@ import java.util.Map;
  */
 public interface IControlModelo {
 
-    public void iniciarJuego(List<JugadorResumenDTO> jugadores, Map<TipoColor, TipoColor> coloresLocales);
+    public void iniciarJuego(List<JugadorResumenDTO> jugadores);
 
     public void iniciarJuego(List<JugadorResumenDTO> jugadores, JugadorResumenDTO jugadorSolicitante);
 
@@ -36,6 +35,4 @@ public interface IControlModelo {
     boolean solicitarFinalizacion(JugadorResumenDTO jugadorDTO);
 
     boolean responderFinalizacion(JugadorResumenDTO jugadorDTO, boolean acepta);
-
-    Map<TipoColor, TipoColor> getColoresLocales();
 }

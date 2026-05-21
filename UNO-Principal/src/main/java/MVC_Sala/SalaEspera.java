@@ -6,12 +6,10 @@ package MVC_Sala;
 
 import DTOs.JugadorResumenDTO;
 import Enums.EstadoJugadorSala;
-import Enums.TipoColor;
 import MVC_Utilidades.UtilidadesGraficas;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.List;
-import java.util.Map;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -140,8 +138,7 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
         }
 
         inicioNotificado = true;
-        Map<TipoColor, TipoColor> coloresLocales = controlador.obtenerColores();
-        boolean respuesta = controlador != null && controlador.notificarInicio(modeloVista, coloresLocales);
+        boolean respuesta = controlador != null && controlador.notificarInicio(modeloVista);
         responderInicio(respuesta);
     }
 
