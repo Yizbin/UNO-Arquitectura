@@ -34,7 +34,10 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     public PantallaTurno(IModeloVista modelo, UnoSpinControlador control) {
         this.control = control;
         this.modelo = modelo;
-        this.coloresLocales = ColoresJugador.getColores();
+        Map<TipoColor, TipoColor> cargados = ColoresJugador.getColores();
+        if (cargados != null) {
+            this.coloresLocales = cargados;
+        }
         initComponents();
         configurarScroll();
         configurarPanelMano();
@@ -335,6 +338,9 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     }
 
     private void actualizarCartaDescarte(EstadoPantallaTurnoDTO estadoPantalla) {
+        if (this.coloresLocales == null) {
+            this.coloresLocales = new java.util.HashMap<>();
+        }
         CartaDTO tope = estadoPantalla.getCartaEnDescarte();
         if (tope != null) {
             panelDescarte.removeAll();
