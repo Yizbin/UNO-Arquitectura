@@ -33,7 +33,6 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
     private String mensajePendiente;
     private boolean esperandoColor;
 
-    @Override
     public void setIdJugadorLocal(int idJugadorLocal) {
         this.idJugadorLocal = idJugadorLocal;
     }
