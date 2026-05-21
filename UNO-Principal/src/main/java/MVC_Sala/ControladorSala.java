@@ -6,10 +6,8 @@ package MVC_Sala;
 
 import DTOs.JugadorResumenDTO;
 import Enums.EstadoJugadorSala;
-import Enums.TipoColor;
 import MVC_ConfigurarPartida.ControlConfgPartida;
 import MVC_JugarTurno.UnoSpinControlador;
-import java.util.Map;
 
 /**
  *
@@ -47,8 +45,8 @@ public class ControladorSala {
         return modelo.obtenerEstadoJugador(idJugador);
     }
 
-    public boolean iniciarPartida(JugadorResumenDTO jugadorDTO, Map<TipoColor, TipoColor> coloresLocales) {
-        return modelo.iniciarPartida(jugadorDTO, coloresLocales);
+    public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {
+        return modelo.iniciarPartida(jugadorDTO);
     }
 
     public boolean aceptarSolicitudUnion(int idJugadorSolicitante) {
@@ -59,7 +57,7 @@ public class ControladorSala {
         return modelo.rechazarSolicitudUnion(idJugadorSolicitante);
     }
 
-    public boolean notificarInicio(IModeloSalaVista modeloVista, Map<TipoColor, TipoColor> coloresLocales) {
+    public boolean notificarInicio(IModeloSalaVista modeloVista) {
         if (modeloVista == null || !modeloVista.isPartidaListaParaIniciar()) {
             return false;
         }
@@ -70,7 +68,7 @@ public class ControladorSala {
             return false;
         }
 
-        return modelo.iniciarPartida(jugadorLocal, coloresLocales);
+        return modelo.iniciarPartida(jugadorLocal);
     }
 
     public void abrirConfigurarPartida() {
@@ -81,8 +79,8 @@ public class ControladorSala {
         controlConfigPartida.mostrarPantallaConfigurarPartida();
     }
 
-    void registrarJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores) {
-        modelo.registrarJugador(datos, misColores);
+    void registrarJugador(JugadorResumenDTO datos) {
+        modelo.registrarJugador(datos);
     }
 
     public void abrirSalaEspera() {
@@ -95,9 +93,5 @@ public class ControladorSala {
 
     public void abrirMenu() {
 
-    }
-    
-    Map<TipoColor, TipoColor> obtenerColores(){
-        return modelo.getColoresLocales();
     }
 }

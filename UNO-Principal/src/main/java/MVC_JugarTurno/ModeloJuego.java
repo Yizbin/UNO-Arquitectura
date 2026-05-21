@@ -18,7 +18,6 @@ import Plantilla.ContextoPipeline;
 import interfaces.IPump;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.swing.SwingUtilities;
 
 /**
@@ -33,7 +32,6 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
     private int idJugadorLocal;
     private String mensajePendiente;
     private boolean esperandoColor;
-    private Map<TipoColor, TipoColor> coloresLocales;
 
     @Override
     public void setIdJugadorLocal(int idJugadorLocal) {
@@ -57,8 +55,7 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
     }
 
     @Override
-    public void iniciarJuego(List<JugadorResumenDTO> jugadores, Map<TipoColor, TipoColor> coloresLocales) {
-        this.coloresLocales = coloresLocales;
+    public void iniciarJuego(List<JugadorResumenDTO> jugadores) {
         iniciarJuego(jugadores, obtenerJugadorSolicitante(jugadores));
     }
 
@@ -295,14 +292,4 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
 
         return List.of();
     }
-
-    public Map<TipoColor, TipoColor> getColoresLocales() {
-        return coloresLocales;
-    }
-
-    public void setColoresLocales(Map<TipoColor, TipoColor> coloresLocales) {
-        this.coloresLocales = coloresLocales;
-    }
-    
-    
 }

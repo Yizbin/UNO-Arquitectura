@@ -4,6 +4,8 @@ import DTOs.CartaDTO;
 import DTOs.JugadorResumenDTO;
 import Enums.EstadoFinalizacion;
 import Enums.TipoColor;
+import MVC_Utilidades.ColoresJugador;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -27,12 +29,12 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     private String solicitudFinalizacionAtendida;
     private EstadoFinalizacion ultimoResultadoFinalizacion;
     private boolean tablaFinalMostrada;
-    private Map<TipoColor, TipoColor> coloresLocales;
+    private Map<TipoColor, TipoColor> coloresLocales = new HashMap<>();
 
     public PantallaTurno(IModeloVista modelo, UnoSpinControlador control) {
         this.control = control;
         this.modelo = modelo;
-        asignarColores();
+        this.coloresLocales = ColoresJugador.getColores();
         initComponents();
         configurarScroll();
         configurarPanelMano();
@@ -208,10 +210,6 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void asignarColores(){
-        this.coloresLocales = control.obtenerColores();
-    }
-    
     private void configurarCarruselMano(int cartasVisibles) {
         int step = CARD_W - OVERLAP;
         int visibleW = PAD_L + CARD_W + (cartasVisibles - 1) * step + PAD_R;
@@ -311,7 +309,9 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
 
     private List<PanelCartaMano> generarPanelesDeMano(List<CartaDTO> cartasDTO) {
         List<PanelCartaMano> paneles = new java.util.ArrayList<>();
-
+        if (cartasDTO == null || this.coloresLocales == null) {
+            return paneles;
+        }
         for (CartaDTO cartaDTO : cartasDTO) {
             PanelCartaMano panel = new PanelCartaMano();
             if (cartaDTO.getColor() != null && this.coloresLocales.containsKey(cartaDTO.getColor())) {
@@ -363,10 +363,6 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
             return;
         }
         panel.ocultarJugador();
-    }
-
-    public Map<TipoColor, TipoColor> getColoresLocales() {
-        return control.obtenerColores();
     }
 
 

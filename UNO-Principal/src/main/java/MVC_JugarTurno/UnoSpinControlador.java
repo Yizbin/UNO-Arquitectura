@@ -9,7 +9,6 @@ import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -23,8 +22,8 @@ public class UnoSpinControlador {
         this.modelo = modelo;
     }
 
-    public void iniciarPartida(List<JugadorResumenDTO> jugadores, Map<TipoColor, TipoColor> coloresLocales) {
-        modelo.iniciarJuego(jugadores, coloresLocales);
+    public void iniciarPartida(List<JugadorResumenDTO> jugadores) {
+        modelo.iniciarJuego(jugadores);
     }
 
     public void iniciarPartida(List<JugadorResumenDTO> jugadores, JugadorResumenDTO jugadorSolicitante) {
@@ -53,9 +52,5 @@ public class UnoSpinControlador {
 
     public boolean responderFinalizacion(JugadorResumenDTO jugadorDTO, boolean acepta) {
         return modelo.responderFinalizacion(jugadorDTO, acepta);
-    }
-    
-    Map<TipoColor, TipoColor> obtenerColores() {
-        return modelo.getColoresLocales();
     }
 }

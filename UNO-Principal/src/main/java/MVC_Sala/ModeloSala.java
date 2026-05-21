@@ -10,12 +10,10 @@ import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.EstadoJugadorSala;
 import Enums.TipoAccionPartida;
-import Enums.TipoColor;
 import Plantilla.ContextoPipeline;
 import interfaces.IPump;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.swing.SwingUtilities;
 
 /**
@@ -29,7 +27,6 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     private List<JugadorResumenDTO> jugadoresEnSala;
     private List<JugadorEstadoSalaDTO> estadosJugadoresSala;
     private JugadorResumenDTO jugadorLocal = new JugadorResumenDTO();
-    private Map<TipoColor, TipoColor> coloresLocales;
     private boolean cambiarFrame = false;
     private boolean partidaListaParaIniciar;
 
@@ -135,7 +132,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     }
 
     @Override
-    public boolean iniciarPartida(JugadorResumenDTO jugadorDTO, Map<TipoColor, TipoColor> coloresLocales) {
+    public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {
 
         if (coordinador == null || !partidaListaParaIniciar || jugadorDTO == null || jugadorDTO.getId() != 1) {
             return false;
@@ -300,13 +297,12 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     }
 
     @Override
-    public void registrarJugador(JugadorResumenDTO datos, Map<TipoColor, TipoColor> misColores) {
+    public void registrarJugador(JugadorResumenDTO datos) {
         if (datos == null) {
             return;
         }
 
         this.jugadorLocal = datos;
-        this.coloresLocales = misColores;
 
         if (coordinador == null) {
             return;
@@ -422,10 +418,4 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
 
         return false;
     }
-
-    @Override
-    public Map<TipoColor, TipoColor> getColoresLocales() {
-        return coloresLocales;
-    }
-
 }

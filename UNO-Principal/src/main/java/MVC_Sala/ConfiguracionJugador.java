@@ -19,6 +19,7 @@ import static Enums.TipoColor.ROJO;
 import static Enums.TipoColor.ROSA;
 import static Enums.TipoColor.VERDE;
 import MVC_JugarTurno.PanelCartaMano;
+import MVC_Utilidades.ColoresJugador;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -461,14 +462,14 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
 
             if (origenRegistro == OrigenRegistro.CREAR_PARTIDA) {
                 jugador.setId(1);
-                control.registrarJugador(jugador, misColores);
+                control.registrarJugador(jugador);
                 abrirSalaEspera();
                 return;
             }
 
             jugador.setId(0);
-            control.registrarJugador(jugador, misColores);
-
+            control.registrarJugador(jugador);
+            ColoresJugador.setColores(misColores);
             siguiente.setEnabled(false);
             siguiente.setText("Registrando...");
         });
