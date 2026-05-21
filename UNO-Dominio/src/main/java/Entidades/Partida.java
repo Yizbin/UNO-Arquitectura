@@ -421,6 +421,9 @@ public class Partida {
         if (descarte != null && descarte.getTope() != null) {
             estadoDTO.setCartaEnDescarte(obtenerCartaEnTopeDTO());
         }
+        if (mazo != null) {
+            estadoDTO.setMazo(new CartaMapper().toDTOList(mazo.getCartas()));
+        }
 
         estadoDTO.setRuletaActiva(false);
         estadoDTO.setInicioPermitido(puedeIniciarPartida());
@@ -710,6 +713,9 @@ public class Partida {
      * @return @throws MazoVacioException
      */
     private Carta obtenerCartaDelMazo() throws MazoVacioException {
+        if (mazo == null) {
+            throw new IllegalStateException("La partida no tiene mazo inicializado.");
+        }
         if (mazo.estaVacio()) {
             mazo.rellenar(descarte.vaciarParaRellenarMazo());
         }
