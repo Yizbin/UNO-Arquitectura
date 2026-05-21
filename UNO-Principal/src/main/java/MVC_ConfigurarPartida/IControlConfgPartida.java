@@ -14,4 +14,6 @@ public interface IControlConfgPartida {
     void procesarConfiguracion(int numeroInicio, int numeroFin, int numComodines);
 
     void notificarConfiguracionExitosa();
+    
+    void cancelarConfiguracion();
 }

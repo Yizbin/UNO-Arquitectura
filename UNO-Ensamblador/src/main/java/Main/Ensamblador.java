@@ -110,6 +110,11 @@ public class Ensamblador {
                 );
             }
         });
+        
+        controlConfigPartida.setAccionCancelarConfiguracion(() -> {
+            MenuPrincipal menu = new MenuPrincipal(controladorSala, modeloSala);
+            menu.setVisible(true);
+        });
 
         System.out.println("Se conecto al servidor");
 
