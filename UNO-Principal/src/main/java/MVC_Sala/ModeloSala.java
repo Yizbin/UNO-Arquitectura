@@ -145,6 +145,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         try {
             EstadoPartidaDTO estado = new EstadoPartidaDTO();
             estado.setJugadores(jugadoresEnSala);
+            estado.setEstadosJugadoresSala(estadosJugadoresSala);
 
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
                     TipoAccionPartida.INICIAR_PARTIDA,
@@ -406,6 +407,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
                     nuevoEstado
             );
             EstadoPartidaDTO estado = new EstadoPartidaDTO();
+            estado.setIdJugador(jugadorLocal.getId());
             estado.setEstadosJugadoresSala(List.of(jugadorEstado));
 
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(

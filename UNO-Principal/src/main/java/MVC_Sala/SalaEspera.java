@@ -35,7 +35,7 @@ public class SalaEspera extends javax.swing.JFrame implements ISuscriptorSala {
     }
 
     private void solicitarInicio() {
-        boolean respuesta = controlador != null && controlador.actualizarEstadoJugadorSala();
+        boolean respuesta = controlador != null && controlador.confirmarJugadorListo();
         responderInicio(respuesta);
     }
 

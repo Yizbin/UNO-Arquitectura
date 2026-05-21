@@ -380,6 +380,10 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
             return;
         }
 
+        if (!isVisible()) {
+            setVisible(true);
+        }
+
         List<CartaDTO> manoActualizada = estadoPantalla.getManoLocal() != null
                 ? estadoPantalla.getManoLocal()
                 : List.of();

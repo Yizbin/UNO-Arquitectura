@@ -39,7 +39,7 @@ public class ControladorSala {
         return modelo.solicitarUnirsePartida();
     }
 
-    public boolean actualizarEstadoJugadorSala() {
+    public boolean confirmarJugadorListo() {
         return modelo.actualizarEstadoJugadorSala();
     }
 
@@ -66,12 +66,11 @@ public class ControladorSala {
 
         JugadorResumenDTO jugadorLocal = modeloVista.getJugadorLocal();
 
-        if (jugadorLocal == null || jugadorLocal.getId() != 1 || controlJuego == null) {
+        if (jugadorLocal == null || jugadorLocal.getId() != 1) {
             return false;
         }
 
-        controlJuego.iniciarPartida(modelo.crearEstadoInicioPartida(), jugadorLocal);
-        return true;
+        return modelo.iniciarPartida(jugadorLocal);
     }
 
     public void abrirConfigurarPartida() {
