@@ -169,12 +169,6 @@ public class SubDominioConcreto implements ISubDominio {
         ConfiguracionPartida configuracionPartida = configuracionMapper.toEntity(configuracionDTO);
         partida.configurarPartida(configuracionPartida);
         partida.establecerDisponible();
-
-        System.out.println("[CONFIG] Partida creada: " + (partida != null));
-        System.out.println("[CONFIG] Configuración asignada: " + (partida.getConfiguracion() != null));
-        System.out.println("[CONFIG] Partida disponible: " + partida.isDisponible());
-        System.out.println("[CONFIG] Mazo creado en configurar partida: " + (partida.getMazo() != null));
-
     }
 
     @Override

@@ -13,6 +13,7 @@ import java.util.Objects;
 public class ControlConfgPartida implements IControlConfgPartida{
     private final IModeloConfgPartida modelo;
     private Runnable accionConfiguracionExitosa;
+    private Runnable accionCancelarConfiguracion;
 
     public ControlConfgPartida(IModeloConfgPartida modelo) {
         this.modelo = Objects.requireNonNull(
@@ -43,5 +44,16 @@ public class ControlConfgPartida implements IControlConfgPartida{
         if (accionConfiguracionExitosa != null) {
             accionConfiguracionExitosa.run();
         }
+    }
+
+    @Override
+    public void cancelarConfiguracion() {
+        if (accionCancelarConfiguracion != null) {
+        accionCancelarConfiguracion.run();
+    }
+    }
+    
+    public void setAccionCancelarConfiguracion(Runnable accionCancelarConfiguracion) {
+        this.accionCancelarConfiguracion = accionCancelarConfiguracion;
     }
 }
