@@ -32,6 +32,7 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
     public PantallaTurno(IModeloVista modelo, UnoSpinControlador control) {
         this.control = control;
         this.modelo = modelo;
+        asignarColores();
         initComponents();
         configurarScroll();
         configurarPanelMano();
@@ -207,6 +208,10 @@ public class PantallaTurno extends javax.swing.JFrame implements ISuscriptor {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void asignarColores(){
+        this.coloresLocales = control.obtenerColores();
+    }
+    
     private void configurarCarruselMano(int cartasVisibles) {
         int step = CARD_W - OVERLAP;
         int visibleW = PAD_L + CARD_W + (cartasVisibles - 1) * step + PAD_R;
