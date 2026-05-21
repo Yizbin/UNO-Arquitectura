@@ -19,6 +19,7 @@ import MVC_Sala.ControladorSala;
 import MVC_Sala.MenuPrincipal;
 import MVC_Sala.ModeloSala;
 import MVC_Sala.OrigenRegistro;
+import MVC_Utilidades.UtilidadRed;
 import Serializador.Serializador;
 import java.awt.EventQueue;
 import java.io.IOException;
@@ -28,7 +29,7 @@ import pipeline.CoordinadorFiltros;
 
 public class Ensamblador {
 
-    private static final String IP_SERVIDOR = "192.168.1.71";
+    private static final String IP_SERVIDOR = UtilidadRed.obtenerIPv4Local();
     private static final int PUERTO_SERVIDOR = 5000;
     private static final int DESPLAZAMIENTO_PUERTO_CLIENTE = 1;
     private static final int ID_JUGADOR_ANFITRION = 1;
