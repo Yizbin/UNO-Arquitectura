@@ -47,8 +47,8 @@ public class ControladorSala {
         return modelo.obtenerEstadoJugador(idJugador);
     }
 
-    public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {
-        return modelo.iniciarPartida(jugadorDTO);
+    public boolean iniciarPartida(JugadorResumenDTO jugadorDTO, Map<TipoColor, TipoColor> coloresLocales) {
+        return modelo.iniciarPartida(jugadorDTO, coloresLocales);
     }
 
     public boolean aceptarSolicitudUnion(int idJugadorSolicitante) {
@@ -59,7 +59,7 @@ public class ControladorSala {
         return modelo.rechazarSolicitudUnion(idJugadorSolicitante);
     }
 
-    public boolean notificarInicio(IModeloSalaVista modeloVista) {
+    public boolean notificarInicio(IModeloSalaVista modeloVista, Map<TipoColor, TipoColor> coloresLocales) {
         if (modeloVista == null || !modeloVista.isPartidaListaParaIniciar()) {
             return false;
         }
@@ -70,7 +70,7 @@ public class ControladorSala {
             return false;
         }
 
-        return modelo.iniciarPartida(jugadorLocal);
+        return modelo.iniciarPartida(jugadorLocal, coloresLocales);
     }
 
     public void abrirConfigurarPartida() {
@@ -95,5 +95,9 @@ public class ControladorSala {
 
     public void abrirMenu() {
 
+    }
+    
+    Map<TipoColor, TipoColor> obtenerColores(){
+        return modelo.getColoresLocales();
     }
 }

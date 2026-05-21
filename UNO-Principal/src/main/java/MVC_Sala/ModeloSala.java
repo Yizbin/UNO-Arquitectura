@@ -135,7 +135,7 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     }
 
     @Override
-    public boolean iniciarPartida(JugadorResumenDTO jugadorDTO) {
+    public boolean iniciarPartida(JugadorResumenDTO jugadorDTO, Map<TipoColor, TipoColor> coloresLocales) {
 
         if (coordinador == null || !partidaListaParaIniciar || jugadorDTO == null || jugadorDTO.getId() != 1) {
             return false;
@@ -421,6 +421,11 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         }
 
         return false;
+    }
+
+    @Override
+    public Map<TipoColor, TipoColor> getColoresLocales() {
+        return coloresLocales;
     }
 
 }

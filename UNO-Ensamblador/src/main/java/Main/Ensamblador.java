@@ -19,6 +19,7 @@ import MVC_Sala.ControladorSala;
 import MVC_Sala.MenuPrincipal;
 import MVC_Sala.ModeloSala;
 import MVC_Sala.OrigenRegistro;
+import MVC_Utilidades.UtilidadRed;
 import Serializador.Serializador;
 import java.awt.EventQueue;
 import java.io.IOException;
@@ -42,7 +43,6 @@ public class Ensamblador {
         SubDominioConcreto subDominio = new SubDominioConcreto(partida);
 
         IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
-        dispatcher.preConectar(ipServidor, puertoServidor);
 
         ISink<byte[]> adapterSalida = new AdapterCliente(ipServidor, puertoServidor, dispatcher);
 

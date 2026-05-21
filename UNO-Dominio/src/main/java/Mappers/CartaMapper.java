@@ -36,7 +36,7 @@ public class CartaMapper {
                     accion.getTipoAccion(), null, null); //CAMBIAR LA RUTA DESPUES
         }
         if (carta instanceof CartaComodin comodin) {
-            return new CartaDTO(TipoCartaDTO.COMODIN, null,
+            return new CartaDTO(TipoCartaDTO.COMODIN, comodin.getColorElegido(),
                     null, null, comodin.getTipoComodin(),
                     null); //CAMBIAR LA RUTA DESPUES
         }
