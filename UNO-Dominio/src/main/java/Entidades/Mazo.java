@@ -6,7 +6,9 @@ package Entidades;
 
 import Excepciones.MazoVacioException;
 import factorys.MazoFactory;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -60,6 +62,18 @@ public class Mazo {
 
     public void setCartas(Stack<Carta> cartas) {
         this.cartas = (cartas == null) ? new Stack<>() : (Stack<Carta>) cartas.clone();
+    }
+
+    public List<Carta> obtenerMano() {
+        List<Carta> manoJugador = new ArrayList<>();
+
+        for (int i = 0; i < 7; i++) {
+            if (!this.cartas.isEmpty()) {
+                manoJugador.add(this.cartas.removeFirst());
+            }
+        }
+
+        return manoJugador;
     }
 
 }

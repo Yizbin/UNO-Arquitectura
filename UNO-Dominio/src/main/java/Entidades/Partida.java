@@ -326,10 +326,8 @@ public class Partida {
     }
 
     private void repartirCartasIniciales() throws MazoVacioException {
-        for (int i = 0; i < 7; i++) {
-            for (Jugador jugador : jugadores) {
-                jugador.robarCarta(mazo.sacarCarta());
-            }
+        for (Jugador jugador : jugadores) {
+            jugador.setMano(mazo.obtenerMano());
         }
     }
 
