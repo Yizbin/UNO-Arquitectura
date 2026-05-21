@@ -27,6 +27,25 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
         JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
     }
 
+    private void solicitarUnirse() {
+        try {
+            ConfiguracionJugador registro = new ConfiguracionJugador(
+                    controlador,
+                    modeloVista,
+                    OrigenRegistro.UNIRSE_PARTIDA
+            );
+
+            registro.setVisible(true);
+            this.dispose();
+        } catch (IOException ex) {
+            mostrarMensaje(
+                    "No se pudo abrir el registro del jugador.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -91,24 +110,7 @@ public class MenuPrincipal extends javax.swing.JFrame implements ISuscriptorSala
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUnirsePartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnirsePartidaActionPerformed
-
-        try {
-            ConfiguracionJugador registro = new ConfiguracionJugador(
-                    controlador,
-                    modeloVista,
-                    OrigenRegistro.UNIRSE_PARTIDA
-            );
-
-            registro.setVisible(true);
-            this.dispose();
-        } catch (IOException ex) {
-            mostrarMensaje(
-                    "No se pudo abrir el registro del jugador.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
-
+        solicitarUnirse();
     }//GEN-LAST:event_btnUnirsePartidaActionPerformed
 
     private void btnCrearPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPartidaActionPerformed

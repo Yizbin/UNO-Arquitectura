@@ -46,11 +46,11 @@ public class AdapterEntradaPartida implements ISink<PeticionJugadaDTO> {
     }
 
     private boolean esAccionDeSala(TipoAccionPartida accion) {
-        return accion == TipoAccionPartida.SOLICITAR_UNIRSE_PARTIDA
+        return accion == TipoAccionPartida.CONFIGURAR_PARTIDA
+                || accion == TipoAccionPartida.JUGADOR_REGISTRADO
+                || accion == TipoAccionPartida.SOLICITAR_UNIRSE_PARTIDA
                 || accion == TipoAccionPartida.ACEPTAR_SOLICITUD_UNION
                 || accion == TipoAccionPartida.RECHAZAR_SOLICITUD_UNION
-                || accion == TipoAccionPartida.CAMBIAR_INICIO_PARTIDA
-                || accion == TipoAccionPartida.CONFIGURAR_PARTIDA
-                || accion == TipoAccionPartida.REGISTRAR_JUGADOR;
+                || accion == TipoAccionPartida.CAMBIAR_INICIO_PARTIDA;
     }
 }

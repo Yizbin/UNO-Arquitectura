@@ -5,7 +5,6 @@
 package Filtro;
 
 import DTOs.EstadoPartidaDTO;
-import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import DTOs.RespuestaFinalizacionDTO;
 import Enums.TipoAccionPartida;
@@ -145,9 +144,15 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, PeticionJugadaD
     }
 
     private TipoAccionPartida obtenerAccionRespuesta(TipoAccionPartida accionOriginal) {
-        return esAccionDeJuego(accionOriginal)
-                ? TipoAccionPartida.CARGAR_PARTIDA
-                : accionOriginal;
+        if (accionOriginal == TipoAccionPartida.REGISTRAR_JUGADOR) {
+            return TipoAccionPartida.JUGADOR_REGISTRADO;
+        }
+
+        if (esAccionDeJuego(accionOriginal)) {
+            return TipoAccionPartida.CARGAR_PARTIDA;
+        }
+
+        return accionOriginal;
     }
 
     private boolean esAccionDeJuego(TipoAccionPartida accion) {
