@@ -10,13 +10,11 @@ import DTOs.ConexionJugadorDTO;
 import DTOs.PaqueteRedDTO;
 import DTOs.PeticionJugadaDTO;
 import Deserializador.Deserializador;
-import Entidades.Partida;
+import Estado.EstadoPartida;
 import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
-import Filtro.DominioFiltro;
 import Interfaces.IConexionSalida;
 import Interfaces.ISink;
-import Interfaces.SubDominioConcreto;
 import Serializador.Serializador;
 import java.util.HashSet;
 import java.util.List;
@@ -42,16 +40,14 @@ public class EnsambladorServidor {
         ISink<List<PaqueteRedDTO>> adapterSink =
                 new AdapterServidor(dispatcher);
 
-        Partida partidaServidor = new Partida();
-        SubDominioConcreto subDominioServidor =
-                new SubDominioConcreto(partidaServidor);
         Broadcast filtroBroadcastServidor = new Broadcast();
+        EstadoPartida filtroEstadoPartida = new EstadoPartida();
 
         CoordinadorFiltros<byte[], List<PaqueteRedDTO>> pipelineServidor =
                 new CoordinadorFiltros<>(
                         List.of(
                                 new Deserializador<>(PeticionJugadaDTO.class),
-                                new DominioFiltro(subDominioServidor),
+                                filtroEstadoPartida,
                                 new Serializador<PeticionJugadaDTO>(),
                                 filtroBroadcastServidor
                         ),

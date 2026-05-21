@@ -4,10 +4,13 @@ import Adapter.AdapterCliente;
 import Adapter.AdapterEntradaPartida;
 import DTOs.PeticionJugadaDTO;
 import Deserializador.Deserializador;
+import Entidades.Partida;
 import Factory.DispatcherFactory;
 import Factory.ReceptorFactory;
+import Filtro.DominioFiltro;
 import Interfaces.IConexionSalida;
 import Interfaces.ISink;
+import Interfaces.SubDominioConcreto;
 import MVC_ConfigurarPartida.ControlConfgPartida;
 import MVC_ConfigurarPartida.ModeloConfgPartida;
 import MVC_JugarTurno.ModeloJuego;
@@ -35,6 +38,9 @@ public class Ensamblador {
     }
 
     private static void configurarConexionRed(String ipServidor, int puertoServidor) {
+        Partida partida = new Partida();
+        SubDominioConcreto subDominio = new SubDominioConcreto(partida);
+
         IConexionSalida dispatcher = DispatcherFactory.crearDispatcher();
         dispatcher.preConectar(ipServidor, puertoServidor);
 
@@ -43,6 +49,7 @@ public class Ensamblador {
         CoordinadorFiltros<PeticionJugadaDTO, byte[]> pipelineSalida
                 = new CoordinadorFiltros<>(
                         List.of(
+                                new DominioFiltro(subDominio),
                                 new Serializador<PeticionJugadaDTO>()
                         ),
                         adapterSalida
@@ -68,7 +75,8 @@ public class Ensamblador {
         CoordinadorFiltros<byte[], PeticionJugadaDTO> pipelineEntradaPartida
                 = new CoordinadorFiltros<>(
                         List.of(
-                                new Deserializador<>(PeticionJugadaDTO.class)
+                                new Deserializador<>(PeticionJugadaDTO.class),
+                                new DominioFiltro(subDominio)
                         ),
                         adapterEntradaPartida
                 );

@@ -216,7 +216,6 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
 
         PeticionJugadaDTO peticion = new PeticionJugadaDTO();
         peticion.setAccion(TipoAccionPartida.SOLICITAR_FINALIZACION);
-        peticion.setJugadorLocal(solicitante);
         peticion.setJugadorActualizar(solicitante);
 
         System.out.println("Enviando solicitud de finalizacion del jugador " + solicitante.getId());
@@ -237,7 +236,6 @@ public class ModeloJuego implements IControlModelo, IModeloVista, ISink<EstadoPa
         peticion.setAccion(acepta
                 ? TipoAccionPartida.ACEPTAR_FINALIZACION
                 : TipoAccionPartida.RECHAZAR_FINALIZACION);
-        peticion.setJugadorLocal(jugador);
         peticion.setJugadorActualizar(jugador);
 
         System.out.println("Enviando respuesta de finalizacion del jugador " + jugador.getId() + ": " + acepta);
