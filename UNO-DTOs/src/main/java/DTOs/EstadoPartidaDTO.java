@@ -32,6 +32,7 @@ public class EstadoPartidaDTO {
 
     private EstadoFinalizacion estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
     private ResultadoFinalizacionDTO resultadoFinalizacion;
+    private List<RespuestaFinalizacionDTO> respuestasFinalizacion;
 
     private List<JugadorEstadoSalaDTO> estadosJugadoresSala;
 
@@ -150,6 +151,14 @@ public class EstadoPartidaDTO {
 
     public void setResultadoFinalizacion(ResultadoFinalizacionDTO resultadoFinalizacion) {
         this.resultadoFinalizacion = resultadoFinalizacion;
+    }
+
+    public List<RespuestaFinalizacionDTO> getRespuestasFinalizacion() {
+        return respuestasFinalizacion;
+    }
+
+    public void setRespuestasFinalizacion(List<RespuestaFinalizacionDTO> respuestasFinalizacion) {
+        this.respuestasFinalizacion = respuestasFinalizacion;
     }
 
     public List<CartaDTO> getMazo() {

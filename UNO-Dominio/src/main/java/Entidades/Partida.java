@@ -264,6 +264,17 @@ public class Partida {
             this.mazo = new Mazo();
             this.mazo.setCartas(cartasMazo);
         }
+
+        this.estadoFinalizacion = estadoDTO.getEstadoFinalizacion();
+        this.resultadoFinalizacion = estadoDTO.getResultadoFinalizacion();
+        this.respuestasFinalizacion.clear();
+        if (estadoDTO.getRespuestasFinalizacion() != null) {
+            for (RespuestaFinalizacionDTO respuesta : estadoDTO.getRespuestasFinalizacion()) {
+                if (respuesta != null && respuesta.getJugador() != null) {
+                    this.respuestasFinalizacion.put(respuesta.getJugador().getId(), respuesta);
+                }
+            }
+        }
     }
 
     private void sincronizarTurnoConEstado(int idJugadorEnTurno) {
@@ -445,6 +456,7 @@ public class Partida {
 
         estadoDTO.setEstadoFinalizacion(estadoFinalizacion);
         estadoDTO.setResultadoFinalizacion(resultadoFinalizacion);
+        estadoDTO.setRespuestasFinalizacion(new ArrayList<>(respuestasFinalizacion.values()));
 
         return estadoDTO;
     }

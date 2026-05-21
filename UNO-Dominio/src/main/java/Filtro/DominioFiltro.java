@@ -109,7 +109,7 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, PeticionJugadaD
                 subDominio.terminarTurno();
             }
             case SOLICITAR_FINALIZACION -> {
-                subDominio.solicitarFinalizacion(peticion.getJugadorLocal());
+                subDominio.solicitarFinalizacion(obtenerJugadorPeticion(peticion));
             }
             case ACEPTAR_FINALIZACION -> {
                 subDominio.responderFinalizacion(crearRespuestaFinalizacion(peticion, true));
@@ -184,9 +184,15 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, PeticionJugadaD
 
     private RespuestaFinalizacionDTO crearRespuestaFinalizacion(PeticionJugadaDTO peticion, boolean acepta) {
         RespuestaFinalizacionDTO respuesta = new RespuestaFinalizacionDTO();
-        respuesta.setJugador(peticion.getJugadorLocal());
+        respuesta.setJugador(obtenerJugadorPeticion(peticion));
         respuesta.setAcepta(acepta);
         return respuesta;
+    }
+
+    private DTOs.JugadorResumenDTO obtenerJugadorPeticion(PeticionJugadaDTO peticion) {
+        return peticion.getJugadorLocal() != null
+                ? peticion.getJugadorLocal()
+                : peticion.getJugadorActualizar();
     }
 
 }
