@@ -12,6 +12,8 @@ import Enums.TipoColor;
  */
 public class CartaNumero extends Carta {
 
+    private static final int PUNTOS_CARTA_NUMERICA = 1;
+
     private int numero;
     private TipoColor color;
 
@@ -19,7 +21,7 @@ public class CartaNumero extends Carta {
     }
 
     public CartaNumero(int numero, TipoColor color, boolean esSpin) {
-        super(numero, esSpin);
+        super(PUNTOS_CARTA_NUMERICA, esSpin);
         this.numero = numero;
         this.color = color;
     }
