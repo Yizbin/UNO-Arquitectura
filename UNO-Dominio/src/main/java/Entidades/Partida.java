@@ -176,7 +176,7 @@ public class Partida {
             return;
         }
 
-        List<Jugador> jugadoresActualizados = new ArrayList<>();
+        List<Jugador> jugadoresActualizados = new ArrayList<>(this.jugadores);
 
         for (JugadorResumenDTO jugadorDTO : jugadoresDTO) {
             if (jugadorDTO == null) {
@@ -186,12 +186,23 @@ public class Partida {
             Jugador jugador = jugadorMapper.toEntity(jugadorDTO);
             jugador.setAceptado(jugadorDTO.isAceptado());
 
-            jugadoresActualizados.add(jugador);
+            reemplazarOAgregarJugador(jugadoresActualizados, jugador);
             jugadoresRegistrados.put(jugador.getId(), jugador);
         }
 
         this.jugadores = List.copyOf(jugadoresActualizados);
         this.turno.setJugadores(this.jugadores);
+    }
+
+    private void reemplazarOAgregarJugador(List<Jugador> jugadoresActualizados, Jugador jugador) {
+        for (int i = 0; i < jugadoresActualizados.size(); i++) {
+            if (jugadoresActualizados.get(i).getId() == jugador.getId()) {
+                jugadoresActualizados.set(i, jugador);
+                return;
+            }
+        }
+
+        jugadoresActualizados.add(jugador);
     }
 
     /**
