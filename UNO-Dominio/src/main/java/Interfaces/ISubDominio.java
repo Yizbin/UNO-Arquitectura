@@ -39,6 +39,8 @@ public interface ISubDominio {
 
     void rechazarSolicitudUnion(int idJugadorSolicitante);
 
+    void cargarJugadoresPartida(List<JugadorResumenDTO> jugadores);
+
     //Intenta jugar una carta de la mano del jugador actual hacia el descarte
     public void jugarCarta(int idJugador, CartaDTO cartaAJugarDTO) throws ValidarManoException, ValidarTurnoException, JugadaValidaException, MazoVacioException;
 
@@ -87,7 +89,6 @@ public interface ISubDominio {
     public boolean puedeIniciarPartida();
 
     //Metodos configuarar partida
-    
     //método para registrar los jugadores a la partida
     void registrarJugador(JugadorResumenDTO jugador);
 }

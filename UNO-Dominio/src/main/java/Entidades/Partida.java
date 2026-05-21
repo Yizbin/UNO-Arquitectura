@@ -171,6 +171,29 @@ public class Partida {
         this.turno.setJugadores(this.jugadores);
     }
 
+    public void cargarJugadoresPartida(List<JugadorResumenDTO> jugadoresDTO) {
+        if (jugadoresDTO == null) {
+            return;
+        }
+
+        List<Jugador> jugadoresActualizados = new ArrayList<>();
+
+        for (JugadorResumenDTO jugadorDTO : jugadoresDTO) {
+            if (jugadorDTO == null) {
+                continue;
+            }
+
+            Jugador jugador = jugadorMapper.toEntity(jugadorDTO);
+            jugador.setAceptado(jugadorDTO.isAceptado());
+
+            jugadoresActualizados.add(jugador);
+            jugadoresRegistrados.put(jugador.getId(), jugador);
+        }
+
+        this.jugadores = List.copyOf(jugadoresActualizados);
+        this.turno.setJugadores(this.jugadores);
+    }
+
     /**
      *
      * @param idJugador

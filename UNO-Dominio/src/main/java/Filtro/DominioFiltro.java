@@ -103,7 +103,6 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, PeticionJugadaD
                 if (peticion.getJugadorLocal() == null) {
                     throw new IllegalStateException("El jugador no puede ser nulo");
                 }
-
                 subDominio.registrarJugador(peticion.getJugadorLocal());
             }
             case TERMINAR_TURNO -> {
@@ -117,6 +116,10 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, PeticionJugadaD
             }
             case RECHAZAR_FINALIZACION -> {
                 subDominio.responderFinalizacion(crearRespuestaFinalizacion(peticion, false));
+            }
+            case JUGADOR_REGISTRADO -> {
+                EstadoPartidaDTO estado = peticion.getEstadoPartida();
+                subDominio.cargarJugadoresPartida(estado.getJugadores());
             }
 
             default ->

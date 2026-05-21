@@ -196,4 +196,9 @@ public class SubDominioConcreto implements ISubDominio {
     public void registrarJugador(JugadorResumenDTO jugador) {
         this.partida.registrarJugador(jugador);
     }
+
+    @Override
+    public void cargarJugadoresPartida(List<JugadorResumenDTO> jugadores) {
+        this.partida.cargarJugadoresPartida(jugadores);
+    }
 }
