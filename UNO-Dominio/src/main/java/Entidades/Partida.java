@@ -245,6 +245,9 @@ public class Partida {
         if (estadoDTO.getJugadores() != null) {
             this.jugadores = List.copyOf(jugadorMapper.toEntityList(estadoDTO.getJugadores()));
             this.turno.setJugadores(this.jugadores);
+            if (estadoDTO.getIdJugador() > 0) {
+                this.turno.setIndiceTurnoActual(indiceJugadorPorId(estadoDTO.getIdJugador()));
+            }
         }
 
         if (estadoDTO.getEstadosJugadoresSala() != null) {
@@ -262,6 +265,17 @@ public class Partida {
             cartasMazo.addAll(new CartaMapper().toEntityList(estadoDTO.getMazo()));
             this.mazo = new Mazo();
             this.mazo.setCartas(cartasMazo);
+        }
+
+        this.estadoFinalizacion = estadoDTO.getEstadoFinalizacion();
+        this.resultadoFinalizacion = estadoDTO.getResultadoFinalizacion();
+        this.respuestasFinalizacion.clear();
+        if (estadoDTO.getRespuestasFinalizacion() != null) {
+            for (RespuestaFinalizacionDTO respuesta : estadoDTO.getRespuestasFinalizacion()) {
+                if (respuesta != null && respuesta.getJugador() != null) {
+                    this.respuestasFinalizacion.put(respuesta.getJugador().getId(), respuesta);
+                }
+            }
         }
     }
 
@@ -431,6 +445,7 @@ public class Partida {
 
         estadoDTO.setEstadoFinalizacion(estadoFinalizacion);
         estadoDTO.setResultadoFinalizacion(resultadoFinalizacion);
+        estadoDTO.setRespuestasFinalizacion(new ArrayList<>(respuestasFinalizacion.values()));
 
         return estadoDTO;
     }
@@ -706,6 +721,15 @@ public class Partida {
             }
         }
         throw new IllegalArgumentException("Jugador no encontrado con ID: " + idJugador);
+    }
+
+    private int indiceJugadorPorId(int idJugador) {
+        for (int i = 0; i < jugadores.size(); i++) {
+            if (jugadores.get(i).getId() == idJugador) {
+                return i;
+            }
+        }
+        return turno.getIndiceTurnoActual();
     }
 
     /**

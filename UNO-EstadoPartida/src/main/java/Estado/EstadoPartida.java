@@ -9,6 +9,7 @@ import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorEstadoSalaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
+import DTOs.RespuestaFinalizacionDTO;
 import DTOs.ResultadoFinalizacionDTO;
 import Enums.EstadoFinalizacion;
 import Enums.EstadoRetoSpin;
@@ -40,6 +41,7 @@ public class EstadoPartida implements IFiltro<PeticionJugadaDTO, PeticionJugadaD
 
     private EstadoFinalizacion estadoFinalizacion = EstadoFinalizacion.SIN_SOLICITUD;
     private ResultadoFinalizacionDTO resultadoFinalizacion;
+    private List<RespuestaFinalizacionDTO> respuestasFinalizacion;
 
     @Override
     public ContextoPipeline<PeticionJugadaDTO> procesar(
@@ -89,6 +91,7 @@ public class EstadoPartida implements IFiltro<PeticionJugadaDTO, PeticionJugadaD
         this.mensajeEstado = estadoRecibido.getMensajeEstado();
         this.estadoFinalizacion = estadoRecibido.getEstadoFinalizacion();
         this.resultadoFinalizacion = estadoRecibido.getResultadoFinalizacion();
+        this.respuestasFinalizacion = estadoRecibido.getRespuestasFinalizacion();
     }
 
     private PeticionJugadaDTO crearDTOActual() {
@@ -111,6 +114,7 @@ public class EstadoPartida implements IFiltro<PeticionJugadaDTO, PeticionJugadaD
         dto.setMensajeEstado(this.mensajeEstado);
         dto.setEstadoFinalizacion(this.estadoFinalizacion);
         dto.setResultadoFinalizacion(this.resultadoFinalizacion);
+        dto.setRespuestasFinalizacion(this.respuestasFinalizacion);
 
         peticion.setEstadoPartida(dto);
         
