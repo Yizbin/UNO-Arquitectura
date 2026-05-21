@@ -11428,7 +11428,7 @@
 																		"$ref": "AAAAAAGeR6FE9/fx+5M="
 																	},
 																	"edgePosition": 1,
-																	"text": "2 : jugadorLocalYaTieneId(modeloVista: IModeloSalaVista):boolean"
+																	"text": "2 : Message1"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -13261,7 +13261,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGd8YNOWxsU8lA="
 									},
-									"name": "Collaboration4",
+									"name": "Collaboration3",
 									"ownedElements": [
 										{
 											"_type": "UMLInteraction",
@@ -13937,9 +13937,9 @@
 																		"$ref": "AAAAAAGeP0i1id7KX44="
 																	},
 																	"font": "Arial;13;0",
-																	"left": 135,
+																	"left": 25,
 																	"top": 113,
-																	"width": 377.94580078125,
+																	"width": 596.43212890625,
 																	"height": 13,
 																	"alpha": 1.5707963267948966,
 																	"distance": 10,
@@ -13947,7 +13947,7 @@
 																		"$ref": "AAAAAAGeP0i1id7Ldb4="
 																	},
 																	"edgePosition": 1,
-																	"text": "2 : procesar(contexto: ContextoPipeline<I>):ContextoPipeline<O>"
+																	"text": "2 : procesar(contexto: ContextoPipeline<PeticionJugadaDTO>):ContextoPipeline<PeticionJugadaDTO>"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -14832,7 +14832,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGd8YNOWxsU8lA="
 									},
-									"name": "Collaboration5",
+									"name": "Collaboration4",
 									"ownedElements": [
 										{
 											"_type": "UMLInteraction",
@@ -15391,9 +15391,9 @@
 																		"$ref": "AAAAAAGeP1F47+BBaJs="
 																	},
 																	"font": "Arial;13;0",
-																	"left": 83,
+																	"left": -27,
 																	"top": 112,
-																	"width": 377.94580078125,
+																	"width": 596.43212890625,
 																	"height": 13,
 																	"alpha": 1.5707963267948966,
 																	"distance": 10,
@@ -15401,7 +15401,7 @@
 																		"$ref": "AAAAAAGeP1F47+BCl8U="
 																	},
 																	"edgePosition": 1,
-																	"text": "2 : procesar(contexto: ContextoPipeline<I>):ContextoPipeline<O>"
+																	"text": "2 : procesar(contexto: ContextoPipeline<PeticionJugadaDTO>):ContextoPipeline<PeticionJugadaDTO>"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -16403,7 +16403,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGd8YNOWxsU8lA="
 									},
-									"name": "Collaboration6",
+									"name": "Collaboration5",
 									"ownedElements": [
 										{
 											"_type": "UMLInteraction",
@@ -17874,7 +17874,7 @@
 																		"$ref": "AAAAAAGeP2IMCuQ4/vE="
 																	},
 																	"edgePosition": 1,
-																	"text": "8 : agregarSolicitudUnion(jugador: JugadorResumenDTO):void"
+																	"text": "8 : enviar(contexto: ContextoPipeline<T>)"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -18367,7 +18367,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGd8YNOWxsU8lA="
 									},
-									"name": "Collaboration7",
+									"name": "Collaboration6",
 									"ownedElements": [
 										{
 											"_type": "UMLInteraction",
@@ -19839,7 +19839,7 @@
 																		"$ref": "AAAAAAGeP2nbbOZtIg4="
 																	},
 																	"edgePosition": 1,
-																	"text": "8 : aceptarUnion(jugador: JugadorResumenDTO):void"
+																	"text": "8 : Message4"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -20329,7 +20329,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGd8YNOWxsU8lA="
 									},
-									"name": "Collaboration8",
+									"name": "Collaboration7",
 									"ownedElements": [
 										{
 											"_type": "UMLInteraction",
@@ -21016,7 +21016,7 @@
 																		"$ref": "AAAAAAGeP2460OeqSCE="
 																	},
 																	"edgePosition": 1,
-																	"text": "2 : solicitarUnion(idJugador: int):void"
+																	"text": "2 : Message1"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -21127,7 +21127,7 @@
 																		"$ref": "AAAAAAGeP3PG0ie4x74="
 																	},
 																	"edgePosition": 1,
-																	"text": "3 : solicitarUnion(idJugador: int):void"
+																	"text": "3 : solicitarUnion(idJugadorSolicitante: int):void"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -22025,7 +22025,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGd8YNOWxsU8lA="
 									},
-									"name": "Collaboration9",
+									"name": "Collaboration8",
 									"ownedElements": [
 										{
 											"_type": "UMLInteraction",
@@ -22712,7 +22712,7 @@
 																		"$ref": "AAAAAAGeP3c1lSksoOU="
 																	},
 																	"edgePosition": 1,
-																	"text": "2 : aceptarSolicitudUnion(idJugador: int):void"
+																	"text": "2 : Message1"
 																},
 																{
 																	"_type": "EdgeLabelView",
@@ -22813,9 +22813,9 @@
 																		"$ref": "AAAAAAGeP3d05ylBaLA="
 																	},
 																	"font": "Arial;13;0",
-																	"left": 431,
+																	"left": 401,
 																	"top": 152,
-																	"width": 258.69873046875,
+																	"width": 318.677734375,
 																	"height": 13,
 																	"alpha": 1.5707963267948966,
 																	"distance": 10,
@@ -22823,7 +22823,7 @@
 																		"$ref": "AAAAAAGeP3d06ClCQYY="
 																	},
 																	"edgePosition": 1,
-																	"text": "3 : aceptarSolicitudUnion(idJugador: int):void"
+																	"text": "3 : aceptarSolicitudUnion(idJugadorSolicitante: int):void"
 																},
 																{
 																	"_type": "EdgeLabelView",
