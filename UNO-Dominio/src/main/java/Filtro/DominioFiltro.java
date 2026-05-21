@@ -117,8 +117,14 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, PeticionJugadaD
             case RECHAZAR_FINALIZACION -> {
                 subDominio.responderFinalizacion(crearRespuestaFinalizacion(peticion, false));
             }
-            case JUGADOR_REGISTRADO -> {
+            case JUGADOR_REGISTRADO, SOLICITUD_UNION_RECIBIDA, SOLICITUD_UNION_ACEPTADA, SOLICITUD_UNION_RECHAZADA -> {
                 EstadoPartidaDTO estado = peticion.getEstadoPartida();
+
+                if (estado == null || estado.getJugadores() == null) {
+                    throw new IllegalStateException(
+                            "La accion de sincronizacion debe incluir los jugadores de la partida."
+                    );
+                }
                 subDominio.cargarJugadoresPartida(estado.getJugadores());
             }
 
@@ -147,15 +153,20 @@ public class DominioFiltro implements IFiltro<PeticionJugadaDTO, PeticionJugadaD
     }
 
     private TipoAccionPartida obtenerAccionRespuesta(TipoAccionPartida accionOriginal) {
-        if (accionOriginal == TipoAccionPartida.REGISTRAR_JUGADOR) {
-            return TipoAccionPartida.JUGADOR_REGISTRADO;
-        }
-
-        if (esAccionDeJuego(accionOriginal)) {
-            return TipoAccionPartida.CARGAR_PARTIDA;
-        }
-
-        return accionOriginal;
+        return switch (accionOriginal) {
+            case REGISTRAR_JUGADOR ->
+                TipoAccionPartida.JUGADOR_REGISTRADO;
+            case SOLICITAR_UNIRSE_PARTIDA ->
+                TipoAccionPartida.SOLICITUD_UNION_RECIBIDA;
+            case ACEPTAR_SOLICITUD_UNION ->
+                TipoAccionPartida.SOLICITUD_UNION_ACEPTADA;
+            case RECHAZAR_SOLICITUD_UNION ->
+                TipoAccionPartida.SOLICITUD_UNION_RECHAZADA;
+            default ->
+                esAccionDeJuego(accionOriginal)
+                ? TipoAccionPartida.CARGAR_PARTIDA
+                : accionOriginal;
+        };
     }
 
     private boolean esAccionDeJuego(TipoAccionPartida accion) {
