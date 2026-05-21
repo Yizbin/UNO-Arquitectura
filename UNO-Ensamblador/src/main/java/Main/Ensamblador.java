@@ -49,6 +49,7 @@ public class Ensamblador {
         CoordinadorFiltros<PeticionJugadaDTO, byte[]> pipelineSalida
                 = new CoordinadorFiltros<>(
                         List.of(
+                                new DominioFiltro(subDominio),
                                 new Serializador<PeticionJugadaDTO>()
                         ),
                         adapterSalida
@@ -74,7 +75,8 @@ public class Ensamblador {
         CoordinadorFiltros<byte[], PeticionJugadaDTO> pipelineEntradaPartida
                 = new CoordinadorFiltros<>(
                         List.of(
-                                new Deserializador<>(PeticionJugadaDTO.class)
+                                new Deserializador<>(PeticionJugadaDTO.class),
+                                new DominioFiltro(subDominio)
                         ),
                         adapterEntradaPartida
                 );
