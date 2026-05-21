@@ -4,11 +4,12 @@
  */
 package MVC_JugarTurno;
 
+import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
-import DTOs.CartaDTO;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public interface IControlModelo {
 
-    public void iniciarJuego(List<JugadorResumenDTO> jugadores);
+    public void iniciarJuego(List<JugadorResumenDTO> jugadores, Map<TipoColor, TipoColor> coloresLocales);
 
     public void iniciarJuego(List<JugadorResumenDTO> jugadores, JugadorResumenDTO jugadorSolicitante);
 
@@ -36,4 +37,5 @@ public interface IControlModelo {
 
     boolean responderFinalizacion(JugadorResumenDTO jugadorDTO, boolean acepta);
 
+    Map<TipoColor, TipoColor> getColoresLocales();
 }
