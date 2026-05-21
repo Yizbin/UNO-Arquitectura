@@ -245,6 +245,7 @@ public class Partida {
         if (estadoDTO.getJugadores() != null) {
             this.jugadores = List.copyOf(jugadorMapper.toEntityList(estadoDTO.getJugadores()));
             this.turno.setJugadores(this.jugadores);
+            sincronizarTurnoConEstado(estadoDTO.getIdJugador());
         }
 
         if (estadoDTO.getEstadosJugadoresSala() != null) {
@@ -262,6 +263,19 @@ public class Partida {
             cartasMazo.addAll(new CartaMapper().toEntityList(estadoDTO.getMazo()));
             this.mazo = new Mazo();
             this.mazo.setCartas(cartasMazo);
+        }
+    }
+
+    private void sincronizarTurnoConEstado(int idJugadorEnTurno) {
+        if (idJugadorEnTurno <= 0 || jugadores == null || jugadores.isEmpty()) {
+            return;
+        }
+
+        for (int i = 0; i < jugadores.size(); i++) {
+            if (jugadores.get(i).getId() == idJugadorEnTurno) {
+                this.turno.setIndiceTurnoActual(i);
+                return;
+            }
         }
     }
 
