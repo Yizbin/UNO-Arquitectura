@@ -24,6 +24,8 @@ public interface IControlModelo {
 
     public void cargarPartida(EstadoPartidaDTO estadoPartidaDTO);
 
+    public void setIdJugadorLocal(int idJugadorLocal);
+
     public void robarCarta();
 
     public void jugarCarta(CartaDTO carta);

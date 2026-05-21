@@ -5,6 +5,7 @@ import Enums.TipoAccionPartida;
 import Interfaces.ISink;
 import MVC_JugarTurno.IControlModelo;
 import MVC_Sala.IControlModeloSala;
+import MVC_Sala.IModeloSalaVista;
 import Plantilla.ContextoPipeline;
 
 public class AdapterEntradaPartida implements ISink<PeticionJugadaDTO> {
@@ -42,7 +43,18 @@ public class AdapterEntradaPartida implements ISink<PeticionJugadaDTO> {
 
         if (esAccionDeSala(peticion.getAccion())) {
             modeloSala.validarCondicionInicio(peticion.getEstadoPartida());
+            sincronizarJugadorLocalJuego();
         }
+    }
+
+    private void sincronizarJugadorLocalJuego() {
+        if (!(modeloSala instanceof IModeloSalaVista modeloSalaVista)
+                || modeloSalaVista.getJugadorLocal() == null
+                || modeloSalaVista.getJugadorLocal().getId() <= 0) {
+            return;
+        }
+
+        modeloJuego.setIdJugadorLocal(modeloSalaVista.getJugadorLocal().getId());
     }
 
     private boolean esAccionDeSala(TipoAccionPartida accion) {

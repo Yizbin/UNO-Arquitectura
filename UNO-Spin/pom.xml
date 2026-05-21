@@ -10,14 +10,14 @@
         <module>../UNO-DTOs</module>
         <module>../UNO-Serializador</module>
         <module>../UNO-Deserializador</module>
-        <module>../UNO-ConexionSalida</module>
-        <module>../UNO-ConexionEntrada</module>
         <module>../UNO-EstadoPartida</module>
-        <module>../UNO-CoordinadorFiltros</module>
         <module>../UNO-Ensamblador</module>
         <module>../UNO-Broadcast</module>
-        <module>../UNO-AdapterConexionSalida</module>
         <module>../UNO-Dominio</module>
+        <module>../UNO-CoordinadorFiltros</module>
+        <module>../UNO-ConexionSalida</module>
+        <module>../UNO-ConexionEntrada</module>
+        <module>../UNO-AdapterConexionSalida</module>
         <module>../UNO-AdapterEntradaPartida</module>
         <module>../UNO-Principal</module>
     </modules>
