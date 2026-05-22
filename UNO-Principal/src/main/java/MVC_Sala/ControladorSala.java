@@ -37,7 +37,7 @@ public class ControladorSala {
         return modelo.solicitarUnirsePartida();
     }
 
-    public boolean confirmarJugadorListo() {
+    public boolean actualizarEstadoJugadorSala() {
         return modelo.actualizarEstadoJugadorSala();
     }
 
