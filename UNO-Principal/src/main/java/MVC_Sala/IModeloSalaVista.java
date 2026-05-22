@@ -7,7 +7,9 @@ package MVC_Sala;
 import DTOs.CartaDTO;
 import DTOs.JugadorEstadoSalaDTO;
 import DTOs.JugadorResumenDTO;
+import Enums.TipoColor;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -41,4 +43,5 @@ public interface IModeloSalaVista {
 
     CartaDTO getC4();
 
+    Map<TipoColor, TipoColor> getMisColores();
 }

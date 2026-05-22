@@ -48,4 +48,6 @@ public interface IControlModeloSala {
     CartaDTO getC3();
 
     CartaDTO getC4();
+    
+    JugadorResumenDTO getJugadorLocal();
 }

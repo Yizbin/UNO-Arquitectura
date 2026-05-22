@@ -316,7 +316,6 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         if (coordinador == null) {
             return;
         }
-
         try {
             PeticionJugadaDTO peticion = new PeticionJugadaDTO(
                     TipoAccionPartida.REGISTRAR_JUGADOR,

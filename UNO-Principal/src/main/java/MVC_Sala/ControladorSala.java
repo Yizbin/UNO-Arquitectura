@@ -91,6 +91,14 @@ public class ControladorSala {
     public void establecerJugadorLocal(JugadorResumenDTO datos) {
         modelo.establecerJugadorLocal(datos);
     }
+    
+    public void actualizarNombreJugador(String nombre) {
+        this.modelo.getJugadorLocal().setNombreUsuario(nombre);
+    }
+
+    public void actualizarAvatarJugador(String rutaAvatar) {
+        this.modelo.getJugadorLocal().setRutaAvatar(rutaAvatar);
+    }
 
     public void cambiarColorBase(TipoColor base, TipoColor nuevo) {
         this.modelo.getMisColores().put(base, nuevo);

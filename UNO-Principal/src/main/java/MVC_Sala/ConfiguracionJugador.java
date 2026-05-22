@@ -18,6 +18,7 @@ import static Enums.TipoColor.ROJO;
 import static Enums.TipoColor.ROSA;
 import static Enums.TipoColor.VERDE;
 import MVC_JugarTurno.PanelCartaMano;
+import MVC_Utilidades.ColoresJugador;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -48,8 +49,6 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     private CampoTextoRedondeado txtField;
     private BotonRedondeado siguiente;
     private BotonRedondeado anterior;
-    private String nombreUsuario = null;
-    private String rutaAvatar = null;
     private JButton avatarSeleccionado = null;
     private PanelCartaMano cartaSeleccionada = null;
     private TipoColor colorBaseSeleccionado = null;
@@ -326,14 +325,14 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         }
         botonClickeado.setBackground(Color.decode("#003366"));
         avatarSeleccionado = botonClickeado;
-        rutaAvatar = rutaImagen;
+        control.actualizarAvatarJugador(rutaImagen);
     }
 
     private final java.awt.event.MouseAdapter eventoClickCarta = new java.awt.event.MouseAdapter() {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent e) {
             if (txtField != null) {
-                nombreUsuario = txtField.getText();
+                control.actualizarNombreJugador(txtField.getText());
             }
             cartaSeleccionada = (PanelCartaMano) e.getSource();
             
@@ -441,18 +440,20 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
             if (txtField == null) {
                 return;
             }
-            JugadorResumenDTO jugador= modeloVista.getJugadorLocal();
-            jugador.setNombreUsuario(nombreUsuario);
-            if (origenRegistro == OrigenRegistro.CREAR_PARTIDA) {
-                jugador.setId(1);
-                control.registrarJugador(jugador);
-                abrirSalaEspera();
-            }
-            jugador.setId(0);
-            control.registrarJugador(jugador);
-            siguiente.setEnabled(false);
-            siguiente.setText("Registrando...");
+            control.actualizarNombreJugador(txtField.getText());
+            JugadorResumenDTO jugadorActualizado = modeloVista.getJugadorLocal();
+            ColoresJugador.setColores(modeloVista.getMisColores());
 
+            if (origenRegistro == OrigenRegistro.CREAR_PARTIDA) {
+                jugadorActualizado.setId(1);
+                control.registrarJugador(jugadorActualizado);
+                abrirSalaEspera();
+            } else {
+                jugadorActualizado.setId(0);
+                control.registrarJugador(jugadorActualizado);
+                siguiente.setEnabled(false);
+                siguiente.setText("Registrando...");
+            }
         });
     }
 
