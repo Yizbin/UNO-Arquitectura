@@ -4,7 +4,6 @@
  */
 package MVC_Sala;
 
-import DTOs.CartaDTO;
 import DTOs.JugadorResumenDTO;
 import Enums.TipoColor;
 import static Enums.TipoColor.AMARILLO;
@@ -19,16 +18,15 @@ import static Enums.TipoColor.ROJO;
 import static Enums.TipoColor.ROSA;
 import static Enums.TipoColor.VERDE;
 import MVC_JugarTurno.PanelCartaMano;
-import MVC_Utilidades.ColoresJugador;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -50,16 +48,11 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
     private CampoTextoRedondeado txtField;
     private BotonRedondeado siguiente;
     private BotonRedondeado anterior;
+    private String nombreUsuario = null;
+    private String rutaAvatar = null;
     private JButton avatarSeleccionado = null;
     private PanelCartaMano cartaSeleccionada = null;
     private TipoColor colorBaseSeleccionado = null;
-    private Map<TipoColor, TipoColor> misColores = new HashMap<>();
-    private final JugadorResumenDTO jugador = new JugadorResumenDTO();
-    private final CartaDTO c1 = new CartaDTO();
-    private final CartaDTO c2 = new CartaDTO();
-    private final CartaDTO c3 = new CartaDTO();
-    private final CartaDTO c4 = new CartaDTO();
-
     private final OrigenRegistro origenRegistro;
     private boolean solicitudUnionEnviada;
 
@@ -212,8 +205,8 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         //agregar el textfield para el nombre de usuario
         txtField = new CampoTextoRedondeado();
         txtField.setBounds(365, 400, 400, 60);
-        if (jugador.getNombreUsuario() != null) {
-            txtField.setText(jugador.getNombreUsuario());
+        if (modeloVista.getJugadorLocal() != null && modeloVista.getJugadorLocal().getNombreUsuario() != null) {
+            txtField.setText(modeloVista.getJugadorLocal().getNombreUsuario());
         }
         panelCentro.add(txtField);
 
@@ -222,21 +215,21 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         //boton de anterior y siguiente
         anterior = new BotonRedondeado(Color.red, 20);
         anterior.setText("Anterior");
-        anterior.setBounds(50, 600, 150, 50);
+        anterior.setBounds(50, 550, 150, 50);
         panelCentro.add(anterior);
 
         siguiente = new BotonRedondeado(Color.green, 20);
         siguiente.setText("Siguiente");
-        siguiente.setBounds(931, 600, 150, 50);
+        siguiente.setBounds(931, 550, 150, 50);
         panelCentro.add(siguiente);
 
         acciones();
 
-        if (jugador.getRutaAvatar() != null) {
-            for (java.awt.Component comp : panelCentro.getComponents()) {
+        if (modeloVista.getJugadorLocal() != null && modeloVista.getJugadorLocal().getRutaAvatar() != null) {
+            for (Component comp : panelCentro.getComponents()) {
                 if (comp instanceof JButton btn) {
-                    javax.swing.Icon icon = btn.getIcon();
-                    if (icon != null && icon.toString().contains(jugador.getRutaAvatar())) {
+                    Icon icon = btn.getIcon();
+                    if (icon != null && icon.toString().contains(modeloVista.getJugadorLocal().getRutaAvatar())) {
                         btn.setBackground(Color.decode("#003366"));
                         avatarSeleccionado = btn;
                         break;
@@ -246,50 +239,33 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         }
     }
 
-    // Agrega esto a ConfiguracionJugador.java
-    private void asegurarColoresIniciales() {
-        if (misColores == null) {
-            misColores = new HashMap<>();
-        }
-        if (misColores.isEmpty()) {
-            misColores.put(TipoColor.ROJO, TipoColor.ROJO);
-            misColores.put(TipoColor.AZUL, TipoColor.AZUL);
-            misColores.put(TipoColor.VERDE, TipoColor.VERDE);
-            misColores.put(TipoColor.AMARILLO, TipoColor.AMARILLO);
-        }
-    }
-
     private void cargarCartas() {
-        c1.setColor(misColores.get(TipoColor.ROJO));
-        c2.setColor(misColores.get(TipoColor.AZUL));
-        c3.setColor(misColores.get(TipoColor.VERDE));
-        c4.setColor(misColores.get(TipoColor.AMARILLO));
 
         //agregar las cartas donde se eligen los colores
         PanelCartaMano carta1 = new PanelCartaMano();
         carta1.setBounds(350, 500, 85, 130);
-        carta1.setCarta(c1);
+        carta1.setCarta(modeloVista.getC1());
         panelCentro.add(carta1);
         carta1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         carta1.addMouseListener(eventoClickCarta);
 
         PanelCartaMano carta2 = new PanelCartaMano();
         carta2.setBounds(465, 500, 85, 130);
-        carta2.setCarta(c2);
+        carta2.setCarta(modeloVista.getC2());
         panelCentro.add(carta2);
         carta2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         carta2.addMouseListener(eventoClickCarta);
 
         PanelCartaMano carta3 = new PanelCartaMano();
         carta3.setBounds(580, 500, 85, 130);
-        carta3.setCarta(c3);
+        carta3.setCarta(modeloVista.getC3());
         panelCentro.add(carta3);
         carta3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         carta3.addMouseListener(eventoClickCarta);
 
         PanelCartaMano carta4 = new PanelCartaMano();
         carta4.setBounds(695, 500, 85, 130);
-        carta4.setCarta(c4);
+        carta4.setCarta(modeloVista.getC4());
         panelCentro.add(carta4);
         carta4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         carta4.addMouseListener(eventoClickCarta);
@@ -314,7 +290,7 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         ));
 
         java.util.List<TipoColor> coloresUsados = java.util.Arrays.asList(
-                c1.getColor(), c2.getColor(), c3.getColor(), c4.getColor()
+                modeloVista.getC1().getColor(), modeloVista.getC2().getColor(), modeloVista.getC3().getColor(), modeloVista.getC4().getColor()
         );
         coloresDisponibles.removeAll(coloresUsados);
         int startX = 285;
@@ -350,23 +326,27 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
         }
         botonClickeado.setBackground(Color.decode("#003366"));
         avatarSeleccionado = botonClickeado;
-        jugador.setRutaAvatar(rutaImagen);
+        rutaAvatar = rutaImagen;
     }
 
     private final java.awt.event.MouseAdapter eventoClickCarta = new java.awt.event.MouseAdapter() {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent e) {
             if (txtField != null) {
-                jugador.setNombreUsuario(txtField.getText());
+                nombreUsuario = txtField.getText();
             }
             cartaSeleccionada = (PanelCartaMano) e.getSource();
-            if (cartaSeleccionada.carta == c1) {
+            
+            ModeloSala modelo = (ModeloSala) modeloVista;
+            
+            // Detectamos qué carta del modelo se clickeó
+            if (cartaSeleccionada.getCarta() == modelo.getC1()) {
                 colorBaseSeleccionado = TipoColor.ROJO;
-            } else if (cartaSeleccionada.carta == c2) {
+            } else if (cartaSeleccionada.getCarta() == modelo.getC2()) {
                 colorBaseSeleccionado = TipoColor.AZUL;
-            } else if (cartaSeleccionada.carta == c3) {
+            } else if (cartaSeleccionada.getCarta() == modelo.getC3()) {
                 colorBaseSeleccionado = TipoColor.VERDE;
-            } else if (cartaSeleccionada.carta == c4) {
+            } else if (cartaSeleccionada.getCarta() == modelo.getC4()) {
                 colorBaseSeleccionado = TipoColor.AMARILLO;
             }
             cargarColores();
@@ -378,12 +358,8 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
             return;
         }
         TipoColor nuevoColor = traducirTipoColor(colorSeleccionado);
-
-        if (cartaSeleccionada.carta != null) {
-            cartaSeleccionada.carta.setColor(nuevoColor);
-        }
-
-        misColores.put(colorBaseSeleccionado, nuevoColor);
+        control.cambiarColorBase(colorBaseSeleccionado, nuevoColor);
+       
         cargarConfiguración();
     }
 
@@ -465,20 +441,18 @@ public class ConfiguracionJugador extends JFrame implements ISuscriptorSala {
             if (txtField == null) {
                 return;
             }
-            jugador.setNombreUsuario(txtField.getText());
-            asegurarColoresIniciales();
-            ColoresJugador.setColores(new HashMap<>(misColores));
+            JugadorResumenDTO jugador= modeloVista.getJugadorLocal();
+            jugador.setNombreUsuario(nombreUsuario);
             if (origenRegistro == OrigenRegistro.CREAR_PARTIDA) {
                 jugador.setId(1);
                 control.registrarJugador(jugador);
                 abrirSalaEspera();
-            }else{
-                jugador.setId(0);
-                control.registrarJugador(jugador);
-                ColoresJugador.setColores(misColores);
-                siguiente.setEnabled(false);
-                siguiente.setText("Registrando...");
             }
+            jugador.setId(0);
+            control.registrarJugador(jugador);
+            siguiente.setEnabled(false);
+            siguiente.setText("Registrando...");
+
         });
     }
 

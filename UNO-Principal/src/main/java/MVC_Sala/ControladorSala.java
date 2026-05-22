@@ -6,6 +6,7 @@ package MVC_Sala;
 
 import DTOs.JugadorResumenDTO;
 import Enums.EstadoJugadorSala;
+import Enums.TipoColor;
 import MVC_ConfigurarPartida.ControlConfgPartida;
 import MVC_JugarTurno.UnoSpinControlador;
 
@@ -91,7 +92,15 @@ public class ControladorSala {
         modelo.establecerJugadorLocal(datos);
     }
 
-    public void abrirMenu() {
-
+    public void cambiarColorBase(TipoColor base, TipoColor nuevo) {
+        this.modelo.getMisColores().put(base, nuevo);
+        if (null != base) switch (base) {
+            case ROJO -> this.modelo.getC1().setColor(nuevo);
+            case AZUL -> this.modelo.getC2().setColor(nuevo);
+            case VERDE -> this.modelo.getC3().setColor(nuevo);
+            case AMARILLO -> this.modelo.getC4().setColor(nuevo);
+            default -> {
+            }
+        }
     }
 }

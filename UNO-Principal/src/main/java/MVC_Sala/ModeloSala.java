@@ -4,16 +4,20 @@
  */
 package MVC_Sala;
 
+import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorEstadoSalaDTO;
 import DTOs.JugadorResumenDTO;
 import DTOs.PeticionJugadaDTO;
 import Enums.EstadoJugadorSala;
 import Enums.TipoAccionPartida;
+import Enums.TipoColor;
+import MVC_Utilidades.ColoresJugador;
 import Plantilla.ContextoPipeline;
 import interfaces.IPump;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.swing.SwingUtilities;
 
 /**
@@ -29,6 +33,11 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
     private JugadorResumenDTO jugadorLocal = new JugadorResumenDTO();
     private boolean cambiarFrame = false;
     private boolean partidaListaParaIniciar;
+    private Map<TipoColor, TipoColor> misColores = ColoresJugador.getColores();
+    private final CartaDTO c1 = new CartaDTO();
+    private final CartaDTO c2 = new CartaDTO();
+    private final CartaDTO c3 = new CartaDTO();
+    private final CartaDTO c4 = new CartaDTO();
 
     public ModeloSala() {
         this.suscriptores = new ArrayList<>();
@@ -417,5 +426,30 @@ public class ModeloSala implements IControlModeloSala, IModeloSalaVista {
         }
 
         return false;
+    }
+
+    @Override
+    public Map<TipoColor, TipoColor> getMisColores() {
+        return misColores;
+    }
+
+    @Override
+    public CartaDTO getC1() {
+        return c1;
+    }
+
+    @Override
+    public CartaDTO getC2() {
+        return c2;
+    }
+
+    @Override
+    public CartaDTO getC3() {
+        return c3;
+    }
+
+    @Override
+    public CartaDTO getC4() {
+        return c4;
     }
 }

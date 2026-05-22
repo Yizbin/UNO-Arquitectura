@@ -4,9 +4,12 @@
  */
 package MVC_Sala;
 
+import DTOs.CartaDTO;
 import DTOs.EstadoPartidaDTO;
 import DTOs.JugadorResumenDTO;
 import Enums.EstadoJugadorSala;
+import Enums.TipoColor;
+import java.util.Map;
 
 /**
  *
@@ -35,4 +38,14 @@ public interface IControlModeloSala {
     EstadoJugadorSala obtenerEstadoJugador(int idJugador);
 
     void validarCondicionInicio(EstadoPartidaDTO estadoPartidaDTO);
+    
+    Map<TipoColor, TipoColor> getMisColores();
+    
+    CartaDTO getC1();
+    
+    CartaDTO getC2();
+    
+    CartaDTO getC3();
+
+    CartaDTO getC4();
 }

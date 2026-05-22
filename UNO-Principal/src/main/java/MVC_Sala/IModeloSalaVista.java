@@ -4,6 +4,7 @@
  */
 package MVC_Sala;
 
+import DTOs.CartaDTO;
 import DTOs.JugadorEstadoSalaDTO;
 import DTOs.JugadorResumenDTO;
 import java.util.List;
@@ -31,5 +32,13 @@ public interface IModeloSalaVista {
     boolean isPartidaListaParaIniciar();
     
     boolean puedeResponderSolicitudUnion(int idJugador);
+    
+    CartaDTO getC1();
+    
+    CartaDTO getC2();
+    
+    CartaDTO getC3();
+
+    CartaDTO getC4();
 
 }
